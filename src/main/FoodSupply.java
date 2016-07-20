@@ -59,7 +59,6 @@ public class FoodSupply {
 	
 	public Plant createPlant() {
 		Position p = new Position(new Range(minX, maxX).random(), new Range(minY, maxY).random());
-
 		return new Plant(new Genome(0,0), p, world);
     }
 }

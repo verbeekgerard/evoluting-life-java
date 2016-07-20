@@ -5,13 +5,12 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import entities.Organism;
 import util.Range;
 
 public class Genetics {
 
 	// Creates two child entities by crossing over the genomes of a and b.
-    public List<? extends Gene> mate(Gene a, Gene b) { //createCallback
+    public List<? extends Gene> mate(Gene a, Gene b) {
 
     	List<Gene> children = new ArrayList<>();
     	

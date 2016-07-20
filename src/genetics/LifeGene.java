@@ -3,14 +3,11 @@ package genetics;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.Option;
 import main.Options;
 import util.Range;
 
 public class LifeGene extends Gene {
 
-	
-	
 	public double oldAge;
 	public double nutrition;
 	

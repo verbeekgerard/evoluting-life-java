@@ -1,7 +1,6 @@
 package entities;
 
 import genetics.Genome;
-import main.Option;
 import main.Options;
 import util.Range;
 
@@ -9,9 +8,6 @@ public class Plant extends Organism {
 
 	public double growthPercentage;
 	public double size;
-	
-	
-
 	public double nutrition;
 	
 	public Plant(Genome genome, Position position, World world){
@@ -23,8 +19,6 @@ public class Plant extends Organism {
 	    nutrition = genome.life.nutrition;
 	}
 	
-    
-    
     public double getNutritionN() {
         if (nutrition < 0) {
             return nutrition / Options.minNutrition.get();

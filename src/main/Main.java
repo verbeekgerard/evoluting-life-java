@@ -9,8 +9,6 @@ public class Main {
 	
 
 	public Main() {
-//      var canvas = worldCanvas;
-//      var context = canvas.getContext('2d');
 //	
 		World world = new World();
         this.foodSupply = new FoodSupply(world);
@@ -66,7 +64,6 @@ public class Main {
 //        population.entityCreated.addObserver(entityCreatedObserver);
 //        population.entityCreated.addObserver(countersCollector.bornObserver);
 
-        
 	}
 	
 	private int iteration = 0;
