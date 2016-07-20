@@ -7,6 +7,7 @@ import entities.Animal;
 import entities.Plant;
 import entities.Position;
 import entities.World;
+import evolution.RouletteWheelSelectionByRank;
 import genetics.Genome;
 
 public class Population {
@@ -124,18 +125,14 @@ public class Population {
     public List<Animal> selectParents() {
 	    List<Animal> parents = new ArrayList<>();
 	    
-	    parents.add(this.entities.get(0)); // TODO implement
-	    parents.add(this.entities.get(1));
-	    
-//	    for (var i=0; i<2; i++) {
-//	        var winningEntity = this.fitnessSelection.select(this.entities.length);
-//	        var winningGenome = winningEntity.getGenome();
-//	
-//	        parents.push(winningGenome);
-//	    }
+	    for (int i=0; i<2; i++) {
+	        Animal winningEntity = new RouletteWheelSelectionByRank().select(this.entities);
+	        parents.add(winningEntity);
+	    }
 	
 	    return parents;
     }
+    
     
 }
 
@@ -168,12 +165,7 @@ public class Population {
 //                
 //
 //                var that = this;
-//                this.fitnessSelection = new Selection (
-//                    function (index) {
-//                        var entity = that.entities[index];
-//                        return new Score(entity, entity.life.rank());
-//                    }
-//                );
+//                
 //            };
 //
 //            Self.prototype = (function () {

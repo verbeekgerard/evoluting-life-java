@@ -33,7 +33,6 @@ public class Eyes {
 	public Double wallDistance() {
        
         Position p = this.getPosition();
-//        var adj, angle, hyp;
 
         // If not near to a wall
         if (p.x > this.viewDistance &&
@@ -142,20 +141,8 @@ public class Eyes {
 		 targets.animals = findOrganisms(animals);
 		 targets.wallDistance = wallDistance();
 		 
-//          return {
-//            plants: findOrganisms.call(this, plants || []),
-//            animals: findOrganisms.call(this, animals || []),
-//            wall: {
-//              distance: wallDistance.call(this)
-//            }
-//          }
 		 return targets;
       }
 	
 }
-
-//		      function sortFoodVectorsCallback(a, b) {
-//		        return a.distance - b.distance;
-//		      }
-
 		     

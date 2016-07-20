@@ -1,6 +1,5 @@
 package util;
 
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Range {
@@ -28,14 +27,10 @@ public class Range {
 	public double checkLower(double value){
 		return (value < lower) ? lower : value;
 	}
-
-//	public double checkUpper(double value){
-//		return (value > upper) ? upper : value;
-//	}
 	
 	public double mutation(double mutationFraction){
 		double randomFraction = new Range(-1 * mutationFraction, mutationFraction).random();
-        return (upper - lower) * randomFraction; // .toFixed(2);
+        return (upper - lower) * randomFraction;
 	}
 
 }
