@@ -18,14 +18,7 @@ public class Range {
 	}
 	
 	public double random() {
-	
-//		Random r = new Random();
-//		double randomValue = lower + (upper - lower) * r.nextDouble();
-//		return randomValue;
-		
 		return ThreadLocalRandom.current().nextDouble(lower, upper);
-		
-        //return lower + Math.random() * (upper - lower); TODO ??? klopt dit
     }
 	
 	public double check(double value){
