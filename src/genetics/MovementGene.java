@@ -1,10 +1,12 @@
 package genetics;
 
-import main.Option;
+import java.util.ArrayList;
+import java.util.List;
+
 import main.Options;
 import util.Range;
 
-public class MovementGene {
+public class MovementGene extends Gene {
 	
 	public double angularForce;
 	public double linearForce;
@@ -35,13 +37,21 @@ public class MovementGene {
 	public MovementGene clone(){
         return new MovementGene(angularForce, linearForce);
     }
-
-	public MovementGene mate(MovementGene partner) {
-		return clone();
-//        return genetics.mate(this, partner, function (child) {
-//            return new Self(child);
-//        }); TODO 
+	
+	public List<MovementGene> mate(MovementGene partner) {
+		return (List<MovementGene>) new Genetics().mate(this, partner);
     }
+	
+	public List<String> getInitiateProperties() {
+		List<String> properties = new ArrayList<>();
+		properties.add("angularForce");
+		properties.add("linearForce");
+		return properties;
+	}
+	
+	public MovementGene initiate(List<Double> properties){
+		return new MovementGene(properties.get(0), properties.get(1));
+	}
 	
 }
 

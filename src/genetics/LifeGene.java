@@ -1,10 +1,13 @@
 package genetics;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import main.Option;
 import main.Options;
 import util.Range;
 
-public class LifeGene {
+public class LifeGene extends Gene {
 
 	
 	
@@ -36,12 +39,19 @@ public class LifeGene {
         return new LifeGene(this.oldAge, this.nutrition);
     }
 
-    public LifeGene mate(LifeGene partner) {
-		return this.clone();
-    	
-//        return genetics.mate(this, partner, function (mateState) {
-//            return new Self(mateState);
-//        }); // TODO
+    public List<LifeGene> mate(LifeGene partner) {
+    	return (List<LifeGene>) new Genetics().mate(this, partner);
     }
+    
+    public List<String> getInitiateProperties() {
+		List<String> properties = new ArrayList<>();
+		properties.add("oldAge");
+		properties.add("nutrition");
+		return properties;
+	}
+	
+	public LifeGene initiate(List<Double> properties){
+		return new LifeGene(properties.get(0), properties.get(1));
+	}
 	
 }

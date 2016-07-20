@@ -11,24 +11,24 @@ public class Genome {
 	public MovementGene movement;
 	
 	public Genome(int inputCount, int outputCount){
-        brain = new BrainGene(inputCount, outputCount);
-        life = new LifeGene();
-        sensor = new SensorGene();
-        movement = new MovementGene();
+		this.brain = new BrainGene(inputCount, outputCount);
+		this.life = new LifeGene();
+		this.sensor = new SensorGene();
+		this.movement = new MovementGene();
 	}
 	
 	public Genome(BrainGene brain, LifeGene life, SensorGene sensor, MovementGene movement){
-        brain = new BrainGene(brain.layers);
-        life = new LifeGene(life.oldAge, life.nutrition);
-        sensor = new SensorGene(sensor.viewDistance, sensor.fieldOfView);
-        movement = new MovementGene(movement.angularForce, movement.linearForce);
+        this.brain = new BrainGene(brain.layers);
+        this.life = new LifeGene(life.oldAge, life.nutrition);
+        this.sensor = new SensorGene(sensor.viewDistance, sensor.fieldOfView);
+        this.movement = new MovementGene(movement.angularForce, movement.linearForce);
 	}
 	
 	public void mutate() {
-        brain.mutate();
-        life.mutate();
-        sensor.mutate();
-        movement.mutate();
+		this.brain.mutate();
+		this.life.mutate();
+		this.sensor.mutate();
+		this.movement.mutate();
     };
 
     public Genome clone() {
@@ -36,26 +36,26 @@ public class Genome {
     }
 
     public List<Genome> mate(Genome partner) {
-    	List<Genome> children = new ArrayList<>();
-    	children.add(this);
-    	children.add(partner);
+    	System.out.println("Matting");
     	
-//    	BrainGene brainChildren = this.brain.mate(partner.brain);
-//        LifeGene lifeChildren = this.life.mate(partner.life);
-//        SensorGene sensorChildren = this.sensor.mate(partner.sensor);
-//        MovementGene movementChildren = this.movement.mate(partner.movement);
-//
-//        List<> children = new ArrayList();
-//        for (int i = 0; i < brainChildren.size(); i++) {
-//            children.push(new Genome({
-//                brain: brainChildren[i].getState(),
-//                life: lifeChildren[i].getState(),
-//                sensor: sensorChildren[i].getState(),
-//                movement: movementChildren[i].getState()
-//            }));
-//        }
-//
-//        return children; // TODO
+    	List<Genome> children = new ArrayList<>();
+//    	children.add(this);
+//    	children.add(partner);
+    	
+    	List<BrainGene> brainChildren = this.brain.mate(partner.brain);
+    	List<LifeGene> lifeChildren = this.life.mate(partner.life);
+    	List<SensorGene> sensorChildren = this.sensor.mate(partner.sensor);
+        List<MovementGene> movementChildren = this.movement.mate(partner.movement);
+   
+        for (int i = 0; i < brainChildren.size(); i++) { 
+            children.add(new Genome(
+        		brainChildren.get(i),
+        		lifeChildren.get(i),
+        		sensorChildren.get(i),
+                movementChildren.get(i)
+            ));
+        }
+
     	return children;
     }
 	

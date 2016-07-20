@@ -1,5 +1,12 @@
 package genetics;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
+import entities.Organism;
+
 public class Genetics {
 
 //	var permutationsCollection = [];
@@ -42,30 +49,51 @@ public class Genetics {
 //        return propertyNames;
 //    }
     
-//    // Creates two child entities by crossing over the genomes of a and b.
-//    public void mate(Object a, Object b) { //createCallback
-////        var propertyNames = getPropertyNameArray(a);
-////        var propertyCount = propertyNames.length;
-////
-////        if (permutationsCollection[propertyCount] === undefined) {
-////            permutationsCollection[propertyCount] = new Permutations(getA, getB, propertyCount);
-////        }
-////
+	// Creates two child entities by crossing over the genomes of a and b.
+    public List<? extends Gene> mate(Gene a, Gene b) { //createCallback
+
+    	List<Gene> children = new ArrayList<>();
+    	
+    	List<Gene> permutationPair = new ArrayList<>();
+    	permutationPair.add(a);
+    	permutationPair.add(b); // TODO random permutation pair
+    	
 //        var values = permutationsCollection[propertyCount].getRandomPermutationPair();
-////        var children = [];
-//
-//        for (int i=0; i<2; i++) {
-////            var stateArray = [];
-//            for (int j=0; j<propertyCount; j++) {
-//                Object AorB = values.get(i).get(j)(a, b);
-//                stateArray.push( convertToStateArray(AorB)[j] );
-//            }
-//
-//            var mateState = convertToMateState(stateArray, propertyNames);
-////            children.push( createCallback(mateState) );
-//        }
-//
-//        return children;
-//    };
+//        var children = [];
+    	
+    	
+
+    	try {
+    		Method getInitiateMethod = a.getClass().getMethod("getInitiateProperties");
+    		List<String> properties = (List<String>) getInitiateMethod.invoke(a);
+    		
+	        for (int i=0; i<2; i++) {
+	//            var stateArray = [];
+	        	List<Double> values = new ArrayList<>();
+	            for (int j=0; j<properties.size(); j++) {
+	            	
+	            	Field field = permutationPair.get(i).getClass().getDeclaredField(properties.get(j));
+	            	double value = (double) field.get(permutationPair.get(i));
+	//            	MovementGene AorB = permutationPair.get(i).getClass().getDeclaredField();;
+
+	            	values.add(value);
+	            }
+	            
+	            Method initiateMethod = a.getClass().getMethod("initiate", List.class);
+	            children.add((Gene) initiateMethod.invoke(a, values));
+//	            children.add(MovementGene.initiate(values));
+	            
+	//            var mateState = convertToMateState(stateArray, propertyNames);
+	//            children.push( createCallback(mateState) );
+	            
+	    
+	        }
+	        
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+
+        return children;
+    };
     
 }

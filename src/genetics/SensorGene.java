@@ -1,5 +1,8 @@
 package genetics;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import main.Option;
 import main.Options;
 import util.Range;
@@ -35,11 +38,19 @@ public class SensorGene extends Gene {
         }
     }
     
-    public SensorGene mate(SensorGene partner) {
-    	return this.clone();
-//        return genetics.mate(this, partner, function(child) {
-//          return new Self(child);
-//        });
-      }
+    public List<SensorGene> mate(SensorGene partner) {
+    	return (List<SensorGene>) new Genetics().mate(this, partner);
+    }
+    
+    public List<String> getInitiateProperties() {
+		List<String> properties = new ArrayList<>();
+		properties.add("viewDistance");
+		properties.add("fieldOfView");
+		return properties;
+	}
+	
+	public SensorGene initiate(List<Double> properties){
+		return new SensorGene(properties.get(0), properties.get(1));
+	}
 	
 }

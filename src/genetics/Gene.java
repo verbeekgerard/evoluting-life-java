@@ -1,5 +1,7 @@
 package genetics;
 
-public class Gene {
+public abstract class Gene {
 
+	
+	
 }

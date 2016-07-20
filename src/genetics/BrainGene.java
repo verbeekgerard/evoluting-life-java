@@ -41,7 +41,7 @@ public class BrainGene {
 			
 			List<NeuronGene> stateLayer = stateLayers.get(i);
 			
-			for(int j=0; j < stateLayers.size(); j++) {
+			for(int j=0; j < stateLayer.size(); j++) {
 				NeuronGene neuronGene = stateLayer.get(j);
 				layer.add(new NeuronGene(neuronGene.threshold, neuronGene.relaxation, neuronGene.axons)); // TODO Should deep copy?
 			}

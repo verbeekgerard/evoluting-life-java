@@ -6,10 +6,10 @@ import java.util.Random;
 
 public class Permutations {
 	
-	public List permutations = new ArrayList<>();
-	
+//	public List permutations = new ArrayList<>();
+//	
 //	public Permutations(getA, getB, int positionCount){
-		
+//		
 //        var permutations = createPermutations(getA, getB, positionCount);
 //
 //        this.getRandomPermutationPair = function () {
@@ -20,23 +20,23 @@ public class Permutations {
 //            ];
 //        };
 //	}
-	
+//	
 //	public getRandomPermutation() {
 //		Random r = new Random();
 //		return permutations.get(r.nextInt(permutations.size())); 
 //	}
 //	
-	public String createBinaryNumberWithLeadingZeroes(Integer positionCount, Integer number){
-		
-		String binaryString  = Integer.toString(number, 2);
-//        double leadingZeroCount = positionCount - binaryString.length();
-//        if (leadingZeroCount != 0) {
-//            binaryString = new Array(leadingZeroCount+1).join("0") + binaryString;
-//        }
-        return String.format("%0" + positionCount + "d", binaryString); // TODO works?
-//        return binaryString;
-	}
-	
+//	public String createBinaryNumberWithLeadingZeroes(Integer positionCount, Integer number){
+//		
+//		String binaryString  = Integer.toString(number, 2);
+////        double leadingZeroCount = positionCount - binaryString.length();
+////        if (leadingZeroCount != 0) {
+////            binaryString = new Array(leadingZeroCount+1).join("0") + binaryString;
+////        }
+//        return String.format("%0" + positionCount + "d", binaryString); // TODO works?
+////        return binaryString;
+//	}
+//	
 //	public createPermutations (a, b, positionCount){
 //		var values = [a,b];
 //        var result = [];
@@ -55,6 +55,6 @@ public class Permutations {
 //
 //        return result;
 //	}
-//	
+	
 }
 

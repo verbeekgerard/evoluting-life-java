@@ -17,7 +17,7 @@ public abstract class Organism {
 		return genome.life.oldAge;
 	}
 	
-	public Organism(Genome genome, Position position, World world){ //options
+	public Organism(Genome genome, Position position, World world){
 		this.genome = genome;
 		this.position = position;
 		this.world = world;
