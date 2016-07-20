@@ -1,26 +1,19 @@
 package genetics;
 
 import main.Option;
+import main.Options;
 import util.Range;
 
 public class LifeGene {
 
-	public Option minOldAge = new Option(3000);
-	public Option maxOldAge = new Option(4000);
-	public Option minNutrition = new Option(1.0);
-	public Option maxNutrition = new Option(3.0);
-
-	public Option oldAgeMutationRate = new Option(0.03);
-	public Option nutritionMutationRate = new Option(0.03);
 	
-	public Option mutationFraction = new Option(0.001);
 	
 	public double oldAge;
 	public double nutrition;
 	
 	public LifeGene(){
-        this.oldAge = new Range(minOldAge.get(), maxOldAge.get()).random();
-        this.nutrition = new Range(minNutrition.get(), maxNutrition.get()).random();
+        this.oldAge = new Range(Options.minOldAge.get(), Options.maxOldAge.get()).random();
+        this.nutrition = new Range(Options.minNutrition.get(), Options.maxNutrition.get()).random();
 	}
 	
 	public LifeGene(double oldAge, double nutrition){
@@ -30,12 +23,12 @@ public class LifeGene {
 	
 	public void mutate() {
 
-        if (Math.random() <= oldAgeMutationRate.get()) {
-            this.oldAge += new Range(minOldAge.get(), maxOldAge.get()).mutation(mutationFraction.get());
+        if (Math.random() <= Options.oldAgeMutationRate.get()) {
+            this.oldAge += new Range(Options.minOldAge.get(), Options.maxOldAge.get()).mutation(Options.mutationFraction.get());
         }
 
-        if (Math.random() <= nutritionMutationRate.get()) {
-            this.nutrition += new Range(minNutrition.get(), maxNutrition.get()).mutation(mutationFraction.get());
+        if (Math.random() <= Options.nutritionMutationRate.get()) {
+            this.nutrition += new Range(Options.minNutrition.get(), Options.maxNutrition.get()).mutation(Options.mutationFraction.get());
         }
     }
 

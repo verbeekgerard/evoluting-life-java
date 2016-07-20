@@ -33,7 +33,6 @@ public class Population {
 //          entity.population = this;
           this.entities.add(entity);
       }
-		
 	}
     
     public Genome createGenome() {

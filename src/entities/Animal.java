@@ -3,6 +3,7 @@ package entities;
 import genetics.Genome;
 import main.CostCalculator;
 import main.Option;
+import main.Options;
 import sensors.Eyes;
 import sensors.FoodVector;
 import sensors.Targets;
@@ -37,29 +38,12 @@ public class Animal extends Organism {
 	public double linearForce;
 	public double angularForce;
 	
-	
-	
-	public Option sizeOption = new Option(12);
-	public Option initialEnergyOption = new Option(8);
-	public Option populationSize = new Option(16*8);
-	public Option linearFrictionOption = new Option(0.05); // 0.065 // 0.024
-	public Option angularFrictionOption = new Option(0.08); // 0.25 // 0.08
-
-	
-	public Option minThreshold = new Option(0);
-	public Option maxThreshold = new Option(1.5);
-    
-    public void sizeOption() {
-        this.sizeOption.reset();
-        this.populationSize.reset();
-    }
-    
     private Brain brain;
 	private Map<String, Double> output;
     
     @Override
     public double getSize() {
-        return sizeOption.get() * (1 + 0.75 * healthN());
+        return Options.sizeOption.get() * (1 + 0.75 * healthN());
     }
     
     @Override
@@ -84,11 +68,11 @@ public class Animal extends Organism {
 	public Animal(Genome genome, Position position, World world) {
 		super(genome, position, world);
 		
-		this.size = sizeOption.get();
-        this.initialEnergy = initialEnergyOption.get();
+		this.size = Options.sizeOption.get();
+        this.initialEnergy = Options.initialEnergyOption.get();
 
-        this.angularFriction = angularFrictionOption.get();
-        this.linearFriction = linearFrictionOption.get();
+        this.angularFriction = Options.angularFrictionOption.get();
+        this.linearFriction = Options.linearFrictionOption.get();
 
         this.linearVelocity = 0;
         this.angularVelocity = 0;
@@ -102,7 +86,7 @@ public class Animal extends Organism {
 
         this.output = getInitialOutput();
 
-        this.consumed = initialEnergyOption.get();   // Food eaten
+        this.consumed = Options.initialEnergyOption.get();   // Food eaten
         this.hunger = 0;
           
 //        this.eatNotifier = new Subject();
@@ -157,7 +141,7 @@ public class Animal extends Organism {
       // random
       // Range(0, 1).random()
        
-        double normalizationFactor = (maxThreshold.get() + minThreshold.get()) / 2;
+        double normalizationFactor = (Options.maxThreshold.get() + Options.minThreshold.get()) / 2;
         // Normalize inputs
         for (int i = 0; i < inputs.size(); i++) {
         	Double value = inputs.get(i);
@@ -210,7 +194,7 @@ public class Animal extends Organism {
 
         double angularAcceleration = (this.output.get("turnLeft") - this.output.get("turnRight")) * this.angularForce;
         this.angularVelocity += angularAcceleration;
-        this.angularVelocity -= this.angularVelocity * angularFrictionOption.get();
+        this.angularVelocity -= this.angularVelocity * Options.angularFrictionOption.get();
         p.a += this.angularVelocity;
 
         // Keep angles within bounds
@@ -220,7 +204,7 @@ public class Animal extends Organism {
         // F=m*a => a=F/m, dv=a*dt => dv=dt*F/m, dt=one cycle, m=1
         double linearAcceleration = (this.output.get("accelerate") - this.output.get("decelerate")) * this.linearForce;
         this.linearVelocity += linearAcceleration;
-        this.linearVelocity -= this.linearVelocity * linearFrictionOption.get();
+        this.linearVelocity -= this.linearVelocity * Options.linearFrictionOption.get();
 
         // Convert movement vector into polar
         double dx = (Math.cos(p.a) * this.linearVelocity);

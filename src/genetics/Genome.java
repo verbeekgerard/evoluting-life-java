@@ -3,8 +3,6 @@ package genetics;
 import java.util.ArrayList;
 import java.util.List;
 
-import brains.*;
-
 public class Genome {
 
 	public BrainGene brain;

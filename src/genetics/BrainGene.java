@@ -5,19 +5,13 @@ import java.util.List;
 
 import brains.Layer;
 import main.Option;
+import main.Options;
 import util.Range;
 
 public class BrainGene {
 	
 	public List<List<NeuronGene>> layers = new ArrayList<>();
 	
-	public Option minHiddenLayers = new Option(1);
-	public Option maxHiddenLayers = new Option(5);
-	public Option maxNeuronsPerLayer = new Option(16);
-
-	public Option layerMutationRate = new Option(0.05);    // adding or removing a gene
-	public Option geneMutationRate = new Option(0.15);    // percentual chance of genes within a genome to mutate
-	public Option geneReplacementRate = new Option(0.01);  // completely replacing a genes properties
 	
 	public BrainGene(int inputCount, int outputCount){
 		// Construct the output layer
@@ -25,11 +19,11 @@ public class BrainGene {
 
 		// Construct the hidden layers
 		double minGenesPerHL = Math.max(inputCount, outputCount);
-		double numberOfHL = Math.floor(new Range(minHiddenLayers.get(), maxHiddenLayers.get()).random());
+		double numberOfHL = Math.floor(new Range(Options.minHiddenLayers.get(), Options.maxHiddenLayers.get()).random());
 		for (int i=0; i<numberOfHL; i++) {
 
 			int maxTargetCount = layers.get(layers.size() - 1).size();
-			int neuronCount = (int) Math.floor(new Range(minGenesPerHL, maxNeuronsPerLayer.get()).random());
+			int neuronCount = (int) Math.floor(new Range(minGenesPerHL, Options.maxNeuronsPerLayer.get()).random());
 
 			layers.add( createLayer(maxTargetCount, neuronCount) );
 		}
@@ -70,13 +64,13 @@ public class BrainGene {
 			List<NeuronGene> stateLayer = layers.get(i);
 			
 			for (int j=0; j<stateLayer.size(); j++) {
-				if (Math.random() < geneReplacementRate.get()) {
+				if (Math.random() < Options.geneReplacementRate.get()) {
 					int targetCount = (i==0) ? 0 : layers.get(i-1).size();
 					stateLayer.set(j, new NeuronGene(targetCount));
 					continue;
 				}
 
-				if (Math.random() < geneMutationRate.get()) {
+				if (Math.random() < Options.geneMutationRate.get()) {
 					stateLayer.get(j).mutate();
 				}
 			}

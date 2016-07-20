@@ -5,6 +5,7 @@ import java.util.List;
 import util.Range;
 import brains.*;
 import main.Option;
+import main.Options;
 
 public class NeuronGene {
 
@@ -12,31 +13,10 @@ public class NeuronGene {
 	public double threshold;
 	public double relaxation;
 	
-	// Options
-	public Option minThreshold = new Option(0);
-	public Option maxThreshold = new Option(1.5);
-	public Option maxRelaxation = new Option(99.0);
-	public Option thresholdMutationRate = new Option(0.1);
-	public Option relaxationMutationRate = new Option(0.1);
-	public Option axonGeneReplacementRate = new Option(0.01);
-	
-	public Option mutationFraction = new Option(0.001);
-
-    public void reset() {
-      this.minThreshold.reset();
-      this.maxThreshold.reset();
-      this.maxRelaxation.reset();
-
-      this.thresholdMutationRate.reset();
-      this.relaxationMutationRate.reset();
-
-      this.axonGeneReplacementRate.reset();
-    }
-	
 	public NeuronGene(int maxOutputs){
 		
-        this.threshold = new Range(minThreshold.get(), maxThreshold.get()).random();
-        this.relaxation = Math.floor(new Range(0, maxRelaxation.get()).random()) / 100;
+        this.threshold = new Range(Options.minThreshold.get(), Options.maxThreshold.get()).random();
+        this.relaxation = Math.floor(new Range(0, Options.maxRelaxation.get()).random()) / 100;
 
         for (int i=0; i<maxOutputs; i++) {
             this.axons.add(new AxonGene());
@@ -102,20 +82,20 @@ public class NeuronGene {
     public void mutate() {
         Range range;
 
-        if (Math.random() < thresholdMutationRate.get()) {
-            range = new Range(minThreshold.get(), maxThreshold.get());
-            this.threshold += range.mutation(mutationFraction.get());
+        if (Math.random() < Options.thresholdMutationRate.get()) {
+            range = new Range(Options.minThreshold.get(), Options.maxThreshold.get());
+            this.threshold += range.mutation(Options.mutationFraction.get());
             this.threshold = range.checkLower(this.threshold);
         }
 
-        if (Math.random() < relaxationMutationRate.get()) {
-            range = new Range(0, maxRelaxation.get());
-            this.relaxation += Math.floor(range.mutation(mutationFraction.get())) / 100;
+        if (Math.random() < Options.relaxationMutationRate.get()) {
+            range = new Range(0, Options.maxRelaxation.get());
+            this.relaxation += Math.floor(range.mutation(Options.mutationFraction.get())) / 100;
             this.relaxation = range.check(this.relaxation);
         }
 
         for (int i=0; i<this.axons.size(); i++) {
-            if (Math.random() < axonGeneReplacementRate.get()) {
+            if (Math.random() < Options.axonGeneReplacementRate.get()) {
                 this.axons.set(i, new AxonGene());
                 continue;
             }

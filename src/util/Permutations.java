@@ -8,7 +8,8 @@ public class Permutations {
 	
 	public List permutations = new ArrayList<>();
 	
-	public Permutations(getA, getB, int positionCount){
+//	public Permutations(getA, getB, int positionCount){
+		
 //        var permutations = createPermutations(getA, getB, positionCount);
 //
 //        this.getRandomPermutationPair = function () {
@@ -18,13 +19,13 @@ public class Permutations {
 //                permutations[i]
 //            ];
 //        };
-	}
+//	}
 	
-	public getRandomPermutation() {
-		Random r = new Random();
-		return permutations.get(r.nextInt(permutations.size())); 
-	}
-	
+//	public getRandomPermutation() {
+//		Random r = new Random();
+//		return permutations.get(r.nextInt(permutations.size())); 
+//	}
+//	
 	public String createBinaryNumberWithLeadingZeroes(Integer positionCount, Integer number){
 		
 		String binaryString  = Integer.toString(number, 2);

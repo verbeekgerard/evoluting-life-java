@@ -1,20 +1,11 @@
 package genetics;
 
 import main.Option;
+import main.Options;
 import util.Range;
 
 public class SensorGene extends Gene {
 
-	
-	public Option minViewDistance = new Option(16 * 1);
-	public Option maxViewDistance = new Option(16 * 14);
-	public Option minFieldOfView = new Option(Math.PI / 32);
-	public Option maxFieldOfView = new Option(Math.PI);
-
-	public Option viewDistanceMutationRate = new Option(0.1);
-	public Option fieldOfViewMutationRate = new Option(0.1);
-	public Option mutationFraction = new Option(0.001);
-	
     public double viewDistance;
     public double fieldOfView;
     
@@ -24,8 +15,8 @@ public class SensorGene extends Gene {
     }
     
     public SensorGene(){
-        this.viewDistance = new Range(minViewDistance.get(), maxViewDistance.get()).random();
-        this.fieldOfView = new Range(minFieldOfView.get(), maxFieldOfView.get()).random();
+        this.viewDistance = new Range(Options.minViewDistance.get(), Options.maxViewDistance.get()).random();
+        this.fieldOfView = new Range(Options.minFieldOfView.get(), Options.maxFieldOfView.get()).random();
     }
     
     public SensorGene clone(){
@@ -34,12 +25,12 @@ public class SensorGene extends Gene {
     
     public void mutate() {
 
-        if (Math.random() <= viewDistanceMutationRate.get()) {
-          this.viewDistance += new Range(minViewDistance.get(), maxViewDistance.get()).mutation(mutationFraction.get());
+        if (Math.random() <= Options.viewDistanceMutationRate.get()) {
+          this.viewDistance += new Range(Options.minViewDistance.get(), Options.maxViewDistance.get()).mutation(Options.mutationFraction.get());
         }
 
-        if (Math.random() <= fieldOfViewMutationRate.get()) {
-          this.fieldOfView += new Range(minFieldOfView.get(), maxFieldOfView.get()).mutation(mutationFraction.get());
+        if (Math.random() <= Options.fieldOfViewMutationRate.get()) {
+          this.fieldOfView += new Range(Options.minFieldOfView.get(), Options.maxFieldOfView.get()).mutation(Options.mutationFraction.get());
           this.fieldOfView = new Range(0, 2 * Math.PI).check(this.fieldOfView);
         }
     }
