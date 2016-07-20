@@ -35,10 +35,6 @@ public class LifeGene extends Gene {
         }
     }
 
-    public LifeGene clone() {
-        return new LifeGene(this.oldAge, this.nutrition);
-    }
-
     public List<LifeGene> mate(LifeGene partner) {
     	return (List<LifeGene>) new Genetics().mate(this, partner);
     }

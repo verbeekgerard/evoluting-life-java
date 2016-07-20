@@ -1,13 +1,13 @@
 package genetics;
 
-import main.Option;
+import java.util.ArrayList;
+import java.util.List;
+
 import main.Options;
 import util.Range;
 
-public class AxonGene {
+public class AxonGene extends Gene {
 
-	
-	
 	public double strength;
 	public double strengthening;
 	public double weakening;
@@ -39,16 +39,21 @@ public class AxonGene {
         }
     }
 
-    public AxonGene clone() {
-        return new AxonGene(strength, strengthening, weakening);
+    public List<AxonGene> mate(AxonGene partner) {
+    	return (List<AxonGene>) new Genetics().mate(this, partner);
     }
-
-    public AxonGene mate(AxonGene partner) {
-//        return genetics.mate(this, partner, function(child) {
-//          return new Self(child);
-//        });
-    	return this.clone();
-    }
+    
+    public List<String> getInitiateProperties() {
+		List<String> properties = new ArrayList<>();
+		properties.add("strength");
+		properties.add("strengthening");
+		properties.add("weakening");
+		return properties;
+	}
+	
+	public AxonGene initiate(List<Double> properties){
+		return new AxonGene(properties.get(0), properties.get(1), properties.get(2));
+	}
 	
 	
 }

@@ -33,10 +33,6 @@ public class MovementGene extends Gene {
             this.linearForce = new Range(0, 0).checkLower(this.linearForce);
         }
     }
-
-	public MovementGene clone(){
-        return new MovementGene(angularForce, linearForce);
-    }
 	
 	public List<MovementGene> mate(MovementGene partner) {
 		return (List<MovementGene>) new Genetics().mate(this, partner);

@@ -31,17 +31,11 @@ public class Genome {
 		this.movement.mutate();
     };
 
-    public Genome clone() {
-        return new Genome(this.brain, this.life, this.sensor, this.movement);
-    }
-
     public List<Genome> mate(Genome partner) {
     	System.out.println("Matting");
     	
     	List<Genome> children = new ArrayList<>();
-//    	children.add(this);
-//    	children.add(partner);
-    	
+
     	List<BrainGene> brainChildren = this.brain.mate(partner.brain);
     	List<LifeGene> lifeChildren = this.life.mate(partner.life);
     	List<SensorGene> sensorChildren = this.sensor.mate(partner.sensor);

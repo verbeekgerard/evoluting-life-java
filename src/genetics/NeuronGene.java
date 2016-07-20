@@ -22,6 +22,11 @@ public class NeuronGene extends Gene {
         }
 	}
 	
+	public NeuronGene(double threshold, double relaxation){
+        this.threshold = threshold;
+        this.relaxation = relaxation;
+	}
+	
 	public NeuronGene(double threshold, double relaxation, List<AxonGene> axons){
 
         this.threshold = threshold;
@@ -34,30 +39,31 @@ public class NeuronGene extends Gene {
 	}
     
     public List<NeuronGene> mate(NeuronGene partner) {
-//        var children = genetics.mate(this, partner, function (child) {
-//            child.axons = [];
-//            return new Self(child);
-//        });
-//
-//        for (int i=0; i<this.axons.length; i++) {
-//            var childAxons = this.axons[i].mate(partner.axons[i]);
-//
-//            for (int j=0; j<children.length; j++) {
-//                children[j].axons.push( childAxons[j] );
-//            }
-//        }
-//
-//        return children; // TODO
-    	List<NeuronGene> children = new ArrayList<>();
-    	children.add(this.clone());
-    	children.add(this.clone());
+    	
+    	List<NeuronGene> children = (List<NeuronGene>) new Genetics().mate(this, partner);
+    	
+        for (int i=0; i<this.axons.size(); i++) {
+            List<AxonGene> childAxons = this.axons.get(i).mate(partner.axons.get(i));
+            
+            for (int j=0; j<children.size(); j++) {
+            	children.get(j).axons.add( childAxons.get(j) );
+            }
+        }
+
     	return children;
     }
     
-    public NeuronGene clone() {
-        return new NeuronGene(this.threshold, this.relaxation, this.axons);
-    }
-    
+    public List<String> getInitiateProperties() {
+		List<String> properties = new ArrayList<>();
+		properties.add("threshold");
+		properties.add("relaxation");
+		return properties;
+	}
+	
+	public NeuronGene initiate(List<Double> properties){
+		return new NeuronGene(properties.get(0), properties.get(1));
+	}
+
     public void mutate() {
         Range range;
 

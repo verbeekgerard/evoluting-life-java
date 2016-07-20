@@ -22,19 +22,15 @@ public class SensorGene extends Gene {
         this.fieldOfView = new Range(Options.minFieldOfView.get(), Options.maxFieldOfView.get()).random();
     }
     
-    public SensorGene clone(){
-    	return new SensorGene(this.viewDistance, this.fieldOfView);
-    }
-    
     public void mutate() {
 
         if (Math.random() <= Options.viewDistanceMutationRate.get()) {
-          this.viewDistance += new Range(Options.minViewDistance.get(), Options.maxViewDistance.get()).mutation(Options.mutationFraction.get());
+        	this.viewDistance += new Range(Options.minViewDistance.get(), Options.maxViewDistance.get()).mutation(Options.mutationFraction.get());
         }
 
         if (Math.random() <= Options.fieldOfViewMutationRate.get()) {
-          this.fieldOfView += new Range(Options.minFieldOfView.get(), Options.maxFieldOfView.get()).mutation(Options.mutationFraction.get());
-          this.fieldOfView = new Range(0, 2 * Math.PI).check(this.fieldOfView);
+        	this.fieldOfView += new Range(Options.minFieldOfView.get(), Options.maxFieldOfView.get()).mutation(Options.mutationFraction.get());
+        	this.fieldOfView = new Range(0, 2 * Math.PI).check(this.fieldOfView);
         }
     }
     
