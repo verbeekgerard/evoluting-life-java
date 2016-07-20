@@ -16,7 +16,7 @@ import java.util.Map;
 
 import brains.*;
 
-public class Animal extends Organism {
+public class Animal extends Organism implements Comparable<Animal> {
 
 	public int turnLeft = 0;    // Left angle
 	public int turnRight = 0;    // Right angle
@@ -93,7 +93,7 @@ public class Animal extends Organism {
 //        this.consumedNotifier = new Subject();
 	}
 	
-	public double rank() { 
+	public Double rank() { 
         return this.getHealth();
     }
 
@@ -263,6 +263,11 @@ public class Animal extends Organism {
         	this.output.put(keys.get(i), thoughtOutput.get(i));
         }
         
+	}
+
+	@Override
+	public int compareTo(Animal otherAnimal) {
+		return this.rank().compareTo(otherAnimal.rank());
 	}
 
 }

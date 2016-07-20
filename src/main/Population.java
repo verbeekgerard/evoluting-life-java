@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import entities.Animal;
@@ -71,7 +72,9 @@ public class Population {
 
       public void run(List<Plant> plants) {
 //          var tempNumbers = cloning.shallowClone(initialRunNumbers);
-//          sortSuccess.call(this); TODO sorting
+
+    	  Collections.sort(this.entities);
+    	  
     	  List<Animal> entitiesToRemove = new ArrayList<>();
           for (int i = 0; i < this.entities.size(); i++) {
         	  Animal entity = this.entities.get(i);
