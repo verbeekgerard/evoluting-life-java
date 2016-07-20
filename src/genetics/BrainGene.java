@@ -43,7 +43,8 @@ public class BrainGene {
 			
 			for(int j=0; j < stateLayer.size(); j++) {
 				NeuronGene neuronGene = stateLayer.get(j);
-				layer.add(new NeuronGene(neuronGene.threshold, neuronGene.relaxation, neuronGene.axons)); // TODO Should deep copy?
+				
+				layer.add(new NeuronGene(neuronGene.threshold, neuronGene.relaxation, new ArrayList<AxonGene>(neuronGene.axons)));
 			}
 			layers.add(layer);
 		}
@@ -76,10 +77,6 @@ public class BrainGene {
 			}
 		}
 	}
-
-//	public BrainGene clone(){
-//		return new BrainGene(this.layers); // TODO deep copy is this used?
-//	}
 	
 	public List<BrainGene> createChildClones(BrainGene a, BrainGene b) {
 		List<BrainGene> childs = new ArrayList<>();

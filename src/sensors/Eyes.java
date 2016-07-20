@@ -1,6 +1,7 @@
 package sensors;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import entities.Animal;
@@ -128,7 +129,8 @@ public class Eyes {
         }
 
         // Sort our food vectors by distance
-//        return foodVectors.sort(sortFoodVectorsCallback); // TODO
+        Collections.sort(foodVectors);
+
         return foodVectors;
       }
 	 

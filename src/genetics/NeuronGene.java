@@ -2,12 +2,11 @@ package genetics;
 
 import java.util.ArrayList;
 import java.util.List;
-import util.Range;
-import brains.*;
-import main.Option;
-import main.Options;
 
-public class NeuronGene {
+import main.Options;
+import util.Range;
+
+public class NeuronGene extends Gene {
 
 	public List<AxonGene> axons = new ArrayList<>();
 	public double threshold;
@@ -33,26 +32,6 @@ public class NeuronGene {
             this.axons.add(new AxonGene(axon.strength, axon.strengthening, axon.weakening));
         }
 	}
-	
-//	public void getState() {
-//        var axons = [];
-//        for (var i=0; i<this.axons.length; i++) {
-//            axons.push(this.axons[i].getState());
-//        }
-//
-//        return {
-//            threshold: this.threshold,
-//            relaxation: this.relaxation,
-//            axons: axons
-//        };
-//    };
-
-//    public void getMateState() {
-//        var state = this.getState();
-//        delete state.axons;
-//
-//        return state;
-//    };
     
     public List<NeuronGene> mate(NeuronGene partner) {
 //        var children = genetics.mate(this, partner, function (child) {
