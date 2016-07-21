@@ -14,7 +14,7 @@ public class Run {
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    Canvas canvas = new Canvas(main.foodSupply, main.population);
 	    frame.add(canvas);
-	    frame.setSize(500, 500);
+	    frame.setSize(new Double(main.world.width).intValue(), new Double(main.world.height).intValue());
 	    frame.setVisible(true);
 	    frame.setResizable(false);
 		

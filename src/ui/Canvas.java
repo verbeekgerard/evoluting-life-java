@@ -58,8 +58,8 @@ public class Canvas extends JPanel implements Observer {
         g2.fillOval(
         		new Double(animal.position.x).intValue(), 
 				new Double(animal.position.y).intValue(), 
-				new Double(animal.getSize()).intValue(), 
-				new Double(animal.getSize()).intValue());
+				new Double(animal.getHealth()).intValue(), 
+				new Double(animal.getHealth()).intValue());
 
     }
 	

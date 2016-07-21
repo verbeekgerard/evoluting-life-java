@@ -14,21 +14,6 @@ public class Genetics {
 
     	List<Gene> children = new ArrayList<>();
     	
-    	List<Gene> permutationPair = new ArrayList<>();
-    	
-    	if (new Range(0, 100).random() > 50){
-    		permutationPair.add(a);
-    	}
-    	else {
-    		permutationPair.add(b); 
-    	}
-    	if (new Range(0, 100).random() > 50){
-    		permutationPair.add(a);
-    	}
-    	else {
-    		permutationPair.add(b); 
-    	}
-    	
     	try {
     		Method getInitiateMethod = a.getClass().getMethod("getInitiateProperties");
     		List<String> properties = (List<String>) getInitiateMethod.invoke(a);
@@ -38,8 +23,8 @@ public class Genetics {
 	        	List<Double> values = new ArrayList<>();
 	            for (int j=0; j<properties.size(); j++) {
 	            	
-	            	Field field = permutationPair.get(i).getClass().getDeclaredField(properties.get(j));
-	            	double value = (double) field.get(permutationPair.get(i));
+	            	Field field = a.getClass().getDeclaredField(properties.get(j));
+	            	double value = (double) field.get(getAorBRandom(a, b));
 
 	            	values.add(value);
 	            }
@@ -55,5 +40,14 @@ public class Genetics {
 
         return children;
     };
+    
+    private Gene getAorBRandom(Gene a, Gene b){
+    	if (new Range(0, 100).random() > 50){
+    		return a;
+    	}
+    	else {
+    		return b;
+    	}
+    }
     
 }

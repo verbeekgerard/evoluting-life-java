@@ -28,13 +28,13 @@ public abstract class Organism {
 
         if (p.x > world.width || p.x < 0 || p.y > world.height || p.y < 0) {
 //          this.wanderedNotifier.notifyAsync(1);
-        	System.out.println("I wandered off :(");
+//        	System.out.println("I wandered off :(");
           return false;
         }
 
         // Kill entities if it's exceeded starvation threshold
         if (this.getHealth() <= 0) {
-        	System.out.println("I starved X(");
+//        	System.out.println("I starved X(");
 //          this.starvedNotifier.notifyAsync(1);
           return false;
         }
@@ -44,7 +44,7 @@ public abstract class Organism {
         	
           // Vulnerable entities have 1/100 chance of death
           if (Math.random() * 100 <= 1) {
-        	  System.out.println("I'm to old for this shit " + this.age + " - " + this.getOldAge());
+//        	  System.out.println("I'm to old for this shit " + this.age + " - " + this.getOldAge());
          //   this.diedOfAgeNotifier.notifyAsync(1);
             return false;
           }

@@ -93,7 +93,7 @@ public class Population {
           }
           
           for (Animal entityToRemove : entitiesToRemove){
-        	  System.out.println("Removed dead entity");
+//        	  System.out.println("Removed dead entity");
         	  this.entities.remove(entityToRemove);
           }
 

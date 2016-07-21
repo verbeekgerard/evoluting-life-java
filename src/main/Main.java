@@ -8,11 +8,11 @@ public class Main extends Observable {
 	
 	public FoodSupply foodSupply;
 	public Population population;
-	
+	public World world;
 
 	public Main() {
 //	
-		World world = new World();
+		this.world = new World();
         this.foodSupply = new FoodSupply(world);
         this.population = new Population(world);
 
@@ -75,7 +75,7 @@ public class Main extends Observable {
 		for (int i=0;i<10000;i++){
 			mainLoop();
 			try {
-				Thread.sleep(100);
+				Thread.sleep(1000/60);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -88,7 +88,7 @@ public class Main extends Observable {
           // Keep track of our iteration count
           iteration++;
 
-          System.out.println("Iteration: " + iteration);
+//          System.out.println("Iteration: " + iteration);
           // Clear the drawing area
 //          context.clearRect(0, 0, canvas.width, canvas.height);
 

@@ -32,7 +32,7 @@ public class Genome {
     };
 
     public List<Genome> mate(Genome partner) {
-    	System.out.println("Matting");
+//    	System.out.println("Matting");
     	
     	List<Genome> children = new ArrayList<>();
 

@@ -164,7 +164,7 @@ public class Animal extends Organism implements Comparable<Animal> {
           return;
         }
         
-        System.out.println("Yay, eat my friend =D");
+//        System.out.println("Yay, eat my friend =D");
 
         // Increase entities total eaten counter
         double consumed = organism.consume();
@@ -210,6 +210,9 @@ public class Animal extends Organism implements Comparable<Animal> {
         // Move the entity
         p.x += dx;
         p.y += dy;
+//        System.out.println("move");
+//        System.out.println(dx);
+//        System.out.println(dy);
         
         // Register the cost of the forces applied for acceleration
         this.hunger += CostCalculator.rotate(angularAcceleration * getHealth());

@@ -48,7 +48,7 @@ public class FoodSupply {
 
             // Replace the food if it's exhausted
             if (!plant.lives()) {
-            	System.out.println("Dead plant");
+//            	System.out.println("Dead plant");
                 plant = this.plants.set(i, createPlant());
             }
 
