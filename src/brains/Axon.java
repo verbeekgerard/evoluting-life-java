@@ -2,13 +2,15 @@ package brains;
 
 public class Axon {
 	
-	private int strength;
+	private double strength;
 	private Neuron targetNeuron;
 	
-	public Axon() {
+	public Axon(double strength) {
+		this.strength = strength;
 	}
 	
-	public Axon(Neuron targetNeuron) {
+	public Axon(double strength, Neuron targetNeuron) {
+		this.strength = strength;
 		this.targetNeuron = targetNeuron;
 	}
 	

@@ -1,20 +1,17 @@
 package entities;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import brains.Brain;
 import genetics.Genome;
 import main.CostCalculator;
-import main.Option;
 import main.Options;
 import sensors.Eyes;
 import sensors.FoodVector;
 import sensors.Targets;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import brains.*;
 
 public class Animal extends Organism implements Comparable<Animal> {
 
@@ -257,6 +254,8 @@ public class Animal extends Organism implements Comparable<Animal> {
 		keys.add("accelerate");
 		keys.add("decelerate");
 		keys.add("eat");
+		
+		// TODO cant we loop through the input list?
 		
         List<Double> thoughtOutput = this.brain.think(inputs);
         for (int i=0; i<thoughtOutput.size();i++) {

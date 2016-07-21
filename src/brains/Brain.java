@@ -17,7 +17,7 @@ public class Brain {
 		// The output layer has no target layer
 		Layer layer = new Layer(genLayers.get(0));
 		layers.add(layer);
-
+		
 		// The other layers have target layers
 		for (int i = 1; i < genLayers.size() - 1; i++) {
 			layer = new Layer(genLayers.get(i), layers.get(layers.size() - 1));

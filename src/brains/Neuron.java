@@ -17,12 +17,13 @@ public class Neuron {
         if (targetNeurons == null) {
         	// Assemble an output neuron
         	for (int i = gene.axons.size()-1;i>=0; i--) {
-                axons.add(new Axon());
+                axons.add(new Axon(gene.axons.get(i).strength));
             }
         } else { 
         	// Assemble a neuron that transmits to its axons
         	for (int i = gene.axons.size()-1;i>=0; i--) {
-                axons.add(new Axon(targetNeurons.get(i)));
+        		
+                axons.add(new Axon(gene.axons.get(i).strength, targetNeurons.get(i)));
             }
         }
 	}
@@ -38,7 +39,7 @@ public class Neuron {
 	public double transmit() {
         if (this.excitation > getThreshold()) {
         	double excitation = this.excitation;
-           this.excitation = 0;
+//        	this.excitation = 0;
 
             for (int i=0; i<axons.size(); i++) {
                 axons.get(i).transmit();

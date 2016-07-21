@@ -1,11 +1,13 @@
 package main;
 
+import java.util.Observable;
+
 import entities.World;
 
-public class Main {
+public class Main extends Observable {
 	
-	private FoodSupply foodSupply;
-	private Population population;
+	public FoodSupply foodSupply;
+	public Population population;
 	
 
 	public Main() {
@@ -72,6 +74,12 @@ public class Main {
 		// Loop ten times for now
 		for (int i=0;i<10000;i++){
 			mainLoop();
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -90,6 +98,9 @@ public class Main {
           // Run a tick of population life cycle
           population.run(foodSupply.plants);
 
+          setChanged();
+          notifyObservers();
+          
           // Print
 //          countersPrinter.drawCounters();
 

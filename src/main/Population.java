@@ -3,6 +3,7 @@ package main;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import entities.Animal;
 import entities.Plant;
@@ -19,7 +20,7 @@ public class Population {
 	public int fittest = 0;
 	
     public World world;
-	private List<Animal> entities = new ArrayList<>();;
+	public List<Animal> entities = new CopyOnWriteArrayList<>(); // Slow lost but no exceptions in UI
 	
 	public Option populationSize = new Option(16*8);
 	

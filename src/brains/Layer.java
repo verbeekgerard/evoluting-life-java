@@ -33,7 +33,6 @@ public class Layer {
                 neurons.get(i).transmit()
             );
         }
-
         return excitations;
 	}
 }
