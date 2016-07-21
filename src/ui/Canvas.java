@@ -21,6 +21,7 @@ import main.EventType;
 import main.FoodSupply;
 import main.Main;
 import main.Population;
+import sensors.Eyes;
 
 public class Canvas extends JPanel implements Observer {
 
@@ -45,6 +46,8 @@ public class Canvas extends JPanel implements Observer {
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, population.world.width, population.world.height);
 		
+		drawFieldOfView(population.winningEntity, g);
+		
 	    for (Plant plant : foodSupply.plants) {
 	    	drawPlant(plant, g);
 	    }
@@ -53,6 +56,27 @@ public class Canvas extends JPanel implements Observer {
 	    	drawAnimal(animal, population.winningEntity, g);
 	    }
   	}
+	
+	public void drawFieldOfView (Animal animal, Graphics g) {
+		if (population.winningEntity != null) {
+		Graphics2D g2 = (Graphics2D) g;
+		
+        Position p = animal.position;
+        Eyes e = animal.eyes;
+
+        Color c=new Color(.9f,.9f,.9f,.5f );
+        g2.setColor(c);
+        g2.fillArc(
+        		new Double(p.x - (e.viewDistance/2)).intValue(), 
+        		new Double(p.y - (e.viewDistance/2)).intValue(),
+        		new Double(e.viewDistance).intValue(),
+        		new Double(e.viewDistance).intValue(),
+        		new Double(Math.toDegrees(p.a*-1)-90).intValue(),
+        		new Double(180).intValue()
+        		);
+        
+		}
+    }
 	
 	public void drawAnimal(Animal animal, Animal bestAnimal, Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
