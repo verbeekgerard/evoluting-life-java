@@ -16,12 +16,12 @@ public class Neuron {
 		
         if (targetNeurons == null) {
         	// Assemble an output neuron
-            for (int i=0;i<gene.axons.size();i++) { 
+        	for (int i = gene.axons.size()-1;i>=0; i--) {
                 axons.add(new Axon());
             }
         } else { 
         	// Assemble a neuron that transmits to its axons
-        	for (int i=0;i<gene.axons.size();i++) {
+        	for (int i = gene.axons.size()-1;i>=0; i--) {
                 axons.add(new Axon(targetNeurons.get(i)));
             }
         }

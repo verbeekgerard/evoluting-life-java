@@ -15,7 +15,7 @@ public class Layer {
 	
 	public Layer(List<NeuronGene> genomeLayer, Layer targetLayer){
         List<Neuron> targetNeurons = targetLayer == null ? null : targetLayer.getNeurons();
-        for (int i=0;i < genomeLayer.size();i++) { 
+    	for (int i = genomeLayer.size()-1;i>=0; i--) {	
             neurons.add(new Neuron(genomeLayer.get(i), targetNeurons));
         }
 	}
