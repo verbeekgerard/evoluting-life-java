@@ -21,6 +21,7 @@ public class Population {
 	
     public World world;
 	public List<Animal> entities = new CopyOnWriteArrayList<>(); // Slow lost but no exceptions in UI
+	public Animal winningEntity;
 	
 	public Option populationSize = new Option(16*8);
 	
@@ -98,6 +99,7 @@ public class Population {
           }
 
           // Find the best ranking entity
+          winningEntity = this.entities.get(0);
 //          findBest.call(this);
 
 //          recordPopulationNumbers(tempNumbers, this);
