@@ -8,6 +8,8 @@ import java.util.Map;
 import brains.Brain;
 import genetics.Genome;
 import main.CostCalculator;
+import main.Main;
+import main.EventType;
 import main.Options;
 import sensors.Eyes;
 import sensors.FoodVector;
@@ -85,9 +87,6 @@ public class Animal extends Organism implements Comparable<Animal> {
 
         this.consumed = Options.initialEnergyOption.get();   // Food eaten
         this.hunger = 0;
-          
-//        this.eatNotifier = new Subject();
-//        this.consumedNotifier = new Subject();
 	}
 	
 	public Double rank() { 
@@ -164,14 +163,12 @@ public class Animal extends Organism implements Comparable<Animal> {
           return;
         }
         
-//        System.out.println("Yay, eat my friend =D");
-
         // Increase entities total eaten counter
         double consumed = organism.consume();
         consumed += consumed;
 
         // Increment global eaten counter
-//        this.eatNotifier.notifyAsync(consumed);
+        Main.getInstance().broadcast(EventType.EAT, consumed);
     }
 	
 	public void eat(Targets targets) {

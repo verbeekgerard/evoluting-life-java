@@ -9,8 +9,14 @@ public class Main extends Observable {
 	public FoodSupply foodSupply;
 	public Population population;
 	public World world;
+	
+	private static Main singleton = new Main();
+	
+	public static Main getInstance() {
+      return singleton;
+	}
 
-	public Main() {
+	private Main() {
 //	
 		this.world = new World();
         this.foodSupply = new FoodSupply(world);
@@ -87,24 +93,21 @@ public class Main extends Observable {
 
           // Keep track of our iteration count
           iteration++;
-
-//          System.out.println("Iteration: " + iteration);
-          // Clear the drawing area
-//          context.clearRect(0, 0, canvas.width, canvas.height);
-
+          
           // Run a tick of foodSupply life cycle
           foodSupply.run();
 
           // Run a tick of population life cycle
           population.run(foodSupply.plants);
 
-          setChanged();
-          notifyObservers();
-          
-          // Print
-//          countersPrinter.drawCounters();
-
+          broadcast(EventType.CYCLE_END, iteration);
 	}
+	
+	public void broadcast(EventType eventType, Object value) {
+		setChanged();
+        super.notifyObservers(new Event(eventType, value));
+	}
+	
       
 //      function registerObservers(collector, entity) {
 //          entity.wanderedNotifier.addObserver(collector.wanderedObserver);

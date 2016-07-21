@@ -16,12 +16,15 @@ import entities.Plant;
 import entities.Position;
 import entities.World;
 import genetics.Genome;
+import main.Event;
+import main.EventType;
 import main.FoodSupply;
 import main.Main;
 import main.Population;
 
 public class Canvas extends JPanel implements Observer {
 
+	private static final long serialVersionUID = 1L;
 	private FoodSupply foodSupply;
 	private Population population;
 	
@@ -32,7 +35,10 @@ public class Canvas extends JPanel implements Observer {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		this.repaint();
+		Event event = (Event) arg;
+		if (event.type.equals(EventType.CYCLE_END)) {
+			this.repaint();
+		}
 	}
 	
 	public void paintComponent(Graphics g) {
