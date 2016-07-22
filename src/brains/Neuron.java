@@ -39,7 +39,7 @@ public class Neuron {
 	public double transmit() {
         if (this.excitation > getThreshold()) {
         	double excitation = this.excitation;
-//        	this.excitation = 0;
+        	this.excitation = 0;
 
             for (int i=0; i<axons.size(); i++) {
                 axons.get(i).transmit();
@@ -48,6 +48,9 @@ public class Neuron {
             return excitation;
         }
         else {
+            if (this.excitation < 0) {
+                this.excitation = 0;
+            }
             this.excitation *= (1-this.getRelaxation());
 
             return 0;
@@ -56,8 +59,5 @@ public class Neuron {
 	
 	public void excite(double value) {
         this.excitation += value;
-        if (this.excitation < 0) {
-            this.excitation = 0;
-        }
     }
 }
