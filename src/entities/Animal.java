@@ -27,7 +27,6 @@ public class Animal extends Organism implements Comparable<Animal> {
 	public double hunger;
 	public Eyes eyes;
 	
-	
 	public double initialEnergy;
 	public double linearFriction;
 	public double angularFriction;
@@ -166,7 +165,7 @@ public class Animal extends Organism implements Comparable<Animal> {
         
         // Increase entities total eaten counter
         double consumed = organism.consume();
-        consumed += consumed;
+        this.consumed += consumed;
 
         // Increment global eaten counter
         Main.getInstance().broadcast(EventType.EAT, consumed);

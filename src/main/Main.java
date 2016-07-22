@@ -54,8 +54,8 @@ public class Main extends Observable {
 	private int iteration = 0;
 	
 	public void startMainLoop(){
-		// Loop ten times for now
-		for (int i=0;i<10000;i++){
+		
+		while (true){
 			mainLoop();
 			try {
 				Thread.sleep(1000/60);

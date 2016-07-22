@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -28,6 +29,7 @@ public class Canvas extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 	private FoodSupply foodSupply;
 	private Population population;
+	private final double WEDGE_ANGLE = Math.PI * 0.25;
 	
 	public Canvas(FoodSupply foodSupply, Population population) {
 		this.foodSupply = foodSupply;
@@ -81,17 +83,14 @@ public class Canvas extends JPanel implements Observer {
 	public void drawAnimal(Animal animal, Animal bestAnimal, Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		
-		g2.setColor(Color.RED);
-		if (bestAnimal == animal) {
-			g2.setColor(Color.cyan);
-		}
+		
 
         double entitySize = animal.getSize();
         Position p = animal.position;
         double ba = p.a + Math.PI; // Find the angle 180deg of entity
 
         // Find left back triangle point
-        double WEDGE_ANGLE = Math.PI * 0.25;
+        
         double lx = Math.cos( ba + ( WEDGE_ANGLE / 2 ) ) * entitySize;
         double ly = Math.sin( ba + ( WEDGE_ANGLE / 2 ) ) * entitySize;
 
@@ -104,13 +103,19 @@ public class Canvas extends JPanel implements Observer {
         double cy = Math.sin( ba ) * entitySize * 0.3;
 
         // Color code entity based on food eaten compared to most successful
-//        var currentBest = currentBestAnimal.rank();
-//        var g = Math.floor( 0.7 * 255 * (1 - (currentBest === 0 ? 0 : animal.life.rank() / currentBest )));
-//
-//        context.fillStyle = "rgb(255," + g + ",0)";
-//        context.strokeStyle = "#000";
-//        context.lineWidth = 2 + Math.floor(animal.age / (animal.oldAge / 5));
+        double currentBest = bestAnimal.rank();
+        int green = (int) Math.floor( 0.7 * 255 * (1 - (currentBest == 0 ? 0 : animal.rank() / currentBest )));
 
+        Color color = new Color(255, green>0?green:0, 0);
+        g2.setColor(color);
+        
+        g2.setStroke(new BasicStroke((float) (2 + Math.floor(animal.age / (animal.getOldAge() / 5)))));
+        
+//        g2.setColor(Color.RED);
+//		if (bestAnimal == animal) {
+//			g2.setColor(Color.cyan);
+//		}
+        
         // Draw the triangle
         
         GeneralPath polygon = new GeneralPath(GeneralPath.WIND_EVEN_ODD);

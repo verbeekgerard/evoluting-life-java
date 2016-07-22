@@ -89,18 +89,11 @@ public class Population {
 
           // Find the best ranking entity
           winningEntity = this.entities.get(0);
-//          findBest.call(this);
 
-//          recordPopulationNumbers(tempNumbers, this);
-//          cloning.shallowMixin(tempNumbers, this.runNumbers);
-
-//          var options = new Options();
           if (this.entities.size() <= populationSize.get() -2) {
         	  List<Animal> parents = selectParents();
               produceChildren(parents);
-          }
-
-          
+          }   
     }
       
     public void produceChildren(List<Animal> parents) {
@@ -129,66 +122,3 @@ public class Population {
     
     
 }
-
-
-//            var initialRunNumbers = {
-//                
-//            };
-
-//            function recordAnimalNumbers(numbers, entity) {
-//                numbers.foodTotal += entity.life.consumed;
-//                numbers.ageTotal += entity.life.age;
-//                numbers.healthTotal += entity.life.health();
-//            }
-//
-//            function recordPopulationNumbers(numbers, population) {
-//                numbers.size = population.entities.length;
-//                numbers.fittest = population.entities[0].life.health();
-//            }
-//
-//            var Self = function () {
-//                var options = new Options();
-//
-//                this.runNumbers = cloning.shallowClone(initialRunNumbers);
-//                this.entities = [];
-//                this.winningAnimal = {};
-//                this.entityCreated = new Subject();
-//                this.newWinnerNotifier = new Subject();
-//                this.entityRunNotifier = new Subject();
-//
-//                
-//
-//                var that = this;
-//                
-//            };
-//
-//            Self.prototype = (function () {
-//                function sortSuccess() {
-//                    /*jshint validthis: true */
-//                    this.entities.sort( function (a, b) {
-//                        return b.life.rank() - a.life.rank();
-//                    });
-//                }
-//
-//                var findBest = function () {
-//                    var winner = this.entities[0];
-//
-//                    if ( winner !== this.winningAnimal ) {
-//                        this.winningAnimal = winner;
-//                        var winnerBrain = winner.brain.getLayers(); // Too much knowledge of the brain here?
-//                        this.newWinnerNotifier.notifyAsync(winnerBrain);
-//                    }
-//                };
-//
-
-//
-
-//
-//                return {
-//                    
-//                };
-//            }) ();
-//
-//            return Self;
-//        }
-//    );

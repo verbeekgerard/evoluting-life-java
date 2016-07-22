@@ -29,11 +29,10 @@ public class Genome {
 		this.life.mutate();
 		this.sensor.mutate();
 		this.movement.mutate();
-    };
+    }
 
     public List<Genome> mate(Genome partner) {
-//    	System.out.println("Matting");
-    	
+
     	List<Genome> children = new ArrayList<>();
 
     	List<BrainGene> brainChildren = this.brain.mate(partner.brain);

@@ -20,7 +20,7 @@ public class Run {
 	    frame.setResizable(false);
 		
 		main.addObserver(canvas);
-		main.addObserver(new StatsPrinter());
+		main.addObserver(new StatsPrinter(main.foodSupply, main.population));
 		
 		main.startMainLoop();
 	}

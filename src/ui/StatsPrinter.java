@@ -5,6 +5,8 @@ import java.util.Observer;
 
 import main.Event;
 import main.EventType;
+import main.FoodSupply;
+import main.Population;
 
 public class StatsPrinter implements Observer {
 	
@@ -12,10 +14,13 @@ public class StatsPrinter implements Observer {
 	private int totalConsumed;
 	private int totalWandered;
 	private int totalDiedOfAge;
+	private FoodSupply foodSupply;
+	private Population population;
 	
-//	public StatsPrinter() {
-//		
-//	}
+	public StatsPrinter(FoodSupply foodSupply, Population population) {
+		this.foodSupply = foodSupply;
+		this.population = population;
+	}
 	
 	@Override
 	public void update(Observable o, Object arg) {
@@ -42,7 +47,8 @@ public class StatsPrinter implements Observer {
 						"totalConsumed:\t" + totalConsumed + "\t" +
 						"totalSarved:\t" + totalSarved + "\t" +
 						"totalWandered:\t" + totalWandered + "\t" +
-						"totalDiedOfAge:\t" + totalDiedOfAge + "\t"
+						"totalDiedOfAge:\t" + totalDiedOfAge + "\t" +
+						"best:\t" + population.winningEntity.rank() + "\t" 
 						);
 			}
 		}
