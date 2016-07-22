@@ -13,11 +13,6 @@ import evolution.RouletteWheelSelectionByRank;
 import genetics.Genome;
 
 public class Population {
-	public int foodTotal = 0;
-	public int ageTotal = 0;
-	public int healthTotal = 0;
-	public int size = 0;
-	public int fittest = 0;
 	
     public World world;
 	public List<Animal> entities = new CopyOnWriteArrayList<>(); // Slow lost but no exceptions in UI
@@ -34,7 +29,6 @@ public class Population {
           Position position = createRandomPosition();
           Animal entity = new Animal(genome, position, world);
           // this.entityCreated.notifyAsync(newAnimal);
-//          entity.population = this;
           this.entities.add(entity);
       }
 	}
@@ -73,18 +67,14 @@ public class Population {
 //      },
 
       public void run(List<Plant> plants) {
-//          var tempNumbers = cloning.shallowClone(initialRunNumbers);
 
     	  Collections.sort(this.entities);
-    	  
+
     	  List<Animal> entitiesToRemove = new ArrayList<>();
           for (int i = 0; i < this.entities.size(); i++) {
         	  Animal entity = this.entities.get(i);
-
+        	  // TODO to make this fast this should run on seperate threads
               entity.run(plants, this.entities);
-//              this.entityRunNotifier.notify(entity);
-
-//              recordAnimalNumbers(tempNumbers, entity);
 
               // Check entity lifecycle and remove dead entities
               if (!entity.lives()){
@@ -94,7 +84,6 @@ public class Population {
           }
           
           for (Animal entityToRemove : entitiesToRemove){
-//        	  System.out.println("Removed dead entity");
         	  this.entities.remove(entityToRemove);
           }
 
@@ -122,9 +111,8 @@ public class Population {
 	        // Spawn a new entity from it
 	        Position position = createRandomPosition();
 	        Animal newAnimal = new Animal( child, position, world );
-//	        newAnimal.population = this;
 	        this.entities.add(newAnimal);
-//	        this.entityCreated.notifyAsync(newAnimal);
+	        Main.getInstance().broadcast(EventType.NEW_ANIMAL, newAnimal);
 	    }
 	}
       

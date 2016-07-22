@@ -31,21 +31,6 @@ public class Main extends Observable {
 //          population.loadState(genomeStates);
 //        });
 
-        // Create printers
-//        var getIteration = function () {
-//          return iteration;
-//        };
-//
-//        var getPopulationNumbers = function () {
-//          return population.runNumbers;
-//        };
-
-//        var plantPrinter = new PlantPrinter();
-//        foodSupply.entityRunNotifier.addObserver(plantPrinter.entityRunObserver);
-
-//        var animalPrinter = new AnimalPrinter(population);
-//        population.entityRunNotifier.addObserver(animalPrinter.entityRunObserver);
-
 //        var statsTable = document.getElementById('stats-tbody');
 //        var statsCollector = new StatsCollector(getIteration, getPopulationNumbers);
 //        var statsPrinter = new StatsPrinter(statsTable, statsCollector);
@@ -63,14 +48,6 @@ public class Main extends Observable {
 
 //        var statsIntervalId = statsPrinter.periodicalReport();
 //        var graphIntervalId = fitnessGraph.periodicalReport();
-
-        // Register observers
-//        var entityCreatedObserver = new Observer(function (entity) {
-//          registerObservers(statsCollector, entity);
-//        });
-
-//        population.entityCreated.addObserver(entityCreatedObserver);
-//        population.entityCreated.addObserver(countersCollector.bornObserver);
 
 	}
 	
@@ -107,15 +84,5 @@ public class Main extends Observable {
 		setChanged();
         super.notifyObservers(new Event(eventType, value));
 	}
-	
-      
-//      function registerObservers(collector, entity) {
-//          entity.wanderedNotifier.addObserver(collector.wanderedObserver);
-//          entity.starvedNotifier.addObserver(collector.starvedObserver);
-//          entity.diedOfAgeNotifier.addObserver(collector.diedOfAgeObserver);
-//          entity.eatNotifier.addObserver(collector.eatObserver);
-//          entity.consumedNotifier.addObserver(collector.consumedObserver);
-//        }
-
 	
 }

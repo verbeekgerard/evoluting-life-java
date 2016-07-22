@@ -49,8 +49,9 @@ public class Animal extends Organism implements Comparable<Animal> {
     public double consume() {
         double size = getHealth();
         hunger++;
-//        this.consumedNotifier.notifyAsync(1); // static value until nutricion becomes available
-
+        // static value until nutricion becomes available
+        Main.getInstance().broadcast(EventType.CONSUMED, 1);
+        
         return size < 0 ? 0 : size < 1 ? size : 1;
     }
     
@@ -207,9 +208,6 @@ public class Animal extends Organism implements Comparable<Animal> {
         // Move the entity
         p.x += dx;
         p.y += dy;
-//        System.out.println("move");
-//        System.out.println(dx);
-//        System.out.println(dy);
         
         // Register the cost of the forces applied for acceleration
         this.hunger += CostCalculator.rotate(angularAcceleration * getHealth());
@@ -266,7 +264,7 @@ public class Animal extends Organism implements Comparable<Animal> {
 
 	@Override
 	public int compareTo(Animal otherAnimal) {
-		return this.rank().compareTo(otherAnimal.rank());
+		return otherAnimal.rank().compareTo(this.rank());
 	}
 
 }
