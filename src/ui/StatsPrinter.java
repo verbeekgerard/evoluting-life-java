@@ -12,7 +12,7 @@ import main.Population;
 
 public class StatsPrinter implements Observer {
 	
-	private int totalSarved;
+	private int totalStarved;
 	private int totalConsumed;
 	private int totalWandered;
 	private int totalDiedOfAge;
@@ -36,7 +36,7 @@ public class StatsPrinter implements Observer {
 //			System.out.println("Eat");
 		}
 		else if (event.type.equals(EventType.STARVED)) {
-			totalSarved++;
+			totalStarved++;
 		}
 		else if (event.type.equals(EventType.WANDERED)) {
 			totalWandered++;
@@ -68,7 +68,7 @@ public class StatsPrinter implements Observer {
 		System.out.println(
 				"avg. health:\t" + df2.format(avgHealth) + "\t" +
 				"totalConsumed:\t" + totalConsumed + "\t" +
-				"totalSarved:\t" + totalSarved + "\t" +
+				"totalStarved:\t" + totalStarved + "\t" +
 				"totalWandered:\t" + totalWandered + "\t" +
 				"totalDiedOfAge:\t" + totalDiedOfAge + "\t" +
 				"best:\t" + df3.format(population.winningEntity.rank()) + "\t" 
@@ -77,7 +77,7 @@ public class StatsPrinter implements Observer {
 	
 	private void resetStats() {
 		this.totalConsumed = 0;
-		this.totalSarved = 0;
+		this.totalStarved = 0;
 		this.totalWandered = 0;
 		this.totalDiedOfAge = 0;
 	}
