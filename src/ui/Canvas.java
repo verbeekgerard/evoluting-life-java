@@ -83,8 +83,6 @@ public class Canvas extends JPanel implements Observer {
 	public void drawAnimal(Animal animal, Animal bestAnimal, Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		
-		
-
         double entitySize = animal.getSize();
         Position p = animal.position;
         double ba = p.a + Math.PI; // Find the angle 180deg of entity
@@ -180,12 +178,4 @@ public class Canvas extends JPanel implements Observer {
 				new Double(plant.getSize()).intValue());
     }
 	
-//  	public static void main(String args[]) {
-//	    JFrame frame = new JFrame("Evoluting-life-java");
-//	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//	    frame.add(new Canvas());
-//	    frame.setSize(500, 500);
-//	    frame.setVisible(true);
-//	    frame.setResizable(false);
-//  	}
 }
