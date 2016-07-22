@@ -48,10 +48,7 @@ public class Neuron {
             return excitation;
         }
         else {
-            if (this.excitation < 0) {
-                this.excitation = 0;
-            }
-            this.excitation *= (1-this.getRelaxation());
+            this.excitation = this.excitation > 0 ? this.excitation * (1-this.getRelaxation()) : 0;
 
             return 0;
         }
