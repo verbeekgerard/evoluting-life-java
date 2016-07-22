@@ -1,5 +1,6 @@
 package ui;
 
+import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -61,13 +62,16 @@ public class StatsPrinter implements Observer {
 	}
 	
 	private void printStats() {
+		DecimalFormat df2 = new DecimalFormat("#.##");
+		DecimalFormat df3 = new DecimalFormat("#.###");
+		
 		System.out.println(
-				"avg. health:\t" + avgHealth + "\t" +
+				"avg. health:\t" + df2.format(avgHealth) + "\t" +
 				"totalConsumed:\t" + totalConsumed + "\t" +
 				"totalSarved:\t" + totalSarved + "\t" +
 				"totalWandered:\t" + totalWandered + "\t" +
 				"totalDiedOfAge:\t" + totalDiedOfAge + "\t" +
-				"best:\t" + population.winningEntity.rank() + "\t" 
+				"best:\t" + df3.format(population.winningEntity.rank()) + "\t" 
 				);
 	}
 	
