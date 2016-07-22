@@ -2,16 +2,16 @@ package main;
 
 public class Options {
 
-	public static Option mutationFraction = new Option(0.001);
-	public static Option minThreshold = new Option(0);
-	public static Option maxThreshold = new Option(1.5);
+	public static Option mutationFraction = new Option(0.005);
+	public static Option minThreshold = new Option(0.1);
+	public static Option maxThreshold = new Option(1.0);
 	
 	// Animal
 	public static Option sizeOption = new Option(12);
 	public static Option initialEnergyOption = new Option(8);
 	public static Option populationSize = new Option(16*8);
-	public static Option linearFrictionOption = new Option(0.05); // 0.065 // 0.024
-	public static Option angularFrictionOption = new Option(0.08); // 0.25 // 0.08
+	public static Option linearFrictionOption = new Option(0.06); // 0.065 // 0.024
+	public static Option angularFrictionOption = new Option(0.09); // 0.25 // 0.08
 	
 	
 	// Plant
@@ -23,7 +23,7 @@ public class Options {
 	public static Option maxNutrition = new Option(3.0);
 	
 	// AxonGene
-	public static Option maxStrength = new Option(0.20);
+	public static Option maxStrength = new Option(0.6);
 	public static Option minStrengthening = new Option(0.000001);
 	public static Option maxStrengthening = new Option(0.00002);
 	public static Option minWeakening = new Option(0.000001);
@@ -37,9 +37,9 @@ public class Options {
 	public static Option minHiddenLayers = new Option(1);
 	public static Option maxHiddenLayers = new Option(5);
 	public static Option maxNeuronsPerLayer = new Option(16);
-	public static Option layerMutationRate = new Option(0.05);    // adding or removing a gene
-	public static Option geneMutationRate = new Option(0.15);    // percentual chance of genes within a genome to mutate
-	public static Option geneReplacementRate = new Option(0.01);  // completely replacing a genes properties
+	public static Option layerMutationRate = new Option(0.01);    // adding or removing a gene
+	public static Option geneMutationRate = new Option(0.05);    // percentual chance of genes within a genome to mutate
+	public static Option geneReplacementRate = new Option(0.001);  // completely replacing a genes properties
 	
 	// LifeGene
 	public static Option minOldAge = new Option(3000);
@@ -52,8 +52,8 @@ public class Options {
         return maxVelocity * friction;
 	}
 	
-	public static Option linearFriction = new Option(0.05); // 0.065 // 0.024
-	public static Option angularFriction = new Option(0.08); // 0.25 // 0.08
+	public static Option linearFriction = new Option(0.06); // 0.065 // 0.024
+	public static Option angularFriction = new Option(0.09); // 0.25 // 0.08
 
 	private static double minA = calculateForce(0.5, angularFriction.get());
 	private static double maxA = calculateForce(5.0, angularFriction.get());
@@ -70,7 +70,7 @@ public class Options {
 	
 	// NeuronGene
 	public static Option maxRelaxation = new Option(99.0);
-	public static Option thresholdMutationRate = new Option(0.1);
+	public static Option thresholdMutationRate = new Option(0.05);
 	public static Option relaxationMutationRate = new Option(0.1);
 	public static Option axonGeneReplacementRate = new Option(0.01);
 	

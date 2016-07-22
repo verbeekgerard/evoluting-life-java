@@ -19,7 +19,7 @@ public class AxonGene extends Gene {
 	}
 	
 	public AxonGene(){
-		this.strength = new Range(0, Options.maxStrength.get()).random();
+		this.strength = new Range(-1 * Options.maxStrength.get(), Options.maxStrength.get()).random();
         this.strengthening = new Range(Options.minStrengthening.get(), Options.maxStrengthening.get()).random();
         this.weakening = new Range(Options.minWeakening.get(), Options.maxWeakening.get()).random();
 	}
@@ -27,7 +27,7 @@ public class AxonGene extends Gene {
     public void mutate() {
 
         if (Math.random() <= Options.strengthMutationRate.get()) {
-          this.strength += new Range(0, Options.maxStrength.get()).mutation(Options.mutationFraction.get());
+          this.strength += new Range(-1 * Options.maxStrength.get(), Options.maxStrength.get()).mutation(Options.mutationFraction.get());
         }
 
         if (Math.random() <= Options.strengtheningMutationRate.get()) {
