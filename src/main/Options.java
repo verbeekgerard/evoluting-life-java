@@ -38,7 +38,7 @@ public class Options {
 	public static Option maxHiddenLayers = new Option(5);
 	public static Option maxNeuronsPerLayer = new Option(16);
 	public static Option layerMutationRate = new Option(0.01);    // adding or removing a gene
-	public static Option geneMutationRate = new Option(0.05);    // percentual chance of genes within a genome to mutate
+	public static Option geneMutationRate = new Option(0.3);    // percentual chance of genes within a genome to mutate
 	public static Option geneReplacementRate = new Option(0.001);  // completely replacing a genes properties
 	
 	// LifeGene
@@ -70,7 +70,7 @@ public class Options {
 	
 	// NeuronGene
 	public static Option maxRelaxation = new Option(99.0);
-	public static Option thresholdMutationRate = new Option(0.05);
+	public static Option thresholdMutationRate = new Option(0.1);
 	public static Option relaxationMutationRate = new Option(0.1);
 	public static Option axonGeneReplacementRate = new Option(0.01);
 	

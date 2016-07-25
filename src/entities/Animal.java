@@ -197,11 +197,11 @@ public class Animal extends Organism implements Comparable<Animal> {
         this.velocityRight += accelerationRight;
         this.velocityRight -= this.velocityRight * Options.linearFrictionOption.get();
 
-        p.a += this.velocityLeft - this.velocityRight;
+        p.a += (this.velocityLeft - this.velocityRight)/10;
 
         // Convert movement vector into polar
-        double dx = (Math.cos(p.a) * this.velocityRight);
-        double dy = (Math.sin(p.a) * this.velocityLeft);
+        double dx = (Math.cos(p.a) * (this.velocityRight + this.velocityLeft)/2);
+        double dy = (Math.sin(p.a) * (this.velocityRight + this.velocityLeft)/2);
 
         // Move the entity
         p.x += dx;
