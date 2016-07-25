@@ -1,13 +1,13 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import entities.Plant;
 import entities.Position;
 import entities.World;
 import genetics.Genome;
 import util.Range;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FoodSupply {
 
@@ -36,6 +36,8 @@ public class FoodSupply {
         }
 //      this.entityRunNotifier = new Subject();
 	}
+
+
 	
 	public void run(){
         for (int i=0; i < this.plants.size(); i++) {
