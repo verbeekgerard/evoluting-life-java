@@ -24,3 +24,13 @@ public class RouletteWheelSelectionByRank {
         throw new RuntimeException("rouletteWheelSelectionByRank didn't select a score: " + randomOccurenceSum);
 	}
 }
+
+/*
+Scaled Rank
+
+SP = Selective Pressure (2.0 >= SP >= 1.0, so that SP is the selective pressure of the fittest and 2-SP is the selective pressure of the weakest)
+n = population size
+Pos = position of an individual sorted by score (Pos=1 is the weakest, Pos=n is the fittest)
+
+Rank (Pos) = 2-SP + ( 2*(SP-1) * (Pos-1)/(n-1) )
+*/
