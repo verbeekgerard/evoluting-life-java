@@ -135,12 +135,7 @@ public class Eyes {
 		 Targets targets = new Targets();
 		 targets.plants = findOrganisms(plants);
 		 targets.animals = findOrganisms(animals);
-
-         try {
-             targets.wallDistance = wallDistance();
-         }catch(NullPointerException e){
-            System.out.print("Exception: " + e);
-         }
+         targets.wallDistance = wallDistance();
 		 return targets;
       }
 	
