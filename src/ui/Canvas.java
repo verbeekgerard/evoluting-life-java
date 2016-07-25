@@ -69,12 +69,12 @@ public class Canvas extends JPanel implements Observer {
         Color c=new Color(.9f,.9f,.9f,.5f );
         g2.setColor(c);
         g2.fillArc(
-        		new Double(p.x - (e.viewDistance/2)).intValue(), 
+        		new Double(p.x - (e.viewDistance/2)).intValue(),
         		new Double(p.y - (e.viewDistance/2)).intValue(),
         		new Double(e.viewDistance).intValue(),
         		new Double(e.viewDistance).intValue(),
-        		new Double(Math.toDegrees(p.a*-1)-90).intValue(),
-        		new Double(180).intValue()
+        		new Double(Math.toDegrees(-1 * p.a + e.fieldOfView/2)).intValue(),
+        		new Double(-1 * Math.toDegrees(e.fieldOfView)).intValue()
         		);
         
 		}
