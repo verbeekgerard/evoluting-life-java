@@ -1,15 +1,11 @@
 package sensors;
 
+import entities.*;
+import genetics.SensorGene;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import entities.Animal;
-import entities.Organism;
-import entities.Plant;
-import entities.Position;
-import entities.World;
-import genetics.SensorGene;
 
 public class Eyes {
 
@@ -139,8 +135,12 @@ public class Eyes {
 		 Targets targets = new Targets();
 		 targets.plants = findOrganisms(plants);
 		 targets.animals = findOrganisms(animals);
-		 targets.wallDistance = wallDistance();
-		 
+
+         try {
+             targets.wallDistance = wallDistance();
+         }catch(NullPointerException e){
+            System.out.print("Exception: " + e);
+         }
 		 return targets;
       }
 	

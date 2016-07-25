@@ -1,19 +1,19 @@
 package entities;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import brains.Brain;
 import genetics.Genome;
 import main.CostCalculator;
-import main.Main;
 import main.EventType;
+import main.Main;
 import main.Options;
 import sensors.Eyes;
 import sensors.FoodVector;
 import sensors.Targets;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Animal extends Organism implements Comparable<Animal> {
 
@@ -30,8 +30,9 @@ public class Animal extends Organism implements Comparable<Animal> {
 	public double initialEnergy;
 	public double linearFriction;
 	public double angularFriction;
-	public double linearVelocity;
-	public double angularVelocity;
+	public double velocityLeft = 0;
+	public double velocityRight = 0;
+//	public double angularVelocity = 0;
 	
 	public double linearForce;
 	public double angularForce;
@@ -72,9 +73,6 @@ public class Animal extends Organism implements Comparable<Animal> {
 
         this.angularFriction = Options.angularFrictionOption.get();
         this.linearFriction = Options.linearFrictionOption.get();
-
-        this.linearVelocity = 0;
-        this.angularVelocity = 0;
 
         this.eyes = new Eyes(this, genome.sensor, world);
 
@@ -186,31 +184,32 @@ public class Animal extends Organism implements Comparable<Animal> {
 
         Position p = this.position;
 
-        double angularAcceleration = (this.output.get("turnLeft") - this.output.get("turnRight")) * this.angularForce;
-        this.angularVelocity += angularAcceleration;
-        this.angularVelocity -= this.angularVelocity * Options.angularFrictionOption.get();
-        p.a += this.angularVelocity;
-
         // Keep angles within bounds
         p.a = p.a % (Math.PI * 2);
         if (p.a < 0) p.a += Math.PI * 2;
 
         // F=m*a => a=F/m, dv=a*dt => dv=dt*F/m, dt=one cycle, m=1
-        double linearAcceleration = (this.output.get("accelerate") - this.output.get("decelerate")) * this.linearForce;
-        this.linearVelocity += linearAcceleration;
-        this.linearVelocity -= this.linearVelocity * Options.linearFrictionOption.get();
+        double accelerationLeft = (this.output.get("turnLeft") - this.output.get("turnRight")) * this.linearForce;
+        this.velocityLeft += accelerationLeft;
+        this.velocityLeft -= this.velocityLeft * Options.linearFrictionOption.get();
+
+        double accelerationRight = (this.output.get("accelerate") - this.output.get("decelerate")) * this.linearForce;
+        this.velocityRight += accelerationRight;
+        this.velocityRight -= this.velocityRight * Options.linearFrictionOption.get();
+
+        p.a += this.velocityLeft - this.velocityRight;
 
         // Convert movement vector into polar
-        double dx = (Math.cos(p.a) * this.linearVelocity);
-        double dy = (Math.sin(p.a) * this.linearVelocity);
+        double dx = (Math.cos(p.a) * this.velocityRight);
+        double dy = (Math.sin(p.a) * this.velocityLeft);
 
         // Move the entity
         p.x += dx;
         p.y += dy;
         
         // Register the cost of the forces applied for acceleration
-        this.hunger += CostCalculator.rotate(angularAcceleration * getHealth());
-        this.hunger += CostCalculator.accelerate(linearAcceleration * getHealth());
+        this.hunger += CostCalculator.rotate(p.a * getHealth());
+        this.hunger += CostCalculator.accelerate((accelerationLeft + accelerationRight) * getHealth());
     }
       
     @Override
