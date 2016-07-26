@@ -76,15 +76,13 @@ public class Animal extends Organism implements Comparable<Animal> {
 	public Double rank() { 
         return this.getHealth();
     }
-
 	
 	public double healthN() {
         double health = this.getHealth();
         return health > 0 ? 1 - 1 / Math.exp(health / 200) : 0;
 	}
 	
-	public List<Double> createInput(FoodVector visibleFood, FoodVector visibleAnimal, double wallDistance) {
-   
+	public List<Double> createInput(FoodVector visibleFood, FoodVector visibleAnimal, double wallDistance) {   
         double fieldOfView = eyes.fieldOfView;
         double viewDistance = eyes.viewDistance;
 
@@ -150,6 +148,7 @@ public class Animal extends Organism implements Comparable<Animal> {
     }
 	
 	public void collide(List<Plant>plants, List<Animal> animals) {
+		// TODO: optimize this by combining it with the sense action
 		for (int i=0; i<plants.size(); i ++) {
         	checkColission(plants.get(i));
         } 
@@ -163,7 +162,6 @@ public class Animal extends Organism implements Comparable<Animal> {
 	}
 	
 	public void move() {
-
         Position p = this.position;
 
         // Keep angles within bounds
@@ -188,7 +186,8 @@ public class Animal extends Organism implements Comparable<Animal> {
         // Move the entity
         p.x += dx;
         p.y += dy;
-                
+
+        // Reward for traveled distance. Maybe redefine the traveled distance.
         this.travelledDistance = CostCalculator.travelledDistance(this.position.calculateDistance(this.startPosition));
         
         // Register the cost of the forces applied for acceleration
@@ -205,14 +204,11 @@ public class Animal extends Organism implements Comparable<Animal> {
 	}
     
 	public void run(List<Plant>plants, List<Animal> animals){
-		
 		this.age++;
 
 		Targets targets = this.eyes.sense(plants, animals);
-
         think(targets);
-        move();
-        
+        move();        
         collide(plants, animals);
 
         // Register the cost of the cycle
@@ -248,5 +244,4 @@ public class Animal extends Organism implements Comparable<Animal> {
 	public int compareTo(Animal otherAnimal) {
 		return otherAnimal.rank().compareTo(this.rank());
 	}
-
 }

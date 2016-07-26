@@ -75,10 +75,10 @@ public class Population {
     	  List<Animal> entitiesToRemove = new ArrayList<>();
           for (int i = 0; i < this.entities.size(); i++) {
         	  Animal entity = this.entities.get(i);
-        	  // TODO to make this fast this should run on seperate threads
+        	  // TODO to make this fast this should run on separate threads
               entity.run(plants, this.entities);
 
-              // Check entity lifecycle and remove dead entities
+              // Check entity life cycle and remove dead entities
               if (!entity.lives()) {
             	  entitiesToRemove.add(entity);
               }
