@@ -55,6 +55,7 @@ public class Canvas extends JPanel implements Observer {
 		}
 
 		for (Animal animal : population.entities) {
+			//drawSize(animal, g);
 			drawAnimal(animal, population.winningEntity, g);
 		}
 	}
@@ -84,7 +85,6 @@ public class Canvas extends JPanel implements Observer {
 		double ba = p.a + Math.PI; // Find the angle 180deg of entity
 
 		// Find left back triangle point
-
 		double lx = Math.cos(ba + (WEDGE_ANGLE / 2)) * entitySize;
 		double ly = Math.sin(ba + (WEDGE_ANGLE / 2)) * entitySize;
 
@@ -122,49 +122,31 @@ public class Canvas extends JPanel implements Observer {
 		g2.setColor(Color.BLACK);
 		g2.draw(polygon);
 	}
+	
+	public void drawSize(Animal animal, Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
 
+		g2.setColor(Color.ORANGE);
+		//g2.setColor(Color.BLACK);
+		g2.drawOval(
+				new Double(animal.position.x).intValue() - new Double(animal.getSize()/2).intValue(), 
+				new Double(animal.position.y).intValue() - new Double(animal.getSize()/2).intValue(),
+				new Double(animal.getSize()).intValue(), new Double(animal.getSize()).intValue());
+	}
+	
 	public void drawPlant(Plant plant, Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 
-		// g2.drawArc(35, 45, 75, 95, 0, 90);
-		// context.beginPath();
-
-		// context.lineWidth = 2;
-		// context.lineWidth = 2 + Math.floor(plant.life.age /
-		// (plant.life.oldAge / 3));
-
-		double r = Math.floor(255);
-		// var color = "rgb(" + r + ",220,0)"; //187
-
-		// if (plant.nutrition < 0) {
-		//
-		// g2.setColor(Color.RED);
-		//// g2.set
-		//// context.strokeStyle = color;
-		//// context.fillStyle = "#000";
-		// }
-		// else {
-		// context.strokeStyle = "#000";
-		// context.fillStyle = color;
 		g2.setColor(Color.GREEN);
-		// }
-
-		// g2.drawArc(
-		// new Double(plant.position.x).intValue(),
-		// new Double(plant.position.y).intValue(),
-		// new Double(plant.getSize()).intValue(),
-		// new Double(plant.getSize()).intValue(),
-		// new Double(Math.PI*2).intValue(),
-		// new Double(Math.PI*2).intValue()
-		// );
-		// g2.drawArc(x, y, width, height, startAngle, arcAngle);
-		g2.fillOval(new Double(plant.position.x).intValue(), new Double(plant.position.y).intValue(),
+		g2.fillOval(
+				new Double(plant.position.x).intValue() - new Double(plant.getSize()/2).intValue(), 
+				new Double(plant.position.y).intValue() - new Double(plant.getSize()/2).intValue(),
 				new Double(plant.getSize()).intValue(), new Double(plant.getSize()).intValue());
-		// context.arc( plant.position.x, plant.position.x, plant.getSize(), 0,
-		// Math.PI*2, true );
 
 		g2.setColor(Color.BLACK);
-		g2.drawOval(new Double(plant.position.x).intValue(), new Double(plant.position.y).intValue(),
+		g2.drawOval(
+				new Double(plant.position.x).intValue() - new Double(plant.getSize()/2).intValue(),
+				new Double(plant.position.y).intValue() - new Double(plant.getSize()/2).intValue(),
 				new Double(plant.getSize()).intValue(), new Double(plant.getSize()).intValue());
 	}
 }
