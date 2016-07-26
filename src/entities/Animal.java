@@ -16,15 +16,17 @@ import java.util.List;
 import java.util.Map;
 
 public class Animal extends Organism implements Comparable<Animal> {
-
-	public int turnLeft = 0;    // Left angle
-	public int turnRight = 0;    // Right angle
-	public int accelerate = 0;// Velocity accelerator
-	public int decelerate = 0; // Velocity suppressor
-	public int eat = 0; 
+	public Position startPosition;
+	
+	public int leftAccelerate = 0;    // Left angle
+	public int leftDecelerate = 0;    // Right angle
+	public int rightAccelerate = 0;// Velocity accelerator
+	public int rightDecelerate = 0; // Velocity suppressor
+	
 	public double size;
-	public double consumed;
-	public double hunger;
+	public double travelledDistance = 0;
+	public double collided = 0;
+	public double usedEnergy = 0;
 	public Eyes eyes;
 	
 	public double initialEnergy;
@@ -32,10 +34,8 @@ public class Animal extends Organism implements Comparable<Animal> {
 	public double angularFriction;
 	public double velocityLeft = 0;
 	public double velocityRight = 0;
-//	public double angularVelocity = 0;
 	
 	public double linearForce;
-	public double angularForce;
 	
     private Brain brain;
 	private Map<String, Double> output;
@@ -45,29 +45,19 @@ public class Animal extends Organism implements Comparable<Animal> {
         return Options.sizeOption.get() * (1 + 0.75 * healthN());
     }
     
-    @Override
-    public double consume() {
-        double size = getHealth();
-        hunger++;
-        // static value until nutricion becomes available
-        Main.getInstance().broadcast(EventType.CONSUMED, 1);
-        
-        return size < 0 ? 0 : size < 1 ? size : 1;
-    }
-    
     public Map<String, Double> getInitialOutput(){
     	Map<String, Double> initialOutput = new HashMap<>();
-    	initialOutput.put("turnLeft", 0d);
-    	initialOutput.put("turnRight", 0d);
-    	initialOutput.put("accelerate", 0d);
-    	initialOutput.put("decelerate", 0d);
-    	initialOutput.put("eat", 0d);
+    	initialOutput.put("leftAccelerate", 0d);
+    	initialOutput.put("leftDecelerate", 0d);
+    	initialOutput.put("rightAccelerate", 0d);
+    	initialOutput.put("rightDecelerate", 0d);
     	return initialOutput;
     }
 
 	public Animal(Genome genome, Position position, World world) {
 		super(genome, position, world);
 		
+		this.startPosition = position;
 		this.size = Options.sizeOption.get();
         this.initialEnergy = Options.initialEnergyOption.get();
 
@@ -77,14 +67,9 @@ public class Animal extends Organism implements Comparable<Animal> {
         this.eyes = new Eyes(this, genome.sensor, world);
 
         this.linearForce = genome.movement.linearForce;
-        this.angularForce = genome.movement.angularForce;
 
         this.brain = new Brain(genome.brain);
-
         this.output = getInitialOutput();
-
-        this.consumed = Options.initialEnergyOption.get();   // Food eaten
-        this.hunger = 0;
 	}
 	
 	public Double rank() { 
@@ -101,40 +86,28 @@ public class Animal extends Organism implements Comparable<Animal> {
    
         double fieldOfView = eyes.fieldOfView;
         double viewDistance = eyes.viewDistance;
-        
-        Animal animal = visibleAnimal != null ? (Animal) visibleAnimal.organism : null;
-        Plant plant = visibleFood != null ? (Plant) visibleFood.organism : null;
 
         List<Double> inputs = new ArrayList<>();
+        
         // left
         inputs.add(visibleAnimal != null ? (fieldOfView / 2 + visibleAnimal.angle) / fieldOfView : 0);
         // right
         inputs.add(visibleAnimal != null ? (fieldOfView / 2 - visibleAnimal.angle) / fieldOfView : 0);
         // distance
         inputs.add(visibleAnimal != null ? (viewDistance - visibleAnimal.distance) / viewDistance : 0);
-        // food supply
-        inputs.add(visibleAnimal != null ? visibleAnimal.organism != null ? animal.healthN() : 0 : 0);
+
         // left
         inputs.add(visibleFood != null ? (fieldOfView / 2 + visibleFood.angle) / fieldOfView : 0);
         // right
         inputs.add(visibleFood != null ? (fieldOfView / 2 - visibleFood.angle) / fieldOfView : 0);
         // distance
         inputs.add(visibleFood != null ? (viewDistance - visibleFood.distance) / viewDistance : 0);
-        // food supply
-        inputs.add(visibleFood != null ? visibleFood.organism != null ? plant.healthN() : 0 : 0);
-        // negative nutrition
-        inputs.add(visibleFood != null ? visibleFood.organism != null ? plant.nutrition < 0 ? plant.getNutritionN() : 0 : 0 : 0);
-        // positive nutrition
-        inputs.add(visibleFood != null ? visibleFood.organism != null ? plant.nutrition > 0 ? plant.getNutritionN() : 0 : 0 : 0);
 
         // distance to wall
         inputs.add((viewDistance - wallDistance) / viewDistance);
         // energy
         inputs.add(this.healthN());
 
-      // random
-      // Range(0, 1).random()
-       
         double normalizationFactor = (Options.maxThreshold.get() + Options.minThreshold.get()) / 2;
         // Normalize inputs
         for (int i = 0; i < inputs.size(); i++) {
@@ -146,9 +119,7 @@ public class Animal extends Organism implements Comparable<Animal> {
         return inputs;
     }
 	
-	
-	public void eatOrganism(Organism organism) {
-        /*jshint validthis: true */
+	public void checkColission(Organism organism) {
         if (organism == null) return;
 
         // Use formula for a circle to find food
@@ -156,27 +127,24 @@ public class Animal extends Organism implements Comparable<Animal> {
         double y2 = (this.position.y - organism.position.y); y2 *= y2;
         double s2 = organism.getSize() + 2; s2 *= s2;
 
-        // If we are within the circle, eat it
+        // Only if we are within the circle, collide it
         if (x2 + y2 >= s2) {
           return;
         }
         
-        // Increase entities total eaten counter
-        double consumed = organism.consume();
-        this.consumed += consumed;
+        // Increase entities total collision counter
+        this.collided += CostCalculator.collide(1);
 
-        // Increment global eaten counter
-        Main.getInstance().broadcast(EventType.EAT, consumed);
+        // Increment global collision counter
+        Main.getInstance().broadcast(EventType.EAT, collided);
     }
 	
-	public void eat(Targets targets) {
-        if (this.output.get("eat") == null) return;
-
+	public void collide(Targets targets) {
         if (targets.plants.size() > 0){
-        	eatOrganism(targets.plants.get(0).organism);
+        	checkColission(targets.plants.get(0).organism);
         } 
         if (targets.animals.size() > 0){
-        	eatOrganism(targets.animals.get(0).organism);
+        	checkColission(targets.animals.get(0).organism);
         } 
     }
 	
@@ -189,11 +157,11 @@ public class Animal extends Organism implements Comparable<Animal> {
         if (p.a < 0) p.a += Math.PI * 2;
 
         // F=m*a => a=F/m, dv=a*dt => dv=dt*F/m, dt=one cycle, m=1
-        double accelerationLeft = (this.output.get("turnLeft") - this.output.get("turnRight")) * this.linearForce;
+        double accelerationLeft = (this.output.get("leftAccelerate") - this.output.get("leftDecelerate")) * this.linearForce;
         this.velocityLeft += accelerationLeft;
         this.velocityLeft -= this.velocityLeft * Options.linearFrictionOption.get();
 
-        double accelerationRight = (this.output.get("accelerate") - this.output.get("decelerate")) * this.linearForce;
+        double accelerationRight = (this.output.get("rightAccelerate") - this.output.get("rightDecelerate")) * this.linearForce;
         this.velocityRight += accelerationRight;
         this.velocityRight -= this.velocityRight * Options.linearFrictionOption.get();
 
@@ -206,15 +174,18 @@ public class Animal extends Organism implements Comparable<Animal> {
         // Move the entity
         p.x += dx;
         p.y += dy;
-        
+                
         // Register the cost of the forces applied for acceleration
-        this.hunger += CostCalculator.rotate(p.a * getHealth());
-        this.hunger += CostCalculator.accelerate((accelerationLeft + accelerationRight) * getHealth());
+        this.usedEnergy += CostCalculator.rotate(p.a);
+        this.usedEnergy += CostCalculator.accelerate((accelerationLeft + accelerationRight));
     }
       
     @Override
 	public double getHealth() {
-		return this.consumed - this.hunger;
+		return this.initialEnergy + 
+				CostCalculator.travelledDistance(this.position.calculateDistance(this.startPosition)) - 
+				this.collided - 
+				this.usedEnergy;
 	}
     
 	public void run(List<Plant>plants, List<Animal> animals){
@@ -224,11 +195,11 @@ public class Animal extends Organism implements Comparable<Animal> {
 		Targets targets = this.eyes.sense(plants, animals);
 
         think(targets);
-        eat(targets);
         move();
+        collide(targets);
 
         // Register the cost of the cycle
-        this.hunger += CostCalculator.cycle();
+        this.usedEnergy += CostCalculator.cycle();
 	}
 	
 	public void think(Targets targets) {
@@ -245,19 +216,15 @@ public class Animal extends Organism implements Comparable<Animal> {
 		List<Double> inputs = createInput(plantFoodVector, animalFoodVector, targets.wallDistance);
 
 		List<String> keys = new ArrayList<>();
-		keys.add("turnLeft");
-		keys.add("turnRight");
-		keys.add("accelerate");
-		keys.add("decelerate");
-		keys.add("eat");
-		
-		// TODO cant we loop through the input list?
+		keys.add("leftAccelerate");
+		keys.add("leftDecelerate");
+		keys.add("rightAccelerate");
+		keys.add("rightDecelerate");
 		
         List<Double> thoughtOutput = this.brain.think(inputs);
         for (int i=0; i<thoughtOutput.size();i++) {
         	this.output.put(keys.get(i), thoughtOutput.get(i));
         }
-        
 	}
 
 	@Override
@@ -266,4 +233,3 @@ public class Animal extends Organism implements Comparable<Animal> {
 	}
 
 }
-

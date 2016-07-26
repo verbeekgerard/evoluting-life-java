@@ -16,5 +16,12 @@ public class CostCalculator {
 		return ENERGY_COST * Math.abs(acceleration);
 	}
 	
+	public static double collide(double velocity) {
+		return ENERGY_COST * Math.abs(velocity) * 50;
+	}
+	
+	public static double travelledDistance(double distance) {
+		return ENERGY_COST * Math.abs(distance) * 500;
+	}
 }
 			

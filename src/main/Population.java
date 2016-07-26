@@ -34,7 +34,7 @@ public class Population {
 	}
     
     public Genome createGenome() {
-        return new Genome(12, 5);
+        return new Genome(8, 4);
     }
     
     public Position createRandomPosition() {
@@ -69,6 +69,8 @@ public class Population {
       public void run(List<Plant> plants) {
 
     	  Collections.sort(this.entities);
+          // Find the best ranking entity
+          winningEntity = this.entities.get(0);
 
     	  List<Animal> entitiesToRemove = new ArrayList<>();
           for (int i = 0; i < this.entities.size(); i++) {
@@ -77,24 +79,25 @@ public class Population {
               entity.run(plants, this.entities);
 
               // Check entity lifecycle and remove dead entities
-              if (!entity.lives()){
+              if (!entity.lives()) {
             	  entitiesToRemove.add(entity);
-              };
-
+              }
           }
           
+          for (int i=0; i< entitiesToRemove.size()/2; i++) {
+        	  List<Animal> parents = selectParents();
+              produceChildren(parents);
+          }   
+
           for (Animal entityToRemove : entitiesToRemove){
         	  this.entities.remove(entityToRemove);
           }
 
-          // Find the best ranking entity
-          winningEntity = this.entities.get(0);
-
-          if (this.entities.size() <= populationSize.get() -2) {
+          while (this.entities.size() <= populationSize.get() -2) {
         	  List<Animal> parents = selectParents();
               produceChildren(parents);
           }   
-    }
+      }
       
     public void produceChildren(List<Animal> parents) {
 	    List<Genome> children = parents.get(0).genome.mate(parents.get(1).genome);

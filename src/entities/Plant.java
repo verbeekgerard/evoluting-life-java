@@ -19,20 +19,6 @@ public class Plant extends Organism {
 	    nutrition = genome.life.nutrition;
 	}
 	
-    public double getNutritionN() {
-        if (nutrition < 0) {
-            return nutrition / Options.minNutrition.get();
-        }
-        else {
-            return nutrition / Options.maxNutrition.get();
-        }
-    }
-
-    public double consume(){
-        this.size--;
-        return nutrition; // Energy can vary per type of food in the future
-    }
-
     public void run(){
         this.age++;
         this.size += this.size * this.growthPercentage / 100;

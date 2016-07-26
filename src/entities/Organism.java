@@ -13,7 +13,6 @@ public abstract class Organism {
 	
 	public abstract double getHealth();
 	public abstract double getSize();
-	public abstract double consume();
 	
 	public double getOldAge() {
 		return genome.life.oldAge;

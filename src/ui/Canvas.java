@@ -137,7 +137,7 @@ public class Canvas extends JPanel implements Observer {
 //        context.lineWidth = 2;
         // context.lineWidth = 2 + Math.floor(plant.life.age / (plant.life.oldAge / 3));
 
-        double r = Math.floor( 255 * (1 - plant.getNutritionN()) );
+        double r = Math.floor( 255 );
 //        var color = "rgb(" + r + ",220,0)"; //187
 
 //        if (plant.nutrition < 0) {
