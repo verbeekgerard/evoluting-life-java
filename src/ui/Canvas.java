@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.util.Iterator;
@@ -56,7 +57,7 @@ public class Canvas extends JPanel implements Observer {
 		}
 
 		for (Animal animal : population.entities) {
-			// drawSize(animal, g);
+			//drawSize(animal, g);
 			drawAnimal(animal, population.winningEntity, g);
 		}
 	}
@@ -68,7 +69,7 @@ public class Canvas extends JPanel implements Observer {
 			Position p = animal.position;
 			Eyes e = animal.eyes;
 
-			Color c = new Color(.9f, .9f, .9f, .5f);
+			Color c = new Color(.9f, .9f, .9f, .1f);
 			g2.setColor(c);
 			g2.fillArc(new Double(p.x - (e.viewDistance / 2)).intValue(),
 					new Double(p.y - (e.viewDistance / 2)).intValue(), new Double(e.viewDistance).intValue(),
@@ -97,13 +98,7 @@ public class Canvas extends JPanel implements Observer {
 		double cx = Math.cos(ba) * entitySize * 0.3;
 		double cy = Math.sin(ba) * entitySize * 0.3;
 
-		// Color code entity based on food eaten compared to most successful
-		double currentBest = bestAnimal.rank();
-		int green = (int) Math.floor(255 * (1 - (currentBest == 0 ? 0 : animal.rank() / currentBest)));
-		Color color = new Color(255, green > 0 ? green : 0, 0);
-		g2.setColor(color);
-
-		g2.setStroke(new BasicStroke((float) (1.5 + Math.floor(5 * animal.age / animal.getOldAge()))));
+		g2.setStroke(new BasicStroke((float) (2 + Math.floor(5 * animal.age / animal.getOldAge()))));
 
 		// Draw the triangle
 		GeneralPath polygon = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
@@ -112,23 +107,39 @@ public class Canvas extends JPanel implements Observer {
 		polygon.quadTo(p.x + cx, p.y + cy, p.x + rx, p.y + ry);
 		polygon.closePath();
 
-		g2.fill(polygon);
-		
 		if (animal.age > 30)
 			g2.setColor(Color.BLACK);
 		else
 			g2.setColor(Color.WHITE);
 			
 		g2.draw(polygon);
+
+		// Color code entity based on food eaten compared to most successful
+		double currentBest = bestAnimal.rank();
+		int green = (int) Math.floor(255 * (1 - (currentBest == 0 ? 0 : animal.rank() / currentBest)));
+		Color color = new Color(255, green > 0 ? green : 0, 0);
+		g2.setColor(color);
+
+		g2.fill(polygon);
 	}
 	
 	public void drawSize(Animal animal, Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 
-		double ba = animal.position.a + Math.PI; // Find the angle 180deg of entity
+		Rectangle r = new Rectangle(0,0,
+				new Double(animal.getSize()*2).intValue(), new Double(animal.getSize()).intValue());
+
+		AffineTransform t = new AffineTransform();
+		t.translate(animal.position.x, animal.position.y);
+	    t.rotate(animal.position.a);
+		t.translate(-1*animal.getSize(), -1*animal.getSize()/2);
+		
+		g2.setStroke(new BasicStroke(1.0f));
+		
+		g2.setColor(Color.CYAN);
+		g2.draw(t.createTransformedShape(r));
 
 		g2.setColor(Color.ORANGE);
-		//g2.setColor(Color.BLACK);
 		g2.drawOval(
 				new Double(animal.position.x).intValue() - new Double(animal.getSize()/2).intValue(), 
 				new Double(animal.position.y).intValue() - new Double(animal.getSize()/2).intValue(),
