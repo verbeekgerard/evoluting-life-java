@@ -57,7 +57,7 @@ public class Animal extends Organism implements Comparable<Animal> {
 	public Animal(Genome genome, Position position, World world) {
 		super(genome, position, world);
 		
-		this.startPosition = position;
+		this.startPosition = new Position(position);
 		this.size = Options.sizeOption.get();
         this.initialEnergy = Options.initialEnergyOption.get();
 
@@ -175,6 +175,8 @@ public class Animal extends Organism implements Comparable<Animal> {
         p.x += dx;
         p.y += dy;
                 
+        this.travelledDistance = CostCalculator.travelledDistance(this.position.calculateDistance(this.startPosition));
+        
         // Register the cost of the forces applied for acceleration
         this.usedEnergy += CostCalculator.rotate(p.a);
         this.usedEnergy += CostCalculator.accelerate((accelerationLeft + accelerationRight));
@@ -182,8 +184,8 @@ public class Animal extends Organism implements Comparable<Animal> {
       
     @Override
 	public double getHealth() {
-		return this.initialEnergy + 
-				CostCalculator.travelledDistance(this.position.calculateDistance(this.startPosition)) - 
+		return this.initialEnergy +
+				this.travelledDistance -
 				this.collided - 
 				this.usedEnergy;
 	}

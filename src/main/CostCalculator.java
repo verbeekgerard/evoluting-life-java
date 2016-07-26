@@ -21,7 +21,7 @@ public class CostCalculator {
 	}
 	
 	public static double travelledDistance(double distance) {
-		return ENERGY_COST * Math.abs(distance) * 500;
+		return ENERGY_COST * Math.abs(distance) * 50;
 	}
 }
 			

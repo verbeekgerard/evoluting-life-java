@@ -75,8 +75,8 @@ public class Options {
 	public static Option axonGeneReplacementRate = new Option(0.01);
 	
 	// SensorGene
-	public static Option minViewDistance = new Option(16 * 1);
-	public static Option maxViewDistance = new Option(16 * 14);
+	public static Option minViewDistance = new Option(16 * 8);
+	public static Option maxViewDistance = new Option(16 * 9);
 	public static Option minFieldOfView = new Option(Math.PI / 32);
 	public static Option maxFieldOfView = new Option(Math.PI);
 	public static Option viewDistanceMutationRate = new Option(0.1);
