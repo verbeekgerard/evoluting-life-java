@@ -9,6 +9,7 @@ import main.Options;
 import sensors.Eyes;
 import sensors.FoodVector;
 import sensors.Targets;
+import util.Range;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -105,6 +106,8 @@ public class Animal extends Organism implements Comparable<Animal> {
 
         // distance to wall
         inputs.add((viewDistance - wallDistance) / viewDistance);
+		// random
+        inputs.add(new Range(0, 1).random());
 
         double normalizationFactor = (Options.maxThreshold.get() + Options.minThreshold.get()) / 2;
         // Normalize inputs

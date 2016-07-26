@@ -34,7 +34,7 @@ public class Population {
 	}
     
     public Genome createGenome() {
-        return new Genome(7, 4);
+        return new Genome(8, 4);
     }
     
     public Position createRandomPosition() {
