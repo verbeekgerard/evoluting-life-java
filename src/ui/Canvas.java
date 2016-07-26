@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.util.Iterator;
 import java.util.Observable;
@@ -55,7 +56,7 @@ public class Canvas extends JPanel implements Observer {
 		}
 
 		for (Animal animal : population.entities) {
-			//drawSize(animal, g);
+			// drawSize(animal, g);
 			drawAnimal(animal, population.winningEntity, g);
 		}
 	}
@@ -98,20 +99,13 @@ public class Canvas extends JPanel implements Observer {
 
 		// Color code entity based on food eaten compared to most successful
 		double currentBest = bestAnimal.rank();
-		int green = (int) Math.floor(0.7 * 255 * (1 - (currentBest == 0 ? 0 : animal.rank() / currentBest)));
-
+		int green = (int) Math.floor(255 * (1 - (currentBest == 0 ? 0 : animal.rank() / currentBest)));
 		Color color = new Color(255, green > 0 ? green : 0, 0);
 		g2.setColor(color);
 
-		g2.setStroke(new BasicStroke((float) (2 + Math.floor(animal.age / (animal.getOldAge() / 5)))));
-
-		// g2.setColor(Color.RED);
-		// if (bestAnimal == animal) {
-		// g2.setColor(Color.cyan);
-		// }
+		g2.setStroke(new BasicStroke((float) (1.5 + Math.floor(5 * animal.age / animal.getOldAge()))));
 
 		// Draw the triangle
-
 		GeneralPath polygon = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
 		polygon.moveTo(p.x, p.y);
 		polygon.lineTo(p.x + lx, p.y + ly);
@@ -119,12 +113,19 @@ public class Canvas extends JPanel implements Observer {
 		polygon.closePath();
 
 		g2.fill(polygon);
-		g2.setColor(Color.BLACK);
+		
+		if (animal.age > 30)
+			g2.setColor(Color.BLACK);
+		else
+			g2.setColor(Color.WHITE);
+			
 		g2.draw(polygon);
 	}
 	
 	public void drawSize(Animal animal, Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
+
+		double ba = animal.position.a + Math.PI; // Find the angle 180deg of entity
 
 		g2.setColor(Color.ORANGE);
 		//g2.setColor(Color.BLACK);

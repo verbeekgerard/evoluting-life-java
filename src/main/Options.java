@@ -15,8 +15,8 @@ public class Options {
 	
 	
 	// Plant
-	public static Option minFoodSize = new Option(2);
-	public static Option maxFoodSize = new Option(8);
+	public static Option minFoodSize = new Option(4);
+	public static Option maxFoodSize = new Option(10);
 	public static Option minGrowthPercentage = new Option(0.01);
 	public static Option maxGrowthPercentage = new Option(0.05);
 	public static Option minNutrition = new Option(1.0);
