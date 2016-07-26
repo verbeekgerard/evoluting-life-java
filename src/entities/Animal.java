@@ -118,7 +118,7 @@ public class Animal extends Organism implements Comparable<Animal> {
     }
 	
 	public void checkColission(Organism organism) {
-        if (organism == null) return;
+        if (organism == this) return;
 
         Position p = this.position;
 
@@ -146,12 +146,12 @@ public class Animal extends Organism implements Comparable<Animal> {
         Main.getInstance().broadcast(EventType.COLLIDE, collided);
     }
 	
-	public void collide(Targets targets) {
-        if (targets.plants.size() > 0){
-        	checkColission(targets.plants.get(0).organism);
+	public void collide(List<Plant>plants, List<Animal> animals) {
+		for (int i=0; i<plants.size(); i ++) {
+        	checkColission(plants.get(i));
         } 
-        if (targets.animals.size() > 0){
-        	checkColission(targets.animals.get(0).organism);
+		for (int i=0; i<animals.size(); i ++) {
+        	checkColission(animals.get(i));
         } 
     }
 	
@@ -209,7 +209,8 @@ public class Animal extends Organism implements Comparable<Animal> {
 
         think(targets);
         move();
-        collide(targets);
+        
+        collide(plants, animals);
 
         // Register the cost of the cycle
         this.usedEnergy += CostCalculator.cycle();

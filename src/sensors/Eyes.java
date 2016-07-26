@@ -120,7 +120,6 @@ public class Eyes {
           if (Math.abs(angle) > this.fieldOfView / 2 || distance > this.viewDistance) continue;
 
           foodVectors.add(new FoodVector(distance, angle, organism));
-
         }
 
         // Sort our food vectors by distance
@@ -130,7 +129,6 @@ public class Eyes {
       }
 	 
 	 public Targets sense(List<Plant> plants, List<Animal> animals) {
-		 
 		 findOrganisms(animals);
 		 Targets targets = new Targets();
 		 targets.plants = findOrganisms(plants);
@@ -138,6 +136,4 @@ public class Eyes {
          targets.wallDistance = wallDistance();
 		 return targets;
       }
-	
 }
-		     
