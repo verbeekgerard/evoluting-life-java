@@ -105,8 +105,6 @@ public class Animal extends Organism implements Comparable<Animal> {
 
         // distance to wall
         inputs.add((viewDistance - wallDistance) / viewDistance);
-        // energy
-        inputs.add(this.healthN());
 
         double normalizationFactor = (Options.maxThreshold.get() + Options.minThreshold.get()) / 2;
         // Normalize inputs
@@ -122,9 +120,11 @@ public class Animal extends Organism implements Comparable<Animal> {
 	public void checkColission(Organism organism) {
         if (organism == null) return;
 
+        Position p = this.position;
+
         // Use formula for a circle to find food
-        double x2 = (this.position.x - organism.position.x); x2 *= x2;
-        double y2 = (this.position.y - organism.position.y); y2 *= y2;
+        double x2 = (p.x - organism.position.x); x2 *= x2;
+        double y2 = (p.y - organism.position.y); y2 *= y2;
         double s2 = organism.getSize() + 2; s2 *= s2;
 
         // Only if we are within the circle, collide it
@@ -132,8 +132,15 @@ public class Animal extends Organism implements Comparable<Animal> {
           return;
         }
         
+        double dx = (Math.cos(p.a) * this.getVelocity());
+        double dy = (Math.sin(p.a) * this.getVelocity());
+
+        // Move the entity
+        p.x -= dx;
+        p.y -= dy;
+        
         // Increase entities total collision counter
-        this.collided += CostCalculator.collide(1);
+        this.collided += CostCalculator.collide(this.getVelocity());
 
         // Increment global collision counter
         Main.getInstance().broadcast(EventType.COLLIDE, collided);
@@ -147,6 +154,10 @@ public class Animal extends Organism implements Comparable<Animal> {
         	checkColission(targets.animals.get(0).organism);
         } 
     }
+	
+	public double getVelocity() {
+		return (this.velocityRight + this.velocityLeft)/2;
+	}
 	
 	public void move() {
 
@@ -168,8 +179,8 @@ public class Animal extends Organism implements Comparable<Animal> {
         p.a += (this.velocityLeft - this.velocityRight)/10;
 
         // Convert movement vector into polar
-        double dx = (Math.cos(p.a) * (this.velocityRight + this.velocityLeft)/2);
-        double dy = (Math.sin(p.a) * (this.velocityRight + this.velocityLeft)/2);
+        double dx = (Math.cos(p.a) * this.getVelocity());
+        double dy = (Math.sin(p.a) * this.getVelocity());
 
         // Move the entity
         p.x += dx;
