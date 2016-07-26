@@ -136,7 +136,7 @@ public class Animal extends Organism implements Comparable<Animal> {
         this.collided += CostCalculator.collide(1);
 
         // Increment global collision counter
-        Main.getInstance().broadcast(EventType.EAT, collided);
+        Main.getInstance().broadcast(EventType.COLLIDE, collided);
     }
 	
 	public void collide(Targets targets) {
