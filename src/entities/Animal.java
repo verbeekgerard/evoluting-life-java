@@ -19,10 +19,10 @@ import java.util.Map;
 public class Animal extends Organism implements Comparable<Animal> {
 	public Position startPosition;
 
-	public int leftAccelerate = 0; // Left angle
-	public int leftDecelerate = 0; // Right angle
-	public int rightAccelerate = 0;// Velocity accelerator
-	public int rightDecelerate = 0; // Velocity suppressor
+	public int leftAccelerate = 0;
+	public int leftDecelerate = 0;
+	public int rightAccelerate = 0;
+	public int rightDecelerate = 0;
 
 	public double size;
 	public double travelledDistance = 0;

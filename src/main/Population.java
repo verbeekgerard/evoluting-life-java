@@ -11,6 +11,7 @@ import entities.Position;
 import entities.World;
 import evolution.RouletteWheelSelectionByRank;
 import genetics.Genome;
+import util.Range;
 
 public class Population {
 
@@ -38,7 +39,10 @@ public class Population {
 	}
 
 	public Position createRandomPosition() {
-		return new Position(world.width * Math.random(), world.height * Math.random(), Math.random() * Math.PI * 2);
+		Range range = new Range(-0.8, 0.8);
+		double x = world.width/2 + world.width/2 * range.random();
+		double y = world.height/2 + world.height/2 * range.random();
+		return new Position(x, y, Math.random() * Math.PI * 2);
 	}
 
 	// getState: function () {
