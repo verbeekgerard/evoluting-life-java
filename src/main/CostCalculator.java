@@ -5,7 +5,7 @@ public class CostCalculator {
 	public final static double ENERGY_COST = 0.001;
 
 	public static double cycle() {
-		return ENERGY_COST * 30;
+		return ENERGY_COST * 40;
 	}
 
 	public static double accelerate(double acceleration) {
@@ -17,7 +17,7 @@ public class CostCalculator {
 	}
 	
 	public static double collide(double velocity) {
-		return ENERGY_COST * Math.abs(velocity) * 150;
+		return ENERGY_COST * Math.abs(velocity) * 130;
 	}
 	
 	public static double travelledDistance(double distance) {
