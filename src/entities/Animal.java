@@ -202,7 +202,7 @@ public class Animal extends Organism implements Comparable<Animal> {
 		this.currentDistance = CostCalculator.travelledDistance(this.position.calculateDistance(this.startPosition));
 		this.steps++;
 		
-		if (steps > 200) {
+		if (steps > 300) {
 			initializeDistanceVariables();
 		}
 

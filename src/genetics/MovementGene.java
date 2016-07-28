@@ -22,13 +22,18 @@ public class MovementGene extends Gene {
 	}
 	
 	public void mutate() {
-		
-        if (Math.random() <= Options.angularForceMutationRate.get()) {
+        if (Math.random() <= Options.angularForceReplacementRate.get()) {
+    		this.angularForce = new Range(Options.minAngularForce.get(), Options.maxAngularForce.get()).random();
+        }
+        else if (Math.random() <= Options.angularForceMutationRate.get()) {
             this.angularForce += new Range(Options.minAngularForce.get(), Options.maxAngularForce.get()).mutation(Options.mutationFraction.get());
             this.angularForce = new Range(0, 0).checkLower(this.angularForce);
         }
 
-        if (Math.random() <= Options.linearForceMutationRate.get()) {
+        if (Math.random() <= Options.linearForceReplacementRate.get()) {
+            this.linearForce = new Range(Options.minLinearForce.get(), Options.maxLinearForce.get()).random();
+        }
+        else if (Math.random() <= Options.linearForceMutationRate.get()) {
             this.linearForce += new Range(Options.minLinearForce.get(), Options.maxLinearForce.get()).mutation(Options.mutationFraction.get());
             this.linearForce = new Range(0, 0).checkLower(this.linearForce);
         }
@@ -47,7 +52,5 @@ public class MovementGene extends Gene {
 	
 	public MovementGene initiate(List<Double> properties){
 		return new MovementGene(properties.get(0), properties.get(1));
-	}
-	
+	}	
 }
-

@@ -66,12 +66,16 @@ public class Options {
 	public static Option maxLinearForce = new Option(maxL);
 
 	public static Option angularForceMutationRate = new Option(0.15);
+	public static Option angularForceReplacementRate = new Option(0.005);
 	public static Option linearForceMutationRate = new Option(0.15);
+	public static Option linearForceReplacementRate = new Option(0.005);
 	
 	// NeuronGene
 	public static Option maxRelaxation = new Option(99.0);
 	public static Option thresholdMutationRate = new Option(0.1);
+	public static Option thresholdReplacementRate = new Option(0.005);
 	public static Option relaxationMutationRate = new Option(0.1);
+	public static Option relaxationReplacementRate = new Option(0.005);
 	public static Option axonGeneReplacementRate = new Option(0.01);
 	
 	// SensorGene
@@ -80,5 +84,7 @@ public class Options {
 	public static Option minFieldOfView = new Option(Math.PI / 32);
 	public static Option maxFieldOfView = new Option(Math.PI);
 	public static Option viewDistanceMutationRate = new Option(0.1);
+	public static Option viewDistanceReplacementRate = new Option(0.005);
 	public static Option fieldOfViewMutationRate = new Option(0.1);
+	public static Option fieldOfViewReplacementRate = new Option(0.005);
 }
