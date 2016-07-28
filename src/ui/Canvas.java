@@ -57,7 +57,7 @@ public class Canvas extends JPanel implements Observer {
 		}
 
 		for (Animal animal : population.entities) {
-			//drawSize(animal, g);
+			drawSize(animal, g);
 			drawAnimal(animal, population.winningEntity, g);
 		}
 	}
@@ -125,7 +125,7 @@ public class Canvas extends JPanel implements Observer {
 	
 	public void drawSize(Animal animal, Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-
+/*
 		Rectangle r = new Rectangle(0,0,
 				new Double(animal.getSize()*2).intValue(), new Double(animal.getSize()).intValue());
 
@@ -134,12 +134,14 @@ public class Canvas extends JPanel implements Observer {
 	    t.rotate(animal.position.a);
 		t.translate(-1*animal.getSize(), -1*animal.getSize()/2);
 		
-		g2.setStroke(new BasicStroke(1.0f));
+		g2.setStroke(new BasicStroke(0.5f));
 		
 		g2.setColor(Color.CYAN);
 		g2.draw(t.createTransformedShape(r));
-
-		g2.setColor(Color.ORANGE);
+*/
+		Color c = new Color(1.0f, 1.0f, 1.0f, .1f);
+		g2.setColor(c);
+		g2.setStroke(new BasicStroke(0.5f));
 		g2.drawOval(
 				new Double(animal.position.x).intValue() - new Double(animal.getSize()/2).intValue(), 
 				new Double(animal.position.y).intValue() - new Double(animal.getSize()/2).intValue(),
