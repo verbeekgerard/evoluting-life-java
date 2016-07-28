@@ -3,8 +3,6 @@ package main;
 public class Options {
 
 	public static Option mutationFraction = new Option(0.005);
-	public static Option minThreshold = new Option(0.1);
-	public static Option maxThreshold = new Option(1.0);
 	
 	// Animal
 	public static Option sizeOption = new Option(12);
@@ -12,8 +10,7 @@ public class Options {
 	public static Option populationSize = new Option(16*8);
 	public static Option linearFrictionOption = new Option(0.06); // 0.065 // 0.024
 	public static Option angularFrictionOption = new Option(0.09); // 0.25 // 0.08
-	
-	
+		
 	// Plant
 	public static Option minFoodSize = new Option(4);
 	public static Option maxFoodSize = new Option(10);
@@ -71,11 +68,15 @@ public class Options {
 	public static Option linearForceReplacementRate = new Option(0.005);
 	
 	// NeuronGene
+	public static Option minThreshold = new Option(0.1);
+	public static Option maxThreshold = new Option(1.0);
 	public static Option maxRelaxation = new Option(99.0);
+
 	public static Option thresholdMutationRate = new Option(0.1);
 	public static Option thresholdReplacementRate = new Option(0.005);
 	public static Option relaxationMutationRate = new Option(0.1);
 	public static Option relaxationReplacementRate = new Option(0.005);
+	
 	public static Option axonGeneReplacementRate = new Option(0.01);
 	
 	// SensorGene

@@ -39,7 +39,7 @@ public class Population {
 	}
 
 	public Position createRandomPosition() {
-		Range range = new Range(-0.8, 0.8);
+		Range range = new Range(-0.98, 0.98);
 		double x = world.width/2 + world.width/2 * range.random();
 		double y = world.height/2 + world.height/2 * range.random();
 		return new Position(x, y, Math.random() * Math.PI * 2);
