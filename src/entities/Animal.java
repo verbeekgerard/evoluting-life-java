@@ -25,7 +25,6 @@ public class Animal extends Organism implements Comparable<Animal> {
 	public int rightDecelerate = 0;
 
 	public double size;
-	public double travelledDistance = 0;
 	public double collided = 0;
 	public double usedEnergy = 0;
 	public Eyes eyes;
@@ -37,6 +36,10 @@ public class Animal extends Organism implements Comparable<Animal> {
 	public double velocityRight = 0;
 
 	public double linearForce;
+
+	private int steps = 0;
+	private double historicalDistance = 0;
+	private double currentDistance = 0;
 
 	private Brain brain;
 	private Map<String, Double> output;
@@ -57,8 +60,8 @@ public class Animal extends Organism implements Comparable<Animal> {
 
 	public Animal(Genome genome, Position position, World world) {
 		super(genome, position, world);
+		initializeDistanceVariables();
 
-		this.startPosition = new Position(position);
 		this.size = Options.sizeOption.get();
 		this.initialEnergy = Options.initialEnergyOption.get();
 
@@ -161,6 +164,10 @@ public class Animal extends Organism implements Comparable<Animal> {
 	public double getVelocity() {
 		return (this.velocityRight + this.velocityLeft) / 2;
 	}
+	
+	public double getTravelledDistance() {
+		return this.historicalDistance + this.currentDistance;
+	}
 
 	public void move() {
 		Position p = this.position;
@@ -192,7 +199,12 @@ public class Animal extends Organism implements Comparable<Animal> {
 		p.y += dy;
 
 		// Reward for traveled distance. Maybe redefine the traveled distance.
-		this.travelledDistance = CostCalculator.travelledDistance(this.position.calculateDistance(this.startPosition));
+		this.currentDistance = CostCalculator.travelledDistance(this.position.calculateDistance(this.startPosition));
+		this.steps++;
+		
+		if (steps > 200) {
+			initializeDistanceVariables();
+		}
 
 		// Register the cost of the forces applied for acceleration
 		this.usedEnergy += CostCalculator.rotate(p.a);
@@ -201,7 +213,7 @@ public class Animal extends Organism implements Comparable<Animal> {
 
 	@Override
 	public double getHealth() {
-		return this.initialEnergy + this.travelledDistance - this.collided - this.usedEnergy;
+		return this.initialEnergy + this.getTravelledDistance() - this.collided - this.usedEnergy;
 	}
 
 	public void run(List<Plant> plants, List<Animal> animals) {
@@ -244,5 +256,12 @@ public class Animal extends Organism implements Comparable<Animal> {
 	@Override
 	public int compareTo(Animal otherAnimal) {
 		return otherAnimal.rank().compareTo(this.rank());
+	}
+	
+	private void initializeDistanceVariables() {
+		this.historicalDistance += this.currentDistance;
+		this.steps = 0;
+		this.currentDistance = 0;
+		this.startPosition = new Position(position);
 	}
 }
