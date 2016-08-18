@@ -31,8 +31,8 @@ public class Options {
 	
 	
 	// BrainGene
-	public static Option minHiddenLayers = new Option(1);
-	public static Option maxHiddenLayers = new Option(5);
+	public static Option minHiddenLayers = new Option(2);
+	public static Option maxHiddenLayers = new Option(3);
 	public static Option maxNeuronsPerLayer = new Option(16);
 	public static Option layerMutationRate = new Option(0.01);    // adding or removing a gene
 	public static Option geneMutationRate = new Option(0.3);    // percentual chance of genes within a genome to mutate

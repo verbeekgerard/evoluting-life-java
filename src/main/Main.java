@@ -56,13 +56,13 @@ public class Main extends Observable {
 	public void startMainLoop(){
 		
 		while (true){
-			mainLoop();
+			mainLoop(); /*
 			try {
 				Thread.sleep(1000/60);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			} */
 		}
 	}
 	

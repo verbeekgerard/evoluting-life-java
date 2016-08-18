@@ -15,7 +15,7 @@ public class FoodSupply {
 	private double maxX;
 	private double minY;
 	private double maxY;
-	private double border= 20;
+	private double border= 2;
 	private World world;
 	
 	public Option populationSize = new Option(10*8);

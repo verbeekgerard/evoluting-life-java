@@ -16,7 +16,5 @@ public class Axon {
 	
 	public void transmit(){
 		targetNeuron.excite(strength);
-	}
-	
+	}	
 }
-
