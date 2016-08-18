@@ -129,11 +129,14 @@ public class Eyes {
       }
 	 
 	 public Targets sense(List<Plant> plants, List<Animal> animals) {
-		 findOrganisms(animals);
 		 Targets targets = new Targets();
-		 targets.plants = findOrganisms(plants);
-		 targets.animals = findOrganisms(animals);
+		 List<FoodVector> obstacles = new ArrayList<>();
+		 obstacles.addAll(findOrganisms(plants));
+		 obstacles.addAll(findOrganisms(animals));
+		 Collections.sort(obstacles);
+		 targets.obstacles = obstacles;
          targets.wallDistance = wallDistance();
-		 return targets;
+
+         return targets;
       }
 }

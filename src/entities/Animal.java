@@ -85,25 +85,18 @@ public class Animal extends Organism implements Comparable<Animal> {
 		return health > 0 ? 1 - 1 / Math.exp(health / 200) : 0;
 	}
 
-	public List<Double> createInput(FoodVector visibleFood, FoodVector visibleAnimal, double wallDistance) {
+	public List<Double> createInput(FoodVector obstacle, double wallDistance) {
 		double fieldOfView = eyes.fieldOfView;
 		double viewDistance = eyes.viewDistance;
 
 		List<Double> inputs = new ArrayList<>();
 
 		// left
-		inputs.add(visibleAnimal != null ? (fieldOfView / 2 + visibleAnimal.angle) / fieldOfView : 0);
+		inputs.add(obstacle != null ? (fieldOfView / 2 + obstacle.angle) / fieldOfView : 0);
 		// right
-		inputs.add(visibleAnimal != null ? (fieldOfView / 2 - visibleAnimal.angle) / fieldOfView : 0);
+		inputs.add(obstacle != null ? (fieldOfView / 2 - obstacle.angle) / fieldOfView : 0);
 		// distance
-		inputs.add(visibleAnimal != null ? (viewDistance - visibleAnimal.distance) / viewDistance : 0);
-
-		// left
-		inputs.add(visibleFood != null ? (fieldOfView / 2 + visibleFood.angle) / fieldOfView : 0);
-		// right
-		inputs.add(visibleFood != null ? (fieldOfView / 2 - visibleFood.angle) / fieldOfView : 0);
-		// distance
-		inputs.add(visibleFood != null ? (viewDistance - visibleFood.distance) / viewDistance : 0);
+		inputs.add(obstacle != null ? (viewDistance - obstacle.distance) / viewDistance : 0);
 
 		// distance to wall
 		inputs.add((viewDistance - wallDistance) / viewDistance);
@@ -229,17 +222,13 @@ public class Animal extends Organism implements Comparable<Animal> {
 	}
 
 	public void think(Targets targets) {
-		FoodVector plantFoodVector = null;
-		FoodVector animalFoodVector = null;
+		FoodVector obstacle = null;
 
-		if (targets.plants.size() > 0) {
-			plantFoodVector = targets.plants.get(0);
-		}
-		if (targets.animals.size() > 0) {
-			animalFoodVector = targets.animals.get(0);
+		if (targets.obstacles.size() > 0) {
+			obstacle = targets.obstacles.get(0);
 		}
 
-		List<Double> inputs = createInput(plantFoodVector, animalFoodVector, targets.wallDistance);
+		List<Double> inputs = createInput(obstacle, targets.wallDistance);
 
 		List<String> keys = new ArrayList<>();
 		keys.add("leftAccelerate");

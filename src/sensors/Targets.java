@@ -5,8 +5,7 @@ import java.util.List;
 
 public class Targets {
 	
-	public List<FoodVector> plants = new ArrayList<>();
-	public List<FoodVector> animals = new ArrayList<>();;
+	public List<FoodVector> obstacles = new ArrayList<>();
 	public double wallDistance;
 	
 }
