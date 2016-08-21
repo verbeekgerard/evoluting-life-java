@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Animal extends Organism implements Comparable<Animal> {
+	private CostCalculator costCalculator;
 	public Position startPosition;
 
 	public int leftAccelerate = 0;
@@ -61,6 +62,8 @@ public class Animal extends Organism implements Comparable<Animal> {
 	public Animal(Genome genome, Position position, World world) {
 		super(genome, position, world);
 		initializeDistanceVariables();
+		
+		this.costCalculator = CostCalculator.getInstance();
 
 		this.size = Options.sizeOption.get();
 		this.initialEnergy = Options.initialEnergyOption.get();
@@ -138,7 +141,7 @@ public class Animal extends Organism implements Comparable<Animal> {
 		p.y -= dy;
 
 		// Increase entities total collision counter
-		this.collided += CostCalculator.collide(this.getVelocity());
+		this.collided += this.costCalculator.collide(this.getVelocity());
 
 		// Increment global collision counter
 		Main.getInstance().broadcast(EventType.COLLIDE, collided);
@@ -192,7 +195,7 @@ public class Animal extends Organism implements Comparable<Animal> {
 		p.y += dy;
 
 		// Reward for traveled distance. Maybe redefine the traveled distance.
-		this.currentDistance = CostCalculator.travelledDistance(this.position.calculateDistance(this.startPosition));
+		this.currentDistance = this.costCalculator.travelledDistance(this.position.calculateDistance(this.startPosition));
 		this.steps++;
 		
 		if (steps > 300 || this.currentDistance > 300) {
@@ -200,8 +203,8 @@ public class Animal extends Organism implements Comparable<Animal> {
 		}
 
 		// Register the cost of the forces applied for acceleration
-		this.usedEnergy += CostCalculator.rotate(p.a);
-		this.usedEnergy += CostCalculator.accelerate((accelerationLeft + accelerationRight));
+		this.usedEnergy += this.costCalculator.rotate(p.a);
+		this.usedEnergy += this.costCalculator.accelerate((accelerationLeft + accelerationRight));
 	}
 
 	@Override
@@ -218,7 +221,7 @@ public class Animal extends Organism implements Comparable<Animal> {
 		collide(plants, animals);
 
 		// Register the cost of the cycle
-		this.usedEnergy += CostCalculator.cycle();
+		this.usedEnergy += this.costCalculator.cycle();
 	}
 
 	public void think(Targets targets) {

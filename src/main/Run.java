@@ -19,10 +19,10 @@ public class Run {
 	    frame.setVisible(true);
 	    frame.setResizable(false);
 		
+		main.addObserver(CostCalculator.getInstance());
 		main.addObserver(canvas);
 		main.addObserver(new StatsPrinter(main.foodSupply, main.population));
 		
 		main.startMainLoop();
 	}
-
 }
