@@ -41,8 +41,8 @@ public class Options {
 	// LifeGene
 	public static Option minOldAge = new Option(3000);
 	public static Option maxOldAge = new Option(4000);
-	public static Option oldAgeMutationRate = new Option(0.03);
-	public static Option nutritionMutationRate = new Option(0.03);
+	public static Option oldAgeMutationRate = new Option(0.05);
+	public static Option nutritionMutationRate = new Option(0.05);
 	
 	// MovementGene
 	public static double calculateForce(double maxVelocity, double friction){
@@ -72,20 +72,20 @@ public class Options {
 	public static Option maxThreshold = new Option(1.0);
 	public static Option maxRelaxation = new Option(99.0);
 
-	public static Option thresholdMutationRate = new Option(0.1);
+	public static Option thresholdMutationRate = new Option(0.05);
 	public static Option thresholdReplacementRate = new Option(0.005);
-	public static Option relaxationMutationRate = new Option(0.1);
+	public static Option relaxationMutationRate = new Option(0.05);
 	public static Option relaxationReplacementRate = new Option(0.005);
 	
-	public static Option axonGeneReplacementRate = new Option(0.01);
+	public static Option axonGeneReplacementRate = new Option(0.05);
 	
 	// SensorGene
-	public static Option minViewDistance = new Option(16 * 8);
-	public static Option maxViewDistance = new Option(16 * 9);
+	public static Option minViewDistance = new Option(16 * 10);
+	public static Option maxViewDistance = new Option(16 * 12);
 	public static Option minFieldOfView = new Option(Math.PI / 32);
 	public static Option maxFieldOfView = new Option(Math.PI);
-	public static Option viewDistanceMutationRate = new Option(0.1);
+	public static Option viewDistanceMutationRate = new Option(0.05);
 	public static Option viewDistanceReplacementRate = new Option(0.005);
-	public static Option fieldOfViewMutationRate = new Option(0.1);
+	public static Option fieldOfViewMutationRate = new Option(0.05);
 	public static Option fieldOfViewReplacementRate = new Option(0.005);
 }

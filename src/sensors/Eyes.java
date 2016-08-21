@@ -86,12 +86,12 @@ public class Eyes {
 		return null;
 	}
 	
-	 public List<FoodVector> findOrganisms(List<? extends Organism> organisms) {
+	 public List<ObstacleVector> findOrganisms(List<? extends Organism> organisms) {
   
         Position p = this.getPosition();
 
         // An array of vectors to foods from this entity's perspective
-        List<FoodVector> foodVectors = new ArrayList<>();
+        List<ObstacleVector> obstacleVectors = new ArrayList<>();
 
         // Loop through foodSupply
         for (int i = 0; i < organisms.size(); i++) {
@@ -119,21 +119,22 @@ public class Eyes {
           // If the food is outside the viewing range, skip it
           if (Math.abs(angle) > this.fieldOfView / 2 || distance > this.viewDistance) continue;
 
-          foodVectors.add(new FoodVector(distance, angle, organism));
+          obstacleVectors.add(new ObstacleVector(distance, angle, organism));
         }
 
         // Sort our food vectors by distance
-        Collections.sort(foodVectors);
+        Collections.sort(obstacleVectors);
 
-        return foodVectors;
+        return obstacleVectors;
       }
 	 
-	 public Targets sense(List<Plant> plants, List<Animal> animals) {
-		 Targets targets = new Targets();
-		 List<FoodVector> obstacles = new ArrayList<>();
+	 public Targets sense(List<Plant> plants, List<Animal> animals) {		 
+		 List<ObstacleVector> obstacles = new ArrayList<>();
 		 obstacles.addAll(findOrganisms(plants));
 		 obstacles.addAll(findOrganisms(animals));
 		 Collections.sort(obstacles);
+		 
+		 Targets targets = new Targets();
 		 targets.obstacles = obstacles;
          targets.wallDistance = wallDistance();
 

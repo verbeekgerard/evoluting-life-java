@@ -7,7 +7,7 @@ import main.EventType;
 import main.Main;
 import main.Options;
 import sensors.Eyes;
-import sensors.FoodVector;
+import sensors.ObstacleVector;
 import sensors.Targets;
 import util.Range;
 
@@ -85,7 +85,7 @@ public class Animal extends Organism implements Comparable<Animal> {
 		return health > 0 ? 1 - 1 / Math.exp(health / 200) : 0;
 	}
 
-	public List<Double> createInput(FoodVector obstacle, double wallDistance) {
+	public List<Double> createInput(ObstacleVector obstacle, double wallDistance) {
 		double fieldOfView = eyes.fieldOfView;
 		double viewDistance = eyes.viewDistance;
 
@@ -222,7 +222,7 @@ public class Animal extends Organism implements Comparable<Animal> {
 	}
 
 	public void think(Targets targets) {
-		FoodVector obstacle = null;
+		ObstacleVector obstacle = null;
 
 		if (targets.obstacles.size() > 0) {
 			obstacle = targets.obstacles.get(0);

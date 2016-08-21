@@ -2,20 +2,20 @@ package sensors;
 
 import entities.Organism;
 
-public class FoodVector implements Comparable<FoodVector> {
+public class ObstacleVector implements Comparable<ObstacleVector> {
 
 	public double distance;
 	public double angle;
 	public Organism organism;
 	
-	public FoodVector(double distance, double angle, Organism organism){
+	public ObstacleVector(double distance, double angle, Organism organism){
 		this.distance = distance;
 		this.angle = angle;
 		this.organism = organism;
 	}
 
 	@Override
-	public int compareTo(FoodVector o) {
+	public int compareTo(ObstacleVector o) {
 		return new Double(this.distance).compareTo(o.distance);
 	}
 	
