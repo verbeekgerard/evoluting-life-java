@@ -10,6 +10,7 @@ public class Main extends Observable {
 	public Population population;
 	public World world;
 	
+	
 	private static Main singleton = new Main();
 	
 	public static Main getInstance() {
