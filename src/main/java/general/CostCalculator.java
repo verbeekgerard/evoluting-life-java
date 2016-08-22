@@ -1,4 +1,4 @@
-package general_temp;
+package general;
 
 import java.util.Observable;
 import java.util.Observer;

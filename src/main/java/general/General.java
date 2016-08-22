@@ -1,4 +1,4 @@
-package general_temp;
+package general;
 
 import entities.World;
 
@@ -9,7 +9,7 @@ public class General extends Observable {
 	public FoodSupply foodSupply;
 	public Population population;
 	public World world;
-	
+
 	
 	private static General singleton = new General();
 	

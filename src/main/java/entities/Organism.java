@@ -1,8 +1,8 @@
 package entities;
 
 import genetics.Genome;
-import general_temp.General;
-import general_temp.EventType;
+import general.General;
+import general.EventType;
 
 public abstract class Organism {
 

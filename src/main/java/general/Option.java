@@ -1,4 +1,4 @@
-package general_temp;
+package general;
 
 public class Option {
 

@@ -2,10 +2,10 @@ package entities;
 
 import brains.Brain;
 import genetics.Genome;
-import general_temp.CostCalculator;
-import general_temp.EventType;
-import general_temp.General;
-import general_temp.Options;
+import general.CostCalculator;
+import general.EventType;
+import general.General;
+import general.Options;
 import sensors.Eyes;
 import sensors.ObstacleVector;
 import sensors.Targets;

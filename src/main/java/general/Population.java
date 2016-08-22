@@ -1,4 +1,4 @@
-package general_temp;
+package general;
 
 import entities.Animal;
 import entities.Plant;

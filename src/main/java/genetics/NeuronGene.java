@@ -3,7 +3,7 @@ package genetics;
 import java.util.ArrayList;
 import java.util.List;
 
-import general_temp.Options;
+import general.Options;
 import util.Range;
 
 public class NeuronGene extends Gene {

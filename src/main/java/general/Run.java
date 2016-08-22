@@ -1,4 +1,4 @@
-package general_temp;
+package general;
 
 import ui.Canvas;
 import ui.StatsPrinter;

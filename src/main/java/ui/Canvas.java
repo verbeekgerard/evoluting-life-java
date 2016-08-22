@@ -3,10 +3,10 @@ package ui;
 import entities.Animal;
 import entities.Plant;
 import entities.Position;
-import general_temp.Event;
-import general_temp.EventType;
-import general_temp.FoodSupply;
-import general_temp.Population;
+import general.Event;
+import general.EventType;
+import general.FoodSupply;
+import general.Population;
 import sensors.Eyes;
 
 import javax.swing.*;
