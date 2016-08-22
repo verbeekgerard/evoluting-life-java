@@ -1,8 +1,8 @@
 package entities;
 
 import genetics.Genome;
-import General.General;
-import General.EventType;
+import general_temp.General;
+import general_temp.EventType;
 
 public abstract class Organism {
 
@@ -34,7 +34,7 @@ public abstract class Organism {
 
         // Kill entities if it's exceeded starvation threshold
         if (this.getHealth() <= 0) {
-        	General.getInstance().broadcast(EventType.STARVED, 1);
+			General.getInstance().broadcast(EventType.STARVED, 1);
         	return false;
         }
 
@@ -43,7 +43,7 @@ public abstract class Organism {
         	
         	// Vulnerable entities have 1/100 chance of death
         	if (Math.random() * 100 <= 1) {
-        		General.getInstance().broadcast(EventType.DIED_OF_AGE, 1);
+				General.getInstance().broadcast(EventType.DIED_OF_AGE, 1);
         		return false;
           	}
         }

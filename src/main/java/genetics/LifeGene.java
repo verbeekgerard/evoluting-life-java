@@ -3,7 +3,7 @@ package genetics;
 import java.util.ArrayList;
 import java.util.List;
 
-import General.Options;
+import general_temp.Options;
 import util.Range;
 
 public class LifeGene extends Gene {

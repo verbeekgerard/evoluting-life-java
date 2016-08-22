@@ -1,9 +1,10 @@
-package General;
+package general_temp;
 
 import java.util.Observable;
 import java.util.Observer;
 
 public class CostCalculator implements Observer {
+
 
 	private final static CostCalculator instance = new CostCalculator();
 	private final static double ENERGY_COST = 0.001;

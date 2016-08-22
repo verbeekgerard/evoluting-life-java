@@ -1,23 +1,19 @@
 package ui;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.GeneralPath;
-import java.util.Observable;
-import java.util.Observer;
-
-import javax.swing.JPanel;
-
 import entities.Animal;
 import entities.Plant;
 import entities.Position;
-import General.Event;
-import General.EventType;
-import General.FoodSupply;
-import General.Population;
+import general_temp.Event;
+import general_temp.EventType;
+import general_temp.FoodSupply;
+import general_temp.Population;
 import sensors.Eyes;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.GeneralPath;
+import java.util.Observable;
+import java.util.Observer;
 
 public class Canvas extends JPanel implements Observer {
 

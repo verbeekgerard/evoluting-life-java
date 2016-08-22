@@ -1,4 +1,4 @@
-package General;
+package general_temp;
 
 import entities.World;
 

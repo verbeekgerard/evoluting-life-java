@@ -5,10 +5,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 import entities.Animal;
-import General.Event;
-import General.EventType;
-import General.FoodSupply;
-import General.Population;
+import general_temp.Event;
+import general_temp.EventType;
+import general_temp.FoodSupply;
+import general_temp.Population;
 
 public class StatsPrinter implements Observer {
 	

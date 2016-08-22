@@ -1,9 +1,4 @@
-package General;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+package general_temp;
 
 import entities.Animal;
 import entities.Plant;
@@ -12,6 +7,11 @@ import entities.World;
 import evolution.RouletteWheelSelectionByRank;
 import genetics.Genome;
 import util.Range;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Population {
 

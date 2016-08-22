@@ -1,9 +1,9 @@
-package General;
-
-import javax.swing.JFrame;
+package general_temp;
 
 import ui.Canvas;
 import ui.StatsPrinter;
+
+import javax.swing.*;
 
 public class Run {
 
