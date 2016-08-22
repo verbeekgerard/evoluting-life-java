@@ -1,4 +1,4 @@
-package main;
+package General;
 
 public class Event {
 	public EventType type;

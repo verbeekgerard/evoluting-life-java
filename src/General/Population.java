@@ -1,4 +1,4 @@
-package main;
+package General;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -111,7 +111,7 @@ public class Population {
 			Position position = createRandomPosition();
 			Animal newAnimal = new Animal(child, position, world);
 			this.entities.add(newAnimal);
-			Main.getInstance().broadcast(EventType.NEW_ANIMAL, newAnimal);
+			General.getInstance().broadcast(EventType.NEW_ANIMAL, newAnimal);
 		}
 	}
 

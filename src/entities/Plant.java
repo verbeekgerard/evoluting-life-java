@@ -1,7 +1,7 @@
 package entities;
 
 import genetics.Genome;
-import main.Options;
+import General.Options;
 import util.Range;
 
 public class Plant extends Organism {

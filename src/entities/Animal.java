@@ -2,10 +2,10 @@ package entities;
 
 import brains.Brain;
 import genetics.Genome;
-import main.CostCalculator;
-import main.EventType;
-import main.Main;
-import main.Options;
+import General.CostCalculator;
+import General.EventType;
+import General.General;
+import General.Options;
 import sensors.Eyes;
 import sensors.ObstacleVector;
 import sensors.Targets;
@@ -144,7 +144,7 @@ public class Animal extends Organism implements Comparable<Animal> {
 		this.collided += this.costCalculator.collide(this.getVelocity());
 
 		// Increment global collision counter
-		Main.getInstance().broadcast(EventType.COLLIDE, collided);
+		General.getInstance().broadcast(EventType.COLLIDE, collided);
 	}
 
 	public void collide(List<Plant> plants, List<Animal> animals) {

@@ -4,26 +4,19 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
-import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import entities.Animal;
 import entities.Plant;
 import entities.Position;
-import entities.World;
-import genetics.Genome;
-import main.Event;
-import main.EventType;
-import main.FoodSupply;
-import main.Main;
-import main.Population;
+import General.Event;
+import General.EventType;
+import General.FoodSupply;
+import General.Population;
 import sensors.Eyes;
 
 public class Canvas extends JPanel implements Observer {

@@ -3,8 +3,7 @@ package genetics;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.Option;
-import main.Options;
+import General.Options;
 import util.Range;
 
 public class SensorGene extends Gene {

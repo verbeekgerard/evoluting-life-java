@@ -1,4 +1,4 @@
-package main;
+package General;
 
 import entities.Plant;
 import entities.Position;

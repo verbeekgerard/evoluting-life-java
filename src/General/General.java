@@ -1,23 +1,23 @@
-package main;
-
-import java.util.Observable;
+package General;
 
 import entities.World;
 
-public class Main extends Observable {
+import java.util.Observable;
+
+public class General extends Observable {
 	
 	public FoodSupply foodSupply;
 	public Population population;
 	public World world;
 	
 	
-	private static Main singleton = new Main();
+	private static General singleton = new General();
 	
-	public static Main getInstance() {
+	public static General getInstance() {
       return singleton;
 	}
 
-	private Main() {
+	private General() {
 //	
 		this.world = new World();
         this.foodSupply = new FoodSupply(world);
