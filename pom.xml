@@ -39,7 +39,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>general.Run</mainClass>
+                            <mainClass>eu.luminis.general.Run</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
