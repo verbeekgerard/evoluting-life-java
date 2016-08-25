@@ -1,6 +1,7 @@
 package eu.luminis.general;
 
 import eu.luminis.ui.Canvas;
+import eu.luminis.ui.StatsCollector;
 import eu.luminis.ui.StatsPrinter;
 
 import javax.swing.*;
@@ -27,8 +28,11 @@ public class Run {
 		
 		general.addObserver(CostCalculator.getInstance());
 		general.addObserver(canvas);
-		general.addObserver(new StatsPrinter(general.foodSupply, general.population));
-		
+
+		StatsCollector statsCollector = StatsCollector.getInstance(general.population);
+		general.addObserver(new StatsPrinter(statsCollector));
+		general.addObserver(statsCollector);
+
 		general.startMainLoop();
 	}
 

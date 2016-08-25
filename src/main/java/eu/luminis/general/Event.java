@@ -5,7 +5,6 @@ public class Event {
 	public Object value;
 	
 	public Event(EventType type, Object value) {
-
 		this.type = type;
 		this.value = value;
 	}
