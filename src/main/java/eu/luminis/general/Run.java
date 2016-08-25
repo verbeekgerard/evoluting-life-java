@@ -18,14 +18,16 @@ public class Run {
 
 		General general = General.getInstance();
 		
-		JFrame frame = new JFrame("Evoluting-life-java");
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    Canvas canvas = new Canvas(general.foodSupply, general.population);
-	    frame.add(canvas);
-	    frame.setSize(new Double(general.world.width).intValue(), new Double(general.world.height + 20).intValue());
-	    frame.setVisible(visible);
-	    frame.setResizable(false);
-		
+		if(visible == true){
+			JFrame frame = new JFrame("Evoluting-life-java");
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.add(canvas);
+			frame.setSize(new Double(general.world.width).intValue(), new Double(general.world.height + 20).intValue());
+			frame.setVisible(true);
+			frame.setResizable(false);
+		}
+
 		general.addObserver(CostCalculator.getInstance());
 		general.addObserver(canvas);
 
