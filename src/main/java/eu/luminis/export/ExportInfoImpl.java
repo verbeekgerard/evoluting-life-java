@@ -1,7 +1,10 @@
 package eu.luminis.export;
 
+import eu.luminis.entities.Animal;
 import eu.luminis.ui.Stats;
 import eu.luminis.ui.StatsCollector;
+
+import java.util.List;
 
 /**
  * Created by gerardverbeek on 25/08/16.
@@ -34,5 +37,10 @@ public class ExportInfoImpl implements ExportInfo {
     @Override
     public Stats getStats() {
         return collector.getStats();
+    }
+
+    @Override
+    public List<Animal> getAnimals() {
+        return collector.getPopulation().getEntities();
     }
 }

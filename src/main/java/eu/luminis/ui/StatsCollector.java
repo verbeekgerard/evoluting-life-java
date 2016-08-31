@@ -92,4 +92,8 @@ public class StatsCollector implements Observer {
     public String getAvgHealth() {
         return df2.format(avgHealth);
     }
+
+    public Population getPopulation(){
+        return population;
+    }
 }

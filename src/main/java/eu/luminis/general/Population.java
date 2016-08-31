@@ -125,4 +125,8 @@ public class Population {
 
 		return parents;
 	}
+
+	public List<Animal> getEntities(){
+		return this.entities;
+	}
 }
