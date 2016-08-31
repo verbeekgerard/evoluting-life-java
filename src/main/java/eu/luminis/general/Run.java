@@ -1,5 +1,6 @@
 package eu.luminis.general;
 
+import eu.luminis.export.ExportInfoImpl;
 import eu.luminis.ui.Canvas;
 import eu.luminis.ui.StatsCollector;
 import eu.luminis.ui.StatsPrinter;
@@ -34,6 +35,7 @@ public class Run {
 		StatsCollector statsCollector = StatsCollector.getInstance(general.population);
 		general.addObserver(new StatsPrinter(statsCollector));
 		general.addObserver(statsCollector);
+		ExportInfoImpl.create(statsCollector);
 
 		general.startMainLoop();
 	}
