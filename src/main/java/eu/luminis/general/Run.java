@@ -5,8 +5,6 @@ import eu.luminis.ui.Canvas;
 import eu.luminis.ui.StatsCollector;
 import eu.luminis.ui.StatsPrinter;
 
-import javax.swing.*;
-
 public class Run {
 
 	/**
