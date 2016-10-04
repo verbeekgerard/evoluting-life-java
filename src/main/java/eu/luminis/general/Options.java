@@ -1,6 +1,8 @@
 package eu.luminis.general;
 
 public class Options {
+	
+	public static Option mainLoopSleep = new Option(0);
 
 	public static Option mutationFraction = new Option(0.005);
 	

@@ -22,8 +22,21 @@ public class General extends Observable {
 	}
 
 	public void startMainLoop(){
+		
+		
 		while (true){
+			
 			mainLoop();
+			
+			long sleepTime = (long) Options.mainLoopSleep.get();
+			if (sleepTime > 0){
+				try {
+					Thread.sleep(sleepTime);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			
 		}
 	}
 	
