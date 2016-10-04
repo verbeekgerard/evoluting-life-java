@@ -15,7 +15,7 @@ public class Stats {
     private double avgDistance;
     private double avgBestFitness;
 
-    private DecimalFormat df2 = new DecimalFormat("#.##");
+    private DecimalFormat df2 = new DecimalFormat("0.00");
 
     public Stats(int totalStarved, int totalCollisions, int totalWandered, int totalDiedOfAge, List<PeriodicStats> periodicStatsList) {
         this.totalStarved = totalStarved;
