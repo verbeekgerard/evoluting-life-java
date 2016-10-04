@@ -15,7 +15,7 @@ public class Stats {
     private double avgDistance;
     private double avgBestFitness;
 
-    DecimalFormat df2 = new DecimalFormat("#.##");
+    private DecimalFormat df2 = new DecimalFormat("#.##");
 
     public Stats(int totalStarved, int totalCollisions, int totalWandered, int totalDiedOfAge, List<PeriodicStats> periodicStatsList) {
         this.totalStarved = totalStarved;
@@ -58,9 +58,7 @@ public class Stats {
         return avgHealth;
     }
     public double getAverageAge() { return avgAge; }
-    public double getAverageDistance() {
-        return avgDistance;
-    }
+    public double getAverageDistance() { return avgDistance; }
     public double getAverageBestFitness() {
         return avgBestFitness;
     }
@@ -70,7 +68,7 @@ public class Stats {
     }
     public String getAverageAgeString() { return df2.format(avgAge); }
     public String getAverageDistanceString() { return df2.format(avgDistance); }
-    public String getAverageBestFitnessString() { return df2.format(avgDistance); }
+    public String getAverageBestFitnessString() { return df2.format(avgBestFitness); }
 
     @Override
     public String toString() {
