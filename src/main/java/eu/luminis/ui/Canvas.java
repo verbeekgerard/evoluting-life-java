@@ -3,6 +3,7 @@ package eu.luminis.ui;
 import eu.luminis.entities.Animal;
 import eu.luminis.entities.Plant;
 import eu.luminis.entities.Position;
+import eu.luminis.entities.World;
 import eu.luminis.general.Event;
 import eu.luminis.general.EventType;
 import eu.luminis.general.FoodSupply;
@@ -22,7 +23,15 @@ public class Canvas extends JPanel implements Observer {
 	private Population population;
 	private final double WEDGE_ANGLE = Math.PI * 0.25;
 
-	public Canvas(FoodSupply foodSupply, Population population) {
+	public Canvas(FoodSupply foodSupply, Population population, World world) {
+		
+		JFrame frame = new JFrame("Evoluting-life-java");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.add(this);
+		frame.setSize(new Double(world.width).intValue(), new Double(world.height + 20).intValue());
+		frame.setVisible(true);
+		frame.setResizable(false);
+		
 		this.foodSupply = foodSupply;
 		this.population = population;
 	}
