@@ -79,7 +79,7 @@ public class Animal extends Organism implements Comparable<Animal> {
 		this.output = getInitialOutput();
 	}
 
-	public Double rank() {
+	public Double fitness() {
 		return this.getHealth();
 	}
 
@@ -247,7 +247,7 @@ public class Animal extends Organism implements Comparable<Animal> {
 
 	@Override
 	public int compareTo(Animal otherAnimal) {
-		return otherAnimal.rank().compareTo(this.rank());
+		return otherAnimal.fitness().compareTo(this.fitness());
 	}
 	
 	private void initializeDistanceVariables() {

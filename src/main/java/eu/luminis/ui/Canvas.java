@@ -114,8 +114,8 @@ public class Canvas extends JPanel implements Observer {
 
 		// Color code entity based on food eaten compared to most successful
 		if (bestAnimal != null) {
-			double currentBest = bestAnimal.rank();
-			int green = (int) Math.floor(255 * (1 - (currentBest == 0 ? 0 : animal.rank() / currentBest)));
+			double currentBest = bestAnimal.fitness();
+			int green = (int) Math.floor(255 * (1 - (currentBest == 0 ? 0 : animal.fitness() / currentBest)));
 			Color color = new Color(255, green > 0 ? green > 255 ? 255 : green : 0, 0);
 			g2.setColor(color);
 		}

@@ -6,6 +6,8 @@ import eu.luminis.general.EventType;
 import eu.luminis.general.Population;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,19 +17,16 @@ public class StatsCollector implements Observer {
     private int totalCollisions;
     private int totalWandered;
     private int totalDiedOfAge;
-    private double avgHealth;
+
     private Population population;
     private Stats stats;
+    private List<PeriodicStats> periodicStatsList = new ArrayList<>();
 
-    DecimalFormat df3;
-    DecimalFormat df2;
 
     private static StatsCollector instance = null;
 
     private StatsCollector(Population population) {
         this.population = population;
-        df3 = new DecimalFormat("#.###");
-        df2 = new DecimalFormat("#.##");
     }
 
     public static StatsCollector getInstance(Population population){
@@ -37,18 +36,34 @@ public class StatsCollector implements Observer {
         return instance;
     }
 
-    protected void collectStats() {
+    protected void collectPeriodicStats() {
         double totalHealth = 0;
+        double totalAge = 0;
+        double totalDistance = 0;
+
         for (Animal animal : population.entities) {
             totalHealth += animal.getHealth();
+            totalAge += animal.getAge();
+            totalDistance += animal.getTravelledDistance();
         }
-        this.avgHealth = totalHealth / population.entities.size();
-        stats = new Stats(totalStarved,totalCollisions,totalWandered,totalDiedOfAge,getAvgHealth(), getBest());
-        resetStats();
 
+        double avgHealth = totalHealth / population.entities.size();
+        double avgAge = totalAge / population.entities.size();
+        double avgDistance = totalDistance / population.entities.size();
+        double bestFitness = population.winningEntity.fitness();
+
+        PeriodicStats periodicStats = new PeriodicStats(avgHealth, avgAge, avgDistance, bestFitness);
+
+        periodicStatsList.add(periodicStats);
+    }
+
+    protected void collectStats() {
+        stats = new Stats(totalStarved, totalCollisions, totalWandered, totalDiedOfAge, periodicStatsList);
+        resetStats();
     }
 
     public void resetStats() {
+        this.periodicStatsList = new ArrayList<>();
         this.totalCollisions = 0;
         this.totalStarved = 0;
         this.totalWandered = 0;
@@ -72,25 +87,16 @@ public class StatsCollector implements Observer {
             totalDiedOfAge++;
         }
         else if (event.type.equals(EventType.CYCLE_END)) {
+            collectPeriodicStats();
+
             if ((int)event.value % 100 == 0) {
                 collectStats();
             }
         }
     }
 
-    private String getBest(){
-        return df3.format(population.winningEntity.rank());
-    }
-
     public Stats getStats(){
         return stats;
     }
-
-    public String getAvgHealth() {
-        return df2.format(avgHealth);
-    }
-
-    public Population getPopulation(){
-        return population;
-    }
+    public Population getPopulation() { return population; }
 }

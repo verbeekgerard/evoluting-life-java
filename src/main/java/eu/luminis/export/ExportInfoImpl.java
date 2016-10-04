@@ -28,7 +28,7 @@ public class ExportInfoImpl implements ExportInfo {
 
     @Override
     public String getHealth() {
-        return collector.getStats().getAvgHealth();
+        return collector.getStats().getAverageHealthString();
     }
 
     @Override
