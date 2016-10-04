@@ -1,8 +1,5 @@
 package eu.luminis.ui;
 
-/**
- * Created by gerardverbeek on 25/08/16.
- */
 public class Stats {
 
     private int totalStarved;

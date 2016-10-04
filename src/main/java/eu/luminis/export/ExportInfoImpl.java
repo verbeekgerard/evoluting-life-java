@@ -6,9 +6,6 @@ import eu.luminis.ui.StatsCollector;
 
 import java.util.List;
 
-/**
- * Created by gerardverbeek on 25/08/16.
- */
 public class ExportInfoImpl implements ExportInfo {
 
     private static ExportInfoImpl instance;

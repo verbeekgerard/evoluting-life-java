@@ -9,9 +9,6 @@ import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
-/**
- * Created by gerardverbeek on 25/08/16.
- */
 public class StatsCollector implements Observer {
 
     private int totalStarved;
