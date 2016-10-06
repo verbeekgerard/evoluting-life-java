@@ -7,6 +7,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,12 +17,16 @@ import java.util.Observer;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import org.apache.commons.io.FilenameUtils;
 
 import eu.luminis.general.Event;
 import eu.luminis.general.EventType;
@@ -32,17 +37,24 @@ public class StatsPanel extends JPanel implements ChangeListener, Observer, Acti
 	
 	private static final long serialVersionUID = 1L;
 
-	static final int FPS_MIN = 0;
-    static final int FPS_MAX = 100;
-    static final int FPS_INIT = (int) Options.mainLoopSleep.get(); 
-	
+	private static final int FPS_MIN = 0;
+	private static final int FPS_MAX = 100;
+    private static final int FPS_INIT = (int) Options.mainLoopSleep.get(); 
+    private static final String FILE_EXTENSION = "json";
+    
     private StatsCollector statsCollector;
     private JLabel bestLbl;
     private General general;
+    private JFileChooser fileChooser;
+    private JButton exportBtn;
+    private JButton importBtn;
     
 	public StatsPanel(StatsCollector statsCollector, General general) {
 		this.statsCollector = statsCollector;
 		this.general = general;
+		
+		fileChooser = new JFileChooser();
+		fileChooser.setFileFilter(new FileNameExtensionFilter("*."+FILE_EXTENSION, FILE_EXTENSION));
 		
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
@@ -82,11 +94,11 @@ public class StatsPanel extends JPanel implements ChangeListener, Observer, Acti
         bestLbl = new JLabel("Best: ", JLabel.LEFT);
         add(bestLbl);
         
-        JButton eportBtn = new JButton("Export");
-        eportBtn.addActionListener(this);
-        add(eportBtn);
+        exportBtn = new JButton("Export");
+        exportBtn.addActionListener(this);
+        add(exportBtn);
         
-        JButton importBtn = new JButton("Import");
+        importBtn = new JButton("Import");
         importBtn.addActionListener(this);
         add(importBtn);
 	}
@@ -96,7 +108,7 @@ public class StatsPanel extends JPanel implements ChangeListener, Observer, Acti
 		Event event = (Event) arg;
 		if (event.type.equals(EventType.CYCLE_END)) {
 			if (statsCollector.getStats() != null) {
-				bestLbl.setText("Best: " + statsCollector.getStats().getBest());
+				bestLbl.setText("Best: " + statsCollector.getStats().getAverageBestFitness());
 			}
 		}
 	}
@@ -113,31 +125,45 @@ public class StatsPanel extends JPanel implements ChangeListener, Observer, Acti
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		if (e.getSource().equals(importBtn)) {
 
-		if ("Import".equals(e.getActionCommand())) {
-			doImport();
+			int returnVal = fileChooser.showOpenDialog(StatsPanel.this);
+			 
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                doImport(file);
+            }
+			
 		}
-		else if ("Export".equals(e.getActionCommand())) {
-			doExport();
+		else if (e.getSource().equals(exportBtn)) {
+			int returnVal = fileChooser.showSaveDialog(StatsPanel.this);
+			
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+
+                if (!FilenameUtils.getExtension(file.getName()).equalsIgnoreCase(FILE_EXTENSION)) {
+                    file = new File(file.toString() + "." + FILE_EXTENSION);
+                }
+                doExport(file);
+            }
 		}
 	}
 	
-	private void doImport() {
+	private void doImport(File file) {
 		try {
-			String json = new String(readAllBytes(get("brainExport.txt")));
-
+			String json = new String(readAllBytes(get(file.getPath())));
 			general.importPopulation(json);
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private void doExport() {
+	private void doExport(File file) {
 		String json = general.exportPopulation();
 		PrintWriter out = null;
 		try {
-			out = new PrintWriter("brainExport.txt");
+			out = new PrintWriter(file);
 			out.println(json);
 		} catch (FileNotFoundException e1) {
 			
