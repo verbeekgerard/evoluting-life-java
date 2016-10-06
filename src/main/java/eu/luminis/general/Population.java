@@ -1,5 +1,13 @@
 package eu.luminis.general;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import eu.luminis.entities.Animal;
 import eu.luminis.entities.Plant;
 import eu.luminis.entities.Position;
@@ -7,11 +15,7 @@ import eu.luminis.entities.World;
 import eu.luminis.evolution.RouletteWheelSelectionByRank;
 import eu.luminis.genetics.Genome;
 import eu.luminis.util.Range;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.lang.reflect.Type;
 
 public class Population {
 
@@ -33,6 +37,27 @@ public class Population {
 			this.entities.add(entity);
 		}
 	}
+	
+	public void importPopulation(String json) {
+
+		this.entities = new CopyOnWriteArrayList<>();
+		
+		Type listType = new TypeToken<ArrayList<Genome>>(){}.getType();
+		List<Genome> genomes = new Gson().fromJson(json, listType);
+		
+		for (int i = 0; i < genomes.size(); i++) {
+			Animal animal = new Animal(genomes.get(i), createRandomPosition(), world);
+			this.entities.add(animal);
+		}
+	}
+	
+	public String exportPopulation() {
+		ArrayList<Genome> genomes = new ArrayList<>();
+		for (int i = 0; i < this.entities.size(); i++) {
+			genomes.add(this.entities.get(i).genome);
+		}
+		return new Gson().toJson(genomes);
+	}
 
 	public Genome createGenome() {
 		return new Genome(5, 4);
@@ -44,31 +69,6 @@ public class Population {
 		double y = world.height/2 + world.height/2 * range.random();
 		return new Position(x, y, Math.random() * Math.PI * 2);
 	}
-
-	// getState: function () {
-	// sortSuccess.call(this);
-	// var genomeStates = [];
-	//
-	// for (var i = 0; i < this.eu.luminis.entities.length; i++) {
-	// var genome = this.eu.luminis.entities[i].getGenome();
-	// genomeStates.push(genome.getState());
-	// }
-	//
-	// return {genomes: genomeStates};
-	// },
-
-	// loadState: function (genomeStates) {
-	// this.eu.luminis.entities = [];
-	// var genomes = genomeStates.genomes;
-	//
-	// for (var i = 0; i < genomes.length; i++) {
-	// var genome = new Genome(undefined, undefined, genomes[i]);
-	// var position = createRandomPosition();
-	// var entity = new Animal(genome, position);
-	// entity.population = this;
-	// this.eu.luminis.entities.push( entity );
-	// }
-	// },
 
 	public void run(List<Plant> plants) {
 		Collections.sort(this.entities);
