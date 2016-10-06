@@ -20,14 +20,14 @@ public class Run {
 		if(visible == true){
 			Canvas canvas = new Canvas(general.foodSupply, general.population, general.world);
 			general.addObserver(canvas);
-			StatsPanel statsPanel = new StatsPanel(StatsCollector.getInstance(), general);
+			StatsPanel statsPanel = new StatsPanel(createStatsCollectorInstance(), general);
 			general.addObserver(statsPanel);
 		}
 
 		general.addObserver(CostCalculator.getInstance());
-		general.addObserver(new StatsPrinter(StatsCollector.getInstance()));
+		general.addObserver(new StatsPrinter(createStatsCollectorInstance()));
 
-		ExportInfoImpl.create(StatsCollector.getInstance());
+		ExportInfoImpl.create(createStatsCollectorInstance());
 
 		general.startMainLoop();
 	}
@@ -39,5 +39,13 @@ public class Run {
 				visual = new Boolean((args[0]));
 			}
 		return visual;
+	}
+
+	private static StatsCollector createStatsCollectorInstance() { // TODO: move this to a factory
+		General general = General.getInstance();
+		StatsCollector statsCollector = new StatsCollector(general.population);
+		general.addObserver(statsCollector);
+
+		return statsCollector;
 	}
 }

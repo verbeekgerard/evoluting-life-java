@@ -3,10 +3,8 @@ package eu.luminis.ui;
 import eu.luminis.entities.Animal;
 import eu.luminis.general.Event;
 import eu.luminis.general.EventType;
-import eu.luminis.general.General;
 import eu.luminis.general.Population;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -23,19 +21,11 @@ public class StatsCollector implements Observer {
     private Stats stats;
     private List<PeriodicStats> periodicStatsList = new ArrayList<>();
 
-    private StatsCollector(Population population) {
+    public StatsCollector(Population population) {
         this.population = population;
     }
 
-    public static StatsCollector getInstance() {
-        General general = General.getInstance();
-        StatsCollector instance = new StatsCollector(general.population);
-        general.addObserver(instance);
-
-        return instance;
-    }
-
-    protected void collectPeriodicStats() {
+    private void collectPeriodicStats() {
         double totalHealth = 0;
         double totalAge = 0;
         double totalDistance = 0;
@@ -56,7 +46,7 @@ public class StatsCollector implements Observer {
         periodicStatsList.add(periodicStats);
     }
 
-    public void resetStats() {
+    private void resetStats() {
         this.periodicStatsList = new ArrayList<>();
         this.totalCollisions = 0;
         this.totalStarved = 0;
