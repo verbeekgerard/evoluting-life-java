@@ -9,7 +9,6 @@ import eu.luminis.ui.StatsPrinter;
 public class Run {
 
 	/**
-	 *
 	 * @param args
 	 * 0:	visible:	'true' or 'false'
 	 */
@@ -18,15 +17,16 @@ public class Run {
 
 		General general = General.getInstance();
 		
+		StatsCollector statsCollector = StatsCollector.getInstance(general.population);
+		
 		if(visible == true){
 			Canvas canvas = new Canvas(general.foodSupply, general.population, general.world);
 			general.addObserver(canvas);
-			StatsPanel statsPanel = new StatsPanel();
+			StatsPanel statsPanel = new StatsPanel(statsCollector, general);
+			general.addObserver(statsPanel);
 		}
 
 		general.addObserver(CostCalculator.getInstance());
-
-		StatsCollector statsCollector = StatsCollector.getInstance(general.population);
 		general.addObserver(new StatsPrinter(statsCollector));
 		general.addObserver(statsCollector);
 		ExportInfoImpl.create(statsCollector);

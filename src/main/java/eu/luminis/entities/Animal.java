@@ -1,20 +1,20 @@
 package eu.luminis.entities;
 
-import eu.luminis.brains.Brain;
-import eu.luminis.genetics.Genome;
-import eu.luminis.general.CostCalculator;
-import eu.luminis.general.EventType;
-import eu.luminis.general.General;
-import eu.luminis.general.Options;
-import eu.luminis.sensors.Eyes;
-import eu.luminis.sensors.ObstacleVector;
-import eu.luminis.sensors.Targets;
-import eu.luminis.util.Range;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import eu.luminis.brains.Brain;
+import eu.luminis.general.CostCalculator;
+import eu.luminis.general.EventType;
+import eu.luminis.general.General;
+import eu.luminis.general.Options;
+import eu.luminis.genetics.Genome;
+import eu.luminis.sensors.Eyes;
+import eu.luminis.sensors.ObstacleVector;
+import eu.luminis.sensors.Targets;
+import eu.luminis.util.Range;
 
 public class Animal extends Organism implements Comparable<Animal> {
 	private CostCalculator costCalculator;
@@ -76,6 +76,7 @@ public class Animal extends Organism implements Comparable<Animal> {
 		this.linearForce = genome.movement.linearForce;
 
 		this.brain = new Brain(genome.brain);
+
 		this.output = getInitialOutput();
 	}
 

@@ -9,6 +9,7 @@ import eu.luminis.genetics.NeuronGene;
 public class Brain {
 
 	public List<Layer> layers = new ArrayList<>();
+	public InputLayer inputLayer;
 	
 	public Brain(BrainGene gen){
 
@@ -25,23 +26,22 @@ public class Brain {
 		}
 
 		// The input layer is of a different type
-		layer = new InputLayer(genLayers.get(genLayers.size() - 1), layers.get(layers.size() - 1));
-		layers.add(layer);
+		this.inputLayer = new InputLayer(genLayers.get(genLayers.size() - 1), layers.get(layers.size() - 1));
 	}
 	
 	public List<Double> think(List<Double> input) {
 
 		// Excite the input neurons
-		InputLayer inputLayer = (InputLayer) layers.get(layers.size() - 1);
-		inputLayer.sense(input);
+		this.inputLayer.sense(input);
 
 		List<Double> output = null;
 
+		output = this.inputLayer.transmit();
 		for (int i = layers.size()-1;i>=0; i--) {
 			Layer layer = layers.get(i);
 			output = layer.transmit();
 		}
-
+		
 		return output;
 	}
 	
