@@ -14,10 +14,13 @@ public abstract class Organism {
 	public abstract double getHealth();
 	public abstract double getSize();
 	
+	public double getAge() {
+		return this.age;
+	}
 	public double getOldAge() {
 		return genome.life.oldAge;
 	}
-	
+
 	public Organism(Genome genome, Position position, World world){
 		this.genome = genome;
 		this.position = position;
