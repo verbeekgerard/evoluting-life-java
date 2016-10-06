@@ -17,19 +17,17 @@ public class Run {
 
 		General general = General.getInstance();
 		
-		StatsCollector statsCollector = StatsCollector.getInstance(general.population);
-		
 		if(visible == true){
 			Canvas canvas = new Canvas(general.foodSupply, general.population, general.world);
 			general.addObserver(canvas);
-			StatsPanel statsPanel = new StatsPanel(statsCollector, general);
+			StatsPanel statsPanel = new StatsPanel(StatsCollector.getInstance(), general);
 			general.addObserver(statsPanel);
 		}
 
 		general.addObserver(CostCalculator.getInstance());
-		general.addObserver(new StatsPrinter(statsCollector));
-		general.addObserver(statsCollector);
-		ExportInfoImpl.create(statsCollector);
+		general.addObserver(new StatsPrinter(StatsCollector.getInstance()));
+
+		ExportInfoImpl.create(StatsCollector.getInstance());
 
 		general.startMainLoop();
 	}

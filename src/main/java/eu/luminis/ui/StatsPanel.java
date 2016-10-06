@@ -1,14 +1,16 @@
 package eu.luminis.ui;
 
-import static java.nio.file.Files.readAllBytes;
-import static java.nio.file.Paths.get;
+import eu.luminis.general.Event;
+import eu.luminis.general.EventType;
+import eu.luminis.general.General;
+import eu.luminis.general.Options;
+import org.apache.commons.io.FilenameUtils;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -18,27 +20,11 @@ import java.io.PrintWriter;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
-import org.apache.commons.io.FilenameUtils;
-
-import eu.luminis.general.Event;
-import eu.luminis.general.EventType;
-import eu.luminis.general.General;
-import eu.luminis.general.Options;
+import static java.nio.file.Files.readAllBytes;
+import static java.nio.file.Paths.get;
 
 public class StatsPanel extends JPanel implements ChangeListener, Observer, ActionListener {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private static final int FPS_MIN = 0;
@@ -137,11 +123,12 @@ public class StatsPanel extends JPanel implements ChangeListener, Observer, Acti
 	public void update(Observable o, Object arg) {
 		Event event = (Event) arg;
 		if (event.type.equals(EventType.CYCLE_END)) {
-			if (statsCollector.getStats() != null) {
-				bestFitnessLbl.setText("Best fitness: " + statsCollector.getStats().getAverageBestFitnessString());
-				avgFitnessLbl.setText("Avg fitness: " + statsCollector.getStats().getAverageHealthString());
-				avgAgeLbl.setText("Avg age: " + statsCollector.getStats().getAverageAgeString());
-				avgDistanceLbl.setText("Avg distance: " + statsCollector.getStats().getAverageDistanceString());
+            if ((int)event.value % 500 == 0) {
+                Stats stats = this.statsCollector.getStats();
+				bestFitnessLbl.setText("Best fitness: " + stats.getAverageBestFitness());
+				avgFitnessLbl.setText("Avg fitness: " + stats.getAverageHealth());
+				avgAgeLbl.setText("Avg age: " + stats.getAverageAge());
+				avgDistanceLbl.setText("Avg distance: " + stats.getAverageDistance());
 			}
 		}
 	}
