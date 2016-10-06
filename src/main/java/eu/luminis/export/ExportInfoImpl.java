@@ -25,19 +25,8 @@ public class ExportInfoImpl implements ExportInfo {
         return instance;
     }
 
-
-    @Override
-    public String getHealth() {
-        return collector.getStats().getAverageHealthString();
-    }
-
     @Override
     public Stats getStats() {
         return collector.getStats();
-    }
-
-    @Override
-    public List<Animal> getAnimals() {
-        return collector.getPopulation().getEntities();
     }
 }

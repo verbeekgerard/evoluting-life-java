@@ -22,7 +22,6 @@ public class StatsCollector implements Observer {
     private Stats stats;
     private List<PeriodicStats> periodicStatsList = new ArrayList<>();
 
-
     private static StatsCollector instance = null;
 
     private StatsCollector(Population population) {
@@ -88,15 +87,11 @@ public class StatsCollector implements Observer {
         }
         else if (event.type.equals(EventType.CYCLE_END)) {
             collectPeriodicStats();
-
-            if ((int)event.value % 100 == 0) {
-                collectStats();
-            }
         }
     }
 
     public Stats getStats(){
+        collectStats();
         return stats;
     }
-    public Population getPopulation() { return population; }
 }

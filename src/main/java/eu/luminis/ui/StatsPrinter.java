@@ -18,7 +18,7 @@ public class StatsPrinter implements Observer {
 	public void update(Observable o, Object arg) {
 		Event event = (Event) arg;
 		if (event.type.equals(EventType.CYCLE_END)) {
-			if ((int)event.value % 100 == 0) {
+			if ((int)event.value % 500 == 0) {
 				printStats();
 			}
 		}
@@ -27,5 +27,4 @@ public class StatsPrinter implements Observer {
 	private void printStats() {
 		System.out.println(collector.getStats().toString());
 	}
-
 }

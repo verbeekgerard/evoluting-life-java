@@ -63,23 +63,16 @@ public class Stats {
         return avgBestFitness;
     }
 
-    public String getAverageHealthString() {
-        return df2.format(avgHealth);
-    }
-    public String getAverageAgeString() { return df2.format(avgAge); }
-    public String getAverageDistanceString() { return df2.format(avgDistance); }
-    public String getAverageBestFitnessString() { return df2.format(avgBestFitness); }
-
     @Override
     public String toString() {
         return
-                "avg. health:\t" + getAverageHealthString() + "\t" +
-                "avg. age:\t" + getAverageAgeString() + "\t" +
-                "avg. distance:\t" + getAverageDistanceString() + "\t" +
+                "avg. health:\t" + df2.format(avgHealth) + "\t" +
+                "avg. age:\t" + df2.format(avgAge) + "\t" +
+                "avg. distance:\t" + df2.format(avgDistance) + "\t" +
                 "totalCollisions:\t" + totalCollisions + "\t" +
 //                "totalStarved:\t" + totalStarved + "\t" +
 //                "totalWandered:\t" + totalWandered + "\t" +
                 "totalDiedOfAge:\t" + totalDiedOfAge + "\t" +
-                "best:\t" + getAverageBestFitnessString() + "\t";
+                "best:\t" + df2.format(avgBestFitness) + "\t";
     }
 }
