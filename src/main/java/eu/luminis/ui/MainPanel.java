@@ -23,7 +23,7 @@ import java.util.Observer;
 import static java.nio.file.Files.readAllBytes;
 import static java.nio.file.Paths.get;
 
-public class StatsPanel extends JPanel implements ChangeListener, Observer, ActionListener {
+public class MainPanel extends JPanel implements ChangeListener, Observer, ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -43,7 +43,7 @@ public class StatsPanel extends JPanel implements ChangeListener, Observer, Acti
     private JButton exportBtn;
     private JButton importBtn;
     
-	public StatsPanel(StatsCollector statsCollector, General general) {
+	public MainPanel(StatsCollector statsCollector, General general) {
 		this.statsCollector = statsCollector;
 		this.general = general;
 		
@@ -148,7 +148,7 @@ public class StatsPanel extends JPanel implements ChangeListener, Observer, Acti
 		
 		if (e.getSource().equals(importBtn)) {
 
-			int returnVal = fileChooser.showOpenDialog(StatsPanel.this);
+			int returnVal = fileChooser.showOpenDialog(MainPanel.this);
 			 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
@@ -157,7 +157,7 @@ public class StatsPanel extends JPanel implements ChangeListener, Observer, Acti
 			
 		}
 		else if (e.getSource().equals(exportBtn)) {
-			int returnVal = fileChooser.showSaveDialog(StatsPanel.this);
+			int returnVal = fileChooser.showSaveDialog(MainPanel.this);
 			
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
