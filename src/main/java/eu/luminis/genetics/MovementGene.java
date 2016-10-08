@@ -1,19 +1,14 @@
 package eu.luminis.genetics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import eu.luminis.general.Options;
 import eu.luminis.util.Range;
 
 public class MovementGene extends Gene {
-	private static List<String> propertyNames = new ArrayList<>();
-
-	static {
-		propertyNames.add("angularForce");
-		propertyNames.add("linearForce");
-	}
-
 	public double angularForce;
 	public double linearForce;
 	
@@ -50,12 +45,16 @@ public class MovementGene extends Gene {
     }
 
 	@Override
-	public List<String> getInitiatePropertyNames() {
-		return propertyNames;
+	public Map<String, Double> getInitiateProperties() {
+		Map<String, Double> map = new HashMap<>();
+		map.put("angularForce", this.angularForce);
+		map.put("linearForce", this.linearForce);
+
+		return map;
 	}
 
 	@Override
-	public Gene initiate(List<Double> properties){
-		return new MovementGene(properties.get(0), properties.get(1));
+	public Gene initiate(Map<String, Double> properties) {
+		return new MovementGene(properties.get("angularForce"), properties.get("linearForce"));
 	}
 }

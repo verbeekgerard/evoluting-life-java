@@ -1,52 +1,49 @@
 package eu.luminis.genetics;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import java.util.*;
 import eu.luminis.util.Range;
 
 public class Genetics {
 
-	// Creates two child eu.luminis.entities by crossing over the genomes of a and b.
+	// Creates two child by crossing over the genomes of a and b.
     public List<? extends Gene> mate(Gene a, Gene b) {
+        Map<String, Double> mapA = a.getInitiateProperties();
+        Map<String, Double> mapB = b.getInitiateProperties();
 
-    	List<Gene> children = new ArrayList<>();
-    	
-    	try {
-    		List<String> properties = a.getInitiatePropertyNames();
-    		List<List<Double>> childPropertyValues = new ArrayList<>(Arrays.asList(new ArrayList<>() , new ArrayList<>()));
+        List<Map<String, Double>> childrenProperties = initializeChildrenProperties();
 
-            for (int j=0; j<properties.size(); j++) {
-            	List<Gene> AorB = getAorBRandom(a, b);
+        for (String propertyName : mapA.keySet()) {
+            List<Map<String, Double>> AorB = getAorBRandom(mapA, mapB);
 
-            	for (int i=0; i<2; i++) {
-	            	Field field = a.getClass().getDeclaredField(properties.get(j));
-	            	double value = (double) field.get(AorB.get(i));
-	
-	            	childPropertyValues.get(i).add(value);
-		        }
+            for (int i=0; i<2; i++) {
+                Map<String, Double> aOrB = AorB.get(i);
+                double value = aOrB.get(propertyName);
+                childrenProperties.get(i).put(propertyName, value);
             }
-            
-            for (int i=0; i<2 ; i++) {
-	            children.add(a.initiate(childPropertyValues.get(i)));
-            }
-	        
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
+        }
+
+        List<Gene> children = new ArrayList<>();
+        for (int i=0; i<2 ; i++) {
+            children.add(a.initiate(childrenProperties.get(i)));
+        }
 
         return children;
-    };
-    
-    private ArrayList<Gene> getAorBRandom(Gene a, Gene b){
+    }
+
+    private <T> ArrayList<T> getAorBRandom(T a, T b){
     	if (new Range(0, 100).random() > 50) {
     		return new ArrayList<>(Arrays.asList(a, b));
     	}
     	else {
     		return new ArrayList<>(Arrays.asList(b, a));
     	}
+    }
+
+    private List<Map<String, Double>> initializeChildrenProperties() {
+        List<Map<String, Double>> childrenProperties = new ArrayList<>();
+        childrenProperties.add(new HashMap<>());
+        childrenProperties.add(new HashMap<>());
+
+        return childrenProperties;
     }
 }

@@ -1,8 +1,8 @@
 package eu.luminis.genetics;
 
-import java.util.List;
+import java.util.Map;
 
 public abstract class Gene {
-    public abstract List<String> getInitiatePropertyNames();
-    public abstract Gene initiate(List<Double> propertyNames);
+    public abstract Map<String, Double> getInitiateProperties();
+    public abstract Gene initiate(Map<String, Double> properties);
 }

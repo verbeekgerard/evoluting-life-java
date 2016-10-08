@@ -1,24 +1,19 @@
 package eu.luminis.genetics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import eu.luminis.general.Options;
 import eu.luminis.util.Range;
 
 public class NeuronGene extends Gene {
-    private static List<String> propertyNames = new ArrayList<>();
-
-    static {
-        propertyNames.add("threshold");
-        propertyNames.add("relaxation");
-    }
-
 	public List<AxonGene> axons = new ArrayList<>();
 	public double threshold;
 	public double relaxation;
 	
-	public NeuronGene(int maxOutputs){
+	public NeuronGene(int maxOutputs) {
 		
         this.threshold = new Range(Options.minThreshold.get(), Options.maxThreshold.get()).random();
         this.relaxation = Math.floor(new Range(0, Options.maxRelaxation.get()).random()) / 100;
@@ -28,12 +23,12 @@ public class NeuronGene extends Gene {
         }
 	}
 	
-	public NeuronGene(double threshold, double relaxation){
+	public NeuronGene(double threshold, double relaxation) {
         this.threshold = threshold;
         this.relaxation = relaxation;
 	}
 	
-	public NeuronGene(double threshold, double relaxation, List<AxonGene> axons){
+	public NeuronGene(double threshold, double relaxation, List<AxonGene> axons) {
 
         this.threshold = threshold;
         this.relaxation = relaxation;
@@ -60,13 +55,17 @@ public class NeuronGene extends Gene {
     }
 
     @Override
-    public List<String> getInitiatePropertyNames() {
-        return propertyNames;
+    public Map<String, Double> getInitiateProperties() {
+        Map<String, Double> map = new HashMap<>();
+        map.put("threshold", this.threshold);
+        map.put("relaxation", this.relaxation);
+
+        return map;
     }
 
     @Override
-    public Gene initiate(List<Double> properties){
-        return new NeuronGene(properties.get(0), properties.get(1));
+    public Gene initiate(Map<String, Double> properties) {
+        return new NeuronGene(properties.get("threshold"), properties.get("relaxation"));
     }
 
     public void mutate() {

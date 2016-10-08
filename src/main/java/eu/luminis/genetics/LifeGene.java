@@ -1,19 +1,14 @@
 package eu.luminis.genetics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import eu.luminis.general.Options;
 import eu.luminis.util.Range;
 
 public class LifeGene extends Gene {
-	private static List<String> propertyNames = new ArrayList<>();
-
-	static {
-		propertyNames.add("oldAge");
-		propertyNames.add("nutrition");
-	}
-
 	public double oldAge;
 	public double nutrition;
 	
@@ -42,12 +37,16 @@ public class LifeGene extends Gene {
     }
 
 	@Override
-	public List<String> getInitiatePropertyNames() {
-		return propertyNames;
+	public Map<String, Double> getInitiateProperties() {
+		Map<String, Double> map = new HashMap<>();
+		map.put("oldAge", this.oldAge);
+		map.put("nutrition", this.nutrition);
+
+		return map;
 	}
 
 	@Override
-	public Gene initiate(List<Double> properties){
-		return new LifeGene(properties.get(0), properties.get(1));
+	public Gene initiate(Map<String, Double> properties) {
+		return new LifeGene(properties.get("oldAge"), properties.get("nutrition"));
 	}
 }

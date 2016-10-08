@@ -1,20 +1,14 @@
 package eu.luminis.genetics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import eu.luminis.general.Options;
 import eu.luminis.util.Range;
 
 public class AxonGene extends Gene {
-    private static List<String> propertyNames = new ArrayList<>();
-
-    static {
-		propertyNames.add("strength");
-		propertyNames.add("strengthening");
-		propertyNames.add("weakening");
-	}
-
 	public double strength;
 	public double strengthening;
 	public double weakening;
@@ -51,12 +45,17 @@ public class AxonGene extends Gene {
     }
 
     @Override
-    public List<String> getInitiatePropertyNames() {
-        return propertyNames;
-	}
+    public Map<String, Double> getInitiateProperties() {
+        Map<String, Double> map = new HashMap<>();
+        map.put("strength", this.strength);
+        map.put("strengthening", this.strengthening);
+        map.put("weakening", this.weakening);
+
+        return map;
+    }
 
     @Override
-	public Gene initiate(List<Double> properties){
-		return new AxonGene(properties.get(0), properties.get(1), properties.get(2));
+	public Gene initiate(Map<String, Double> properties) {
+		return new AxonGene(properties.get("strength"), properties.get("strengthening"), properties.get("weakening"));
 	}
 }
