@@ -5,7 +5,6 @@ import java.util.Observer;
 
 public class CostCalculator implements Observer {
 
-
 	private final static CostCalculator instance = new CostCalculator();
 	private final static double ENERGY_COST = 0.001;
 
@@ -31,7 +30,7 @@ public class CostCalculator implements Observer {
 		return ENERGY_COST * Math.abs(velocity) * 20000;// this.iteration / 100;
 	}
 	
-	public double travelledDistance(double distance) {
+	public double distanceReward(double distance) {
 		return ENERGY_COST * Math.abs(distance) * 50;
 	}
 
