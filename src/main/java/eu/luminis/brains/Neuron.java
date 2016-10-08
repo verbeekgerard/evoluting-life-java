@@ -9,46 +9,41 @@ public class Neuron {
 
 	private List<Axon> axons = new ArrayList<>();
 	private double excitation = 0;
-	private NeuronGene gene;
-	
+    private double threshold;
+    private double relaxation;
+
 	public Neuron(NeuronGene gene, List<Neuron> targetNeurons){
-		this.gene = gene;
+		this.threshold = gene.threshold;
+        this.relaxation = gene.relaxation;
 		
         if (targetNeurons == null) {
         	// Assemble an output neuron
-        	for (int i = gene.axons.size()-1;i>=0; i--) {
-                axons.add(new Axon(gene.axons.get(i).strength));
+            for (AxonGene axonGene : gene.axons) {
+                Axon axon = new Axon(axonGene.strength);
+                axons.add(axon);
             }
-        } else { 
+        } else {
         	// Assemble a neuron that transmits to its axons
-        	for (int i = gene.axons.size()-1;i>=0; i--) {
-        		
-                axons.add(new Axon(gene.axons.get(i).strength, targetNeurons.get(i)));
+        	for (int i = 0; i < gene.axons.size(); i++) {
+                Axon axon = new Axon(gene.axons.get(i).strength, targetNeurons.get(i));
+                axons.add(axon);
             }
         }
 	}
-	
-	public double getRelaxation() {
-        return gene.relaxation;
-    }
-	
-	public double getThreshold() {
-        return gene.threshold;
-    }
-	
+
 	public double transmit() {
-        if (this.excitation > getThreshold()) {
+        if (this.excitation > this.threshold) {
         	double excitation = this.excitation;
         	this.excitation = 0;
 
-            for (int i=0; i<axons.size(); i++) {
-                axons.get(i).transmit();
-            }
+            axons.forEach(Axon::transmit);
 
             return excitation;
         }
         else {
-            this.excitation = this.excitation > 0 ? this.excitation * (1-this.getRelaxation()) : 0;
+            this.excitation = this.excitation > 0 ?
+                    this.excitation * (1-this.relaxation) :
+                    0;
 
             return 0;
         }

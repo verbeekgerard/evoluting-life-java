@@ -2,21 +2,26 @@ package eu.luminis.brains;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import eu.luminis.genetics.NeuronGene;
 
 public class Layer {
 
-	protected List<Neuron> neurons = new ArrayList<>();
+	private List<Neuron> neurons = new ArrayList<>();
 	
-	public Layer(List<NeuronGene> genomeLayer){
+	public Layer(List<NeuronGene> genomeLayer) {
 		this(genomeLayer, null);
 	}
 	
-	public Layer(List<NeuronGene> genomeLayer, Layer targetLayer){
-        List<Neuron> targetNeurons = targetLayer == null ? null : targetLayer.getNeurons();
-    	for (int i = genomeLayer.size()-1;i>=0; i--) {	
-            neurons.add(new Neuron(genomeLayer.get(i), targetNeurons));
+	public Layer(List<NeuronGene> genomeLayer, Layer targetLayer) {
+        List<Neuron> targetNeurons = targetLayer == null ?
+                null :
+                targetLayer.getNeurons();
+
+        for (NeuronGene neuronGene : genomeLayer) {
+            Neuron neuron = new Neuron(neuronGene, targetNeurons);
+            neurons.add(neuron);
         }
 	}
 	
@@ -24,15 +29,9 @@ public class Layer {
         return neurons;
     }
 	
-	public List<Double> transmit(){
-
-        List<Double> excitations = new ArrayList<>();
-        List<Neuron> neurons = this.getNeurons();
-        for (int i=0; i< neurons.size(); i++) {
-            excitations.add(
-                neurons.get(i).transmit()
-            );
-        }
-        return excitations;
+	public List<Double> transmit() {
+        return neurons.stream()
+                .map(Neuron::transmit)
+                .collect(Collectors.toList());
 	}
 }

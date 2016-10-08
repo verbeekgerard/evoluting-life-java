@@ -8,7 +8,7 @@ public class TravelledDistanceRecorder {
     private Position startPosition;
 
     public TravelledDistanceRecorder(Position startPosition) {
-        this.startPosition = new Position(startPosition);
+        initializeDistanceVariables(startPosition);
     }
 
     public void recordMove(Position position) {

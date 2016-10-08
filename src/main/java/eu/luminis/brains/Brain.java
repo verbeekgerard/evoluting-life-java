@@ -7,12 +7,10 @@ import eu.luminis.genetics.BrainGene;
 import eu.luminis.genetics.NeuronGene;
 
 public class Brain {
-
 	private List<Layer> layers = new ArrayList<>();
 	private InputLayer inputLayer;
 	
-	public Brain(BrainGene gen){
-
+	public Brain(BrainGene gen) {
 		List<List<NeuronGene>> genLayers = gen.layers;
 
 		// The output layer has no target layer
@@ -34,10 +32,9 @@ public class Brain {
 		// Excite the input neurons
 		this.inputLayer.sense(input);
 
-		List<Double> output = null;
+		List<Double> output = this.inputLayer.transmit();
 
-		output = this.inputLayer.transmit();
-		for (int i = layers.size()-1;i>=0; i--) {
+		for (int i = layers.size()-1; i >= 0; i--) {
 			Layer layer = layers.get(i);
 			output = layer.transmit();
 		}
