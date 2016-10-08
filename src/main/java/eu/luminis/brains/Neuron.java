@@ -9,7 +9,7 @@ public class Neuron {
 
 	private List<Axon> axons = new ArrayList<>();
 	private double excitation = 0;
-	public NeuronGene gene;
+	private NeuronGene gene;
 	
 	public Neuron(NeuronGene gene, List<Neuron> targetNeurons){
 		this.gene = gene;

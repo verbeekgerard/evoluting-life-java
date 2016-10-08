@@ -25,6 +25,7 @@ public class Animal extends Organism implements Comparable<Animal> {
 	private double linearForce;
 
     private TravelledDistanceRecorder distanceRecorder;
+    private CollisionDetector collisionDetector = new CollisionDetector();
 
 	private double initialEnergy;
 	private double collided = 0;
@@ -64,30 +65,21 @@ public class Animal extends Organism implements Comparable<Animal> {
 	}
 
 	public void checkColission(Organism organism) {
-		if (organism == this)
-			return;
+        boolean colliding = collisionDetector.colliding(this, organism);
+        if (!colliding) return;
 
 		Position p = this.position;
+        double v = this.getVelocity();
 
-		// Use formula for a circle to find food
-		double x2 = (p.x - organism.position.x); x2 *= x2;
-		double y2 = (p.y - organism.position.y); y2 *= y2;
-		double s2 = organism.getSize() + 2; s2 *= s2;
+		double dx = Math.cos(p.a) * v;
+		double dy = Math.sin(p.a) * v;
 
-		// Only if we are within the circle, collide it
-		if (x2 + y2 >= s2) {
-			return;
-		}
-
-		double dx = (Math.cos(p.a) * this.getVelocity());
-		double dy = (Math.sin(p.a) * this.getVelocity());
-
-		// Move the entity
+		// Move the entity opposite to it's velocity
 		p.x -= dx;
 		p.y -= dy;
 
 		// Increase eu.luminis.entities total collision counter
-		this.collided += this.costCalculator.collide(this.getVelocity());
+		this.collided += this.costCalculator.collide(v);
 
 		// Increment global collision counter
 		General.getInstance().broadcast(EventType.COLLIDE, collided);
