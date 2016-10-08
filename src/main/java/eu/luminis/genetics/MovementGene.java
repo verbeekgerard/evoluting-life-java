@@ -3,9 +3,8 @@ package eu.luminis.genetics;
 import eu.luminis.general.Options;
 import eu.luminis.util.Range;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MovementGene extends Gene {
 	private double angularForce;
@@ -44,17 +43,17 @@ public class MovementGene extends Gene {
     }
 
 	@Override
-	public Map<String, Double> getInitiateProperties() {
-		Map<String, Double> map = new HashMap<>();
-		map.put("angularForce", this.angularForce);
-		map.put("linearForce", this.linearForce);
+	public List<Double> getInitiateProperties() {
+		List<Double> list = new ArrayList<>();
+		list.add(this.angularForce);
+		list.add(this.linearForce);
 
-		return map;
+		return list;
 	}
 
 	@Override
-	public Gene initiate(Map<String, Double> properties) {
-		return new MovementGene(properties.get("angularForce"), properties.get("linearForce"));
+	public Gene initiate(List<Double> properties) {
+		return new MovementGene(properties.get(0), properties.get(1));
 	}
 
 	public double getAngularForce() {

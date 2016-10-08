@@ -1,12 +1,10 @@
 package eu.luminis.genetics;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import eu.luminis.general.Options;
 import eu.luminis.util.Range;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NeuronGene extends Gene {
 	private List<AxonGene> axons = new ArrayList<>();
@@ -14,7 +12,6 @@ public class NeuronGene extends Gene {
 	private double relaxation;
 	
 	public NeuronGene(int maxOutputs) {
-		
         this.threshold = new Range(Options.minThreshold.get(), Options.maxThreshold.get()).random();
         this.relaxation = Math.floor(new Range(0, Options.maxRelaxation.get()).random()) / 100;
 
@@ -55,17 +52,17 @@ public class NeuronGene extends Gene {
     }
 
     @Override
-    public Map<String, Double> getInitiateProperties() {
-        Map<String, Double> map = new HashMap<>();
-        map.put("threshold", this.threshold);
-        map.put("relaxation", this.relaxation);
+    public List<Double> getInitiateProperties() {
+        List<Double> list = new ArrayList<>();
+        list.add(this.threshold);
+        list.add(this.relaxation);
 
-        return map;
+        return list;
     }
 
     @Override
-    public Gene initiate(Map<String, Double> properties) {
-        return new NeuronGene(properties.get("threshold"), properties.get("relaxation"));
+    public Gene initiate(List<Double> properties) {
+        return new NeuronGene(properties.get(0), properties.get(1));
     }
 
     public void mutate() {

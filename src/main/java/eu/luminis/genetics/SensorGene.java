@@ -3,9 +3,8 @@ package eu.luminis.genetics;
 import eu.luminis.general.Options;
 import eu.luminis.util.Range;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class SensorGene extends Gene {
     private double viewDistance;
@@ -43,17 +42,17 @@ public class SensorGene extends Gene {
     }
 
     @Override
-    public Map<String, Double> getInitiateProperties() {
-        Map<String, Double> map = new HashMap<>();
-        map.put("viewDistance", this.viewDistance);
-        map.put("fieldOfView", this.fieldOfView);
+    public List<Double> getInitiateProperties() {
+        List<Double> list = new ArrayList<>();
+        list.add(this.viewDistance);
+        list.add(this.fieldOfView);
 
-        return map;
+        return list;
     }
 
     @Override
-    public Gene initiate(Map<String, Double> properties) {
-        return new SensorGene(properties.get("viewDistance"), properties.get("fieldOfView"));
+    public Gene initiate(List<Double> properties) {
+        return new SensorGene(properties.get(0), properties.get(1));
     }
 
     public double getViewDistance() {

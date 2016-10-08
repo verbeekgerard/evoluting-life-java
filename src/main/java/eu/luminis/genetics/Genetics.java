@@ -1,24 +1,27 @@
 package eu.luminis.genetics;
 
-import java.util.*;
 import eu.luminis.util.Range;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Genetics {
 
 	// Creates two child by crossing over the genomes of a and b.
     public List<? extends Gene> mate(Gene a, Gene b) {
-        Map<String, Double> mapA = a.getInitiateProperties();
-        Map<String, Double> mapB = b.getInitiateProperties();
+        List<Double> propertiesA = a.getInitiateProperties();
+        List<Double> propertiesB = b.getInitiateProperties();
 
-        List<Map<String, Double>> childrenProperties = initializeChildrenProperties();
+        List<List<Double>> childrenProperties = initializeChildrenProperties();
 
-        for (String propertyName : mapA.keySet()) {
-            List<Map<String, Double>> AorB = getAorBRandom(mapA, mapB);
+        for (int j=0; j<propertiesA.size(); j++) {
+            List<List<Double>> AorB = getAorBRandom(propertiesA, propertiesB);
 
             for (int i=0; i<2; i++) {
-                Map<String, Double> aOrB = AorB.get(i);
-                double value = aOrB.get(propertyName);
-                childrenProperties.get(i).put(propertyName, value);
+                List<Double> aOrB = AorB.get(i);
+                double value = aOrB.get(j);
+                childrenProperties.get(i).add(value);
             }
         }
 
@@ -39,10 +42,10 @@ public class Genetics {
     	}
     }
 
-    private List<Map<String, Double>> initializeChildrenProperties() {
-        List<Map<String, Double>> childrenProperties = new ArrayList<>();
-        childrenProperties.add(new HashMap<>());
-        childrenProperties.add(new HashMap<>());
+    private List<List<Double>> initializeChildrenProperties() {
+        List<List<Double>> childrenProperties = new ArrayList<>();
+        childrenProperties.add(new ArrayList<>());
+        childrenProperties.add(new ArrayList<>());
 
         return childrenProperties;
     }
