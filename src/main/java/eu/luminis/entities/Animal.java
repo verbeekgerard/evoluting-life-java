@@ -18,25 +18,20 @@ import eu.luminis.util.Range;
 
 public class Animal extends Organism implements Comparable<Animal> {
 	private CostCalculator costCalculator;
-	public Position startPosition;
+	private Position startPosition;
 
-	public int leftAccelerate = 0;
-	public int leftDecelerate = 0;
-	public int rightAccelerate = 0;
-	public int rightDecelerate = 0;
+	private double size;
+	private double collided = 0;
+	private double usedEnergy = 0;
+	private Eyes eyes;
 
-	public double size;
-	public double collided = 0;
-	public double usedEnergy = 0;
-	public Eyes eyes;
+	private double initialEnergy;
+	private double linearFriction;
+	private double angularFriction;
+	private double velocityLeft = 0;
+	private double velocityRight = 0;
 
-	public double initialEnergy;
-	public double linearFriction;
-	public double angularFriction;
-	public double velocityLeft = 0;
-	public double velocityRight = 0;
-
-	public double linearForce;
+	private double linearForce;
 
 	private int steps = 0;
 	private double historicalDistance = 0;
@@ -256,5 +251,9 @@ public class Animal extends Organism implements Comparable<Animal> {
 		this.steps = 0;
 		this.currentDistance = 0;
 		this.startPosition = new Position(position);
+	}
+
+	public Eyes getEyes() {
+		return eyes;
 	}
 }

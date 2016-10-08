@@ -65,7 +65,7 @@ public class Canvas extends JPanel implements Observer {
 			Graphics2D g2 = (Graphics2D) g;
 
 			Position p = animal.position;
-			Eyes e = animal.eyes;
+			Eyes e = animal.getEyes();
 
 			Color c = new Color(.9f, .9f, .9f, .1f);
 			g2.setColor(c);

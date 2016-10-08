@@ -8,8 +8,8 @@ import eu.luminis.genetics.NeuronGene;
 
 public class Brain {
 
-	public List<Layer> layers = new ArrayList<>();
-	public InputLayer inputLayer;
+	private List<Layer> layers = new ArrayList<>();
+	private InputLayer inputLayer;
 	
 	public Brain(BrainGene gen){
 
