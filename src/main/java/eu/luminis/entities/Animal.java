@@ -147,7 +147,6 @@ public class Animal extends Organism implements Comparable<Animal> {
         this.distanceRecorder.recordMove(p);
 
 		// Register the cost of the forces applied for acceleration
-		this.usedEnergy += this.costCalculator.rotate(p.a);
 		this.usedEnergy += this.costCalculator.accelerate((accelerationLeft + accelerationRight));
 	}
 
