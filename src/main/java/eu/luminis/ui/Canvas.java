@@ -55,7 +55,7 @@ public class Canvas extends JPanel implements Observer {
 		}
 
 		for (Animal animal : population.entities) {
-			drawSize(animal, g);
+			drawCollisionBody(animal, g);
 			drawAnimal(animal, population.winningEntity, g);
 		}
 	}
@@ -122,22 +122,9 @@ public class Canvas extends JPanel implements Observer {
 		g2.fill(polygon);
 	}
 	
-	public void drawSize(Animal animal, Graphics g) {
+	public void drawCollisionBody(Animal animal, Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-/*
-		Rectangle r = new Rectangle(0,0,
-				new Double(animal.getSize()*2).intValue(), new Double(animal.getSize()).intValue());
 
-		AffineTransform t = new AffineTransform();
-		t.translate(animal.position.x, animal.position.y);
-	    t.rotate(animal.position.a);
-		t.translate(-1*animal.getSize(), -1*animal.getSize()/2);
-		
-		g2.setStroke(new BasicStroke(0.5f));
-		
-		g2.setColor(Color.CYAN);
-		g2.draw(t.createTransformedShape(r));
-*/
 		Color c = new Color(1.0f, 1.0f, 1.0f, .1f);
 		g2.setColor(c);
 		g2.setStroke(new BasicStroke(0.5f));
