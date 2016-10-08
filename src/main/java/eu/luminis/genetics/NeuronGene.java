@@ -7,6 +7,12 @@ import eu.luminis.general.Options;
 import eu.luminis.util.Range;
 
 public class NeuronGene extends Gene {
+    private static List<String> propertyNames = new ArrayList<>();
+
+    static {
+        propertyNames.add("threshold");
+        propertyNames.add("relaxation");
+    }
 
 	public List<AxonGene> axons = new ArrayList<>();
 	public double threshold;
@@ -52,17 +58,16 @@ public class NeuronGene extends Gene {
 
     	return children;
     }
-    
-    public List<String> getInitiateProperties() {
-		List<String> properties = new ArrayList<>();
-		properties.add("threshold");
-		properties.add("relaxation");
-		return properties;
-	}
-	
-	public NeuronGene initiate(List<Double> properties){
-		return new NeuronGene(properties.get(0), properties.get(1));
-	}
+
+    @Override
+    public List<String> getInitiatePropertyNames() {
+        return propertyNames;
+    }
+
+    @Override
+    public Gene initiate(List<Double> properties){
+        return new NeuronGene(properties.get(0), properties.get(1));
+    }
 
     public void mutate() {
         Range range;

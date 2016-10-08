@@ -16,9 +16,7 @@ public class Genetics {
     	List<Gene> children = new ArrayList<>();
     	
     	try {
-    		Method getInitiateMethod = a.getClass().getMethod("getInitiateProperties");
-    		List<String> properties = (List<String>) getInitiateMethod.invoke(a);
-    		
+    		List<String> properties = a.getInitiatePropertyNames();
     		List<List<Double>> childPropertyValues = new ArrayList<>(Arrays.asList(new ArrayList<>() , new ArrayList<>()));
 
             for (int j=0; j<properties.size(); j++) {
@@ -33,8 +31,7 @@ public class Genetics {
             }
             
             for (int i=0; i<2 ; i++) {
-	            Method initiateMethod = a.getClass().getMethod("initiate", List.class);
-	            children.add((Gene) initiateMethod.invoke(a, childPropertyValues.get(i)));
+	            children.add(a.initiate(childPropertyValues.get(i)));
             }
 	        
     	} catch (Exception e) {

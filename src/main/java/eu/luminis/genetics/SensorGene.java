@@ -7,6 +7,12 @@ import eu.luminis.general.Options;
 import eu.luminis.util.Range;
 
 public class SensorGene extends Gene {
+    private static List<String> propertyNames = new ArrayList<>();
+
+    static {
+        propertyNames.add("viewDistance");
+        propertyNames.add("fieldOfView");
+    }
 
     public double viewDistance;
     public double fieldOfView;
@@ -41,16 +47,14 @@ public class SensorGene extends Gene {
     public List<SensorGene> mate(SensorGene partner) {
     	return (List<SensorGene>) new Genetics().mate(this, partner);
     }
-    
-    public List<String> getInitiateProperties() {
-		List<String> properties = new ArrayList<>();
-		properties.add("viewDistance");
-		properties.add("fieldOfView");
-		return properties;
-	}
-	
-	public SensorGene initiate(List<Double> properties){
-		return new SensorGene(properties.get(0), properties.get(1));
-	}
-	
+
+    @Override
+    public List<String> getInitiatePropertyNames() {
+        return propertyNames;
+    }
+
+    @Override
+    public Gene initiate(List<Double> properties){
+        return new SensorGene(properties.get(0), properties.get(1));
+    }
 }

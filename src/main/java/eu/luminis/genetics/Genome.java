@@ -51,5 +51,4 @@ public class Genome {
 
     	return children;
     }
-	
 }

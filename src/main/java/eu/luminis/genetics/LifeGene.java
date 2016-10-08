@@ -7,22 +7,27 @@ import eu.luminis.general.Options;
 import eu.luminis.util.Range;
 
 public class LifeGene extends Gene {
+	private static List<String> propertyNames = new ArrayList<>();
+
+	static {
+		propertyNames.add("oldAge");
+		propertyNames.add("nutrition");
+	}
 
 	public double oldAge;
 	public double nutrition;
 	
-	public LifeGene(){
+	public LifeGene() {
         this.oldAge = new Range(Options.minOldAge.get(), Options.maxOldAge.get()).random();
         this.nutrition = new Range(Options.minNutrition.get(), Options.maxNutrition.get()).random();
 	}
 	
-	public LifeGene(double oldAge, double nutrition){
+	public LifeGene(double oldAge, double nutrition) {
 		this.oldAge = oldAge;
 	    this.nutrition = nutrition;
 	}
 	
 	public void mutate() {
-
         if (Math.random() <= Options.oldAgeMutationRate.get()) {
             this.oldAge += new Range(Options.minOldAge.get(), Options.maxOldAge.get()).mutation(Options.mutationFraction.get());
         }
@@ -35,16 +40,14 @@ public class LifeGene extends Gene {
     public List<LifeGene> mate(LifeGene partner) {
     	return (List<LifeGene>) new Genetics().mate(this, partner);
     }
-    
-    public List<String> getInitiateProperties() {
-		List<String> properties = new ArrayList<>();
-		properties.add("oldAge");
-		properties.add("nutrition");
-		return properties;
+
+	@Override
+	public List<String> getInitiatePropertyNames() {
+		return propertyNames;
 	}
-	
-	public LifeGene initiate(List<Double> properties){
+
+	@Override
+	public Gene initiate(List<Double> properties){
 		return new LifeGene(properties.get(0), properties.get(1));
 	}
-	
 }

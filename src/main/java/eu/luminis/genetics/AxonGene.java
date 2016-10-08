@@ -7,6 +7,13 @@ import eu.luminis.general.Options;
 import eu.luminis.util.Range;
 
 public class AxonGene extends Gene {
+    private static List<String> propertyNames = new ArrayList<>();
+
+    static {
+		propertyNames.add("strength");
+		propertyNames.add("strengthening");
+		propertyNames.add("weakening");
+	}
 
 	public double strength;
 	public double strengthening;
@@ -42,18 +49,14 @@ public class AxonGene extends Gene {
     public List<AxonGene> mate(AxonGene partner) {
     	return (List<AxonGene>) new Genetics().mate(this, partner);
     }
-    
-    public List<String> getInitiateProperties() {
-		List<String> properties = new ArrayList<>();
-		properties.add("strength");
-		properties.add("strengthening");
-		properties.add("weakening");
-		return properties;
+
+    @Override
+    public List<String> getInitiatePropertyNames() {
+        return propertyNames;
 	}
-	
-	public AxonGene initiate(List<Double> properties){
+
+    @Override
+	public Gene initiate(List<Double> properties){
 		return new AxonGene(properties.get(0), properties.get(1), properties.get(2));
 	}
-	
-	
 }

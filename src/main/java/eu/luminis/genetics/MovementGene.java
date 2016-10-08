@@ -7,7 +7,13 @@ import eu.luminis.general.Options;
 import eu.luminis.util.Range;
 
 public class MovementGene extends Gene {
-	
+	private static List<String> propertyNames = new ArrayList<>();
+
+	static {
+		propertyNames.add("angularForce");
+		propertyNames.add("linearForce");
+	}
+
 	public double angularForce;
 	public double linearForce;
 	
@@ -42,15 +48,14 @@ public class MovementGene extends Gene {
 	public List<MovementGene> mate(MovementGene partner) {
 		return (List<MovementGene>) new Genetics().mate(this, partner);
     }
-	
-	public List<String> getInitiateProperties() {
-		List<String> properties = new ArrayList<>();
-		properties.add("angularForce");
-		properties.add("linearForce");
-		return properties;
+
+	@Override
+	public List<String> getInitiatePropertyNames() {
+		return propertyNames;
 	}
-	
-	public MovementGene initiate(List<Double> properties){
+
+	@Override
+	public Gene initiate(List<Double> properties){
 		return new MovementGene(properties.get(0), properties.get(1));
-	}	
+	}
 }
