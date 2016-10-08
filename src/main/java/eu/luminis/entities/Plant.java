@@ -16,7 +16,7 @@ public class Plant extends Organism {
 		growthPercentage = new Range(Options.minGrowthPercentage.get(), Options.maxGrowthPercentage.get()).random();
 	    size = new Range(Options.minFoodSize.get(), Options.maxFoodSize.get()).random();
 	    
-	    nutrition = genome.life.nutrition;
+	    nutrition = genome.getLife().getNutrition();
 	}
 	
     public void run(){

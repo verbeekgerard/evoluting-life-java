@@ -13,19 +13,19 @@ public class Neuron {
     private double relaxation;
 
 	public Neuron(NeuronGene gene, List<Neuron> targetNeurons){
-		this.threshold = gene.threshold;
-        this.relaxation = gene.relaxation;
+		this.threshold = gene.getThreshold();
+        this.relaxation = gene.getRelaxation();
 		
         if (targetNeurons == null) {
         	// Assemble an output neuron
-            for (AxonGene axonGene : gene.axons) {
-                Axon axon = new Axon(axonGene.strength);
+            for (AxonGene axonGene : gene.getAxons()) {
+                Axon axon = new Axon(axonGene.getStrength());
                 axons.add(axon);
             }
         } else {
         	// Assemble a neuron that transmits to its axons
-        	for (int i = 0; i < gene.axons.size(); i++) {
-                Axon axon = new Axon(gene.axons.get(i).strength, targetNeurons.get(i));
+        	for (int i = 0; i < gene.getAxons().size(); i++) {
+                Axon axon = new Axon(gene.getAxons().get(i).getStrength(), targetNeurons.get(i));
                 axons.add(axon);
             }
         }

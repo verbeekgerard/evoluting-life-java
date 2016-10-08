@@ -1,16 +1,15 @@
 package eu.luminis.genetics;
 
-import java.util.ArrayList;
+import eu.luminis.general.Options;
+import eu.luminis.util.Range;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import eu.luminis.general.Options;
-import eu.luminis.util.Range;
-
 public class MovementGene extends Gene {
-	public double angularForce;
-	public double linearForce;
+	private double angularForce;
+	private double linearForce;
 	
 	public MovementGene(){
 		this.angularForce = new Range(Options.minAngularForce.get(), Options.maxAngularForce.get()).random();
@@ -56,5 +55,13 @@ public class MovementGene extends Gene {
 	@Override
 	public Gene initiate(Map<String, Double> properties) {
 		return new MovementGene(properties.get("angularForce"), properties.get("linearForce"));
+	}
+
+	public double getAngularForce() {
+		return angularForce;
+	}
+
+	public double getLinearForce() {
+		return linearForce;
 	}
 }

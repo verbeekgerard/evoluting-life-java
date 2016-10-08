@@ -48,11 +48,11 @@ public class Animal extends Organism implements Comparable<Animal> {
 		this.initialEnergy = Options.initialEnergyOption.get();
         this.linearFriction = Options.linearFrictionOption.get();
 
-		this.eyes = new Eyes(this, genome.sensor, world);
+		this.eyes = new Eyes(this, genome.getSensor(), world);
 
-		this.linearForce = genome.movement.linearForce;
+		this.linearForce = genome.getMovement().getLinearForce();
 
-		this.brain = new Brain(genome.brain);
+		this.brain = new Brain(genome.getBrain());
 	}
 
 	public Double fitness() {

@@ -1,16 +1,15 @@
 package eu.luminis.genetics;
 
-import java.util.ArrayList;
+import eu.luminis.general.Options;
+import eu.luminis.util.Range;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import eu.luminis.general.Options;
-import eu.luminis.util.Range;
-
 public class SensorGene extends Gene {
-    public double viewDistance;
-    public double fieldOfView;
+    private double viewDistance;
+    private double fieldOfView;
     
     public SensorGene(double viewDistance, double fieldOfView){
     	this.viewDistance = viewDistance;
@@ -55,5 +54,13 @@ public class SensorGene extends Gene {
     @Override
     public Gene initiate(Map<String, Double> properties) {
         return new SensorGene(properties.get("viewDistance"), properties.get("fieldOfView"));
+    }
+
+    public double getViewDistance() {
+        return viewDistance;
+    }
+
+    public double getFieldOfView() {
+        return fieldOfView;
     }
 }

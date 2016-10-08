@@ -1,16 +1,15 @@
 package eu.luminis.genetics;
 
-import java.util.ArrayList;
+import eu.luminis.general.Options;
+import eu.luminis.util.Range;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import eu.luminis.general.Options;
-import eu.luminis.util.Range;
-
 public class LifeGene extends Gene {
-	public double oldAge;
-	public double nutrition;
+	private double oldAge;
+	private double nutrition;
 	
 	public LifeGene() {
         this.oldAge = new Range(Options.minOldAge.get(), Options.maxOldAge.get()).random();
@@ -48,5 +47,13 @@ public class LifeGene extends Gene {
 	@Override
 	public Gene initiate(Map<String, Double> properties) {
 		return new LifeGene(properties.get("oldAge"), properties.get("nutrition"));
+	}
+
+	public double getOldAge() {
+		return oldAge;
+	}
+
+	public double getNutrition() {
+		return nutrition;
 	}
 }

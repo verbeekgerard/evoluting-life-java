@@ -18,7 +18,7 @@ public abstract class Organism {
 		return this.age;
 	}
 	public double getOldAge() {
-		return genome.life.oldAge;
+		return genome.getLife().getOldAge();
 	}
 
 	public Organism(Genome genome, Position position, World world){

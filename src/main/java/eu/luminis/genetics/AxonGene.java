@@ -1,6 +1,5 @@
 package eu.luminis.genetics;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,9 +8,9 @@ import eu.luminis.general.Options;
 import eu.luminis.util.Range;
 
 public class AxonGene extends Gene {
-	public double strength;
-	public double strengthening;
-	public double weakening;
+	private double strength;
+	private double strengthening;
+	private double weakening;
 
 	public AxonGene(double strength, double strengthening, double weakening){
 		this.strength = strength;
@@ -58,4 +57,16 @@ public class AxonGene extends Gene {
 	public Gene initiate(Map<String, Double> properties) {
 		return new AxonGene(properties.get("strength"), properties.get("strengthening"), properties.get("weakening"));
 	}
+
+    public double getStrength() {
+        return strength;
+    }
+
+    public double getStrengthening() {
+        return strengthening;
+    }
+
+    public double getWeakening() {
+        return weakening;
+    }
 }

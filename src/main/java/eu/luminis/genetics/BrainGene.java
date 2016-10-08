@@ -8,8 +8,7 @@ import eu.luminis.util.Range;
 
 public class BrainGene {
 	
-	public List<List<NeuronGene>> layers = new ArrayList<>();
-	
+	private List<List<NeuronGene>> layers = new ArrayList<>();
 	
 	public BrainGene(int inputCount, int outputCount){
 		// Construct the output layer
@@ -42,7 +41,7 @@ public class BrainGene {
 			for(int j=0; j < stateLayer.size(); j++) {
 				NeuronGene neuronGene = stateLayer.get(j);
 				
-				layer.add(new NeuronGene(neuronGene.threshold, neuronGene.relaxation, new ArrayList<AxonGene>(neuronGene.axons)));
+				layer.add(new NeuronGene(neuronGene.getThreshold(), neuronGene.getRelaxation(), new ArrayList<AxonGene>(neuronGene.getAxons())));
 			}
 			layers.add(layer);
 		}
@@ -91,9 +90,9 @@ public class BrainGene {
 	}
 	
 	public List<List<NeuronGene>> getEmptyChild(int layerCount) {
-		List<List<NeuronGene>> stateLayers = new ArrayList<List<NeuronGene>>();
+		List<List<NeuronGene>> stateLayers = new ArrayList<>();
 		for (int j=0; j<layerCount; j++) {
-			stateLayers.add(new ArrayList<NeuronGene>());
+			stateLayers.add(new ArrayList<>());
 		}
 		return stateLayers;
 	};
@@ -126,4 +125,7 @@ public class BrainGene {
 		return children;
 	}
 
+	public List<List<NeuronGene>> getLayers() {
+		return layers;
+	}
 }

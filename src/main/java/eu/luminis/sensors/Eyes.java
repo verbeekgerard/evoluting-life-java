@@ -17,8 +17,8 @@ public class Eyes {
 	public Eyes(Animal owner, SensorGene sensorGen, World world){
 		this.owner = owner;
 		
-		this.viewDistance = sensorGen.viewDistance;
-      	this.fieldOfView = sensorGen.fieldOfView;
+		this.viewDistance = sensorGen.getViewDistance();
+      	this.fieldOfView = sensorGen.getFieldOfView();
       	this.world = world;
 	}
 	

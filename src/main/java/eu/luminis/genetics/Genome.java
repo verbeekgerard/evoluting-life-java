@@ -5,10 +5,10 @@ import java.util.List;
 
 public class Genome {
 
-	public BrainGene brain;
-	public LifeGene life;
-	public SensorGene sensor;
-	public MovementGene movement;
+	private BrainGene brain;
+	private LifeGene life;
+	private SensorGene sensor;
+	private MovementGene movement;
 	
 	public Genome(int inputCount, int outputCount){
 		this.brain = new BrainGene(inputCount, outputCount);
@@ -18,10 +18,10 @@ public class Genome {
 	}
 	
 	public Genome(BrainGene brain, LifeGene life, SensorGene sensor, MovementGene movement){
-        this.brain = new BrainGene(brain.layers);
-        this.life = new LifeGene(life.oldAge, life.nutrition);
-        this.sensor = new SensorGene(sensor.viewDistance, sensor.fieldOfView);
-        this.movement = new MovementGene(movement.angularForce, movement.linearForce);
+        this.brain = new BrainGene(brain.getLayers());
+        this.life = new LifeGene(life.getOldAge(), life.getNutrition());
+        this.sensor = new SensorGene(sensor.getViewDistance(), sensor.getFieldOfView());
+        this.movement = new MovementGene(movement.getAngularForce(), movement.getLinearForce());
 	}
 	
 	public void mutate() {
@@ -51,4 +51,20 @@ public class Genome {
 
     	return children;
     }
+
+	public BrainGene getBrain() {
+		return brain;
+	}
+
+	public LifeGene getLife() {
+		return life;
+	}
+
+	public SensorGene getSensor() {
+		return sensor;
+	}
+
+	public MovementGene getMovement() {
+		return movement;
+	}
 }

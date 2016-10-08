@@ -9,9 +9,9 @@ import eu.luminis.general.Options;
 import eu.luminis.util.Range;
 
 public class NeuronGene extends Gene {
-	public List<AxonGene> axons = new ArrayList<>();
-	public double threshold;
-	public double relaxation;
+	private List<AxonGene> axons = new ArrayList<>();
+	private double threshold;
+	private double relaxation;
 	
 	public NeuronGene(int maxOutputs) {
 		
@@ -35,7 +35,7 @@ public class NeuronGene extends Gene {
 
         for (int i=0; i< axons.size(); i++) {
         	AxonGene axon = axons.get(i);
-            this.axons.add(new AxonGene(axon.strength, axon.strengthening, axon.weakening));
+            this.axons.add(new AxonGene(axon.getStrength(), axon.getStrengthening(), axon.getWeakening()));
         }
 	}
     
@@ -97,5 +97,17 @@ public class NeuronGene extends Gene {
 
             this.axons.get(i).mutate();
         }
-    }	
+    }
+
+    public List<AxonGene> getAxons() {
+        return axons;
+    }
+
+    public double getThreshold() {
+        return threshold;
+    }
+
+    public double getRelaxation() {
+        return relaxation;
+    }
 }

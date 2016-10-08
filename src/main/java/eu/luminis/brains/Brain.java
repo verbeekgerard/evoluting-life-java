@@ -11,7 +11,7 @@ public class Brain {
 	private InputLayer inputLayer;
 	
 	public Brain(BrainGene gen) {
-		List<List<NeuronGene>> genLayers = gen.layers;
+		List<List<NeuronGene>> genLayers = gen.getLayers();
 
 		// The output layer has no target layer
 		Layer layer = new Layer(genLayers.get(0));
