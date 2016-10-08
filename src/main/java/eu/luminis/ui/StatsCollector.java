@@ -30,16 +30,16 @@ public class StatsCollector implements Observer {
         double totalAge = 0;
         double totalDistance = 0;
 
-        for (Animal animal : population.entities) {
+        for (Animal animal : population.getEntities()) {
             totalHealth += animal.getHealth();
             totalAge += animal.getAge();
             totalDistance += animal.getTravelledDistance();
         }
 
-        double avgHealth = totalHealth / population.entities.size();
-        double avgAge = totalAge / population.entities.size();
-        double avgDistance = totalDistance / population.entities.size();
-        double bestFitness = population.winningEntity.fitness();
+        double avgHealth = totalHealth / population.getEntities().size();
+        double avgAge = totalAge / population.getEntities().size();
+        double avgDistance = totalDistance / population.getEntities().size();
+        double bestFitness = population.getWinningEntity().fitness();
 
         PeriodicStats periodicStats = new PeriodicStats(avgHealth, avgAge, avgDistance, bestFitness);
 

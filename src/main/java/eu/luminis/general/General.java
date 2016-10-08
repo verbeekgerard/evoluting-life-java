@@ -8,9 +8,9 @@ public class General extends Observable {
 	
 	private Thread mainThread;
 	private boolean loop = true;
-	public FoodSupply foodSupply;
-	public Population population;
-	public World world;
+	private FoodSupply foodSupply;
+	private Population population;
+	private World world;
 	private int iteration = 0;
 	private static General singleton = new General();
 	
@@ -74,7 +74,7 @@ public class General extends Observable {
           foodSupply.run();
 
           // Run a tick of population life cycle
-          population.run(foodSupply.plants);
+          population.run(foodSupply.getPlants());
 
           broadcast(EventType.CYCLE_END, iteration);
 	}
@@ -83,5 +83,16 @@ public class General extends Observable {
 		setChanged();
         super.notifyObservers(new Event(eventType, value));
 	}
-	
+
+	public FoodSupply getFoodSupply() {
+		return foodSupply;
+	}
+
+	public Population getPopulation() {
+		return population;
+	}
+
+	public World getWorld() {
+		return world;
+	}
 }

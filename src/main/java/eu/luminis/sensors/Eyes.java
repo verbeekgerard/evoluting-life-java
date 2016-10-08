@@ -32,9 +32,9 @@ public class Eyes {
 
         // If not near to a wall
         if (p.x > this.viewDistance &&
-          world.width - p.x > this.viewDistance &&
+          world.getWidth() - p.x > this.viewDistance &&
           p.y > this.viewDistance &&
-          world.height - p.y > this.viewDistance) {
+          world.getHeight() - p.y > this.viewDistance) {
           return this.viewDistance;
         }
 
@@ -54,8 +54,8 @@ public class Eyes {
         double distY;
         if (p.a >= 0 && p.a <= Math.PI * 0.5) {
           // Facing right wall, bottom wall: x=world.width, y=world.height
-          distX = (world.width - p.x) / Math.cos(p.a);
-          distY = (world.height - p.y) / Math.sin(p.a);
+          distX = (world.getWidth() - p.x) / Math.cos(p.a);
+          distY = (world.getHeight() - p.y) / Math.sin(p.a);
 
           return Math.min(Math.min(distX, distY), this.viewDistance);
         }
@@ -63,7 +63,7 @@ public class Eyes {
         if (p.a >= Math.PI * 0.5 && p.a <= Math.PI) {
           // Facing left wall, bottom wall: x=0, y=world.height
           distX = (0 - p.x) / Math.cos(p.a);
-          distY = (world.height - p.y) / Math.sin(p.a);
+          distY = (world.getHeight() - p.y) / Math.sin(p.a);
 
           return Math.min(Math.min(distX, distY), this.viewDistance);
         }
@@ -78,7 +78,7 @@ public class Eyes {
 
         if (p.a >= Math.PI * 1.5 && p.a < Math.PI * 2) {
           // Facing right wall, top wall: x=world.width, y=0
-          distX = (world.width - p.x) / Math.cos(p.a);
+          distX = (world.getWidth() - p.x) / Math.cos(p.a);
           distY = (0 - p.y) / Math.sin(p.a);
 
           return Math.min(Math.min(distX, distY), this.viewDistance);

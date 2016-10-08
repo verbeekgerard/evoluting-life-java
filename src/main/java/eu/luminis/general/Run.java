@@ -18,7 +18,7 @@ public class Run {
 		General general = General.getInstance();
 		
 		if(visible == true){
-			Canvas canvas = new Canvas(general.foodSupply, general.population, general.world);
+			Canvas canvas = new Canvas(general.getFoodSupply(), general.getPopulation(), general.getWorld());
 			general.addObserver(canvas);
 			MainPanel mainPanel = new MainPanel(createStatsCollectorInstance(), general);
 			general.addObserver(mainPanel);
@@ -43,7 +43,7 @@ public class Run {
 
 	private static StatsCollector createStatsCollectorInstance() { // TODO: move this to a factory
 		General general = General.getInstance();
-		StatsCollector statsCollector = new StatsCollector(general.population);
+		StatsCollector statsCollector = new StatsCollector(general.getPopulation());
 		general.addObserver(statsCollector);
 
 		return statsCollector;

@@ -19,21 +19,23 @@ import java.util.Observer;
 public class Canvas extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
+    private final double WEDGE_ANGLE = Math.PI * 0.25;
+
 	private FoodSupply foodSupply;
 	private Population population;
-	private final double WEDGE_ANGLE = Math.PI * 0.25;
+	private World world;
 
 	public Canvas(FoodSupply foodSupply, Population population, World world) {
-		
-		JFrame frame = new JFrame("Evoluting-life-java");
+        JFrame frame = new JFrame("Evoluting-life-java");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(this);
-		frame.setSize(new Double(world.width).intValue(), new Double(world.height + 20).intValue());
+		frame.setSize(new Double(world.getWidth()).intValue(), new Double(world.getHeight() + 20).intValue());
 		frame.setVisible(true);
 		frame.setResizable(false);
 		
 		this.foodSupply = foodSupply;
 		this.population = population;
+        this.world = world;
 	}
 
 	@Override
@@ -46,22 +48,22 @@ public class Canvas extends JPanel implements Observer {
 
 	public void paintComponent(Graphics g) {
 		g.setColor(Color.DARK_GRAY);
-		g.fillRect(0, 0, population.world.width, population.world.height);
+		g.fillRect(0, 0, world.getWidth(), world.getHeight());
 
-		drawFieldOfView(population.winningEntity, g);
+		drawFieldOfView(population.getWinningEntity(), g);
 
-		for (Plant plant : foodSupply.plants) {
+		for (Plant plant : foodSupply.getPlants()) {
 			drawPlant(plant, g);
 		}
 
-		for (Animal animal : population.entities) {
+		for (Animal animal : population.getEntities()) {
 			drawCollisionBody(animal, g);
-			drawAnimal(animal, population.winningEntity, g);
+			drawAnimal(animal, population.getWinningEntity(), g);
 		}
 	}
 
 	public void drawFieldOfView(Animal animal, Graphics g) {
-		if (population.winningEntity != null) {
+		if (population.getWinningEntity() != null) {
 			Graphics2D g2 = (Graphics2D) g;
 
 			Position p = animal.position;

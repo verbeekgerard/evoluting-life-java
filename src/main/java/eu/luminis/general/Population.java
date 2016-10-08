@@ -19,17 +19,18 @@ import java.lang.reflect.Type;
 
 public class Population {
 
-	public World world;
-	public List<Animal> entities = new CopyOnWriteArrayList<>(); // Slow lost but no exceptions in UI
-	public Animal winningEntity;
+	private World world;
+	private List<Animal> entities = new CopyOnWriteArrayList<>(); // Slow lost but no exceptions in UI
+	private Animal winningEntity;
 
-	public Option populationSize = new Option(16 * 8);
+	private double populationSize;
 
 	public Population(World world) {
 		this.world = world;
+		this.populationSize = Options.populationSize.get();
 
 		// Fill our population with eu.luminis.entities
-		for (int i = 0; i < populationSize.get(); i++) {
+		for (int i = 0; i < populationSize; i++) {
 			Genome genome = createGenome();
 			Position position = createRandomPosition();
 			Animal entity = new Animal(genome, position, world);
@@ -39,7 +40,6 @@ public class Population {
 	}
 	
 	public void importPopulation(String json) {
-
 		this.entities = new CopyOnWriteArrayList<>();
 		
 		Type listType = new TypeToken<ArrayList<Genome>>(){}.getType();
@@ -65,8 +65,8 @@ public class Population {
 
 	public Position createRandomPosition() {
 		Range range = new Range(-0.98, 0.98);
-		double x = world.width/2 + world.width/2 * range.random();
-		double y = world.height/2 + world.height/2 * range.random();
+		double x = world.getWidth() /2 + world.getWidth() /2 * range.random();
+		double y = world.getHeight() /2 + world.getHeight() /2 * range.random();
 		return new Position(x, y, Math.random() * Math.PI * 2);
 	}
 
@@ -78,7 +78,7 @@ public class Population {
 		List<Animal> entitiesToRemove = new ArrayList<>();
 		for (int i = 0; i < this.entities.size(); i++) {
 			Animal entity = this.entities.get(i);
-			// TODO to make this fast this should run on separate threads
+			// TODO: to make this fast this should run on separate threads
 			entity.run(plants, this.entities);
 
 			// Check entity life cycle and remove dead eu.luminis.entities
@@ -96,7 +96,7 @@ public class Population {
 			this.entities.remove(entityToRemove);
 		}
 
-		while (this.entities.size() <= populationSize.get() - 2) {
+		while (this.entities.size() <= populationSize - 2) {
 			List<Animal> parents = selectParents();
 			produceChildren(parents);
 		}
@@ -128,5 +128,9 @@ public class Population {
 
 	public List<Animal> getEntities(){
 		return this.entities;
+	}
+
+	public Animal getWinningEntity() {
+		return winningEntity;
 	}
 }

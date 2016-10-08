@@ -2,8 +2,8 @@ package eu.luminis.general;
 
 public class Option {
 
-	public double defaultValue;
-	public double internalValue;
+	private double defaultValue;
+	private double internalValue;
 	
 	public Option(double value){
 		defaultValue = value;

@@ -30,7 +30,7 @@ public abstract class Organism {
 	public boolean lives(){
         Position p = this.position;
 
-        if (p.x > world.width || p.x < 0 || p.y > world.height || p.y < 0) {
+        if (p.x > world.getWidth() || p.x < 0 || p.y > world.getHeight() || p.y < 0) {
         	General.getInstance().broadcast(EventType.WANDERED, 1);
         	return false;
         }

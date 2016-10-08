@@ -12,22 +12,22 @@ public class TravelledDistanceRecorder {
     }
 
     public void recordMove(Position position) {
-        this.currentDistance = position.calculateDistance(this.startPosition);
+        currentDistance = position.calculateDistance(startPosition);
 
-        this.steps++;
-        if (steps > 300 || this.currentDistance > 300) {
+        steps++;
+        if (steps > 300 || currentDistance > 300) {
             initializeDistanceVariables(position);
         }
     }
 
     public double getTotalDistance() {
-        return this.historicalDistance + this.currentDistance;
+        return historicalDistance + currentDistance;
     }
 
     private void initializeDistanceVariables(Position position) {
-        this.historicalDistance += this.currentDistance;
-        this.steps = 0;
-        this.currentDistance = 0;
-        this.startPosition = new Position(position);
+        historicalDistance += currentDistance;
+        steps = 0;
+        currentDistance = 0;
+        startPosition = new Position(position);
     }
 }
