@@ -21,13 +21,9 @@ public class Animal extends Organism implements Comparable<Animal> {
 	private Position startPosition;
 
 	private double size;
-	private double collided = 0;
-	private double usedEnergy = 0;
 	private Eyes eyes;
 
-	private double initialEnergy;
 	private double linearFriction;
-	private double angularFriction;
 	private double velocityLeft = 0;
 	private double velocityRight = 0;
 
@@ -37,21 +33,15 @@ public class Animal extends Organism implements Comparable<Animal> {
 	private double historicalDistance = 0;
 	private double currentDistance = 0;
 
+	private double initialEnergy;
+	private double collided = 0;
+	private double usedEnergy = 0;
+
 	private Brain brain;
-	private Map<String, Double> output;
 
 	@Override
 	public double getSize() {
-		return Options.sizeOption.get() * (1 + 0.75 * healthN());
-	}
-
-	public Map<String, Double> getInitialOutput() {
-		Map<String, Double> initialOutput = new HashMap<>();
-		initialOutput.put("leftAccelerate", 0d);
-		initialOutput.put("leftDecelerate", 0d);
-		initialOutput.put("rightAccelerate", 0d);
-		initialOutput.put("rightDecelerate", 0d);
-		return initialOutput;
+		return this.size * (1 + 0.75 * healthN());
 	}
 
 	public Animal(Genome genome, Position position, World world) {
@@ -62,17 +52,13 @@ public class Animal extends Organism implements Comparable<Animal> {
 
 		this.size = Options.sizeOption.get();
 		this.initialEnergy = Options.initialEnergyOption.get();
-
-		this.angularFriction = Options.angularFrictionOption.get();
-		this.linearFriction = Options.linearFrictionOption.get();
+        this.linearFriction = Options.linearFrictionOption.get();
 
 		this.eyes = new Eyes(this, genome.sensor, world);
 
 		this.linearForce = genome.movement.linearForce;
 
 		this.brain = new Brain(genome.brain);
-
-		this.output = getInitialOutput();
 	}
 
 	public Double fitness() {
@@ -82,35 +68,6 @@ public class Animal extends Organism implements Comparable<Animal> {
 	public double healthN() {
 		double health = this.getHealth();
 		return health > 0 ? 1 - 1 / Math.exp(health / 200) : 0;
-	}
-
-	public List<Double> createInput(ObstacleVector obstacle, double wallDistance) {
-		double fieldOfView = eyes.fieldOfView;
-		double viewDistance = eyes.viewDistance;
-
-		List<Double> inputs = new ArrayList<>();
-
-		// left
-		inputs.add(obstacle != null ? (fieldOfView / 2 + obstacle.angle) / fieldOfView : 0);
-		// right
-		inputs.add(obstacle != null ? (fieldOfView / 2 - obstacle.angle) / fieldOfView : 0);
-		// distance
-		inputs.add(obstacle != null ? (viewDistance - obstacle.distance) / viewDistance : 0);
-
-		// distance to wall
-		inputs.add((viewDistance - wallDistance) / viewDistance);
-		// random
-		inputs.add(new Range(0, 1).random());
-
-		double normalizationFactor = (Options.maxThreshold.get() + Options.minThreshold.get()) / 2;
-		// Normalize inputs
-		for (int i = 0; i < inputs.size(); i++) {
-			Double value = inputs.get(i);
-			value *= normalizationFactor;
-			inputs.set(i, value);
-		}
-
-		return inputs;
 	}
 
 	public void checkColission(Organism organism) {
@@ -161,7 +118,9 @@ public class Animal extends Organism implements Comparable<Animal> {
 		return this.historicalDistance + this.currentDistance;
 	}
 
-	public void move() {
+	public void move(AnimalBrainOutput brainOutput) {
+        if (brainOutput == null) return;
+
 		Position p = this.position;
 
 		// Keep angles within bounds
@@ -170,15 +129,13 @@ public class Animal extends Organism implements Comparable<Animal> {
 			p.a += Math.PI * 2;
 
 		// F=m*a => a=F/m, dv=a*dt => dv=dt*F/m, dt=one cycle, m=1
-		double accelerationLeft = (this.output.get("leftAccelerate") - this.output.get("leftDecelerate"))
-				* this.linearForce;
+		double accelerationLeft = brainOutput.getAccelerationLeft() * this.linearForce;
 		this.velocityLeft += accelerationLeft;
-		this.velocityLeft -= this.velocityLeft * Options.linearFrictionOption.get();
+		this.velocityLeft -= this.velocityLeft * linearFriction;
 
-		double accelerationRight = (this.output.get("rightAccelerate") - this.output.get("rightDecelerate"))
-				* this.linearForce;
+		double accelerationRight = brainOutput.getAccelerationRight() * this.linearForce;
 		this.velocityRight += accelerationRight;
-		this.velocityRight -= this.velocityRight * Options.linearFrictionOption.get();
+		this.velocityRight -= this.velocityRight * linearFriction;
 
 		p.a += (this.velocityLeft - this.velocityRight) / 10;
 
@@ -211,34 +168,27 @@ public class Animal extends Organism implements Comparable<Animal> {
 	public void run(List<Plant> plants, List<Animal> animals) {
 		this.age++;
 
-		Targets targets = this.eyes.sense(plants, animals);
-		think(targets);
-		move();
+		Targets targets = eyes.sense(plants, animals);
+        AnimalBrainOutput brainOutput = think(targets);
+		move(brainOutput);
 		collide(plants, animals);
 
 		// Register the cost of the cycle
 		this.usedEnergy += this.costCalculator.cycle();
 	}
 
-	public void think(Targets targets) {
+	public AnimalBrainOutput think(Targets targets) {
 		ObstacleVector obstacle = null;
 
 		if (targets.obstacles.size() > 0) {
 			obstacle = targets.obstacles.get(0);
 		}
 
-		List<Double> inputs = createInput(obstacle, targets.wallDistance);
+        AnimalBrainInput brainInput = new AnimalBrainInput(obstacle, targets.wallDistance, eyes.fieldOfView, eyes.viewDistance);
+		List<Double> inputs = brainInput.getInputs();
+        List<Double> thoughtOutput = this.brain.think(inputs);
 
-		List<String> keys = new ArrayList<>();
-		keys.add("leftAccelerate");
-		keys.add("leftDecelerate");
-		keys.add("rightAccelerate");
-		keys.add("rightDecelerate");
-
-		List<Double> thoughtOutput = this.brain.think(inputs);
-		for (int i = 0; i < thoughtOutput.size(); i++) {
-			this.output.put(keys.get(i), thoughtOutput.get(i));
-		}
+        return new AnimalBrainOutput(thoughtOutput);
 	}
 
 	@Override
