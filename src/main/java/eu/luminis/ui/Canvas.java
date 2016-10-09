@@ -25,6 +25,8 @@ public class Canvas extends JPanel implements Observer {
 	private Population population;
 	private World world;
 
+    private long previousRenderTime = 0;
+
 	public Canvas(FoodSupply foodSupply, Population population, World world) {
         JFrame frame = new JFrame("Evoluting-life-java");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,7 +44,12 @@ public class Canvas extends JPanel implements Observer {
 	public void update(Observable o, Object arg) {
 		Event event = (Event) arg;
 		if (event.type.equals(EventType.CYCLE_END)) {
-			this.repaint();
+            long currentRenderTime = System.nanoTime();
+            long milliseconds = (currentRenderTime - previousRenderTime) / 1000000;
+            if (milliseconds > 17) {
+                this.repaint();
+                previousRenderTime = currentRenderTime;
+            }
 		}
 	}
 
