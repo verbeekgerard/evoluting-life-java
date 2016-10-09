@@ -5,7 +5,7 @@ import java.util.List;
 
 import eu.luminis.genetics.*;
 
-public class Neuron {
+class Neuron {
 
 	private List<Axon> axons = new ArrayList<>();
 	private double excitation = 0;

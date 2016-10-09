@@ -18,7 +18,7 @@ public class Run {
 		Simulation simulation = Simulation.getInstance();
 		EventBroadcaster eventBroadcaster = EventBroadcaster.getInstance();
 		
-		if(visible == true){
+		if(visible){
             initializeCanvas(simulation, eventBroadcaster);
             initializeMainPanel(simulation, eventBroadcaster);
 		}
@@ -63,10 +63,10 @@ public class Run {
 	}
 
     private static boolean getVisible(String[] args){
-        boolean visual = true;
-        if(args.length > 0){
-            visual = new Boolean((args[0]));
+        boolean visible = true;
+        if(args.length > 0) {
+            visible = Boolean.valueOf((args[0]));
         }
-        return visual;
+        return visible;
     }
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import eu.luminis.genetics.NeuronGene;
 
-public class InputLayer extends Layer {
+class InputLayer extends Layer {
 
 	public InputLayer(List<NeuronGene> list, Layer targetLayer){
 		super(list, targetLayer);

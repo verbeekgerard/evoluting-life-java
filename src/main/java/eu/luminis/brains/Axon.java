@@ -1,6 +1,6 @@
 package eu.luminis.brains;
 
-public class Axon {
+class Axon {
 	
 	private double strength;
 	private Neuron targetNeuron;

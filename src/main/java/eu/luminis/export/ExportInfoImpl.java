@@ -1,20 +1,16 @@
 package eu.luminis.export;
 
-import eu.luminis.entities.Animal;
 import eu.luminis.ui.Stats;
 import eu.luminis.ui.StatsCollector;
 
-import java.util.List;
-
 public class ExportInfoImpl implements ExportInfo {
-
     private static ExportInfoImpl instance;
     private static StatsCollector collector;
 
-    private ExportInfoImpl(){}
+    private ExportInfoImpl() {}
 
-    public static ExportInfoImpl create(StatsCollector statsCollector){
-        if(instance == null){
+    public static ExportInfoImpl create(StatsCollector statsCollector) {
+        if(instance == null) {
             instance = new ExportInfoImpl();
             collector = statsCollector;
         }

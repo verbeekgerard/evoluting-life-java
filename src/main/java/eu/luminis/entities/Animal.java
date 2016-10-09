@@ -131,7 +131,7 @@ public class Animal extends Organism implements Comparable<Animal> {
         return new AnimalBrainOutput(thoughtOutput);
     }
 
-    private void checkColission(Organism organism) {
+    private void checkCollision(Organism organism) {
         boolean colliding = collisionDetector.colliding(this, organism);
         if (!colliding) return;
 
@@ -154,8 +154,8 @@ public class Animal extends Organism implements Comparable<Animal> {
 
 	private void collide(List<Plant> plants, List<Animal> animals) {
 		// TODO: optimize this by combining it with the sense action
-        plants.forEach(this::checkColission);
-        animals.forEach(this::checkColission);
+        plants.forEach(this::checkCollision);
+        animals.forEach(this::checkCollision);
 	}
 
 	private double getVelocity() {

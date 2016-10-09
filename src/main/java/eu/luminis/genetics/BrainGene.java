@@ -10,7 +10,7 @@ public class BrainGene {
 	
 	private List<List<NeuronGene>> layers = new ArrayList<>();
 	
-	public BrainGene(int inputCount, int outputCount){
+	public BrainGene(int inputCount, int outputCount) {
 		// Construct the output layer
 		layers.add( createLayer(0, outputCount) );
 
@@ -31,8 +31,7 @@ public class BrainGene {
 		layers.add( createLayer(maxTargetCount, inputCount) );		
 	}
 	
-	public BrainGene(List<List<NeuronGene>> stateLayers){
-
+	public BrainGene(List<List<NeuronGene>> stateLayers) {
 		for(int i=0; i<stateLayers.size(); i++) {
 			List<NeuronGene> layer = new ArrayList<>();
 			
@@ -47,16 +46,7 @@ public class BrainGene {
 		}
 	}
 	
-	public List<NeuronGene> createLayer(int maxTargetCount, int neuronCount) {
-		List<NeuronGene> neuronGenes = new ArrayList<>();
-		for (int i=0;i<neuronCount;i++) {
-			neuronGenes.add( new NeuronGene(maxTargetCount) );
-		}
-		return neuronGenes;
-	}
-
-	public void mutate(){
-
+	public void mutate() {
 		for (int i=0; i<layers.size(); i++) {
 			
 			List<NeuronGene> stateLayer = layers.get(i);
@@ -74,28 +64,6 @@ public class BrainGene {
 			}
 		}
 	}
-	
-	public List<BrainGene> createChildClones(BrainGene a, BrainGene b) {
-		List<BrainGene> childs = new ArrayList<>();
-		
-		if (Math.random() < 0.5){
-			childs.add(a);
-			childs.add(b);
-		} else {
-			childs.add(b);
-			childs.add(a);
-		}
-				
-		return childs;
-	}
-	
-	public List<List<NeuronGene>> getEmptyChild(int layerCount) {
-		List<List<NeuronGene>> stateLayers = new ArrayList<>();
-		for (int j=0; j<layerCount; j++) {
-			stateLayers.add(new ArrayList<>());
-		}
-		return stateLayers;
-	};
 
 	public List<BrainGene> mate(BrainGene partner){
 		List<List<NeuronGene>> a = this.layers;
@@ -127,5 +95,35 @@ public class BrainGene {
 
 	public List<List<NeuronGene>> getLayers() {
 		return layers;
+	}
+
+	private List<NeuronGene> createLayer(int maxTargetCount, int neuronCount) {
+		List<NeuronGene> neuronGenes = new ArrayList<>();
+		for (int i=0;i<neuronCount;i++) {
+			neuronGenes.add( new NeuronGene(maxTargetCount) );
+		}
+		return neuronGenes;
+	}
+
+	private List<BrainGene> createChildClones(BrainGene a, BrainGene b) {
+		List<BrainGene> children = new ArrayList<>();
+
+		if (Math.random() < 0.5){
+			children.add(a);
+			children.add(b);
+		} else {
+			children.add(b);
+			children.add(a);
+		}
+
+		return children;
+	}
+
+	private List<List<NeuronGene>> getEmptyChild(int layerCount) {
+		List<List<NeuronGene>> stateLayers = new ArrayList<>();
+		for (int j=0; j<layerCount; j++) {
+			stateLayers.add(new ArrayList<>());
+		}
+		return stateLayers;
 	}
 }

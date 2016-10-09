@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import eu.luminis.genetics.NeuronGene;
 
-public class Layer {
+class Layer {
 
 	private List<Neuron> neurons = new ArrayList<>();
 	

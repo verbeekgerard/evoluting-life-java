@@ -28,7 +28,6 @@ public class Brain {
 	}
 	
 	public List<Double> think(List<Double> input) {
-
 		// Excite the input neurons
 		this.inputLayer.sense(input);
 
@@ -41,5 +40,4 @@ public class Brain {
 		
 		return output;
 	}
-	
 }
