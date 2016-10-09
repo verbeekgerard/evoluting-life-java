@@ -2,7 +2,6 @@ package eu.luminis.entities;
 
 import eu.luminis.general.EventBroadcaster;
 import eu.luminis.genetics.Genome;
-import eu.luminis.general.General;
 import eu.luminis.general.EventType;
 
 public abstract class Organism {

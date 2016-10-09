@@ -2,9 +2,7 @@ package eu.luminis.general;
 
 import eu.luminis.entities.World;
 
-import java.util.Observable;
-
-public class General {
+public class Simulation {
 	
 	private Thread mainThread;
 	private boolean loop = true;
@@ -13,13 +11,13 @@ public class General {
 	private World world;
 	private int iteration = 0;
 
-	private static General singleton = new General();
+	private static Simulation singleton = new Simulation();
 	
-	public static General getInstance() {
+	public static Simulation getInstance() {
       return singleton;
 	}
 	
-	private General() {
+	private Simulation() {
 		this.world = new World();
         this.foodSupply = new FoodSupply(world);
         this.population = new Population(world);

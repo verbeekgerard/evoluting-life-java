@@ -2,7 +2,7 @@ package eu.luminis.ui;
 
 import eu.luminis.general.Event;
 import eu.luminis.general.EventType;
-import eu.luminis.general.General;
+import eu.luminis.general.Simulation;
 import eu.luminis.general.Options;
 import org.apache.commons.io.FilenameUtils;
 
@@ -38,14 +38,14 @@ public class MainPanel extends JPanel implements ChangeListener, Observer, Actio
     private JLabel avgAgeLbl;
     private JLabel avgDistanceLbl;
     
-    private General general;
+    private Simulation simulation;
     private JFileChooser fileChooser;
     private JButton exportBtn;
     private JButton importBtn;
     
-	public MainPanel(StatsCollector statsCollector, General general) {
+	public MainPanel(StatsCollector statsCollector, Simulation simulation) {
 		this.statsCollector = statsCollector;
-		this.general = general;
+		this.simulation = simulation;
 		
 		fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("*."+FILE_EXTENSION, FILE_EXTENSION));
@@ -173,14 +173,14 @@ public class MainPanel extends JPanel implements ChangeListener, Observer, Actio
 	private void doImport(File file) {
 		try {
 			String json = new String(readAllBytes(get(file.getPath())));
-			general.importPopulation(json);
+			simulation.importPopulation(json);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	private void doExport(File file) {
-		String json = general.exportPopulation();
+		String json = simulation.exportPopulation();
 		PrintWriter out = null;
 		try {
 			out = new PrintWriter(file);

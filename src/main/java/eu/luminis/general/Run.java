@@ -15,48 +15,48 @@ public class Run {
 	public static void main(String[] args) {
 		boolean visible = getVisible(args);
 
-		General general = General.getInstance();
+		Simulation simulation = Simulation.getInstance();
 		EventBroadcaster eventBroadcaster = EventBroadcaster.getInstance();
 		
 		if(visible == true){
-            initializeCanvas(general, eventBroadcaster);
-            initializeMainPanel(general, eventBroadcaster);
+            initializeCanvas(simulation, eventBroadcaster);
+            initializeMainPanel(simulation, eventBroadcaster);
 		}
 
         initializeCostCalculator(eventBroadcaster);
-        initializeStatsPrinter(general, eventBroadcaster);
-        initializeExportInfo(general, eventBroadcaster);
+        initializeStatsPrinter(simulation, eventBroadcaster);
+        initializeExportInfo(simulation, eventBroadcaster);
 
-		general.startMainLoop();
+		simulation.startMainLoop();
 	}
 
     private static void initializeCostCalculator(EventBroadcaster eventBroadcaster) {
         eventBroadcaster.addObserver(CostCalculator.getInstance());
     }
 
-    private static void initializeExportInfo(General general, EventBroadcaster eventBroadcaster) {
-        StatsCollector statsCollector = createStatsCollectorInstance(general, eventBroadcaster);
+    private static void initializeExportInfo(Simulation simulation, EventBroadcaster eventBroadcaster) {
+        StatsCollector statsCollector = createStatsCollectorInstance(simulation, eventBroadcaster);
         ExportInfoImpl.create(statsCollector);
     }
 
-    private static void initializeStatsPrinter(General general, EventBroadcaster eventBroadcaster) {
-        StatsCollector statsCollector = createStatsCollectorInstance(general, eventBroadcaster);
+    private static void initializeStatsPrinter(Simulation simulation, EventBroadcaster eventBroadcaster) {
+        StatsCollector statsCollector = createStatsCollectorInstance(simulation, eventBroadcaster);
         eventBroadcaster.addObserver(new StatsPrinter(statsCollector));
     }
 
-    private static void initializeMainPanel(General general, EventBroadcaster eventBroadcaster) {
-        StatsCollector statsCollector = createStatsCollectorInstance(general, eventBroadcaster);
-        MainPanel mainPanel = new MainPanel(statsCollector, general);
+    private static void initializeMainPanel(Simulation simulation, EventBroadcaster eventBroadcaster) {
+        StatsCollector statsCollector = createStatsCollectorInstance(simulation, eventBroadcaster);
+        MainPanel mainPanel = new MainPanel(statsCollector, simulation);
         eventBroadcaster.addObserver(mainPanel);
     }
 
-    private static void initializeCanvas(General general, EventBroadcaster eventBroadcaster) {
-        Canvas canvas = new Canvas(general.getFoodSupply(), general.getPopulation(), general.getWorld());
+    private static void initializeCanvas(Simulation simulation, EventBroadcaster eventBroadcaster) {
+        Canvas canvas = new Canvas(simulation.getFoodSupply(), simulation.getPopulation(), simulation.getWorld());
         eventBroadcaster.addObserver(canvas);
     }
 
-	private static StatsCollector createStatsCollectorInstance(General general, EventBroadcaster eventBroadcaster) { // TODO: move this to a factory
-		StatsCollector statsCollector = new StatsCollector(general.getPopulation());
+	private static StatsCollector createStatsCollectorInstance(Simulation simulation, EventBroadcaster eventBroadcaster) { // TODO: move this to a factory
+		StatsCollector statsCollector = new StatsCollector(simulation.getPopulation());
         eventBroadcaster.addObserver(statsCollector);
 
 		return statsCollector;
