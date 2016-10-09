@@ -13,6 +13,7 @@ public class Animal extends Organism implements Comparable<Animal> {
 	private CostCalculator costCalculator;
 
 	private double size;
+    private SensorFilter sensorFilter;
 	private Eyes eyes;
 
 	private double linearFriction;
@@ -40,6 +41,7 @@ public class Animal extends Organism implements Comparable<Animal> {
         this.initialEnergy = Options.initialEnergyOption.get();
         this.linearFriction = Options.linearFrictionOption.get();
 
+        this.sensorFilter = new SensorFilter(this, genome.getSensor().getViewDistance());
         this.eyes = new Eyes(this, genome.getSensor(), world);
 
         this.linearForce = genome.getMovement().getLinearForce();
@@ -72,10 +74,13 @@ public class Animal extends Organism implements Comparable<Animal> {
     public void run(List<Plant> plants, List<Animal> animals) {
         this.age++;
 
-        Obstacles obstacles = eyes.sense(plants, animals);
+        List<Organism> filteredOrganisms = this.sensorFilter.filter(plants, animals);
+        Obstacles obstacles = eyes.sense(filteredOrganisms);
+
         AnimalBrainOutput brainOutput = think(obstacles);
         move(brainOutput);
-        collide(plants, animals);
+
+        collide(filteredOrganisms);
 
         // Register the cost of the cycle
         this.usedEnergy += this.costCalculator.cycle();
@@ -152,10 +157,8 @@ public class Animal extends Organism implements Comparable<Animal> {
         eventBroadcaster.broadcast(EventType.COLLIDE, collided);
 	}
 
-	private void collide(List<Plant> plants, List<Animal> animals) {
-		// TODO: optimize this by combining it with the sense action
-        plants.forEach(this::checkCollision);
-        animals.forEach(this::checkCollision);
+	private void collide(List<Organism> organisms) {
+        organisms.forEach(this::checkCollision);
 	}
 
 	private double getVelocity() {

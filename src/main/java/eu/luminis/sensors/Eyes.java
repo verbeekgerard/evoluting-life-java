@@ -31,10 +31,9 @@ public class Eyes {
         return fieldOfView;
     }
 
-    public Obstacles sense(List<Plant> plants, List<Animal> animals) {
+    public Obstacles sense(List<Organism> organisms) {
         List<ObstacleVector> obstacles = new ArrayList<>();
-        obstacles.addAll(findOrganisms(plants));
-        obstacles.addAll(findOrganisms(animals));
+        obstacles.addAll(findOrganisms(organisms));
 
         double wallDistance = wallDistanceSensor.calculate(owner.getPosition());
 
@@ -42,27 +41,17 @@ public class Eyes {
     }
 
     private List<ObstacleVector> findOrganisms(List<? extends Organism> organisms) {
-        Position p = owner.getPosition();
-
-        // An array of vectors to foods from this entity's perspective
+        Position ownerPosition = owner.getPosition();
         List<ObstacleVector> obstacleVectors = new ArrayList<>();
 
-        // Loop through foodSupply
-        for (int i = 0; i < organisms.size(); i++) {
-            Organism organism = organisms.get(i);
-
-            if (organism == this.owner) continue;
-
+        for (Organism organism : organisms) {
             // Find polar coordinates of food relative this entity
-            double dx = organism.getPosition().x - p.x;
-            double dy = organism.getPosition().y - p.y;
-
-            // Check bounding box first for performance
-            if (Math.abs(dx) > this.viewDistance || Math.abs(dy) > this.viewDistance) continue;
+            double dx = organism.getPosition().x - ownerPosition.x;
+            double dy = organism.getPosition().y - ownerPosition.y;
 
             // Find angle of food relative to entity
             if (dx == 0) dx = 0.000000000001;
-            double angle = p.a - Math.atan2(dy, dx);
+            double angle = ownerPosition.a - Math.atan2(dy, dx);
 
             // Convert angles to right of center into negative values
             if (angle > Math.PI) angle -= 2 * Math.PI;
