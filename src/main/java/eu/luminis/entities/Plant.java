@@ -5,18 +5,14 @@ import eu.luminis.general.Options;
 import eu.luminis.util.Range;
 
 public class Plant extends Organism {
+	private double growthPercentage;
+	private double size;
 
-	public double growthPercentage;
-	public double size;
-	public double nutrition;
-	
 	public Plant(Genome genome, Position position, World world){
 		super(genome, position, world);
 		
 		growthPercentage = new Range(Options.minGrowthPercentage.get(), Options.maxGrowthPercentage.get()).random();
 	    size = new Range(Options.minFoodSize.get(), Options.maxFoodSize.get()).random();
-	    
-	    nutrition = genome.getLife().getNutrition();
 	}
 	
     public void run(){
@@ -40,5 +36,4 @@ public class Plant extends Organism {
 	public double getSize() {
 		return size;
 	};
-	
 }

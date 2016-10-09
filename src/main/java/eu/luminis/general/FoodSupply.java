@@ -14,19 +14,19 @@ public class FoodSupply {
 	private double maxX;
 	private double minY;
 	private double maxY;
-	private double border= 2;
 	private World world;
-	
-	private Option populationSize = new Option(10*8);
+
 	private List<Plant> plants = new ArrayList<>();
 
 	public FoodSupply(World world){
 		this.world = world;
+		double border = 2;
 		this.minX = border;
 		this.maxX = world.getWidth() - border;
 		this.minY = border;
 		this.maxY = world.getHeight() - border;
-		
+
+		Option populationSize = new Option(10 * 8);
 		for (int i = 0; i < populationSize.get(); i++) {
             this.plants.add(createPlant());
         }
@@ -37,7 +37,7 @@ public class FoodSupply {
             Plant plant = this.plants.get(i);
 
             // Replace the food if it's outside canvas boundaries
-            if ( plant.position.x < 0 || plant.position.x > world.getWidth() || plant.position.y < 0 || plant.position.y > world.getHeight()) {
+            if ( plant.getPosition().x < 0 || plant.getPosition().x > world.getWidth() || plant.getPosition().y < 0 || plant.getPosition().y > world.getHeight()) {
                 plant = this.plants.set(i, createPlant());
             }
 

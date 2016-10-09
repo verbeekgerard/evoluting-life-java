@@ -22,10 +22,6 @@ public class CostCalculator implements Observer {
 		return ENERGY_COST * Math.abs(acceleration);
 	}
 
-	public double rotate(double acceleration) {
-		return ENERGY_COST * Math.abs(acceleration);
-	}
-	
 	public double collide(double velocity) {
 		return ENERGY_COST * Math.abs(velocity) * 20000;// this.iteration / 100;
 	}

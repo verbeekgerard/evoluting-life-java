@@ -4,7 +4,7 @@ import eu.luminis.entities.World;
 
 import java.util.Observable;
 
-public class General extends Observable {
+public class General {
 	
 	private Thread mainThread;
 	private boolean loop = true;
@@ -12,6 +12,7 @@ public class General extends Observable {
 	private Population population;
 	private World world;
 	private int iteration = 0;
+
 	private static General singleton = new General();
 	
 	public static General getInstance() {
@@ -33,23 +34,20 @@ public class General extends Observable {
 		this.population.importPopulation(json);
 		start();
 	}
-	
-	public void stop() {
-		loop = false;
-		try {
-			// Wait for the thread to join
-			mainThread.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void start() {
-		loop = true;
-		startMainLoop();
-	}
-	
-	public void startMainLoop() {
+
+    FoodSupply getFoodSupply() {
+        return foodSupply;
+    }
+
+    Population getPopulation() {
+        return population;
+    }
+
+    World getWorld() {
+        return world;
+    }
+
+	void startMainLoop() {
 		mainThread = new Thread(() -> {
 			while (loop) {
 				mainLoop();
@@ -65,34 +63,32 @@ public class General extends Observable {
 		});
 		mainThread.start();
 	}
-	
-	public void mainLoop(){
-          // Keep track of our iteration count
-          iteration++;
 
-          // Run a tick of foodSupply life cycle
-          foodSupply.run();
-
-          // Run a tick of population life cycle
-          population.run(foodSupply.getPlants());
-
-          broadcast(EventType.CYCLE_END, iteration);
-	}
-	
-	public void broadcast(EventType eventType, Object value) {
-		setChanged();
-        super.notifyObservers(new Event(eventType, value));
+	private void stop() {
+		loop = false;
+		try {
+			// Wait for the thread to join
+			mainThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public FoodSupply getFoodSupply() {
-		return foodSupply;
+	private void start() {
+		loop = true;
+		startMainLoop();
 	}
 
-	public Population getPopulation() {
-		return population;
-	}
+	private void mainLoop() {
+        // Keep track of our iteration count
+        iteration++;
 
-	public World getWorld() {
-		return world;
+        // Run a tick of foodSupply life cycle
+        foodSupply.run();
+
+        // Run a tick of population life cycle
+        population.run(foodSupply.getPlants());
+
+        EventBroadcaster.getInstance().broadcast(EventType.CYCLE_END, iteration);
 	}
 }

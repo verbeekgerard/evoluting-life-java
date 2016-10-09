@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AnimalBrainOutput {
+class AnimalBrainOutput {
     private static List<String> keys = new ArrayList<>();
 
     private static final String leftAccelerate = "leftAccelerate";

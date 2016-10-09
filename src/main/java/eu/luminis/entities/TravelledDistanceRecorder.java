@@ -1,6 +1,6 @@
 package eu.luminis.entities;
 
-public class TravelledDistanceRecorder {
+class TravelledDistanceRecorder {
 
     private int steps = 0;
     private double historicalDistance = 0;

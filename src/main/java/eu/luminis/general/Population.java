@@ -38,7 +38,15 @@ public class Population {
 			this.entities.add(entity);
 		}
 	}
-	
+
+    public List<Animal> getEntities(){
+        return this.entities;
+    }
+
+    public Animal getWinningEntity() {
+        return winningEntity;
+    }
+
 	public void importPopulation(String json) {
 		this.entities = new CopyOnWriteArrayList<>();
 		
@@ -54,20 +62,9 @@ public class Population {
 	public String exportPopulation() {
 		ArrayList<Genome> genomes = new ArrayList<>();
 		for (int i = 0; i < this.entities.size(); i++) {
-			genomes.add(this.entities.get(i).genome);
+			genomes.add(this.entities.get(i).getGenome());
 		}
 		return new Gson().toJson(genomes);
-	}
-
-	public Genome createGenome() {
-		return new Genome(5, 4);
-	}
-
-	public Position createRandomPosition() {
-		Range range = new Range(-0.98, 0.98);
-		double x = world.getWidth() /2 + world.getWidth() /2 * range.random();
-		double y = world.getHeight() /2 + world.getHeight() /2 * range.random();
-		return new Position(x, y, Math.random() * Math.PI * 2);
 	}
 
 	public void run(List<Plant> plants) {
@@ -102,8 +99,19 @@ public class Population {
 		}
 	}
 
-	public void produceChildren(List<Animal> parents) {
-		List<Genome> children = parents.get(0).genome.mate(parents.get(1).genome);
+    private Genome createGenome() {
+        return new Genome(5, 4);
+    }
+
+    private Position createRandomPosition() {
+        Range range = new Range(-0.98, 0.98);
+        double x = world.getWidth() /2 + world.getWidth() /2 * range.random();
+        double y = world.getHeight() /2 + world.getHeight() /2 * range.random();
+        return new Position(x, y, Math.random() * Math.PI * 2);
+    }
+
+    private void produceChildren(List<Animal> parents) {
+		List<Genome> children = parents.get(0).getGenome().mate(parents.get(1).getGenome());
 		for (Genome child : children) {
 			child.mutate();
 
@@ -111,11 +119,11 @@ public class Population {
 			Position position = createRandomPosition();
 			Animal newAnimal = new Animal(child, position, world);
 			this.entities.add(newAnimal);
-			General.getInstance().broadcast(EventType.NEW_ANIMAL, newAnimal);
+			EventBroadcaster.getInstance().broadcast(EventType.NEW_ANIMAL, newAnimal);
 		}
 	}
 
-	public List<Animal> selectParents() {
+	private List<Animal> selectParents() {
 		List<Animal> parents = new ArrayList<>();
 
 		for (int i = 0; i < 2; i++) {
@@ -124,13 +132,5 @@ public class Population {
 		}
 
 		return parents;
-	}
-
-	public List<Animal> getEntities(){
-		return this.entities;
-	}
-
-	public Animal getWinningEntity() {
-		return winningEntity;
 	}
 }

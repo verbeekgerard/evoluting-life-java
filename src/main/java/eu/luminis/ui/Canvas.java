@@ -66,7 +66,7 @@ public class Canvas extends JPanel implements Observer {
 		if (population.getWinningEntity() != null) {
 			Graphics2D g2 = (Graphics2D) g;
 
-			Position p = animal.position;
+			Position p = animal.getPosition();
 			Eyes e = animal.getEyes();
 
 			Color c = new Color(.9f, .9f, .9f, .1f);
@@ -83,7 +83,7 @@ public class Canvas extends JPanel implements Observer {
 		Graphics2D g2 = (Graphics2D) g;
 
 		double entitySize = animal.getSize();
-		Position p = animal.position;
+		Position p = animal.getPosition();
 		double ba = p.a + Math.PI; // Find the angle 180deg of entity
 
 		// Find left back triangle point
@@ -98,7 +98,7 @@ public class Canvas extends JPanel implements Observer {
 		double cx = Math.cos(ba) * entitySize * 0.3;
 		double cy = Math.sin(ba) * entitySize * 0.3;
 
-		g2.setStroke(new BasicStroke((float) (2 + Math.floor(5 * animal.age / animal.getOldAge()))));
+		g2.setStroke(new BasicStroke((float) (2 + Math.floor(5 * animal.getAge() / animal.getOldAge()))));
 
 		// Draw the triangle
 		GeneralPath polygon = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
@@ -107,7 +107,7 @@ public class Canvas extends JPanel implements Observer {
 		polygon.quadTo(p.x + cx, p.y + cy, p.x + rx, p.y + ry);
 		polygon.closePath();
 
-		if (animal.age > 30)
+		if (animal.getAge() > 30)
 			g2.setColor(Color.BLACK);
 		else
 			g2.setColor(Color.WHITE);
@@ -131,8 +131,8 @@ public class Canvas extends JPanel implements Observer {
 		g2.setColor(c);
 		g2.setStroke(new BasicStroke(0.5f));
 		g2.drawOval(
-				new Double(animal.position.x).intValue() - new Double(animal.getSize()/2).intValue(), 
-				new Double(animal.position.y).intValue() - new Double(animal.getSize()/2).intValue(),
+				new Double(animal.getPosition().x).intValue() - new Double(animal.getSize()/2).intValue(),
+				new Double(animal.getPosition().y).intValue() - new Double(animal.getSize()/2).intValue(),
 				new Double(animal.getSize()).intValue(), new Double(animal.getSize()).intValue());
 	}
 	
@@ -141,14 +141,14 @@ public class Canvas extends JPanel implements Observer {
 
 		g2.setColor(Color.GREEN);
 		g2.fillOval(
-				new Double(plant.position.x).intValue() - new Double(plant.getSize()/2).intValue(), 
-				new Double(plant.position.y).intValue() - new Double(plant.getSize()/2).intValue(),
+				new Double(plant.getPosition().x).intValue() - new Double(plant.getSize()/2).intValue(),
+				new Double(plant.getPosition().y).intValue() - new Double(plant.getSize()/2).intValue(),
 				new Double(plant.getSize()).intValue(), new Double(plant.getSize()).intValue());
 
 		g2.setColor(Color.BLACK);
 		g2.drawOval(
-				new Double(plant.position.x).intValue() - new Double(plant.getSize()/2).intValue(),
-				new Double(plant.position.y).intValue() - new Double(plant.getSize()/2).intValue(),
+				new Double(plant.getPosition().x).intValue() - new Double(plant.getSize()/2).intValue(),
+				new Double(plant.getPosition().y).intValue() - new Double(plant.getSize()/2).intValue(),
 				new Double(plant.getSize()).intValue(), new Double(plant.getSize()).intValue());
 	}
 }

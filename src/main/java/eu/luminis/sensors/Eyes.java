@@ -23,7 +23,7 @@ public class Eyes {
 	}
 	
 	public Position getPosition() {
-        return owner.position;
+        return owner.getPosition();
 	}
 	
 	public Double wallDistance() {
@@ -100,8 +100,8 @@ public class Eyes {
           if (organism == this.owner) continue;
 
           // Find polar coordinates of food relative this entity
-          double dx = organism.position.x - p.x;
-          double dy = organism.position.y - p.y;
+          double dx = organism.getPosition().x - p.x;
+          double dy = organism.getPosition().y - p.y;
 
           // Check bounding box first for performance
           if (Math.abs(dx) > this.viewDistance || Math.abs(dy) > this.viewDistance) continue;

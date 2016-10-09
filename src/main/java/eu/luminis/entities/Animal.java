@@ -3,10 +3,7 @@ package eu.luminis.entities;
 import java.util.List;
 
 import eu.luminis.brains.Brain;
-import eu.luminis.general.CostCalculator;
-import eu.luminis.general.EventType;
-import eu.luminis.general.General;
-import eu.luminis.general.Options;
+import eu.luminis.general.*;
 import eu.luminis.genetics.Genome;
 import eu.luminis.sensors.Eyes;
 import eu.luminis.sensors.ObstacleVector;
@@ -33,42 +30,116 @@ public class Animal extends Organism implements Comparable<Animal> {
 
 	private Brain brain;
 
+    public Animal(Genome genome, Position position, World world) {
+        super(genome, position, world);
+
+        this.distanceRecorder = new TravelledDistanceRecorder(position);
+        this.costCalculator = CostCalculator.getInstance();
+
+        this.size = Options.sizeOption.get();
+        this.initialEnergy = Options.initialEnergyOption.get();
+        this.linearFriction = Options.linearFrictionOption.get();
+
+        this.eyes = new Eyes(this, genome.getSensor(), world);
+
+        this.linearForce = genome.getMovement().getLinearForce();
+
+        this.brain = new Brain(genome.getBrain());
+    }
+
+    @Override
+    public double getHealth() {
+        return this.initialEnergy + this.getTravelledDistanceReward() - this.collided - this.usedEnergy;
+    }
+
 	@Override
 	public double getSize() {
 		return this.size * (1 + 0.75 * healthN());
 	}
 
-	public Animal(Genome genome, Position position, World world) {
-		super(genome, position, world);
+    public Double fitness() {
+        return this.getHealth();
+    }
 
-        this.distanceRecorder = new TravelledDistanceRecorder(position);
-		this.costCalculator = CostCalculator.getInstance();
+    public double getTravelledDistance() {
+        return this.distanceRecorder.getTotalDistance();
+    }
 
-		this.size = Options.sizeOption.get();
-		this.initialEnergy = Options.initialEnergyOption.get();
-        this.linearFriction = Options.linearFrictionOption.get();
+    public Eyes getEyes() {
+        return eyes;
+    }
 
-		this.eyes = new Eyes(this, genome.getSensor(), world);
+    public void run(List<Plant> plants, List<Animal> animals) {
+        this.age++;
 
-		this.linearForce = genome.getMovement().getLinearForce();
+        Targets targets = eyes.sense(plants, animals);
+        AnimalBrainOutput brainOutput = think(targets);
+        move(brainOutput);
+        collide(plants, animals);
 
-		this.brain = new Brain(genome.getBrain());
-	}
+        // Register the cost of the cycle
+        this.usedEnergy += this.costCalculator.cycle();
+    }
 
-	public Double fitness() {
-		return this.getHealth();
-	}
+    @Override
+    public int compareTo(Animal otherAnimal) {
+        return otherAnimal.fitness().compareTo(this.fitness());
+    }
 
-	public double healthN() {
-		double health = this.getHealth();
-		return health > 0 ? 1 - 1 / Math.exp(health / 200) : 0;
-	}
+    protected void move(AnimalBrainOutput brainOutput) {
+        if (brainOutput == null) return;
 
-	public void checkColission(Organism organism) {
+        Position p = this.getPosition();
+
+        // Keep angles within bounds
+        p.a = p.a % (Math.PI * 2);
+        if (p.a < 0)
+            p.a += Math.PI * 2;
+
+        // F=m*a => a=F/m, dv=a*dt => dv=dt*F/m, dt=one cycle, m=1
+        double accelerationLeft = brainOutput.getAccelerationLeft() * this.linearForce;
+        this.velocityLeft += accelerationLeft;
+        this.velocityLeft -= this.velocityLeft * linearFriction;
+
+        double accelerationRight = brainOutput.getAccelerationRight() * this.linearForce;
+        this.velocityRight += accelerationRight;
+        this.velocityRight -= this.velocityRight * linearFriction;
+
+        p.a += (this.velocityLeft - this.velocityRight) / 10;
+
+        // Convert movement vector into polar
+        double dx = (Math.cos(p.a) * this.getVelocity());
+        double dy = (Math.sin(p.a) * this.getVelocity());
+
+        // Move the entity
+        p.x += dx;
+        p.y += dy;
+
+        this.distanceRecorder.recordMove(p);
+
+        // Register the cost of the forces applied for acceleration
+        this.usedEnergy += this.costCalculator.accelerate((accelerationLeft + accelerationRight));
+    }
+
+    private AnimalBrainOutput think(Targets targets) {
+        ObstacleVector obstacle = null;
+
+        if (targets.obstacles.size() > 0) {
+            obstacle = targets.obstacles.get(0);
+        }
+
+        AnimalBrainInput brainInput = new AnimalBrainInput(obstacle, targets.wallDistance, eyes.fieldOfView, eyes.viewDistance);
+        List<Double> inputs = brainInput.getInputs();
+        List<Double> thoughtOutput = this.brain.think(inputs);
+
+        return new AnimalBrainOutput(thoughtOutput);
+    }
+
+    private void checkColission(Organism organism) {
         boolean colliding = collisionDetector.colliding(this, organism);
         if (!colliding) return;
 
-		Position p = this.position;
+		Position p = this.getPosition();
         double v = this.getVelocity();
 
 		double dx = Math.cos(p.a) * v;
@@ -82,103 +153,25 @@ public class Animal extends Organism implements Comparable<Animal> {
 		this.collided += this.costCalculator.collide(v);
 
 		// Increment global collision counter
-		General.getInstance().broadcast(EventType.COLLIDE, collided);
+        eventBroadcaster.broadcast(EventType.COLLIDE, collided);
 	}
 
-	public void collide(List<Plant> plants, List<Animal> animals) {
+	private void collide(List<Plant> plants, List<Animal> animals) {
 		// TODO: optimize this by combining it with the sense action
-		for (int i = 0; i < plants.size(); i++) {
-			checkColission(plants.get(i));
-		}
-		for (int i = 0; i < animals.size(); i++) {
-			checkColission(animals.get(i));
-		}
+        plants.forEach(this::checkColission);
+        animals.forEach(this::checkColission);
 	}
 
-	public double getVelocity() {
+	private double getVelocity() {
 		return (this.velocityRight + this.velocityLeft) / 2;
 	}
 	
-	public double getTravelledDistance() {
-		return this.distanceRecorder.getTotalDistance();
-	}
-
-	public double getTravelledDistanceReward() {
+	private double getTravelledDistanceReward() {
         return this.costCalculator.distanceReward(getTravelledDistance());
     }
 
-	public void move(AnimalBrainOutput brainOutput) {
-        if (brainOutput == null) return;
-
-		Position p = this.position;
-
-		// Keep angles within bounds
-		p.a = p.a % (Math.PI * 2);
-		if (p.a < 0)
-			p.a += Math.PI * 2;
-
-		// F=m*a => a=F/m, dv=a*dt => dv=dt*F/m, dt=one cycle, m=1
-		double accelerationLeft = brainOutput.getAccelerationLeft() * this.linearForce;
-		this.velocityLeft += accelerationLeft;
-		this.velocityLeft -= this.velocityLeft * linearFriction;
-
-		double accelerationRight = brainOutput.getAccelerationRight() * this.linearForce;
-		this.velocityRight += accelerationRight;
-		this.velocityRight -= this.velocityRight * linearFriction;
-
-		p.a += (this.velocityLeft - this.velocityRight) / 10;
-
-		// Convert movement vector into polar
-		double dx = (Math.cos(p.a) * this.getVelocity());
-		double dy = (Math.sin(p.a) * this.getVelocity());
-
-		// Move the entity
-		p.x += dx;
-		p.y += dy;
-
-        this.distanceRecorder.recordMove(p);
-
-		// Register the cost of the forces applied for acceleration
-		this.usedEnergy += this.costCalculator.accelerate((accelerationLeft + accelerationRight));
-	}
-
-	@Override
-	public double getHealth() {
-		return this.initialEnergy + this.getTravelledDistanceReward() - this.collided - this.usedEnergy;
-	}
-
-	public void run(List<Plant> plants, List<Animal> animals) {
-		this.age++;
-
-		Targets targets = eyes.sense(plants, animals);
-        AnimalBrainOutput brainOutput = think(targets);
-		move(brainOutput);
-		collide(plants, animals);
-
-		// Register the cost of the cycle
-		this.usedEnergy += this.costCalculator.cycle();
-	}
-
-	public AnimalBrainOutput think(Targets targets) {
-		ObstacleVector obstacle = null;
-
-		if (targets.obstacles.size() > 0) {
-			obstacle = targets.obstacles.get(0);
-		}
-
-        AnimalBrainInput brainInput = new AnimalBrainInput(obstacle, targets.wallDistance, eyes.fieldOfView, eyes.viewDistance);
-		List<Double> inputs = brainInput.getInputs();
-        List<Double> thoughtOutput = this.brain.think(inputs);
-
-        return new AnimalBrainOutput(thoughtOutput);
-	}
-
-	@Override
-	public int compareTo(Animal otherAnimal) {
-		return otherAnimal.fitness().compareTo(this.fitness());
-	}
-	
-	public Eyes getEyes() {
-		return eyes;
-	}
+    private double healthN() {
+        double health = this.getHealth();
+        return health > 0 ? 1 - 1 / Math.exp(health / 200) : 0;
+    }
 }

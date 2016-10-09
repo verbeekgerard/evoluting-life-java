@@ -7,7 +7,7 @@ import eu.luminis.util.Range;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnimalBrainInput {
+class AnimalBrainInput {
     private List<Double> inputs;
 
     private ObstacleVector obstacle;
