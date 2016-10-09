@@ -1,6 +1,6 @@
 package eu.luminis.ui;
 
-public class FrameLimiter {
+class FrameLimiter {
     private long limitNanoTime;
     private long previousNanoTime = 0;
 
@@ -12,11 +12,11 @@ public class FrameLimiter {
         long currentNanoTime = System.nanoTime();
         long deltaNanoTime = currentNanoTime - previousNanoTime;
 
-        if (deltaNanoTime > limitNanoTime) {
-            previousNanoTime = currentNanoTime;
-            return true;
+        if (deltaNanoTime <= limitNanoTime) {
+            return false;
         }
 
-        return false;
+        previousNanoTime = currentNanoTime;
+        return true;
     }
 }

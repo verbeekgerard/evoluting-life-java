@@ -1,6 +1,6 @@
 package eu.luminis.ui;
 
-public class PeriodicStats {
+class PeriodicStats {
 
     private double avgHealth;
     private double avgAge;

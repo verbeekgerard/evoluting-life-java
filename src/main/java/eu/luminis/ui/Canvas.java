@@ -73,11 +73,11 @@ public class Canvas extends JPanel implements Observer {
 
 			Color c = new Color(.9f, .9f, .9f, .1f);
 			g2.setColor(c);
-			g2.fillArc(new Double(p.x - (e.viewDistance / 2)).intValue(),
-					new Double(p.y - (e.viewDistance / 2)).intValue(), new Double(e.viewDistance).intValue(),
-					new Double(e.viewDistance).intValue(),
-					new Double(Math.toDegrees(-1 * p.a + e.fieldOfView / 2)).intValue(),
-					new Double(-1 * Math.toDegrees(e.fieldOfView)).intValue());
+			g2.fillArc(new Double(p.x - (e.getViewDistance() / 2)).intValue(),
+					new Double(p.y - (e.getViewDistance() / 2)).intValue(), new Double(e.getViewDistance()).intValue(),
+					new Double(e.getViewDistance()).intValue(),
+					new Double(Math.toDegrees(-1 * p.a + e.getFieldOfView() / 2)).intValue(),
+					new Double(-1 * Math.toDegrees(e.getFieldOfView())).intValue());
 		}
 	}
 
@@ -126,7 +126,7 @@ public class Canvas extends JPanel implements Observer {
 		g2.fill(polygon);
 	}
 	
-	public void drawCollisionBody(Animal animal, Graphics g) {
+	private void drawCollisionBody(Animal animal, Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 
 		Color c = new Color(1.0f, 1.0f, 1.0f, .1f);
@@ -138,7 +138,7 @@ public class Canvas extends JPanel implements Observer {
 				new Double(animal.getSize()).intValue(), new Double(animal.getSize()).intValue());
 	}
 	
-	public void drawPlant(Plant plant, Graphics g) {
+	private void drawPlant(Plant plant, Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 
 		g2.setColor(Color.GREEN);

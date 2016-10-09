@@ -124,17 +124,12 @@ public class MainPanel extends JPanel implements ChangeListener, Observer, Actio
 		Event event = (Event) arg;
 		if (event.type.equals(EventType.CYCLE_END)) {
             if ((int)event.value % 500 == 0) {
-                Stats stats = this.statsCollector.getStats();
-				bestFitnessLbl.setText("Best fitness: " + stats.getAverageBestFitness());
-				avgFitnessLbl.setText("Avg fitness: " + stats.getAverageHealth());
-				avgAgeLbl.setText("Avg age: " + stats.getAverageAge());
-				avgDistanceLbl.setText("Avg distance: " + stats.getAverageDistance());
+                updateStatsLabels();
 			}
 		}
 	}
 
-
-	@Override
+    @Override
 	public void stateChanged(ChangeEvent e) {
 		JSlider source = (JSlider)e.getSource();
         if (!source.getValueIsAdjusting()) {
@@ -169,7 +164,15 @@ public class MainPanel extends JPanel implements ChangeListener, Observer, Actio
             }
 		}
 	}
-	
+
+    private void updateStatsLabels() {
+        Stats stats = this.statsCollector.getStats();
+        bestFitnessLbl.setText("Best fitness: " + stats.getAverageBestFitness());
+        avgFitnessLbl.setText("Avg fitness: " + stats.getAverageHealth());
+        avgAgeLbl.setText("Avg age: " + stats.getAverageAge());
+        avgDistanceLbl.setText("Avg distance: " + stats.getAverageDistance());
+    }
+
 	private void doImport(File file) {
 		try {
 			String json = new String(readAllBytes(get(file.getPath())));
@@ -194,5 +197,4 @@ public class MainPanel extends JPanel implements ChangeListener, Observer, Actio
 			}
 		}
 	}
-	
 }

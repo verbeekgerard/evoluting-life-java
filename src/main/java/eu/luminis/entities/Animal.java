@@ -7,7 +7,7 @@ import eu.luminis.general.*;
 import eu.luminis.genetics.Genome;
 import eu.luminis.sensors.Eyes;
 import eu.luminis.sensors.ObstacleVector;
-import eu.luminis.sensors.Targets;
+import eu.luminis.sensors.Obstacles;
 
 public class Animal extends Organism implements Comparable<Animal> {
 	private CostCalculator costCalculator;
@@ -72,8 +72,8 @@ public class Animal extends Organism implements Comparable<Animal> {
     public void run(List<Plant> plants, List<Animal> animals) {
         this.age++;
 
-        Targets targets = eyes.sense(plants, animals);
-        AnimalBrainOutput brainOutput = think(targets);
+        Obstacles obstacles = eyes.sense(plants, animals);
+        AnimalBrainOutput brainOutput = think(obstacles);
         move(brainOutput);
         collide(plants, animals);
 
@@ -121,14 +121,10 @@ public class Animal extends Organism implements Comparable<Animal> {
         this.usedEnergy += this.costCalculator.accelerate((accelerationLeft + accelerationRight));
     }
 
-    private AnimalBrainOutput think(Targets targets) {
-        ObstacleVector obstacle = null;
+    private AnimalBrainOutput think(Obstacles obstacles) {
+        ObstacleVector obstacle = obstacles.getClosestObstacleVector();
 
-        if (targets.obstacles.size() > 0) {
-            obstacle = targets.obstacles.get(0);
-        }
-
-        AnimalBrainInput brainInput = new AnimalBrainInput(obstacle, targets.wallDistance, eyes.fieldOfView, eyes.viewDistance);
+        AnimalBrainInput brainInput = new AnimalBrainInput(obstacle, obstacles.getWallDistance(), eyes.getFieldOfView(), eyes.getViewDistance());
         List<Double> inputs = brainInput.getInputs();
         List<Double> thoughtOutput = this.brain.think(inputs);
 

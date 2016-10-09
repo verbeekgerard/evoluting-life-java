@@ -34,11 +34,11 @@ class AnimalBrainInput {
         inputs = new ArrayList<>();
 
         // left
-        inputs.add(obstacle != null ? (fieldOfView / 2 + obstacle.angle) / fieldOfView : 0);
+        inputs.add(obstacle != null ? (fieldOfView / 2 + obstacle.getAngle()) / fieldOfView : 0);
         // right
-        inputs.add(obstacle != null ? (fieldOfView / 2 - obstacle.angle) / fieldOfView : 0);
+        inputs.add(obstacle != null ? (fieldOfView / 2 - obstacle.getAngle()) / fieldOfView : 0);
         // distance
-        inputs.add(obstacle != null ? (viewDistance - obstacle.distance) / viewDistance : 0);
+        inputs.add(obstacle != null ? (viewDistance - obstacle.getDistance()) / viewDistance : 0);
 
         // distance to wall
         inputs.add((viewDistance - wallDistance) / viewDistance);

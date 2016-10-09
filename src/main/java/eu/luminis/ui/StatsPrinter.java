@@ -8,7 +8,7 @@ import java.util.Observer;
 
 public class StatsPrinter implements Observer {
 
-	StatsCollector collector;
+	private StatsCollector collector;
 
 	public StatsPrinter(StatsCollector statsCollector) {
 		collector = statsCollector;

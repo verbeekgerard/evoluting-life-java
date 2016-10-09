@@ -3,9 +3,8 @@ package eu.luminis.util;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Range {
-
-	double lower = 0;
-	double upper = 0;
+	private double lower = 0;
+	private double upper = 0;
 	
 	public Range(double lower, double upper) {
 		this.lower = lower;
@@ -32,5 +31,4 @@ public class Range {
 		double randomFraction = new Range(-1 * mutationFraction, mutationFraction).random();
         return (upper - lower) * randomFraction;
 	}
-
 }
