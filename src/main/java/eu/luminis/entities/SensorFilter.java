@@ -15,28 +15,25 @@ class SensorFilter {
     }
 
     public List<Organism> filter(List<Plant> plants, List<Animal> animals) {
-        List<Organism> obstacles = new ArrayList<>();
-        obstacles.addAll(filter(plants));
-        obstacles.addAll(filter(animals));
+        List<Organism> filteredOrganisms = new ArrayList<>();
+        filteredOrganisms.addAll(filter(plants));
+        filteredOrganisms.addAll(filter(animals));
 
-        return obstacles;
+        return filteredOrganisms;
     }
 
     private List<Organism> filter(List<? extends Organism> organisms) {
-        Position p = owner.getPosition();
-
-        // An array of vectors to foods from this entity's perspective
+        Position ownerPosition = owner.getPosition();
         List<Organism> filteredOrganisms = new ArrayList<>();
 
-        // Loop through foodSupply
         for (Organism organism : organisms) {
             if (organism == this.owner) continue;
 
-            // Find polar coordinates of food relative this entity
-            double dx2 = organism.getPosition().x - p.x; dx2 *= dx2;
-            double dy2 = organism.getPosition().y - p.y; dy2 *= dy2;
+            // Compute the squared x and y differences
+            double dx2 = organism.getPosition().x - ownerPosition.x; dx2 *= dx2;
+            double dy2 = organism.getPosition().y - ownerPosition.y; dy2 *= dy2;
 
-            // Check bounding box first for performance
+            // If the organism is outside the visible circle, skip it
             if (dx2 + dy2 > distanceSquared) continue;
 
             filteredOrganisms.add(organism);

@@ -26,7 +26,7 @@ public class Animal extends Organism implements Comparable<Animal> {
     private CollisionDetector collisionDetector = new CollisionDetector();
 
 	private double initialEnergy;
-	private double collided = 0;
+	private double collisionDamage = 0;
 	private double usedEnergy = 0;
 
 	private Brain brain;
@@ -51,7 +51,7 @@ public class Animal extends Organism implements Comparable<Animal> {
 
     @Override
     public double getHealth() {
-        return this.initialEnergy + this.getTravelledDistanceReward() - this.collided - this.usedEnergy;
+        return this.initialEnergy + this.getTravelledDistanceReward() - this.collisionDamage - this.usedEnergy;
     }
 
 	@Override
@@ -151,10 +151,10 @@ public class Animal extends Organism implements Comparable<Animal> {
 		p.y -= dy;
 
 		// Increase eu.luminis.entities total collision counter
-		this.collided += this.costCalculator.collide(v);
+		this.collisionDamage += this.costCalculator.collide(v);
 
 		// Increment global collision counter
-        eventBroadcaster.broadcast(EventType.COLLIDE, collided);
+        eventBroadcaster.broadcast(EventType.COLLIDE, collisionDamage);
 	}
 
 	private void collide(List<Organism> organisms) {
