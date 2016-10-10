@@ -10,15 +10,12 @@ public class Options {
 	public static Option minOldAge = new Option(3000);
 	public static Option maxOldAge = new Option(4000);
 	public static Option oldAgeMutationRate = new Option(0.05);
-	public static Option nutritionMutationRate = new Option(0.05);
 
 	// Plant
 	public static Option minFoodSize = new Option(4);
 	public static Option maxFoodSize = new Option(10);
 	public static Option minGrowthPercentage = new Option(0.01);
 	public static Option maxGrowthPercentage = new Option(0.05);
-	public static Option minNutrition = new Option(1.0);
-	public static Option maxNutrition = new Option(3.0);
 
 	// Animal
 	public static Option sizeOption = new Option(12);

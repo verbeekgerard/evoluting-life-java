@@ -19,7 +19,7 @@ public class Genome {
 	
 	public Genome(BrainGene brain, LifeGene life, SensorGene sensor, MovementGene movement){
         this.brain = new BrainGene(brain.getLayers());
-        this.life = new LifeGene(life.getOldAge(), life.getNutrition());
+        this.life = new LifeGene(life.getOldAge());
         this.sensor = new SensorGene(sensor.getViewDistance(), sensor.getFieldOfView());
         this.movement = new MovementGene(movement.getAngularForce(), movement.getLinearForce());
 	}
