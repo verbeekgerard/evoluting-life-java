@@ -5,7 +5,7 @@ public class Option {
 	private double defaultValue;
 	private double internalValue;
 	
-	public Option(double value){
+	public Option(double value) {
 		defaultValue = value;
 		internalValue = value;
 	}

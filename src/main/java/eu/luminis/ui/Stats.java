@@ -1,5 +1,7 @@
 package eu.luminis.ui;
 
+import eu.luminis.general.Options;
+
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -62,6 +64,7 @@ public class Stats {
     public double getAverageBestFitness() {
         return avgBestFitness;
     }
+    public double getMutationFraction() { return Options.mutationFraction.get(); }
 
     @Override
     public String toString() {
@@ -73,6 +76,7 @@ public class Stats {
 //                "totalStarved:\t" + totalStarved + "\t" +
 //                "totalWandered:\t" + totalWandered + "\t" +
                 "totalDiedOfAge:\t" + totalDiedOfAge + "\t" +
-                "best:\t" + df2.format(avgBestFitness) + "\t";
+                "best:\t" + df2.format(avgBestFitness) + "\t" +
+                "mutationFraction:\t" + getMutationFraction();
     }
 }
