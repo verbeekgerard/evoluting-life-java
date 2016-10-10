@@ -2,6 +2,7 @@ package eu.luminis.genetics;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import eu.luminis.general.Options;
 import eu.luminis.util.Range;
@@ -32,16 +33,15 @@ public class BrainGene {
 	}
 	
 	public BrainGene(List<List<NeuronGene>> stateLayers) {
-		for(int i=0; i<stateLayers.size(); i++) {
-			List<NeuronGene> layer = new ArrayList<>();
-			
-			List<NeuronGene> stateLayer = stateLayers.get(i);
-			
-			for(int j=0; j < stateLayer.size(); j++) {
-				NeuronGene neuronGene = stateLayer.get(j);
-				
-				layer.add(new NeuronGene(neuronGene.getThreshold(), neuronGene.getRelaxation(), new ArrayList<AxonGene>(neuronGene.getAxons())));
-			}
+		for(List<NeuronGene> stateLayer : stateLayers) {
+			List<NeuronGene> layer = stateLayer.stream()
+					.map(neuronGene ->
+							new NeuronGene(
+									neuronGene.getThreshold(),
+									neuronGene.getRelaxation(),
+									new ArrayList<>(neuronGene.getAxons())))
+					.collect(Collectors.toList());
+
 			layers.add(layer);
 		}
 	}

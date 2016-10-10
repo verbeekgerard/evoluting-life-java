@@ -16,20 +16,28 @@ public class SensorGene extends Gene {
     }
     
     public SensorGene() {
-        this.viewDistance = new Range(Options.minViewDistance.get(), Options.maxViewDistance.get()).random();
-        this.fieldOfView = new Range(Options.minFieldOfView.get(), Options.maxFieldOfView.get()).random();
+        initializeViewDistance();
+        initializeFieldOfView();
     }
-    
+
+    public double getViewDistance() {
+        return viewDistance;
+    }
+
+    public double getFieldOfView() {
+        return fieldOfView;
+    }
+
     public void mutate() {
         if (Math.random() <= Options.viewDistanceReplacementRate.get()) {
-            this.viewDistance = new Range(Options.minViewDistance.get(), Options.maxViewDistance.get()).random();
+            initializeViewDistance();
         }
         else if (Math.random() <= Options.viewDistanceMutationRate.get()) {
         	this.viewDistance += new Range(Options.minViewDistance.get(), Options.maxViewDistance.get()).mutation(Options.mutationFraction.get());
         }
 
         if (Math.random() <= Options.fieldOfViewReplacementRate.get()) {
-            this.fieldOfView = new Range(Options.minFieldOfView.get(), Options.maxFieldOfView.get()).random();
+            initializeFieldOfView();
         }
         else if (Math.random() <= Options.fieldOfViewMutationRate.get()) {
         	this.fieldOfView += new Range(Options.minFieldOfView.get(), Options.maxFieldOfView.get()).mutation(Options.mutationFraction.get());
@@ -55,11 +63,11 @@ public class SensorGene extends Gene {
         return new SensorGene(properties.get(0), properties.get(1));
     }
 
-    public double getViewDistance() {
-        return viewDistance;
+    private void initializeViewDistance() {
+        this.viewDistance = new Range(Options.minViewDistance.get(), Options.maxViewDistance.get()).random();
     }
 
-    public double getFieldOfView() {
-        return fieldOfView;
+    private void initializeFieldOfView() {
+        this.fieldOfView = new Range(Options.minFieldOfView.get(), Options.maxFieldOfView.get()).random();
     }
 }

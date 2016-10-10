@@ -8,14 +8,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import eu.luminis.entities.Animal;
-import eu.luminis.entities.Plant;
-import eu.luminis.entities.Position;
-import eu.luminis.entities.World;
+import eu.luminis.entities.*;
 import eu.luminis.evolution.RouletteWheelSelectionByRank;
 import eu.luminis.genetics.Genome;
 import eu.luminis.util.Range;
 import java.lang.reflect.Type;
+import java.util.stream.Collectors;
 
 public class Population {
 
@@ -53,17 +51,17 @@ public class Population {
 		Type listType = new TypeToken<ArrayList<Genome>>(){}.getType();
 		List<Genome> genomes = new Gson().fromJson(json, listType);
 		
-		for (int i = 0; i < genomes.size(); i++) {
-			Animal animal = new Animal(genomes.get(i), createRandomPosition(), world);
+		for (Genome genome : genomes) {
+			Animal animal = new Animal(genome, createRandomPosition(), world);
 			this.entities.add(animal);
 		}
 	}
 	
 	public String exportPopulation() {
-		ArrayList<Genome> genomes = new ArrayList<>();
-		for (int i = 0; i < this.entities.size(); i++) {
-			genomes.add(this.entities.get(i).getGenome());
-		}
+		ArrayList<Genome> genomes = entities.stream()
+				.map(Organism::getGenome)
+				.collect(Collectors.toCollection(ArrayList::new));
+
 		return new Gson().toJson(genomes);
 	}
 
@@ -73,8 +71,7 @@ public class Population {
 		winningEntity = this.entities.get(0);
 
 		List<Animal> entitiesToRemove = new ArrayList<>();
-		for (int i = 0; i < this.entities.size(); i++) {
-			Animal entity = this.entities.get(i);
+		for (Animal entity : entities) {
 			// TODO: to make this fast this should run on separate threads
 			entity.run(plants, this.entities);
 

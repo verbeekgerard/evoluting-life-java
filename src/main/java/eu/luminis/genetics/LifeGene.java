@@ -9,17 +9,25 @@ import java.util.List;
 public class LifeGene extends Gene {
 	private double oldAge;
 	private double nutrition;
-	
+
 	public LifeGene() {
-        this.oldAge = new Range(Options.minOldAge.get(), Options.maxOldAge.get()).random();
-        this.nutrition = new Range(Options.minNutrition.get(), Options.maxNutrition.get()).random();
+		initializeOldAge();
+		initializeNutrition();
 	}
-	
+
 	public LifeGene(double oldAge, double nutrition) {
 		this.oldAge = oldAge;
 	    this.nutrition = nutrition;
 	}
-	
+
+	public double getOldAge() {
+		return oldAge;
+	}
+
+	public double getNutrition() {
+		return nutrition;
+	}
+
 	public void mutate() {
         if (Math.random() <= Options.oldAgeMutationRate.get()) {
             this.oldAge += new Range(Options.minOldAge.get(), Options.maxOldAge.get()).mutation(Options.mutationFraction.get());
@@ -48,11 +56,11 @@ public class LifeGene extends Gene {
 		return new LifeGene(properties.get(0), properties.get(1));
 	}
 
-	public double getOldAge() {
-		return oldAge;
+	private void initializeOldAge() {
+		this.oldAge = new Range(Options.minOldAge.get(), Options.maxOldAge.get()).random();
 	}
 
-	public double getNutrition() {
-		return nutrition;
+	private void initializeNutrition() {
+		this.nutrition = new Range(Options.minNutrition.get(), Options.maxNutrition.get()).random();
 	}
 }

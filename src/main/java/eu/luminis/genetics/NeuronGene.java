@@ -5,22 +5,23 @@ import eu.luminis.util.Range;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class NeuronGene extends Gene {
-	private List<AxonGene> axons = new ArrayList<>();
 	private double threshold;
 	private double relaxation;
-	
+    private List<AxonGene> axons = new ArrayList<>();
+
 	public NeuronGene(int maxOutputs) {
-        this.threshold = new Range(Options.minThreshold.get(), Options.maxThreshold.get()).random();
-        this.relaxation = Math.floor(new Range(0, Options.maxRelaxation.get()).random()) / 100;
+        initializeThreshold();
+        initializeRelaxation();
 
         for (int i=0; i<maxOutputs; i++) {
             this.axons.add(new AxonGene());
         }
 	}
-	
-	public NeuronGene(double threshold, double relaxation) {
+
+    public NeuronGene(double threshold, double relaxation) {
         this.threshold = threshold;
         this.relaxation = relaxation;
 	}
@@ -30,12 +31,23 @@ public class NeuronGene extends Gene {
         this.threshold = threshold;
         this.relaxation = relaxation;
 
-        for (int i=0; i< axons.size(); i++) {
-        	AxonGene axon = axons.get(i);
-            this.axons.add(new AxonGene(axon.getStrength(), axon.getStrengthening(), axon.getWeakening()));
-        }
+        this.axons.addAll(axons.stream()
+                .map(axon -> new AxonGene(axon.getStrength(), axon.getStrengthening(), axon.getWeakening()))
+                .collect(Collectors.toList()));
 	}
-    
+
+    public double getThreshold() {
+        return threshold;
+    }
+
+    public double getRelaxation() {
+        return relaxation;
+    }
+
+    public List<AxonGene> getAxons() {
+        return axons;
+    }
+
     public List<NeuronGene> mate(NeuronGene partner) {
     	
     	List<NeuronGene> children = (List<NeuronGene>) new Genetics().mate(this, partner);
@@ -69,7 +81,7 @@ public class NeuronGene extends Gene {
         Range range;
 
         if (Math.random() < Options.thresholdReplacementRate.get()) {
-            this.threshold = new Range(Options.minThreshold.get(), Options.maxThreshold.get()).random();
+            initializeThreshold();
         }
         else if (Math.random() < Options.thresholdMutationRate.get()) {
             range = new Range(Options.minThreshold.get(), Options.maxThreshold.get());
@@ -78,7 +90,7 @@ public class NeuronGene extends Gene {
         }
 
         if (Math.random() < Options.relaxationReplacementRate.get()) {
-            this.relaxation = Math.floor(new Range(0, Options.maxRelaxation.get()).random()) / 100;
+            initializeRelaxation();
         }
         else if (Math.random() < Options.relaxationMutationRate.get()) {
             range = new Range(0, Options.maxRelaxation.get());
@@ -87,24 +99,15 @@ public class NeuronGene extends Gene {
         }
 
         for (int i=0; i<this.axons.size(); i++) {
-            if (Math.random() < Options.axonGeneReplacementRate.get()) {
-                this.axons.set(i, new AxonGene());
-                continue;
-            }
-
             this.axons.get(i).mutate();
         }
     }
 
-    public List<AxonGene> getAxons() {
-        return axons;
+    private void initializeThreshold() {
+        this.threshold = new Range(Options.minThreshold.get(), Options.maxThreshold.get()).random();
     }
 
-    public double getThreshold() {
-        return threshold;
-    }
-
-    public double getRelaxation() {
-        return relaxation;
+    private void initializeRelaxation() {
+        this.relaxation = Math.floor(new Range(0, Options.maxRelaxation.get()).random()) / 100;
     }
 }

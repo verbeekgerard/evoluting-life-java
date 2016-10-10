@@ -11,7 +11,7 @@ public class Options {
 	public static Option maxOldAge = new Option(4000);
 	public static Option oldAgeMutationRate = new Option(0.05);
 	public static Option nutritionMutationRate = new Option(0.05);
-	
+
 	// Plant
 	public static Option minFoodSize = new Option(4);
 	public static Option maxFoodSize = new Option(10);
@@ -19,7 +19,7 @@ public class Options {
 	public static Option maxGrowthPercentage = new Option(0.05);
 	public static Option minNutrition = new Option(1.0);
 	public static Option maxNutrition = new Option(3.0);
-	
+
 	// Animal
 	public static Option sizeOption = new Option(12);
 	public static Option initialEnergyOption = new Option(8);
@@ -78,15 +78,16 @@ public class Options {
 	public static Option relaxationMutationRate = new Option(0.05);
 	public static Option relaxationReplacementRate = new Option(0.005);
 	
-	public static Option axonGeneReplacementRate = new Option(0.05);
-	
 	// AxonGene
 	public static Option maxStrength = new Option(0.8);
 	public static Option minStrengthening = new Option(0.000001);
 	public static Option maxStrengthening = new Option(0.00002);
 	public static Option minWeakening = new Option(0.000001);
 	public static Option maxWeakening = new Option(0.000005);
-	public static Option strengthMutationRate = new Option(0.1);
+	public static Option strengthMutationRate = new Option(0.05);
+	public static Option strengthReplacementRate = new Option(0.005);
 	public static Option strengtheningMutationRate = new Option(0.05);
+	public static Option strengtheningReplacementRate = new Option(0.005);
 	public static Option weakeningMutationRate = new Option(0.05);
+	public static Option weakeningReplacementRate = new Option(0.005);
 }
