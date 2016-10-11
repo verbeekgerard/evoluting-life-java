@@ -1,12 +1,21 @@
 package eu.luminis.general;
 
+import eu.luminis.util.Range;
+
 import java.util.Observable;
 import java.util.Observer;
 
 public class MutationFractionModifier implements Observer {
-    private int iterationPeriod = (int)Options.mutationFractionCyclesPeriod.get();
-    private double periodicFactor = Options.mutationFractionPeriodicFactor.get();
+    private Range mutationRange = new Range(Options.minMutationFraction.get(), Options.maxMutationFraction.get());
+    private int modificationPeriod = (int)Options.mutationFractionModificationPeriod.get();
+    private double mutationFractionExponent = Options.mutationFractionExponent.get();
+
+    private int periods = 0;
     private int iteration = 0;
+
+    public MutationFractionModifier() {
+        Options.mutationFraction.set(mutationRange.getUpperBound());
+    }
 
     @Override
     public void update(Observable o, Object arg) {
@@ -18,13 +27,17 @@ public class MutationFractionModifier implements Observer {
 
     private void processCycleEnd() {
         if (isNewPeriod()) {
-            double currentValue = Options.mutationFraction.get();
-            Options.mutationFraction.set(currentValue * periodicFactor);
+            double currentMutationFraction = Options.mutationFraction.get();
+            double newCandidate = currentMutationFraction * Math.exp(mutationFractionExponent * periods);
+            double newMutationFraction = mutationRange.assureFlippedBounds(newCandidate);
+            Options.mutationFraction.set(newMutationFraction);
+
+            periods = newMutationFraction > currentMutationFraction ? 0 : periods + 1;
         }
     }
 
     private boolean isNewPeriod() {
-        if (iteration++ > iterationPeriod) {
+        if (iteration++ > modificationPeriod) {
             iteration = 0;
             return true;
         }

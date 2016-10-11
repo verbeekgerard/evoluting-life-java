@@ -86,7 +86,7 @@ public class NeuronGene extends Gene {
         else if (Math.random() < Options.thresholdMutationRate.get()) {
             range = new Range(Options.minThreshold.get(), Options.maxThreshold.get());
             this.threshold += range.mutation(Options.mutationFraction.get());
-            this.threshold = range.checkLower(this.threshold);
+            this.threshold = range.assureLowerBound(this.threshold);
         }
 
         if (Math.random() < Options.relaxationReplacementRate.get()) {
@@ -95,7 +95,7 @@ public class NeuronGene extends Gene {
         else if (Math.random() < Options.relaxationMutationRate.get()) {
             range = new Range(0, Options.maxRelaxation.get());
             this.relaxation += Math.floor(range.mutation(Options.mutationFraction.get())) / 100;
-            this.relaxation = range.check(this.relaxation);
+            this.relaxation = range.assureBounds(this.relaxation);
         }
 
         for (int i=0; i<this.axons.size(); i++) {

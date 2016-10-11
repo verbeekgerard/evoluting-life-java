@@ -4,9 +4,11 @@ public class Options {
 	
 	public static Option mainLoopSleep = new Option(0);
 
-	public static Option mutationFraction = new Option(0.05);
-	public static Option mutationFractionCyclesPeriod = new Option(10000);
-	public static Option mutationFractionPeriodicFactor = new Option(0.99);
+	public static Option mutationFraction = new Option(0.01);
+	public static Option minMutationFraction = new Option(0.0001);
+	public static Option maxMutationFraction = new Option(0.03);
+	public static Option mutationFractionModificationPeriod = new Option(100);
+	public static Option mutationFractionExponent = new Option(-1.0/1000000.0);
 
 	// LifeGene
 	public static Option minOldAge = new Option(3000);

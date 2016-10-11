@@ -26,7 +26,7 @@ public class MovementGene extends Gene {
         }
         else if (Math.random() <= Options.angularForceMutationRate.get()) {
             this.angularForce += new Range(Options.minAngularForce.get(), Options.maxAngularForce.get()).mutation(Options.mutationFraction.get());
-            this.angularForce = new Range(0, 0).checkLower(this.angularForce);
+            this.angularForce = new Range(0, 0).assureLowerBound(this.angularForce);
         }
 
         if (Math.random() <= Options.linearForceReplacementRate.get()) {
@@ -34,7 +34,7 @@ public class MovementGene extends Gene {
         }
         else if (Math.random() <= Options.linearForceMutationRate.get()) {
             this.linearForce += new Range(Options.minLinearForce.get(), Options.maxLinearForce.get()).mutation(Options.mutationFraction.get());
-            this.linearForce = new Range(0, 0).checkLower(this.linearForce);
+            this.linearForce = new Range(0, 0).assureLowerBound(this.linearForce);
         }
     }
 	

@@ -41,7 +41,7 @@ public class SensorGene extends Gene {
         }
         else if (Math.random() <= Options.fieldOfViewMutationRate.get()) {
         	this.fieldOfView += new Range(Options.minFieldOfView.get(), Options.maxFieldOfView.get()).mutation(Options.mutationFraction.get());
-        	this.fieldOfView = new Range(0, 2 * Math.PI).check(this.fieldOfView);
+        	this.fieldOfView = new Range(0, 2 * Math.PI).assureBounds(this.fieldOfView);
         }
     }
     
