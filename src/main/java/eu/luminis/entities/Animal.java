@@ -28,6 +28,7 @@ public class Animal extends Organism implements Comparable<Animal> {
 	private double initialEnergy;
 	private double collisionDamage = 0;
 	private double usedEnergy = 0;
+    private boolean isColliding = false;
 
 	private Brain brain;
 
@@ -71,6 +72,10 @@ public class Animal extends Organism implements Comparable<Animal> {
         return eyes;
     }
 
+    public boolean isColliding() {
+        return isColliding;
+    }
+
     public void run(List<Plant> plants, List<Animal> animals) {
         this.age++;
 
@@ -80,7 +85,7 @@ public class Animal extends Organism implements Comparable<Animal> {
         AnimalBrainOutput brainOutput = think(obstacles);
         move(brainOutput);
 
-        collide(filteredOrganisms);
+        this.isColliding = collidesWithAny(filteredOrganisms);
 
         // Register the cost of the cycle
         this.usedEnergy += this.costCalculator.cycle();
@@ -136,9 +141,9 @@ public class Animal extends Organism implements Comparable<Animal> {
         return new AnimalBrainOutput(thoughtOutput);
     }
 
-    private void checkCollision(Organism organism) {
+    private boolean collidesWith(Organism organism) {
         boolean colliding = collisionDetector.colliding(this, organism);
-        if (!colliding) return;
+        if (!colliding) return false;
 
 		Position p = this.getPosition();
         double v = this.getVelocity();
@@ -155,10 +160,17 @@ public class Animal extends Organism implements Comparable<Animal> {
 
 		// Increment global collision counter
         eventBroadcaster.broadcast(EventType.COLLIDE, collisionDamage);
+        return true;
 	}
 
-	private void collide(List<Organism> organisms) {
-        organisms.forEach(this::checkCollision);
+	private boolean collidesWithAny(List<Organism> organisms) {
+        boolean isColliding = false;
+
+        for (Organism organism : organisms) {
+            isColliding = isColliding || collidesWith(organism);
+        }
+
+        return isColliding;
 	}
 
 	private double getVelocity() {

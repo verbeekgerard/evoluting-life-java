@@ -11,27 +11,35 @@ public class MovementGene extends Gene {
 	private double linearForce;
 	
 	public MovementGene(){
-		this.angularForce = new Range(Options.minAngularForce.get(), Options.maxAngularForce.get()).random();
-        this.linearForce = new Range(Options.minLinearForce.get(), Options.maxLinearForce.get()).random();
+		initializeAngularForce();
+		initializeLinearForce();
 	}
-	
+
 	public MovementGene(double angularForce, double linearForce){
 		this.angularForce = angularForce;
         this.linearForce = linearForce;
 	}
-	
+
+	public double getAngularForce() {
+		return angularForce;
+	}
+
+	public double getLinearForce() {
+		return linearForce;
+	}
+
 	public void mutate() {
         if (Math.random() <= Options.angularForceReplacementRate.get()) {
-    		this.angularForce = new Range(Options.minAngularForce.get(), Options.maxAngularForce.get()).random();
-        }
+			initializeAngularForce();
+		}
         else if (Math.random() <= Options.angularForceMutationRate.get()) {
             this.angularForce += new Range(Options.minAngularForce.get(), Options.maxAngularForce.get()).mutation(Options.mutationFraction.get());
             this.angularForce = new Range(0, 0).assureLowerBound(this.angularForce);
         }
 
         if (Math.random() <= Options.linearForceReplacementRate.get()) {
-            this.linearForce = new Range(Options.minLinearForce.get(), Options.maxLinearForce.get()).random();
-        }
+			initializeLinearForce();
+		}
         else if (Math.random() <= Options.linearForceMutationRate.get()) {
             this.linearForce += new Range(Options.minLinearForce.get(), Options.maxLinearForce.get()).mutation(Options.mutationFraction.get());
             this.linearForce = new Range(0, 0).assureLowerBound(this.linearForce);
@@ -56,11 +64,11 @@ public class MovementGene extends Gene {
 		return new MovementGene(properties.get(0), properties.get(1));
 	}
 
-	public double getAngularForce() {
-		return angularForce;
+	private void initializeAngularForce() {
+		this.angularForce = new Range(Options.minAngularForce.get(), Options.maxAngularForce.get()).random();
 	}
 
-	public double getLinearForce() {
-		return linearForce;
+	private void initializeLinearForce() {
+		this.linearForce = new Range(Options.minLinearForce.get(), Options.maxLinearForce.get()).random();
 	}
 }

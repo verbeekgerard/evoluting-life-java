@@ -68,15 +68,15 @@ public class Canvas extends JPanel implements Observer {
 		if (population.getWinningEntity() != null) {
 			Graphics2D g2 = (Graphics2D) g;
 
-			Position p = animal.getPosition();
+			Position animalPosition = animal.getPosition();
 			Eyes e = animal.getEyes();
 
 			Color c = new Color(.9f, .9f, .9f, .1f);
 			g2.setColor(c);
-			g2.fillArc(new Double(p.x - (e.getViewDistance() / 2)).intValue(),
-					new Double(p.y - (e.getViewDistance() / 2)).intValue(), new Double(e.getViewDistance()).intValue(),
+			g2.fillArc(new Double(animalPosition.x - (e.getViewDistance() / 2)).intValue(),
+					new Double(animalPosition.y - (e.getViewDistance() / 2)).intValue(), new Double(e.getViewDistance()).intValue(),
 					new Double(e.getViewDistance()).intValue(),
-					new Double(Math.toDegrees(-1 * p.a + e.getFieldOfView() / 2)).intValue(),
+					new Double(Math.toDegrees(-1 * animalPosition.a + e.getFieldOfView() / 2)).intValue(),
 					new Double(-1 * Math.toDegrees(e.getFieldOfView())).intValue());
 		}
 	}
@@ -85,8 +85,8 @@ public class Canvas extends JPanel implements Observer {
 		Graphics2D g2 = (Graphics2D) g;
 
 		double entitySize = animal.getSize();
-		Position p = animal.getPosition();
-		double ba = p.a + Math.PI; // Find the angle 180deg of entity
+		Position animalPosition = animal.getPosition();
+		double ba = animalPosition.a + Math.PI; // Find the angle 180deg of entity
 
 		// Find left back triangle point
 		double lx = Math.cos(ba + (WEDGE_ANGLE / 2)) * entitySize;
@@ -104,9 +104,9 @@ public class Canvas extends JPanel implements Observer {
 
 		// Draw the triangle
 		GeneralPath polygon = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
-		polygon.moveTo(p.x, p.y);
-		polygon.lineTo(p.x + lx, p.y + ly);
-		polygon.quadTo(p.x + cx, p.y + cy, p.x + rx, p.y + ry);
+		polygon.moveTo(animalPosition.x, animalPosition.y);
+		polygon.lineTo(animalPosition.x + lx, animalPosition.y + ly);
+		polygon.quadTo(animalPosition.x + cx, animalPosition.y + cy, animalPosition.x + rx, animalPosition.y + ry);
 		polygon.closePath();
 
 		if (animal.getAge() > 30)
@@ -128,10 +128,12 @@ public class Canvas extends JPanel implements Observer {
 	
 	private void drawCollisionBody(Animal animal, Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
+		float alpha = animal.isColliding() ? .9f : .1f ;
+        BasicStroke stroke = animal.isColliding() ? new BasicStroke(1.5f) : new BasicStroke(0.5f) ;
 
-		Color c = new Color(1.0f, 1.0f, 1.0f, .1f);
-		g2.setColor(c);
-		g2.setStroke(new BasicStroke(0.5f));
+		Color color = new Color(1.0f, 1.0f, 1.0f, alpha);
+		g2.setColor(color);
+		g2.setStroke(stroke);
 		g2.drawOval(
 				new Double(animal.getPosition().x).intValue() - new Double(animal.getSize()/2).intValue(),
 				new Double(animal.getPosition().y).intValue() - new Double(animal.getSize()/2).intValue(),

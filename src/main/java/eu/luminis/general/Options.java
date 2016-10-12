@@ -6,7 +6,7 @@ public class Options {
 
 	public static Option mutationFraction = new Option(0.01);
 	public static Option minMutationFraction = new Option(0.0001);
-	public static Option maxMutationFraction = new Option(0.03);
+	public static Option maxMutationFraction = new Option(0.01);
 	public static Option mutationFractionModificationPeriod = new Option(100);
 	public static Option mutationFractionExponent = new Option(-1.0/1000000.0);
 
