@@ -1,19 +1,14 @@
 package eu.luminis.general;
 
-import java.util.Observable;
-import java.util.Observer;
+public final class CostCalculator {
 
-public class CostCalculator implements Observer {
-
+    private final static double ENERGY_COST = 0.001;
 	private final static CostCalculator instance = new CostCalculator();
-	private final static double ENERGY_COST = 0.001;
 
 	public static CostCalculator getInstance() {
 		return instance;
 	}
 	
-	private int iteration = 0;
-
 	public double cycle() {
 		return ENERGY_COST * 40;
 	}
@@ -23,18 +18,10 @@ public class CostCalculator implements Observer {
 	}
 
 	public double collide(double velocity) {
-		return ENERGY_COST * Math.abs(velocity) * 20000;// this.iteration / 100;
+		return ENERGY_COST * Math.abs(velocity) * 20000;
 	}
 	
 	public double distanceReward(double distance) {
 		return ENERGY_COST * Math.abs(distance) * 50;
-	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		Event event = (Event) arg;
-		if (event.type.equals(EventType.CYCLE_END)) {
-			this.iteration++;
-		}
 	}
 }

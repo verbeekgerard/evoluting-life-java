@@ -10,10 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FoodSupply {
-	private double minX;
-	private double maxX;
-	private double minY;
-	private double maxY;
+    private Range rangeX;
+    private Range rangeY;
 	private World world;
 
 	private List<Plant> plants = new ArrayList<>();
@@ -21,13 +19,12 @@ public class FoodSupply {
 	public FoodSupply(World world){
 		this.world = world;
 		double border = 2;
-		this.minX = border;
-		this.maxX = world.getWidth() - border;
-		this.minY = border;
-		this.maxY = world.getHeight() - border;
 
-		Option populationSize = new Option(10 * 8);
-		for (int i = 0; i < populationSize.get(); i++) {
+        rangeX = new Range(border, world.getWidth() - border);
+        rangeY = new Range(border, world.getHeight() - border);
+
+		int populationSize = (int)Options.plantPopulationSize.get();
+		for (int i = 0; i < populationSize; i++) {
             this.plants.add(createPlant());
         }
 	}
@@ -37,7 +34,10 @@ public class FoodSupply {
             Plant plant = this.plants.get(i);
 
             // Replace the food if it's outside canvas boundaries
-            if ( plant.getPosition().x < 0 || plant.getPosition().x > world.getWidth() || plant.getPosition().y < 0 || plant.getPosition().y > world.getHeight()) {
+            if (plant.getPosition().x < 0 ||
+					plant.getPosition().x > world.getWidth() ||
+					plant.getPosition().y < 0 ||
+					plant.getPosition().y > world.getHeight()) {
                 plant = this.plants.set(i, createPlant());
             }
 
@@ -51,8 +51,8 @@ public class FoodSupply {
     }
 	
 	public Plant createPlant() {
-		Position p = new Position(new Range(minX, maxX).random(), new Range(minY, maxY).random());
-		return new Plant(new Genome(0,0), p, world);
+		Position position = new Position(rangeX.random(), rangeY.random());
+		return new Plant(new Genome(0,0), position, world);
     }
 
 	public List<Plant> getPlants() {

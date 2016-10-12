@@ -43,11 +43,12 @@ public class Canvas extends JPanel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		Event event = (Event) arg;
-		if (event.type.equals(EventType.CYCLE_END) && frameLimiter.isNewFrame()) {
+		if (event.type.equals(EventType.CYCLE_END) && this.isShowing() && frameLimiter.isNewFrame()) {
             this.repaint();
 		}
 	}
 
+    @Override
 	public void paintComponent(Graphics g) {
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, world.getWidth(), world.getHeight());
@@ -64,7 +65,7 @@ public class Canvas extends JPanel implements Observer {
 		}
 	}
 
-	public void drawFieldOfView(Animal animal, Graphics g) {
+	private void drawFieldOfView(Animal animal, Graphics g) {
 		if (population.getWinningEntity() != null) {
 			Graphics2D g2 = (Graphics2D) g;
 
@@ -81,7 +82,7 @@ public class Canvas extends JPanel implements Observer {
 		}
 	}
 
-	public void drawAnimal(Animal animal, Animal bestAnimal, Graphics g) {
+	private void drawAnimal(Animal animal, Animal bestAnimal, Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 
 		double entitySize = animal.getSize();

@@ -23,7 +23,6 @@ public class Run {
             initializeMainPanel(simulation, eventBroadcaster);
 		}
 
-        initializeCostCalculator(eventBroadcaster);
         initializeMutationFractionModifier(eventBroadcaster);
         initializeStatsPrinter(simulation, eventBroadcaster);
         initializeExportInfo(simulation, eventBroadcaster);
@@ -34,10 +33,6 @@ public class Run {
     private static void initializeMutationFractionModifier(EventBroadcaster eventBroadcaster) {
         MutationFractionModifier mutationFractionModifier = new MutationFractionModifier();
         eventBroadcaster.addObserver(mutationFractionModifier);
-    }
-
-    private static void initializeCostCalculator(EventBroadcaster eventBroadcaster) {
-        eventBroadcaster.addObserver(CostCalculator.getInstance());
     }
 
     private static void initializeExportInfo(Simulation simulation, EventBroadcaster eventBroadcaster) {

@@ -1,6 +1,8 @@
 package eu.luminis.general;
 
-public class Options {
+public final class Options {
+
+    private Options() {}
 	
 	public static Option mainLoopSleep = new Option(0);
 
@@ -11,15 +13,16 @@ public class Options {
 	public static Option mutationFractionExponent = new Option(-1.0/1000000.0);
 
 	// LifeGene
-	public static Option minOldAge = new Option(3000);
-	public static Option maxOldAge = new Option(4000);
-	public static Option oldAgeMutationRate = new Option(0.05);
+    public static Option minOldAge = new Option(3000);
+    public static Option maxOldAge = new Option(4000);
+    public static Option oldAgeMutationRate = new Option(0.05);
 
 	// Plant
 	public static Option minFoodSize = new Option(4);
 	public static Option maxFoodSize = new Option(10);
 	public static Option minGrowthPercentage = new Option(0.01);
 	public static Option maxGrowthPercentage = new Option(0.05);
+	public static Option plantPopulationSize = new Option(10*8);
 
 	// Animal
 	public static Option sizeOption = new Option(12);
@@ -65,7 +68,7 @@ public class Options {
 	public static Option minHiddenLayers = new Option(1);
 	public static Option maxHiddenLayers = new Option(5);
 	public static Option maxNeuronsPerLayer = new Option(16);
-	public static Option layerMutationRate = new Option(0.01);    // adding or removing a gene
+	public static Option layerMutationRate = new Option(0.01);    // adding or removing a neuron
 	public static Option geneMutationRate = new Option(0.3);    // percentual chance of genes within a genome to mutate
 	public static Option geneReplacementRate = new Option(0.001);  // completely replacing a genes properties
 	
