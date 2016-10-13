@@ -14,3 +14,4 @@ evoluting-life-java.iml
 .idea/
 target/
 .metadata/*
+.settings/
