@@ -54,7 +54,7 @@ class WallDistanceSensor {
             return getDistanceToRightOrTopWall(position);
         }
 
-        return null;
+        throw new Error("Impossible situation for position: " + position.toString());
     }
 
     private boolean isFacingRightOrTopWall(Position p) {
@@ -62,7 +62,7 @@ class WallDistanceSensor {
         return p.a >= Math.PI * 1.5 && p.a < Math.PI * 2;
     }
 
-    private Double getDistanceToRightOrTopWall(Position p) {
+    private double getDistanceToRightOrTopWall(Position p) {
         double distX = (rightWall - p.x) / Math.cos(p.a);
         double distY = (topWall - p.y) / Math.sin(p.a);
 
@@ -74,7 +74,7 @@ class WallDistanceSensor {
         return p.a >= Math.PI && p.a <= Math.PI * 1.5;
     }
 
-    private Double getDistanceToLeftOrTopWall(Position p) {
+    private double getDistanceToLeftOrTopWall(Position p) {
         double distX = (leftWall - p.x) / Math.cos(p.a);
         double distY = (topWall - p.y) / Math.sin(p.a);
 
@@ -86,7 +86,7 @@ class WallDistanceSensor {
         return p.a >= Math.PI * 0.5 && p.a <= Math.PI;
     }
 
-    private Double getDistanceToLeftOrBottomWall(Position p) {
+    private double getDistanceToLeftOrBottomWall(Position p) {
         double distX = (leftWall - p.x) / Math.cos(p.a);
         double distY = (bottomWall - p.y) / Math.sin(p.a);
 
@@ -98,7 +98,7 @@ class WallDistanceSensor {
         return p.a >= 0 && p.a <= Math.PI * 0.5;
     }
 
-    private Double getDistanceToRightOrBottomWall(Position p) {
+    private double getDistanceToRightOrBottomWall(Position p) {
         double distX = (rightWall - p.x) / Math.cos(p.a);
         double distY = (bottomWall - p.y) / Math.sin(p.a);
 
