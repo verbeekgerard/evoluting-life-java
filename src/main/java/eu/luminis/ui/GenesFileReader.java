@@ -19,6 +19,9 @@ class GenesFileReader extends GenesFileActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         File file = getFileToOpen();
+
+        if (file == null) return;
+
         importFile(file);
     }
 

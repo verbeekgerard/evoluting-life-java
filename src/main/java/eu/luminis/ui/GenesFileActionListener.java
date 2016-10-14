@@ -38,7 +38,7 @@ abstract class GenesFileActionListener implements ActionListener {
             return fileChooser.getSelectedFile();
         }
 
-        throw new Error("No file to save");
+        return null;
     }
 
     protected File getFileToOpen() {
@@ -48,6 +48,6 @@ abstract class GenesFileActionListener implements ActionListener {
             return fileChooser.getSelectedFile();
         }
 
-        throw new Error("No file to open");
+        return null;
     }
 }

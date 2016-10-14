@@ -16,6 +16,9 @@ class GenesFileWriter extends GenesFileActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         File file = getFileToSave();
+
+        if (file == null) return;
+
         exportFile(file);
     }
 
