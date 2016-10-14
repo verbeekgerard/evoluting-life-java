@@ -26,7 +26,6 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
     private JLabel avgAgeLbl;
     private JLabel avgDistanceLbl;
 
-    private Simulation simulation;
     private JButton exportBtn;
     private JButton importBtn;
 
@@ -35,7 +34,6 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
 
 	public MainPanel(StatsCollector statsCollector, Simulation simulation) {
 		this.statsCollector = statsCollector;
-		this.simulation = simulation;
 
         this.genesFileReader = new GenesFileReader(this, simulation);
         this.genesFileWriter = new GenesFileWriter(this, simulation);
