@@ -1,6 +1,7 @@
 package eu.luminis.ui;
 
 import eu.luminis.general.Simulation;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -34,16 +35,21 @@ abstract class GenesFileActionListener implements ActionListener {
     protected File getFileToSave() {
         int returnVal = fileChooser.showSaveDialog(component);
 
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            return fileChooser.getSelectedFile();
+        File file = getFile(returnVal);
+        if (!FilenameUtils.getExtension(file.getName()).equalsIgnoreCase(FILE_EXTENSION)) {
+            file = new File(file.toString() + "." + FILE_EXTENSION);
         }
 
-        return null;
+        return file;
     }
 
     protected File getFileToOpen() {
         int returnVal = fileChooser.showOpenDialog(component);
 
+        return getFile(returnVal);
+    }
+
+    private File getFile(int returnVal) {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             return fileChooser.getSelectedFile();
         }
