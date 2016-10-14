@@ -176,7 +176,7 @@ public class Animal extends Organism implements Comparable<Animal> {
 	private double getVelocity() {
 		return (this.velocityRight + this.velocityLeft) / 2;
 	}
-	
+
 	private double getTravelledDistanceReward() {
         return this.costCalculator.distanceReward(getTravelledDistance());
     }
