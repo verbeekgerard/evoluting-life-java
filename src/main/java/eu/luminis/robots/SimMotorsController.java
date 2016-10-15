@@ -1,34 +1,24 @@
 package eu.luminis.robots;
 
 import eu.luminis.entities.Position;
-import eu.luminis.entities.TravelledDistanceRecorder;
-import eu.luminis.general.CostCalculator;
 import eu.luminis.general.Options;
 
 public class SimMotorsController implements IMotorsController {
-    private CostCalculator costCalculator = CostCalculator.getInstance();
     private SimRobot owner;
-    private TravelledDistanceRecorder distanceRecorder;
 
     private double linearForce;
     private double linearFriction = Options.linearFrictionOption.get();
-    private double movementCost = 0;
 
     private double velocityLeft = 0;
     private double velocityRight = 0;
 
-    public SimMotorsController(SimRobot owner) {
+    public SimMotorsController(SimRobot owner, double linearForce) {
         this.owner = owner;
-        this.linearForce = owner.getGenome().getMovement().getLinearForce();
-        this.distanceRecorder = new TravelledDistanceRecorder(owner.getPosition());
+        this.linearForce = linearForce;
     }
 
-    public double getMovementCost() {
-        return movementCost;
-    }
-
-    public double getTravelledDistanceReward() {
-        return costCalculator.distanceReward(distanceRecorder.getTotalDistance());
+    public double getVelocity() {
+        return (velocityRight + velocityLeft) / 2;
     }
 
     @Override
@@ -57,11 +47,6 @@ public class SimMotorsController implements IMotorsController {
         p.x += dx;
         p.y += dy;
 
-        distanceRecorder.recordMove(p);
-        movementCost += costCalculator.accelerate(accelerationLeft + accelerationRight);
-    }
-
-    private double getVelocity() {
-        return (velocityRight + velocityLeft) / 2;
+        owner.recordMove(p, accelerationLeft + accelerationRight);
     }
 }

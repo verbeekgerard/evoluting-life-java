@@ -3,19 +3,17 @@ package eu.luminis.entities;
 import eu.luminis.general.EventBroadcaster;
 import eu.luminis.genetics.Genome;
 import eu.luminis.general.EventType;
+import eu.luminis.robots.Obstacle;
 
-public abstract class Organism {
+public abstract class Organism extends Obstacle{
 
     protected double age;
     protected EventBroadcaster eventBroadcaster = EventBroadcaster.getInstance();
 
     private Genome genome;
-    private Position position;
     private World world;
 
     public abstract double getHealth();
-
-    public abstract double getSize();
 
     public double getAge() {
         return this.age;
@@ -29,18 +27,14 @@ public abstract class Organism {
         return genome;
     }
 
-    public Position getPosition() {
-        return position;
-    }
-
     Organism(Genome genome, Position position, World world) {
+        super(world, position);
         this.genome = genome;
-        this.position = position;
         this.world = world;
     }
 
     public boolean lives() {
-        Position p = this.position;
+        Position p = this.getPosition();
 
         if (p.x > world.getWidth() || p.x < 0 || p.y > world.getHeight() || p.y < 0) {
             eventBroadcaster.broadcast(EventType.WANDERED, 1);
