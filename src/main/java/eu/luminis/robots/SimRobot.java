@@ -19,12 +19,16 @@ public class SimRobot extends Obstacle {
         this.robot = new Robot(
                 new Brain(brainGene),
                 new SimMotorsController(this),
-                new SimServo(this),
+                new SimServoController(this),
                 new SimSensor(this)
         );
     }
 
     public void run() {
         this.robot.run();
+    }
+
+    public Genome getGenome() {
+        return genome;
     }
 }

@@ -12,7 +12,7 @@ public class PiMotorsController implements IMotorsController {
     }
 
     @Override
-    public void move(double left, double right) {
+    public void move(double leftChange, double rightChange) {
         // TODO: Call movement methods of the motors on the R-Pi API
         throw new NotImplementedException();
     }

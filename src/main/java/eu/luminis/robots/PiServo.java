@@ -2,18 +2,9 @@ package eu.luminis.robots;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class PiServo implements IServo {
-    private int angle;
-
-    @Override
+public class PiServo {
     public void moveTo(int angle) {
-        this.angle = angle;
-        // TODO: Call moveTo on the R-Pi API
+        // TODO: Call movement method on the R-Pi API
         throw new NotImplementedException();
-    }
-
-    @Override
-    public int getAngle() {
-        return this.angle;
     }
 }
