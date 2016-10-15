@@ -1,13 +1,15 @@
 package eu.luminis.entities;
 
+import eu.luminis.robots.Obstacle;
+
 import java.util.ArrayList;
 import java.util.List;
 
-class SensorFilter {
-    private final Animal owner;
+public class SensorFilter {
+    private final Obstacle owner;
     private final double distanceSquared;
 
-    public SensorFilter(Animal owner, double viewDistance) {
+    public SensorFilter(Obstacle owner, double viewDistance) {
         this.owner = owner;
 
         double ds2 = Math.max(owner.getSize(), viewDistance); ds2 *= ds2;

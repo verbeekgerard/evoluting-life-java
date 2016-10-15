@@ -1,10 +1,7 @@
 package eu.luminis.robots;
 
 import eu.luminis.brains.Brain;
-import eu.luminis.entities.CollisionDetector;
-import eu.luminis.entities.Position;
-import eu.luminis.entities.TravelledDistanceRecorder;
-import eu.luminis.entities.World;
+import eu.luminis.entities.*;
 import eu.luminis.general.CostCalculator;
 import eu.luminis.general.EventType;
 import eu.luminis.general.Options;
@@ -22,6 +19,7 @@ public class SimRobot extends Obstacle {
 
     private TravelledDistanceRecorder distanceRecorder;
     private CollisionDetector collisionDetector = new CollisionDetector();
+    private SensorFilter sensorFilter;
 
     private double initialEnergy;
     private double movementCost = 0;
@@ -45,6 +43,7 @@ public class SimRobot extends Obstacle {
         this.initialEnergy = Options.initialEnergyOption.get();
         this.distanceRecorder = new TravelledDistanceRecorder(position);
         this.size = Options.sizeOption.get();
+        this.sensorFilter = new SensorFilter(this, genome.getSensor().getViewDistance());
     }
 
     public void run() {

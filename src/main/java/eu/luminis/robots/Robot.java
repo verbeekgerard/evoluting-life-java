@@ -34,8 +34,4 @@ public class Robot {
         // 4. control the servo motor
         servoController.changeAngle(brainOutput.getServoAcceleration());
     }
-
-    private BrainOutput think(BrainInput input) {
-        throw new NotImplementedException();
-    }
 }
