@@ -4,26 +4,26 @@ import eu.luminis.brains.Brain;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Robot {
-    private final IMotor leftMotor;
-    private final IMotor rightMotor;
+    private final Brain brain;
+    private final IMotorsController motorsController;
     private final IServo servo;
     private final ISensor sensor;
 
-    private Brain brain;
-
-    public Robot(IMotor leftMotor, IMotor rightMotor, IServo servo, ISensor sensor) {
-        this.leftMotor = leftMotor;
-        this.rightMotor = rightMotor;
+    public Robot(Brain brain, IMotorsController motorsController, IServo servo, ISensor sensor) {
+        this.brain = brain;
+        this.motorsController = motorsController;
         this.servo = servo;
         this.sensor = sensor;
     }
 
     public void run() {
-        throw new NotImplementedException();
         // 1. sense
+        double distance = this.sensor.sense();
+        int angle = this.servo.getAngle();
         // 2. think
-        // 3. control motors
+        // 3. control left and right motors
         // 4. turn servo
+        throw new NotImplementedException();
     }
 
     private BrainOutput think(BrainInput input) {
