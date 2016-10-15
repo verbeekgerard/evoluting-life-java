@@ -26,7 +26,7 @@ public class Robot {
         // 4. turn servo
     }
 
-    private BrainOuput think(BrainInput input) {
+    private BrainOutput think(BrainInput input) {
         throw new NotImplementedException();
     }
 }

@@ -2,12 +2,7 @@ package eu.luminis.robots;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class SimMotor implements IMotor {
-    private SimRobot owner;
-
-    public SimMotor(SimRobot owner) {
-        this.owner = owner;
-    }
+public class PiMotor implements IMotor {
 
     @Override
     public void stop() {
@@ -16,13 +11,13 @@ public class SimMotor implements IMotor {
 
     @Override
     public void forward() {
-        // TODO: Change the position of the owner here
+        // TODO: Call forward on the R-Pi API
         throw new NotImplementedException();
     }
 
     @Override
     public void reverse() {
-        // TODO: Change the position of the owner here
+        // TODO: Call reverse on the R-Pi API
         throw new NotImplementedException();
     }
 }
