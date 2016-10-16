@@ -1,16 +1,12 @@
 package eu.luminis.sensors;
 
-import eu.luminis.robots.Obstacle;
-
 public class ObstacleVector implements Comparable<ObstacleVector> {
 	private double distance;
 	private double angle;
-	private Obstacle organism;
 
-	public ObstacleVector(double distance, double angle, Obstacle organism){
+	public ObstacleVector(double distance, double angle){
 		this.distance = distance;
 		this.angle = angle;
-		this.organism = organism;
 	}
 
 	@Override
@@ -24,9 +20,5 @@ public class ObstacleVector implements Comparable<ObstacleVector> {
 
 	public double getAngle() {
 		return angle;
-	}
-
-	public Obstacle getOrganism() {
-		return organism;
 	}
 }

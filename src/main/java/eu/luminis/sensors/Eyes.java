@@ -63,7 +63,7 @@ public class Eyes {
             // If the food is outside the viewing range, skip it
             if (Math.abs(angle) > this.fieldOfView / 2 || distance > this.viewDistance) continue;
 
-            obstacleVectors.add(new ObstacleVector(distance, angle, organism));
+            obstacleVectors.add(new ObstacleVector(distance, angle));
         }
 
         return obstacleVectors;

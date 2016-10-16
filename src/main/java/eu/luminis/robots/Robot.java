@@ -8,18 +8,18 @@ public class Robot {
     private final Brain brain;
     private final IMotorsController motorsController;
     private final IServoController servoController;
-    private final ISensorController sensor;
+    private final ISensorController sensorController;
 
-    public Robot(Brain brain, IMotorsController motorsController, IServoController servoController, ISensorController sensor) {
+    public Robot(Brain brain, IMotorsController motorsController, IServoController servoController, ISensorController sensorController) {
         this.brain = brain;
         this.motorsController = motorsController;
         this.servoController = servoController;
-        this.sensor = sensor;
+        this.sensorController = sensorController;
     }
 
     public void run() {
         // 1. sense
-        double distance = sensor.sense();
+        double distance = sensorController.sense();
         int angle = servoController.getAngle();
 
         // 2. think

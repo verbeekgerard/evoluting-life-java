@@ -16,7 +16,6 @@ public class SimRobot extends Obstacle {
     private final SimSensorController sensorController;
 
     private TravelledDistanceRecorder distanceRecorder;
-    private SensorFilter sensorFilter;
 
     private double initialEnergy;
     private double movementCost = 0;
@@ -41,11 +40,12 @@ public class SimRobot extends Obstacle {
         this.initialEnergy = Options.initialEnergyOption.get();
         this.distanceRecorder = new TravelledDistanceRecorder(position);
         this.size = Options.sizeOption.get();
-        this.sensorFilter = new SensorFilter(this, genome.getSensor().getViewDistance());
     }
 
     public void run() {
-        this.robot.run();
+        sensorController.prepareForNearbyObstacles();
+        robot.run();
+        isColliding = sensorController.isColliding();
     }
 
     public Double fitness() {

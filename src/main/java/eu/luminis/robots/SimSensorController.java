@@ -11,6 +11,7 @@ public class SimSensorController implements ISensorController {
     private SensorFilter sensorFilter;
     private CollisionDetector collisionDetector = new CollisionDetector();
 
+    List<Obstacle> nearbyObstacles;
 
     public SimSensorController(SimRobot owner, double viewDistance) {
         this.owner = owner;
@@ -24,10 +25,12 @@ public class SimSensorController implements ISensorController {
     }
 
     public boolean isColliding() {
-        List<Obstacle> obstacles = owner.getWorld().getAllObstacles();
-        List<Obstacle> nearbyObstacles = sensorFilter.filter(obstacles);
-
         return collidesWithAny(nearbyObstacles);
+    }
+
+    public void prepareForNearbyObstacles() {
+        List<Obstacle> obstacles = owner.getWorld().getAllObstacles();
+        nearbyObstacles = sensorFilter.filter(obstacles);
     }
 
     private boolean collidesWithAny(List<Obstacle> obstacles) {
