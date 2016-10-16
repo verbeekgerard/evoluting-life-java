@@ -6,10 +6,24 @@ import java.util.List;
 public class SimWorld {
     private SimRobotPopulation robotPopulation;
     private StationaryObstaclePopulation obstaclePopulation;
+    private int width = 1280;
+    private int height = 720;
+
+    @Deprecated
+    public SimWorld() {
+    }
 
     public SimWorld(SimRobotPopulation robotPopulation, StationaryObstaclePopulation obstaclePopulation) {
         this.robotPopulation = robotPopulation;
         this.obstaclePopulation = obstaclePopulation;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public List<Obstacle> getAllObstacles() {

@@ -1,7 +1,6 @@
 package eu.luminis.robots;
 
 import eu.luminis.brains.Brain;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
@@ -9,9 +8,9 @@ public class Robot {
     private final Brain brain;
     private final IMotorsController motorsController;
     private final IServoController servoController;
-    private final ISensor sensor;
+    private final ISensorController sensor;
 
-    public Robot(Brain brain, IMotorsController motorsController, IServoController servoController, ISensor sensor) {
+    public Robot(Brain brain, IMotorsController motorsController, IServoController servoController, ISensorController sensor) {
         this.brain = brain;
         this.motorsController = motorsController;
         this.servoController = servoController;

@@ -7,18 +7,15 @@ import eu.luminis.general.EventType;
 import eu.luminis.general.Options;
 import eu.luminis.genetics.BrainGene;
 import eu.luminis.genetics.Genome;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import java.util.List;
 
 public class SimRobot extends Obstacle {
     private CostCalculator costCalculator = CostCalculator.getInstance();
 
     private final Robot robot;
     private final SimMotorsController motorsController;
+    private final SimSensorController sensorController;
 
     private TravelledDistanceRecorder distanceRecorder;
-    private CollisionDetector collisionDetector = new CollisionDetector();
     private SensorFilter sensorFilter;
 
     private double initialEnergy;
@@ -28,16 +25,17 @@ public class SimRobot extends Obstacle {
     private double size;
     private boolean isColliding = false;
 
-    public SimRobot(Genome genome, Position position, World world) {
+    public SimRobot(Genome genome, Position position, SimWorld world) {
         super(world, position);
 
         BrainGene brainGene = genome.getBrain();
         motorsController = new SimMotorsController(this, genome.getMovement().getLinearForce());
-        this.robot = new Robot(
+        sensorController = new SimSensorController(this, genome.getSensor().getViewDistance());
+        robot = new Robot(
                 new Brain(brainGene),
                 motorsController,
                 new SimServoController(this),
-                new SimSensor(this)
+                sensorController
         );
 
         this.initialEnergy = Options.initialEnergyOption.get();
@@ -71,35 +69,10 @@ public class SimRobot extends Obstacle {
         movementCost += costCalculator.accelerate(acceleration);
     }
 
-    private boolean collidesWithAny(List<Obstacle> obstacles) {
-        boolean isColliding = false;
-
-        for (Obstacle obstacle : obstacles) {
-            isColliding = isColliding || collidesWith(obstacle);
-        }
-
-        return isColliding;
-    }
-
-    private boolean collidesWith(Obstacle obstacle) {
-        boolean colliding = collisionDetector.colliding(this, obstacle);
-        if (!colliding) return false;
-
-        Position position = this.getPosition();
+    public void recordCollision() {
         double velocity = motorsController.getVelocity();
-
-        double dx = Math.cos(position.a) * velocity;
-        double dy = Math.sin(position.a) * velocity;
-
-        // Move the entity opposite to it's velocity
-        position.x -= dx;
-        position.y -= dy;
-
         this.collisionDamage += costCalculator.collide(velocity);
-
-        // Increment global collision counter
         eventBroadcaster.broadcast(EventType.COLLIDE, collisionDamage);
-        return true;
     }
 
     private double getDistanceReward() {
