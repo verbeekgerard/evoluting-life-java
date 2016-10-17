@@ -80,6 +80,7 @@ public class Animal extends Organism implements Comparable<Animal> {
         this.age++;
 
         List<Organism> filteredOrganisms = this.sensorFilter.filter(plants, animals);
+        turnHead();
         Obstacles obstacles = eyes.sense(filteredOrganisms);
 
         AnimalBrainOutput brainOutput = think(obstacles);
@@ -94,6 +95,11 @@ public class Animal extends Organism implements Comparable<Animal> {
     @Override
     public int compareTo(Animal otherAnimal) {
         return otherAnimal.fitness().compareTo(this.fitness());
+    }
+
+    protected void turnHead() {
+        eyes.turnHead();
+        this.usedEnergy +=  this.costCalculator.turnHead();
     }
 
     protected void move(AnimalBrainOutput brainOutput) {

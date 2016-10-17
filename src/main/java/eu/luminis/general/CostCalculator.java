@@ -24,4 +24,8 @@ public final class CostCalculator {
 	public double distanceReward(double distance) {
 		return ENERGY_COST * Math.abs(distance) * 50;
 	}
+
+	public double turnHead() {
+		return ENERGY_COST * 40;
+	}
 }

@@ -7,10 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Eyes {
+    //+ en - 70 degrees
+    private static double MAX_ANGLE_WITH_OWNER = Math.toRadians(69.99999999999999);
+
     private World world;
     private Animal owner;
     private double viewDistance;
     private double fieldOfView;
+    private double angleWithOwner = 0.000000000001;
 
     private WallDistanceSensor wallDistanceSensor;
 
@@ -31,6 +35,11 @@ public class Eyes {
         return fieldOfView;
     }
 
+    public void turnHead() {
+        angleWithOwner = angleWithOwner + 2*Math.PI / 20;
+        if (angleWithOwner > MAX_ANGLE_WITH_OWNER) angleWithOwner = -MAX_ANGLE_WITH_OWNER;
+    }
+    
     public Obstacles sense(List<Organism> organisms) {
         List<ObstacleVector> obstacles = new ArrayList<>();
         obstacles.addAll(findOrganisms(organisms));
@@ -51,7 +60,8 @@ public class Eyes {
 
             // Find angle of food relative to entity
             if (dx == 0) dx = 0.000000000001;
-            double angle = ownerPosition.a - Math.atan2(dy, dx);
+            double angle = (ownerPosition.a + this.angleWithOwner) - Math.atan2(dy, dx);
+            //double angle = ownerPosition.a - Math.atan2(dy, dx);
 
             // Convert angles to right of center into negative values
             if (angle > Math.PI) angle -= 2 * Math.PI;
@@ -66,5 +76,9 @@ public class Eyes {
         }
 
         return obstacleVectors;
+    }
+
+    public double getAngleWithOwner() {
+        return angleWithOwner;
     }
 }
