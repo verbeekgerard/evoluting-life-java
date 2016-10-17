@@ -80,12 +80,13 @@ public class Animal extends Organism implements Comparable<Animal> {
     public void run(List<Plant> plants, List<Animal> animals) {
         this.age++;
 
-        turnHead();
+
         List<Obstacle> filteredOrganisms = this.sensorFilter.filter(plants, animals);
         Obstacles obstacles = eyes.sense(filteredOrganisms);
 
         AnimalBrainOutput brainOutput = think(obstacles);
         move(brainOutput);
+        turnHead(brainOutput);
 
         this.isColliding = collidesWithAny(filteredOrganisms);
 
@@ -98,9 +99,9 @@ public class Animal extends Organism implements Comparable<Animal> {
         return otherAnimal.fitness().compareTo(this.fitness());
     }
 
-    protected void turnHead() {
-        eyes.turnHead();
-        this.usedEnergy +=  this.costCalculator.turnHead();
+    protected void turnHead(AnimalBrainOutput brainOutput) {
+        eyes.turnHead(brainOutput.getServoAcceleration());
+        this.usedEnergy +=  this.costCalculator.turnHead(brainOutput.getServoAcceleration());
     }
 
     protected void move(AnimalBrainOutput brainOutput) {

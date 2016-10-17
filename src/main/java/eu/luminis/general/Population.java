@@ -97,7 +97,7 @@ public class Population {
 	}
 
     private Genome createGenome() {
-        return new Genome(5, 4);
+        return new Genome(AnimalBrainInput.getNodesCount(), AnimalBrainOutput.getNodesCount());
     }
 
     private Position createRandomPosition() {

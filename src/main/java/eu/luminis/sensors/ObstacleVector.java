@@ -3,10 +3,12 @@ package eu.luminis.sensors;
 public class ObstacleVector implements Comparable<ObstacleVector> {
 	private double distance;
 	private double angle;
+	private double size;
 
-	public ObstacleVector(double distance, double angle){
+	public ObstacleVector(double distance, double angle, double size){
 		this.distance = distance;
 		this.angle = angle;
+		this.size = size;
 	}
 
 	@Override
@@ -20,5 +22,9 @@ public class ObstacleVector implements Comparable<ObstacleVector> {
 
 	public double getAngle() {
 		return angle;
+	}
+
+	public double getSize() {
+		return size;
 	}
 }

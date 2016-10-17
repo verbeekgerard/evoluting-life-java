@@ -1,6 +1,6 @@
 package eu.luminis.robots;
 
 public interface IServoController {
-    int getAngle();
+    double getAngle();
     void changeAngle(double angularChange);
 }

@@ -7,7 +7,7 @@ import eu.luminis.util.Range;
 import java.util.ArrayList;
 import java.util.List;
 
-class AnimalBrainInput {
+public class AnimalBrainInput {
     private List<Double> inputs;
 
     private ObstacleVector obstacle;
@@ -20,6 +20,10 @@ class AnimalBrainInput {
         this.wallDistance = wallDistance;
         this.fieldOfView = fieldOfView;
         this.viewDistance = viewDistance;
+    }
+
+    public static int getNodesCount() {
+        return 5;
     }
 
     public List<Double> getInputs() {

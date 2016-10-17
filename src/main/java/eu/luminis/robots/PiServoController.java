@@ -6,7 +6,7 @@ public class PiServoController implements IServoController {
     private int angle;
 
     @Override
-    public int getAngle() {
+    public double getAngle() {
         return this.angle;
     }
 

@@ -20,7 +20,7 @@ public class Robot {
     public void run() {
         // 1. sense
         double distance = sensorController.sense();
-        int angle = servoController.getAngle();
+        double angle = servoController.getAngle();
 
         // 2. think
         BrainInput input = new BrainInput(distance, angle, Math.PI);

@@ -4,7 +4,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class PiSensorController implements ISensorController {
     @Override
-    public Double sense() {
+    public double sense() {
         // TODO: Call sense on the R-Pi API
         throw new NotImplementedException();
     }

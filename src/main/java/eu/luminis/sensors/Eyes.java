@@ -36,9 +36,9 @@ public class Eyes {
         return fieldOfView;
     }
 
-    public void turnHead() {
-        angleWithOwner = angleWithOwner + 2*Math.PI / 20;
-        if (angleWithOwner > MAX_ANGLE_WITH_OWNER) angleWithOwner = -MAX_ANGLE_WITH_OWNER;
+    public void turnHead(double servoAcceleration) {
+        angleWithOwner = angleWithOwner + servoAcceleration; //2*Math.PI / 20;
+ //       if (angleWithOwner > MAX_ANGLE_WITH_OWNER) angleWithOwner = -MAX_ANGLE_WITH_OWNER;
     }
     
     public Obstacles sense(List<Obstacle> organisms) {
@@ -73,7 +73,7 @@ public class Eyes {
             // If the food is outside the viewing range, skip it
             if (Math.abs(angle) > this.fieldOfView / 2 || distance > this.viewDistance) continue;
 
-            obstacleVectors.add(new ObstacleVector(distance, angle));
+            obstacleVectors.add(new ObstacleVector(distance, angle, organism.getSize()));
         }
 
         return obstacleVectors;

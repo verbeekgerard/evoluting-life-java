@@ -11,7 +11,7 @@ public class SimServoController implements IServoController {
     }
 
     @Override
-    public int getAngle() {
+    public double getAngle() {
         return this.angle;
     }
 
