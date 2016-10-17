@@ -1,1 +1,1 @@
-[Class Diagram](https://docs.google.com/drawings/d/18I7Fg6CTmE0s5LimI8FwSKXlY61ioaHY7mvGooyhNbY/edit?usp=sharing)
+![Class Diagram](https://docs.google.com/drawings/d/18I7Fg6CTmE0s5LimI8FwSKXlY61ioaHY7mvGooyhNbY/pub?w=1119&h=640)
