@@ -28,10 +28,9 @@ public class SimSensorController implements ISensorController {
 
     @Override
     public double sense() {
-        List<ObstacleVector> obstaclesWithinSight = this.findObstaclesWithinSight(nearbyObstacles);
-
         double viewingAngle = angleRetriever.getAngle();
-        Optional<ObstacleVector> seeing = obstaclesWithinSight.stream()
+        Optional<ObstacleVector> seeing = getObstacleVectorsWithinSight(nearbyObstacles)
+                .stream()
                 .filter(obstacleVector -> isLookingAt(viewingAngle, obstacleVector))
                 .sorted(Comparator.comparing(ObstacleVector::getDistance))
                 .findFirst();
@@ -42,13 +41,14 @@ public class SimSensorController implements ISensorController {
     }
 
     private boolean isLookingAt(double viewingAngle, ObstacleVector obstacleWithinSight) {
-        double min = obstacleWithinSight.getAngle() - Math.atan2(obstacleWithinSight.getSize(), obstacleWithinSight.getDistance());
-        double max = obstacleWithinSight.getAngle() + Math.atan2(obstacleWithinSight.getSize(), obstacleWithinSight.getDistance());
+        double angularRadius = Math.atan2(obstacleWithinSight.getSize(), obstacleWithinSight.getDistance());
+        double minimumBorderAngle = obstacleWithinSight.getAngle() - angularRadius;
+        double maximumBorderAngle = obstacleWithinSight.getAngle() + angularRadius;
 
-        return viewingAngle >= min && viewingAngle <= max;
+        return viewingAngle >= minimumBorderAngle && viewingAngle <= maximumBorderAngle;
     }
 
-    private List<ObstacleVector> findObstaclesWithinSight(List<? extends Obstacle> obstacles) {
+    private List<ObstacleVector> getObstacleVectorsWithinSight(List<? extends Obstacle> obstacles) {
         Position ownerPosition = owner.getPosition();
         List<ObstacleVector> obstacleVectors = new ArrayList<>();
 
