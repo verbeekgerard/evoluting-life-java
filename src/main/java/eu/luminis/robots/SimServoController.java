@@ -4,7 +4,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class SimServoController implements IServoController {
     private SimRobot owner;
-    private int angle;
+    private double angle;
+
 
     public SimServoController(SimRobot owner) {
         this.owner = owner;
@@ -16,8 +17,14 @@ public class SimServoController implements IServoController {
     }
 
     @Override
-    public void changeAngle(double angularChange) {
-        // TODO: Change the direction the sensor is looking at
-        throw new NotImplementedException();
+    public void changeAngle(double acceleration) {
+        angle = angle + acceleration*1;
+        if (angle < 0  ) {
+            angle = 0;
+        }
+        if (angle > Math.PI) {
+            angle = Math.PI;
+        }
+        owner.recordAngleChange(acceleration);
     }
 }

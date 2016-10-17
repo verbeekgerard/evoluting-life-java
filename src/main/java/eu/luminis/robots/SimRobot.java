@@ -20,6 +20,7 @@ public class SimRobot extends Obstacle {
 
     private double initialEnergy;
     private double movementCost = 0;
+    private double headTurnCost = 0;
     private double collisionDamage = 0;
 
     private double size;
@@ -51,7 +52,7 @@ public class SimRobot extends Obstacle {
     }
 
     public Double fitness() {
-        return this.initialEnergy + getDistanceReward() - collisionDamage - movementCost;
+        return this.initialEnergy + getDistanceReward() - collisionDamage - movementCost - headTurnCost;
     }
 
     public boolean isColliding() {
@@ -83,5 +84,9 @@ public class SimRobot extends Obstacle {
 
     public double getRadians() {
         return servoController.getAngle() ;
+    }
+
+    public void recordAngleChange(double acceleration) {
+        headTurnCost += costCalculator.turnHead(acceleration);
     }
 }

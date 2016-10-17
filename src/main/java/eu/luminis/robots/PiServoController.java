@@ -11,7 +11,7 @@ public class PiServoController implements IServoController {
     }
 
     @Override
-    public void changeAngle(double angularChange) {
+    public void changeAngle(double acceleration) {
         // TODO: Call moveTo on the R-Pi API
         throw new NotImplementedException();
     }
