@@ -9,38 +9,43 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class SimSensorController implements ISensorController {
     private SimRobot owner;
     private double viewDistance;
+    private IAngleRetriever angleRetriever;
     private SensorFilter sensorFilter;
     private CollisionDetector collisionDetector = new CollisionDetector();
 
-    List<Obstacle> nearbyObstacles;
+    private List<Obstacle> nearbyObstacles;
 
-    public SimSensorController(SimRobot owner, double viewDistance) {
+    public SimSensorController(SimRobot owner, double viewDistance, IAngleRetriever angleRetriever) {
         this.owner = owner;
         this.viewDistance = viewDistance;
+        this.angleRetriever = angleRetriever;
         this.sensorFilter = new SensorFilter(owner, viewDistance);
     }
 
     @Override
     public double sense() {
-        double myAngle = owner.getRadians();
         List<ObstacleVector> obstaclesWithinSight = this.findObstaclesWithinSight(nearbyObstacles);
 
+        double viewingAngle = angleRetriever.getAngle();
         Optional<ObstacleVector> seeing = obstaclesWithinSight.stream()
-                .filter(obstacleVector -> isLookingAt(myAngle, obstacleVector))
-                .sorted(Comparator.comparing(obstacleVector -> obstacleVector.getDistance()))
+                .filter(obstacleVector -> isLookingAt(viewingAngle, obstacleVector))
+                .sorted(Comparator.comparing(ObstacleVector::getDistance))
                 .findFirst();
-        return seeing.isPresent() ? seeing.get().getDistance() : viewDistance;
+
+        return seeing.isPresent() ?
+                seeing.get().getDistance() :
+                viewDistance;
     }
 
-    private boolean isLookingAt(double myAngle, ObstacleVector obstacleWithinSight) {
+    private boolean isLookingAt(double viewingAngle, ObstacleVector obstacleWithinSight) {
         double min = obstacleWithinSight.getAngle() - Math.atan2(obstacleWithinSight.getSize(), obstacleWithinSight.getDistance());
         double max = obstacleWithinSight.getAngle() + Math.atan2(obstacleWithinSight.getSize(), obstacleWithinSight.getDistance());
-        return myAngle >= min && myAngle <= max;
+
+        return viewingAngle >= min && viewingAngle <= max;
     }
 
     private List<ObstacleVector> findObstaclesWithinSight(List<? extends Obstacle> obstacles) {

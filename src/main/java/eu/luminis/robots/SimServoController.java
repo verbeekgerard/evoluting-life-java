@@ -1,11 +1,8 @@
 package eu.luminis.robots;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 public class SimServoController implements IServoController {
     private SimRobot owner;
     private double angle;
-
 
     public SimServoController(SimRobot owner) {
         this.owner = owner;
@@ -18,13 +15,16 @@ public class SimServoController implements IServoController {
 
     @Override
     public void changeAngle(double acceleration) {
-        angle = angle + acceleration*1;
-        if (angle < 0  ) {
-            angle = 0;
+        angle += acceleration * 1;
+
+        if (angle < -1 * Math.PI/2) {
+            angle = -1 * Math.PI/2;
         }
-        if (angle > Math.PI) {
-            angle = Math.PI;
+
+        if (angle > Math.PI/2) {
+            angle = Math.PI/2;
         }
+
         owner.recordAngleChange(acceleration);
     }
 }

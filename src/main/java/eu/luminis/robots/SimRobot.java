@@ -14,7 +14,6 @@ public class SimRobot extends Obstacle {
     private final Robot robot;
     private final SimMotorsController motorsController;
     private final SimSensorController sensorController;
-    private final SimServoController servoController;
 
     private TravelledDistanceRecorder distanceRecorder;
 
@@ -31,8 +30,8 @@ public class SimRobot extends Obstacle {
 
         BrainGene brainGene = genome.getBrain();
         motorsController = new SimMotorsController(this, genome.getMovement().getLinearForce());
-        sensorController = new SimSensorController(this, genome.getSensor().getViewDistance());
-        servoController = new SimServoController(this);
+        SimServoController servoController = new SimServoController(this);
+        sensorController = new SimSensorController(this, genome.getSensor().getViewDistance(), servoController);
         robot = new Robot(
                 new Brain(brainGene),
                 motorsController,
@@ -80,10 +79,6 @@ public class SimRobot extends Obstacle {
 
     private double getDistanceReward() {
         return costCalculator.distanceReward(distanceRecorder.getTotalDistance());
-    }
-
-    public double getRadians() {
-        return servoController.getAngle() ;
     }
 
     public void recordAngleChange(double acceleration) {
