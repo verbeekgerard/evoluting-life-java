@@ -36,11 +36,8 @@ abstract class GenesFileActionListener implements ActionListener {
         int returnVal = fileChooser.showSaveDialog(component);
 
         File file = getFile(returnVal);
-        if (!FilenameUtils.getExtension(file.getName()).equalsIgnoreCase(FILE_EXTENSION)) {
-            file = new File(file.toString() + "." + FILE_EXTENSION);
-        }
 
-        return file;
+        return addExtension(file);
     }
 
     protected File getFileToOpen() {
@@ -55,5 +52,15 @@ abstract class GenesFileActionListener implements ActionListener {
         }
 
         return null;
+    }
+
+    private File addExtension(File file) {
+        if (file == null) return null;
+
+        if (!FilenameUtils.getExtension(file.getName()).equalsIgnoreCase(FILE_EXTENSION)) {
+            file = new File(file.toString() + "." + FILE_EXTENSION);
+        }
+
+        return file;
     }
 }

@@ -2,6 +2,7 @@ package eu.luminis.sensors;
 
 import eu.luminis.entities.*;
 import eu.luminis.genetics.SensorGene;
+import eu.luminis.robots.Obstacle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ public class Eyes {
         if (angleWithOwner > MAX_ANGLE_WITH_OWNER) angleWithOwner = -MAX_ANGLE_WITH_OWNER;
     }
     
-    public Obstacles sense(List<Organism> organisms) {
+    public Obstacles sense(List<Obstacle> organisms) {
         List<ObstacleVector> obstacles = new ArrayList<>();
         obstacles.addAll(findOrganisms(organisms));
 
@@ -49,11 +50,11 @@ public class Eyes {
         return new Obstacles(obstacles, wallDistance);
     }
 
-    private List<ObstacleVector> findOrganisms(List<? extends Organism> organisms) {
+    private List<ObstacleVector> findOrganisms(List<? extends Obstacle> organisms) {
         Position ownerPosition = owner.getPosition();
         List<ObstacleVector> obstacleVectors = new ArrayList<>();
 
-        for (Organism organism : organisms) {
+        for (Obstacle organism : organisms) {
             // Find polar coordinates of food relative this entity
             double dx = organism.getPosition().x - ownerPosition.x;
             double dy = organism.getPosition().y - ownerPosition.y;
@@ -72,7 +73,7 @@ public class Eyes {
             // If the food is outside the viewing range, skip it
             if (Math.abs(angle) > this.fieldOfView / 2 || distance > this.viewDistance) continue;
 
-            obstacleVectors.add(new ObstacleVector(distance, angle, organism));
+            obstacleVectors.add(new ObstacleVector(distance, angle));
         }
 
         return obstacleVectors;

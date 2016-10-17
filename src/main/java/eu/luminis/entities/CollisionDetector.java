@@ -1,7 +1,9 @@
 package eu.luminis.entities;
 
-class CollisionDetector {
-    public boolean colliding(Organism a, Organism b) {
+import eu.luminis.robots.Obstacle;
+
+public class CollisionDetector {
+    public boolean colliding(Obstacle a, Obstacle b) {
         if (a == b)
             return false;
 

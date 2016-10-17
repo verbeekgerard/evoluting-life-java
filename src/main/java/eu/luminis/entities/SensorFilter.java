@@ -1,44 +1,46 @@
 package eu.luminis.entities;
 
+import eu.luminis.robots.Obstacle;
+
 import java.util.ArrayList;
 import java.util.List;
 
-class SensorFilter {
-    private final Animal owner;
+public class SensorFilter {
+    private final Obstacle owner;
     private final double distanceSquared;
 
-    public SensorFilter(Animal owner, double viewDistance) {
+    public SensorFilter(Obstacle owner, double viewDistance) {
         this.owner = owner;
 
         double ds2 = Math.max(owner.getSize(), viewDistance); ds2 *= ds2;
         this.distanceSquared = ds2;
     }
 
-    public List<Organism> filter(List<Plant> plants, List<Animal> animals) {
-        List<Organism> filteredOrganisms = new ArrayList<>();
+    public List<Obstacle> filter(List<Plant> plants, List<Animal> animals) {
+        List<Obstacle> filteredOrganisms = new ArrayList<>();
         filteredOrganisms.addAll(filter(plants));
         filteredOrganisms.addAll(filter(animals));
 
         return filteredOrganisms;
     }
 
-    private List<Organism> filter(List<? extends Organism> organisms) {
+    public List<Obstacle> filter(List<? extends Obstacle> obstacles) {
         Position ownerPosition = owner.getPosition();
-        List<Organism> filteredOrganisms = new ArrayList<>();
+        List<Obstacle> filtered = new ArrayList<>();
 
-        for (Organism organism : organisms) {
-            if (organism == this.owner) continue;
+        for (Obstacle obstacle : obstacles) {
+            if (obstacle == this.owner) continue;
 
             // Compute the squared x and y differences
-            double dx2 = organism.getPosition().x - ownerPosition.x; dx2 *= dx2;
-            double dy2 = organism.getPosition().y - ownerPosition.y; dy2 *= dy2;
+            double dx2 = obstacle.getPosition().x - ownerPosition.x; dx2 *= dx2;
+            double dy2 = obstacle.getPosition().y - ownerPosition.y; dy2 *= dy2;
 
             // If the organism is outside the visible circle, skip it
             if (dx2 + dy2 > distanceSquared) continue;
 
-            filteredOrganisms.add(organism);
+            filtered.add(obstacle);
         }
 
-        return filteredOrganisms;
+        return filtered;
     }
 }

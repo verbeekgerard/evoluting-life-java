@@ -37,7 +37,7 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
 		setLayout(null);
 
 		JFrame frame = new JFrame("Evoluting-life-java");
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 	    frame.add(this);
 	    frame.setSize(300, 330);
