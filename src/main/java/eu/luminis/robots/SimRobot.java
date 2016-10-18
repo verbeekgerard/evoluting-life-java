@@ -61,6 +61,7 @@ public class SimRobot extends Obstacle implements Comparable<SimRobot> {
     public void run() {
         sensorController.prepareForNearbyObstacles();
         robot.run();
+        movementCost += costCalculator.cycle();
         isColliding = sensorController.isColliding();
     }
     
@@ -70,7 +71,8 @@ public class SimRobot extends Obstacle implements Comparable<SimRobot> {
     }
 
     public Double fitness() {
-        return this.initialEnergy + getDistanceReward() - collisionDamage - movementCost - headTurnCost;
+    	
+        return (((this.initialEnergy + getDistanceReward()) - collisionDamage) - movementCost) - headTurnCost;
     }
 
     public boolean isColliding() {
@@ -91,8 +93,7 @@ public class SimRobot extends Obstacle implements Comparable<SimRobot> {
     }
 
     public void recordCollision() {
-        double velocity = motorsController.getVelocity();
-        this.collisionDamage += costCalculator.collide(velocity);
+        this.collisionDamage += costCalculator.collide(1); // TODO
         eventBroadcaster.broadcast(EventType.COLLIDE, collisionDamage);
     }
 

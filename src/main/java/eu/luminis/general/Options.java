@@ -27,7 +27,7 @@ public final class Options {
 	// Animal
 	public static Option sizeOption = new Option(12);
 	public static Option initialEnergyOption = new Option(8);
-	public static Option populationSize = new Option(16*8);
+	public static Option populationSize = new Option(16*4);
 	public static Option linearFrictionOption = new Option(0.06); // 0.065 // 0.024
 	public static Option angularFrictionOption = new Option(0.09); // 0.25 // 0.08
 

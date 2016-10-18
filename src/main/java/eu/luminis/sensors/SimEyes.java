@@ -12,12 +12,12 @@ public class SimEyes {
 	public double minViewDistance;
 	public SimWorld world;
 	
-	public SimEyes(SimRobot owner, SensorGene sensorGen, SimWorld world){
-		this.owner = owner;
-		this.viewDistance = 50; // TODO //sensorGen.viewDistance;
-		this.minViewDistance = 5;
-      	this.world = world;
-	}
+//	public SimEyes(SimRobot owner, SensorGene sensorGen, SimWorld world){
+//		this.owner = owner;
+//		this.viewDistance = 50; // TODO //sensorGen.viewDistance;
+//		this.minViewDistance = 5;
+//      	this.world = world;
+//	}
 	
 	public Position getPosition() {
         return owner.getPosition();
@@ -129,7 +129,7 @@ public class SimEyes {
 //        return obstacleVectors;
 //      }
 	 
-	 public Double sense() {		 
-         return objectDistance();
-	 }
+//	 public Double sense() {		 
+//         return objectDistance();
+//	 }
 }

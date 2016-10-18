@@ -39,10 +39,59 @@ public class SimSensorController implements ISensorController {
                 .sorted(Comparator.comparing(ObstacleVector::getDistance))
                 .findFirst();
 
-        return seeing.isPresent() ?
+        
+        double distance = seeing.isPresent() ?
                 seeing.get().getDistance() :
                 viewDistance;
+        Double wallDistance = wallDistance();
+        if (wallDistance != null) {
+        	return Math.min(distance, wallDistance);
+        } else {
+        	return distance;
+        }
     }
+    
+
+    public Double wallDistance() {
+        
+        Position p = this.owner.getPosition();
+        SimWorld world = this.owner.getWorld();
+        
+        double distX;
+        double distY;
+        if (p.a >= 0 && p.a <= Math.PI * 0.5) {
+          // Facing right wall, bottom wall: x=world.width, y=world.height
+          distX = (world.getWidth() - p.x) / Math.cos(p.a);
+          distY = (world.getHeight() - p.y) / Math.sin(p.a);
+
+          return Math.min(distX, distY);
+        }
+
+        if (p.a >= Math.PI * 0.5 && p.a <= Math.PI) {
+          // Facing left wall, bottom wall: x=0, y=world.height
+          distX = (0 - p.x) / Math.cos(p.a);
+          distY = (world.getHeight() - p.y) / Math.sin(p.a);
+
+          return Math.min(distX, distY);
+        }
+
+        if (p.a >= Math.PI && p.a <= Math.PI * 1.5) {
+          // Facing left wall, top wall: x=0, y=0
+          distX = (0 - p.x) / Math.cos(p.a);
+          distY = (0 - p.y) / Math.sin(p.a);
+
+          return Math.min(distX, distY);
+        }
+
+        if (p.a >= Math.PI * 1.5 && p.a < Math.PI * 2) {
+          // Facing right wall, top wall: x=world.width, y=0
+          distX = (world.getWidth() - p.x) / Math.cos(p.a);
+          distY = (0 - p.y) / Math.sin(p.a);
+
+          return Math.min(distX, distY);
+        }
+		return null;
+	}
 
     private boolean isLookingAt(double viewingAngle, ObstacleVector obstacleWithinSight) {
         double angularRadius = Math.atan2(obstacleWithinSight.getSize(), obstacleWithinSight.getDistance());
