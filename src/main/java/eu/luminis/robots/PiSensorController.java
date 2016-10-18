@@ -1,11 +1,16 @@
 package eu.luminis.robots;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class PiSensorController implements ISensorController {
+	
+	PiSensor piSensor;
+	
+	public PiSensorController(PiServoController servoController) {
+		piSensor = new PiSensor();
+	}
+	
     @Override
     public double sense() {
-        // TODO: Call sense on the R-Pi API
-        throw new NotImplementedException();
+    	return piSensor.sense();
     }
 }

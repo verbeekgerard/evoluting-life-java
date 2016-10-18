@@ -1,7 +1,5 @@
 package eu.luminis.robots;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 public class PiServoController implements IServoController {
     private int angle;
 
@@ -12,7 +10,6 @@ public class PiServoController implements IServoController {
 
     @Override
     public void changeAngle(double acceleration) {
-        // TODO: Call moveTo on the R-Pi API
-        throw new NotImplementedException();
+
     }
 }
