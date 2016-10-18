@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 class BrainInput {
+    public static int getNodesCount() {
+        return 4;
+    }
+
     private List<Double> values;
     private final double distance;
     private final double angle;

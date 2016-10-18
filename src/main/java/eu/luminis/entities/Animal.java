@@ -153,17 +153,7 @@ public class Animal extends Organism implements Comparable<Animal> {
         boolean colliding = collisionDetector.colliding(this, organism);
         if (!colliding) return false;
 
-		Position p = this.getPosition();
         double v = this.getVelocity();
-
-		double dx = Math.cos(p.a) * v;
-		double dy = Math.sin(p.a) * v;
-
-		// Move the entity opposite to it's velocity
-		p.x -= dx;
-		p.y -= dy;
-
-		// Increase eu.luminis.entities total collision counter
 		this.collisionDamage += this.costCalculator.collide(v);
 
 		// Increment global collision counter

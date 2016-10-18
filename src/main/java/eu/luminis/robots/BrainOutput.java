@@ -3,6 +3,10 @@ package eu.luminis.robots;
 import java.util.List;
 
 class BrainOutput {
+    public static int getNodesCount() {
+        return 6;
+    }
+
     private List<Double> values;
 
     public BrainOutput(List<Double> values) {

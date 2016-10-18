@@ -77,11 +77,11 @@ public class SimRobot extends Obstacle {
         eventBroadcaster.broadcast(EventType.COLLIDE, collisionDamage);
     }
 
-    private double getDistanceReward() {
-        return costCalculator.distanceReward(distanceRecorder.getTotalDistance());
-    }
-
     public void recordAngleChange(double acceleration) {
         headTurnCost += costCalculator.turnHead(acceleration);
+    }
+
+    private double getDistanceReward() {
+        return costCalculator.distanceReward(distanceRecorder.getTotalDistance());
     }
 }
