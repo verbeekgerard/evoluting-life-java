@@ -8,10 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Eyes {
-    //+ en - 70 degrees
-    private static double MAX_ANGLE_WITH_OWNER = Math.toRadians(69.99999999999999);
-
-    private World world;
     private Animal owner;
     private double viewDistance;
     private double fieldOfView;
@@ -20,12 +16,11 @@ public class Eyes {
     private WallDistanceSensor wallDistanceSensor;
 
     public Eyes(Animal owner, SensorGene sensorGen, World world) {
-        this.world = world;
         this.owner = owner;
         this.viewDistance = sensorGen.getViewDistance();
         this.fieldOfView = sensorGen.getFieldOfView();
 
-        this.wallDistanceSensor = new WallDistanceSensor(this.world, this.viewDistance);
+        this.wallDistanceSensor = new WallDistanceSensor(world, this.viewDistance);
     }
 
     public double getViewDistance() {
@@ -37,8 +32,15 @@ public class Eyes {
     }
 
     public void turnHead(double servoAcceleration) {
-        angleWithOwner = angleWithOwner + servoAcceleration; //2*Math.PI / 20;
- //       if (angleWithOwner > MAX_ANGLE_WITH_OWNER) angleWithOwner = -MAX_ANGLE_WITH_OWNER;
+        angleWithOwner += servoAcceleration;
+
+        if (angleWithOwner < -1 * Math.PI/2) {
+            angleWithOwner = -1 * Math.PI/2;
+        }
+
+        if (angleWithOwner > Math.PI/2) {
+            angleWithOwner = Math.PI/2;
+        }
     }
     
     public Obstacles sense(List<Obstacle> organisms) {

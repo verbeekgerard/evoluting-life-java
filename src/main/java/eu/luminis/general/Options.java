@@ -35,7 +35,7 @@ public final class Options {
 	public static Option minViewDistance = new Option(16 * 10);
 	public static Option maxViewDistance = new Option(16 * 12);
 	public static Option minFieldOfView = new Option(Math.PI / 32);
-	public static Option maxFieldOfView = new Option(Math.PI);
+	public static Option maxFieldOfView = new Option(Math.PI / 30);
 	public static Option viewDistanceMutationRate = new Option(0.05);
 	public static Option viewDistanceReplacementRate = new Option(0.005);
 	public static Option fieldOfViewMutationRate = new Option(0.05);
@@ -47,7 +47,7 @@ public final class Options {
 	}
 	
 	public static Option linearFriction = new Option(0.06); // 0.065 // 0.024
-	public static Option angularFriction = new Option(0.09); // 0.25 // 0.08
+	public static Option angularFriction = new Option(0.12); // 0.25 // 0.08
 
 	private static double minA = calculateForce(0.5, angularFriction.get());
 	private static double maxA = calculateForce(5.0, angularFriction.get());

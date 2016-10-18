@@ -11,17 +11,21 @@ import eu.luminis.sensors.ObstacleVector;
 import eu.luminis.sensors.Obstacles;
 
 public class Animal extends Organism implements Comparable<Animal> {
-	private CostCalculator costCalculator;
+    private CostCalculator costCalculator;
 
 	private double size;
     private SensorFilter sensorFilter;
 	private Eyes eyes;
 
+    private final double angularFriction;
+    private double angularVelocity = 0;
+
 	private double linearFriction;
 	private double velocityLeft = 0;
 	private double velocityRight = 0;
 
-	private double linearForce;
+	private final double linearForce;
+    private final double angularForce;
 
     private TravelledDistanceRecorder distanceRecorder;
     private CollisionDetector collisionDetector = new CollisionDetector();
@@ -42,11 +46,13 @@ public class Animal extends Organism implements Comparable<Animal> {
         this.size = Options.sizeOption.get();
         this.initialEnergy = Options.initialEnergyOption.get();
         this.linearFriction = Options.linearFrictionOption.get();
+        this.angularFriction = Options.angularFrictionOption.get();
 
         this.sensorFilter = new SensorFilter(this, genome.getSensor().getViewDistance());
         this.eyes = new Eyes(this, genome.getSensor(), world);
 
         this.linearForce = genome.getMovement().getLinearForce();
+        this.angularForce = genome.getMovement().getAngularForce();
 
         this.brain = new Brain(genome.getBrain());
     }
@@ -100,8 +106,12 @@ public class Animal extends Organism implements Comparable<Animal> {
     }
 
     protected void turnHead(AnimalBrainOutput brainOutput) {
-        eyes.turnHead(brainOutput.getServoAcceleration());
-        this.usedEnergy +=  this.costCalculator.turnHead(brainOutput.getServoAcceleration());
+        double angularAcceleration = brainOutput.getServoAcceleration() * this.angularForce;
+        this.angularVelocity += angularAcceleration;
+        this.angularVelocity -= this.angularVelocity * angularFriction;
+
+        eyes.turnHead(this.angularVelocity);
+        this.usedEnergy +=  this.costCalculator.turnHead(angularAcceleration);
     }
 
     protected void move(AnimalBrainOutput brainOutput) {
@@ -142,7 +152,7 @@ public class Animal extends Organism implements Comparable<Animal> {
     private AnimalBrainOutput think(Obstacles obstacles) {
         ObstacleVector obstacle = obstacles.getClosestObstacleVector();
 
-        AnimalBrainInput brainInput = new AnimalBrainInput(obstacle, obstacles.getWallDistance(), eyes.getFieldOfView(), eyes.getViewDistance());
+        AnimalBrainInput brainInput = new AnimalBrainInput(obstacle, obstacles.getWallDistance(), eyes.getFieldOfView(), eyes.getViewDistance(), eyes.getAngleWithOwner());
         List<Double> inputs = brainInput.getInputs();
         List<Double> thoughtOutput = this.brain.think(inputs);
 

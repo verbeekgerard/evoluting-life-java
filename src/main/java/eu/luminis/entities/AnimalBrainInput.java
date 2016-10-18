@@ -14,12 +14,14 @@ public class AnimalBrainInput {
     private double wallDistance;
     private double fieldOfView;
     private double viewDistance;
+    private double headAngle;
 
-    public AnimalBrainInput(ObstacleVector obstacle, double wallDistance, double fieldOfView, double viewDistance) {
+    public AnimalBrainInput(ObstacleVector obstacle, double wallDistance, double fieldOfView, double viewDistance, double headAngle) {
         this.obstacle = obstacle;
         this.wallDistance = wallDistance;
         this.fieldOfView = fieldOfView;
         this.viewDistance = viewDistance;
+        this.headAngle = headAngle;
     }
 
     public static int getNodesCount() {
@@ -37,10 +39,10 @@ public class AnimalBrainInput {
     private List<Double> createInputs() {
         inputs = new ArrayList<>();
 
-        // left
-        inputs.add(obstacle != null ? (fieldOfView / 2 + obstacle.getAngle()) / fieldOfView : 0);
-        // right
-        inputs.add(obstacle != null ? (fieldOfView / 2 - obstacle.getAngle()) / fieldOfView : 0);
+        // left head
+        inputs.add((Math.PI/2 + headAngle) / Math.PI);
+        // right head
+        inputs.add((Math.PI/2 - headAngle) / Math.PI);
         // distance
         inputs.add(obstacle != null ? (viewDistance - obstacle.getDistance()) / viewDistance : 0);
 

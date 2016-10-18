@@ -12,7 +12,6 @@ public class AnimalBrainOutput {
     private static final String leftDecelerate = "leftDecelerate";
     private static final String rightAccelerate = "rightAccelerate";
     private static final String rightDecelerate = "rightDecelerate";
-    private static final String angularChange = "rightDecelerate";
     private static final String rightServoChange = "rightServoChange";
     private static final String leftServoChange = "leftServoChange";
 
@@ -47,6 +46,7 @@ public class AnimalBrainOutput {
         return this.output.get(rightAccelerate) - this.output.get(rightDecelerate);
     }
 
-    public double getServoAcceleration() { return this.output.get(leftServoChange);
+    public double getServoAcceleration() {
+        return this.output.get(rightServoChange) - this.output.get(leftServoChange);
     }
 }
