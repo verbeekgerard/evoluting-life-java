@@ -4,7 +4,7 @@ import eu.luminis.entities.Position;
 import eu.luminis.general.EventBroadcaster;
 
 public abstract class Obstacle {
-    private SimWorld world;
+    protected SimWorld world;
     private Position position;
     protected EventBroadcaster eventBroadcaster = EventBroadcaster.getInstance();
 

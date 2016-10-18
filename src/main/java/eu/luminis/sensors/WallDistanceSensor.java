@@ -1,7 +1,7 @@
 package eu.luminis.sensors;
 
 import eu.luminis.entities.Position;
-import eu.luminis.entities.World;
+import eu.luminis.robots.SimWorld;
 
 class WallDistanceSensor {
     private double leftWall = 0;
@@ -11,7 +11,7 @@ class WallDistanceSensor {
 
     private double viewDistance;
 
-    public WallDistanceSensor(World world, double viewDistance) {
+    public WallDistanceSensor(SimWorld world, double viewDistance) {
         this.rightWall = world.getWidth();
         this.bottomWall = world.getHeight();
         this.viewDistance = viewDistance;

@@ -1,33 +1,37 @@
 package eu.luminis.ui;
 
-import eu.luminis.entities.Animal;
-import eu.luminis.entities.Plant;
-import eu.luminis.entities.Position;
-import eu.luminis.entities.World;
-import eu.luminis.general.Event;
-import eu.luminis.general.EventType;
-import eu.luminis.general.FoodSupply;
-import eu.luminis.general.Population;
-import eu.luminis.sensors.Eyes;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import eu.luminis.entities.Position;
+import eu.luminis.general.Event;
+import eu.luminis.general.EventType;
+import eu.luminis.robots.RoundObstacle;
+import eu.luminis.robots.SimRobot;
+import eu.luminis.robots.SimRobotPopulation;
+import eu.luminis.robots.SimWorld;
+import eu.luminis.robots.StationaryObstaclePopulation;
 
 public class Canvas extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
     private final double WEDGE_ANGLE = Math.PI * 0.25;
 
-	private FoodSupply foodSupply;
-	private Population population;
-	private World world;
+	private StationaryObstaclePopulation stationaryObstaclePopulation;
+	private SimRobotPopulation population;
+	private SimWorld world;
 
     private FrameLimiter frameLimiter = new FrameLimiter(60);
 
-	public Canvas(FoodSupply foodSupply, Population population, World world) {
+	public Canvas(StationaryObstaclePopulation stationaryObstaclePopulation, SimRobotPopulation population, SimWorld world) {
         JFrame frame = new JFrame("Evoluting-life-java");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(this);
@@ -35,7 +39,7 @@ public class Canvas extends JPanel implements Observer {
 		frame.setVisible(true);
 		frame.setResizable(false);
 		
-		this.foodSupply = foodSupply;
+		this.stationaryObstaclePopulation = stationaryObstaclePopulation;
 		this.population = population;
         this.world = world;
 	}
@@ -55,35 +59,36 @@ public class Canvas extends JPanel implements Observer {
 
 		drawFieldOfView(population.getWinningEntity(), g);
 
-		for (Plant plant : foodSupply.getPlants()) {
+		for (RoundObstacle plant : stationaryObstaclePopulation.getAllRoundObstacles()) {
 			drawPlant(plant, g);
 		}
 
-		for (Animal animal : population.getEntities()) {
+		for (SimRobot animal : population.getAllRobots()) {
 			drawCollisionBody(animal, g);
 			drawAnimal(animal, population.getWinningEntity(), g);
 		}
 	}
 
-	private void drawFieldOfView(Animal animal, Graphics g) {
-		if (population.getWinningEntity() != null) {
-			Graphics2D g2 = (Graphics2D) g;
-
-			Position animalPosition = animal.getPosition();
-			Eyes e = animal.getEyes();
-
-			Color c = new Color(.9f, .9f, .9f, .1f);
-			g2.setColor(c);
-			g2.fillArc(new Double(animalPosition.x - (e.getViewDistance() / 2)).intValue(),
-					new Double(animalPosition.y - (e.getViewDistance() / 2)).intValue(),
-					new Double(e.getViewDistance()).intValue(),
-					new Double(e.getViewDistance()).intValue(),
-					new Double(Math.toDegrees(-1 * (animalPosition.a + e.getAngleWithOwner()) + e.getFieldOfView() / 2)).intValue(),
-					new Double(-1 * Math.toDegrees(e.getFieldOfView())).intValue());
-		}
+	private void drawFieldOfView(SimRobot animal, Graphics g) {
+//		if (population.getWinningEntity() != null) {
+//			Graphics2D g2 = (Graphics2D) g;
+//
+//			Position animalPosition = animal.getPosition();
+//			
+//			SimSensorController e = animal.getSensorController();
+//
+//			Color c = new Color(.9f, .9f, .9f, .1f);
+//			g2.setColor(c);
+//			g2.fillArc(new Double(animalPosition.x - (e.getViewDistance() / 2)).intValue(),
+//					new Double(animalPosition.y - (e.getViewDistance() / 2)).intValue(),
+//					new Double(e.getViewDistance()).intValue(),
+//					new Double(e.getViewDistance()).intValue(),
+//					new Double(Math.toDegrees(-1 * (animalPosition.a + e.getAngleWithOwner()) + e.getFieldOfView() / 2)).intValue(),
+//					new Double(-1 * Math.toDegrees(e.getFieldOfView())).intValue());
+//		}
 	}
 
-	private void drawAnimal(Animal animal, Animal bestAnimal, Graphics g) {
+	private void drawAnimal(SimRobot animal, SimRobot bestAnimal, Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 
 		double entitySize = animal.getSize();
@@ -102,7 +107,7 @@ public class Canvas extends JPanel implements Observer {
 		double cx = Math.cos(ba) * entitySize * 0.3;
 		double cy = Math.sin(ba) * entitySize * 0.3;
 
-		g2.setStroke(new BasicStroke((float) (2 + Math.floor(5 * animal.getAge() / animal.getOldAge()))));
+//		g2.setStroke(new BasicStroke((float) (2 + Math.floor(5 * animal.getAge() / animal.getOldAge()))));
 
 		// Draw the triangle
 		GeneralPath polygon = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
@@ -111,10 +116,10 @@ public class Canvas extends JPanel implements Observer {
 		polygon.quadTo(animalPosition.x + cx, animalPosition.y + cy, animalPosition.x + rx, animalPosition.y + ry);
 		polygon.closePath();
 
-		if (animal.getAge() > 30)
-			g2.setColor(Color.BLACK);
-		else
-			g2.setColor(Color.WHITE);
+//		if (animal.getAge() > 30)
+//			g2.setColor(Color.BLACK);
+//		else
+//			g2.setColor(Color.WHITE);
 			
 		g2.draw(polygon);
 
@@ -128,7 +133,7 @@ public class Canvas extends JPanel implements Observer {
 		g2.fill(polygon);
 	}
 	
-	private void drawCollisionBody(Animal animal, Graphics g) {
+	private void drawCollisionBody(SimRobot animal, Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		float alpha = animal.isColliding() ? .9f : .1f ;
         BasicStroke stroke = animal.isColliding() ? new BasicStroke(1.5f) : new BasicStroke(0.5f) ;
@@ -142,7 +147,7 @@ public class Canvas extends JPanel implements Observer {
 				new Double(animal.getSize()).intValue(), new Double(animal.getSize()).intValue());
 	}
 	
-	private void drawPlant(Plant plant, Graphics g) {
+	private void drawPlant(RoundObstacle plant, Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 
 		g2.setColor(Color.GREEN);

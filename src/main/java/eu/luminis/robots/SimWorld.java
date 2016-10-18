@@ -9,13 +9,9 @@ public class SimWorld {
     private int width = 1280;
     private int height = 720;
 
-    @Deprecated
     public SimWorld() {
-    }
-
-    public SimWorld(SimRobotPopulation robotPopulation, StationaryObstaclePopulation obstaclePopulation) {
-        this.robotPopulation = robotPopulation;
-        this.obstaclePopulation = obstaclePopulation;
+        this.obstaclePopulation = new StationaryObstaclePopulation(this);
+        this.robotPopulation = new SimRobotPopulation(this);
     }
 
     public int getWidth() {

@@ -1,14 +1,14 @@
 package eu.luminis.ui;
 
-import eu.luminis.entities.Animal;
-import eu.luminis.general.Event;
-import eu.luminis.general.EventType;
-import eu.luminis.general.Population;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+
+import eu.luminis.general.Event;
+import eu.luminis.general.EventType;
+import eu.luminis.robots.SimRobot;
+import eu.luminis.robots.SimRobotPopulation;
 
 public class StatsCollector implements Observer {
 
@@ -17,11 +17,11 @@ public class StatsCollector implements Observer {
     private int totalWandered;
     private int totalDiedOfAge;
 
-    private Population population;
+    private SimRobotPopulation population;
     private Stats stats;
     private List<PeriodicStats> periodicStatsList = new ArrayList<>();
 
-    public StatsCollector(Population population) {
+    public StatsCollector(SimRobotPopulation population) {
         this.population = population;
     }
 
@@ -57,15 +57,15 @@ public class StatsCollector implements Observer {
         double totalAge = 0;
         double totalDistance = 0;
 
-        for (Animal animal : population.getEntities()) {
-            totalHealth += animal.getHealth();
-            totalAge += animal.getAge();
-            totalDistance += animal.getTravelledDistance();
+        for (SimRobot animal : population.getAllRobots()) {
+            totalHealth += animal.fitness();
+//            totalAge += animal.getAge();
+//            totalDistance += animal.getTravelledDistance();
         }
 
-        double avgHealth = totalHealth / population.getEntities().size();
-        double avgAge = totalAge / population.getEntities().size();
-        double avgDistance = totalDistance / population.getEntities().size();
+        double avgHealth = totalHealth / population.getAllRobots().size();
+        double avgAge = totalAge / population.getAllRobots().size();
+        double avgDistance = totalDistance / population.getAllRobots().size();
         double bestFitness = population.getWinningEntity().fitness();
 
         PeriodicStats periodicStats = new PeriodicStats(avgHealth, avgAge, avgDistance, bestFitness);

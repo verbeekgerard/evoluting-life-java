@@ -1,13 +1,13 @@
 package eu.luminis.evolution;
 
-import eu.luminis.entities.Animal;
+import eu.luminis.robots.SimRobot;
 
 public class Score {
-	public Animal context;
+	public SimRobot context;
 	public double score;
 	public double occurenceSum;
 	
-	public Score(Animal context, double score){
+	public Score(SimRobot context, double score){
 		this.context = context;
 		this.score = score;
 	}

@@ -25,6 +25,10 @@ public class SimSensorController implements ISensorController {
         this.angleRetriever = angleRetriever;
         this.sensorFilter = new SensorFilter(owner, viewDistance);
     }
+    
+    public double getViewDistance() {
+        return viewDistance;
+    }
 
     @Override
     public double sense() {

@@ -10,14 +10,18 @@ class BrainOutput {
     }
 
     public double getMotorAccelerationLeft() {
-        return this.values.get(0) - this.values.get(1);
+        return this.values.get(0);
     }
 
     public double getMotorAccelerationRight() {
-        return this.values.get(2) - this.values.get(3);
+        return this.values.get(1);
     }
 
     public double getServoAcceleration() {
-        return this.values.get(4) - this.values.get(5);
+        return this.values.get(2);
     }
+
+	public static int getNodesCount() {
+		return 3;
+	}
 }

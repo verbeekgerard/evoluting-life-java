@@ -2,12 +2,12 @@ package eu.luminis.evolution;
 
 import java.util.List;
 
-import eu.luminis.entities.Animal;
+import eu.luminis.robots.SimRobot;
 import eu.luminis.util.Range;
 
 public class RouletteWheelSelectionByRank {
 	
-	public Animal select(List<Animal> entities) {
+	public SimRobot select(List<SimRobot> entities) {
 		long scoreCount = entities.size();
 		
 	    double randomOccurenceSum = new Range(1l, scoreCount * (scoreCount+1) / 2 ).random();

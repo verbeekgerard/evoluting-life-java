@@ -16,13 +16,13 @@ public class SensorFilter {
         this.distanceSquared = ds2;
     }
 
-    public List<Obstacle> filter(List<Plant> plants, List<Animal> animals) {
-        List<Obstacle> filteredOrganisms = new ArrayList<>();
-        filteredOrganisms.addAll(filter(plants));
-        filteredOrganisms.addAll(filter(animals));
-
-        return filteredOrganisms;
-    }
+//    public List<Obstacle> filter(List<Plant> plants, List<Animal> animals) {
+//        List<Obstacle> filteredOrganisms = new ArrayList<>();
+//        filteredOrganisms.addAll(filter(plants));
+//        filteredOrganisms.addAll(filter(animals));
+//
+//        return filteredOrganisms;
+//    }
 
     public List<Obstacle> filter(List<? extends Obstacle> obstacles) {
         Position ownerPosition = owner.getPosition();

@@ -25,6 +25,10 @@ class BrainInput {
 
         return values;
     }
+    
+    public static int getNodesCount(){
+    	return 4;
+    }
 
     private List<Double> createValues() {
         values =  new ArrayList<>();

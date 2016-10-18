@@ -15,6 +15,7 @@ class InputLayer extends Layer {
         List<Neuron> inputNeurons = this.getNeurons();
 
         for (int i = inputNeurons.size()-1;i>=0; i--) {
+        	
         	inputNeurons.get(i).excite(input.get(i));
         }
 	}
