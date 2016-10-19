@@ -2,7 +2,7 @@ package eu.luminis.sensors;
 
 import eu.luminis.entities.*;
 import eu.luminis.genetics.SensorGene;
-import eu.luminis.robots.Obstacle;
+import eu.luminis.robots.SimObstacle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class Eyes {
         }
     }
     
-    public Obstacles sense(List<Obstacle> organisms) {
+    public Obstacles sense(List<SimObstacle> organisms) {
         List<ObstacleVector> obstacles = new ArrayList<>();
         obstacles.addAll(findOrganisms(organisms));
 
@@ -52,11 +52,11 @@ public class Eyes {
         return new Obstacles(obstacles, wallDistance);
     }
 
-    private List<ObstacleVector> findOrganisms(List<? extends Obstacle> organisms) {
+    private List<ObstacleVector> findOrganisms(List<? extends SimObstacle> organisms) {
         Position ownerPosition = owner.getPosition();
         List<ObstacleVector> obstacleVectors = new ArrayList<>();
 
-        for (Obstacle organism : organisms) {
+        for (SimObstacle organism : organisms) {
             // Find polar coordinates of food relative this entity
             double dx = organism.getPosition().x - ownerPosition.x;
             double dy = organism.getPosition().y - ownerPosition.y;

@@ -3,25 +3,27 @@ package eu.luminis.evolution;
 import java.util.List;
 
 import eu.luminis.entities.Animal;
+import eu.luminis.robots.SimObstacle;
+import eu.luminis.robots.SimRobot;
 import eu.luminis.util.Range;
 
 public class RouletteWheelSelectionByRank {
 	
-	public Animal select(List<Animal> entities) {
+	public SimObstacle select(List<? extends SimObstacle> entities) {
 		long scoreCount = entities.size();
 		
-	    double randomOccurenceSum = new Range(1l, scoreCount * (scoreCount+1) / 2 ).random();
+	    double randomOccurrenceSum = new Range(1l, scoreCount * (scoreCount+1) / 2 ).random();
 
         for ( int i = 0; i < scoreCount; i++ ) {
-            long occurence = scoreCount - i - 1;
-            long occurenceSum = occurence * (occurence+1) / 2;
+            long occurrence = scoreCount - i - 1;
+            long occurrenceSum = occurrence * (occurrence+1) / 2;
 
-            if (randomOccurenceSum > occurenceSum){
+            if (randomOccurrenceSum > occurrenceSum) {
             	return entities.get(i);
             }
         }
 
-        throw new RuntimeException("rouletteWheelSelectionByRank didn't select a score: " + randomOccurenceSum);
+        throw new RuntimeException("rouletteWheelSelectionByRank didn't select a score: " + randomOccurrenceSum);
 	}
 }
 

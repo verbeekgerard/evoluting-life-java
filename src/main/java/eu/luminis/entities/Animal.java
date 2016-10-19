@@ -5,7 +5,7 @@ import java.util.List;
 import eu.luminis.brains.Brain;
 import eu.luminis.general.*;
 import eu.luminis.genetics.Genome;
-import eu.luminis.robots.Obstacle;
+import eu.luminis.robots.SimObstacle;
 import eu.luminis.sensors.Eyes;
 import eu.luminis.sensors.ObstacleVector;
 import eu.luminis.sensors.Obstacles;
@@ -67,6 +67,11 @@ public class Animal extends Organism implements Comparable<Animal> {
 		return this.size * (1 + 0.75 * healthN());
 	}
 
+    @Override
+    protected void run() {
+
+    }
+
     public Double fitness() {
         return this.getHealth();
     }
@@ -87,7 +92,7 @@ public class Animal extends Organism implements Comparable<Animal> {
         this.age++;
 
 
-        List<Obstacle> filteredOrganisms = this.sensorFilter.filter(plants, animals);
+        List<SimObstacle> filteredOrganisms = this.sensorFilter.filter(plants, animals);
         Obstacles obstacles = eyes.sense(filteredOrganisms);
 
         AnimalBrainOutput brainOutput = think(obstacles);
@@ -159,7 +164,7 @@ public class Animal extends Organism implements Comparable<Animal> {
         return new AnimalBrainOutput(thoughtOutput);
     }
 
-    private boolean collidesWith(Obstacle organism) {
+    private boolean collidesWith(SimObstacle organism) {
         boolean colliding = collisionDetector.colliding(this, organism);
         if (!colliding) return false;
 
@@ -171,10 +176,10 @@ public class Animal extends Organism implements Comparable<Animal> {
         return true;
 	}
 
-	private boolean collidesWithAny(List<Obstacle> organisms) {
+	private boolean collidesWithAny(List<SimObstacle> organisms) {
         boolean isColliding = false;
 
-        for (Obstacle organism : organisms) {
+        for (SimObstacle organism : organisms) {
             isColliding = isColliding || collidesWith(organism);
         }
 

@@ -8,9 +8,10 @@ import eu.luminis.general.Options;
 import eu.luminis.genetics.BrainGene;
 import eu.luminis.genetics.Genome;
 
-public class SimRobot extends Obstacle {
+public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     private CostCalculator costCalculator = CostCalculator.getInstance();
 
+    private final Genome genome;
     private final Robot robot;
     private final SimMotorsController motorsController;
     private final SimSensorController sensorController;
@@ -26,7 +27,8 @@ public class SimRobot extends Obstacle {
     private boolean isColliding = false;
 
     public SimRobot(Genome genome, Position position, SimWorld world) {
-        super(world, position);
+        super(world, position, genome.getLife());
+        this.genome = genome;
 
         BrainGene brainGene = genome.getBrain();
         motorsController = new SimMotorsController(this, genome.getMovement().getLinearForce());
@@ -44,12 +46,6 @@ public class SimRobot extends Obstacle {
         this.size = Options.sizeOption.get();
     }
 
-    public void run() {
-        sensorController.prepareForNearbyObstacles();
-        robot.run();
-        isColliding = sensorController.isColliding();
-    }
-
     public Double fitness() {
         return this.initialEnergy + getDistanceReward() - collisionDamage - movementCost - headTurnCost;
     }
@@ -59,11 +55,20 @@ public class SimRobot extends Obstacle {
     }
 
     @Override
+    public int compareTo(SimRobot other) {
+        return other.fitness().compareTo(this.fitness());
+    }
+
+    @Override
     public double getSize() {
         double fitness = fitness();
         double fitnessN = fitness > 0 ? 1 - 1 / Math.exp(fitness / 200) : 0;
 
         return this.size * (1 + 0.75 * fitnessN);
+    }
+
+    public Genome getGenome() {
+        return genome;
     }
 
     public void recordMove(Position newPosition, double acceleration) {
@@ -79,6 +84,18 @@ public class SimRobot extends Obstacle {
 
     public void recordAngleChange(double acceleration) {
         headTurnCost += costCalculator.turnHead(acceleration);
+    }
+
+    @Override
+    protected void run() {
+        sensorController.prepareForNearbyObstacles();
+        robot.run();
+        isColliding = sensorController.isColliding();
+    }
+
+    @Override
+    protected boolean isAlive() {
+        return fitness() > 0;
     }
 
     private double getDistanceReward() {

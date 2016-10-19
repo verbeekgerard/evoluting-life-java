@@ -5,7 +5,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.List;
 
 public class StationaryObstaclePopulation {
-    public List<RoundObstacle> getAllRoundObstacles() {
+    public List<RoundSimObstacle> getAllRoundObstacles() {
         throw new NotImplementedException();
     }
 }

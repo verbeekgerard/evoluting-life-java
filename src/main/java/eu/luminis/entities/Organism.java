@@ -3,15 +3,16 @@ package eu.luminis.entities;
 import eu.luminis.general.EventBroadcaster;
 import eu.luminis.genetics.Genome;
 import eu.luminis.general.EventType;
-import eu.luminis.robots.Obstacle;
+import eu.luminis.robots.SimObstacle;
+import eu.luminis.robots.SimWorld;
 
-public abstract class Organism extends Obstacle{
+public abstract class Organism extends SimObstacle {
 
     protected double age;
     protected EventBroadcaster eventBroadcaster = EventBroadcaster.getInstance();
 
     private Genome genome;
-    private World world;
+    private SimWorld world;
 
     public abstract double getHealth();
 
@@ -27,8 +28,8 @@ public abstract class Organism extends Obstacle{
         return genome;
     }
 
-    Organism(Genome genome, Position position, World world) {
-        super(world, position);
+    Organism(Genome genome, Position position, SimWorld world) {
+        super(world, position, genome.getLife());
         this.genome = genome;
         this.world = world;
     }

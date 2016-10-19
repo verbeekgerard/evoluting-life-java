@@ -116,7 +116,7 @@ public class Population {
 			Position position = createRandomPosition();
 			Animal newAnimal = new Animal(child, position, world);
 			this.entities.add(newAnimal);
-			EventBroadcaster.getInstance().broadcast(EventType.NEW_ANIMAL, newAnimal);
+			EventBroadcaster.getInstance().broadcast(EventType.NEW_ROBOT, newAnimal);
 		}
 	}
 
@@ -124,7 +124,7 @@ public class Population {
 		List<Animal> parents = new ArrayList<>();
 
 		for (int i = 0; i < 2; i++) {
-			Animal winningEntity = new RouletteWheelSelectionByRank().select(this.entities);
+			Animal winningEntity = (Animal) new RouletteWheelSelectionByRank().select(this.entities);
 			parents.add(winningEntity);
 		}
 

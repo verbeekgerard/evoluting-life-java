@@ -17,7 +17,7 @@ public class SimSensorController implements ISensorController {
     private SensorFilter sensorFilter;
     private CollisionDetector collisionDetector = new CollisionDetector();
 
-    private List<Obstacle> nearbyObstacles;
+    private List<SimObstacle> nearbySimObstacles;
 
     public SimSensorController(SimRobot owner, double viewDistance, IAngleRetriever angleRetriever) {
         this.owner = owner;
@@ -29,7 +29,7 @@ public class SimSensorController implements ISensorController {
     @Override
     public double sense() {
         double viewingAngle = angleRetriever.getAngle();
-        Optional<ObstacleVector> seeing = getObstacleVectorsWithinSight(nearbyObstacles)
+        Optional<ObstacleVector> seeing = getObstacleVectorsWithinSight(nearbySimObstacles)
                 .stream()
                 .filter(obstacleVector -> isLookingAt(viewingAngle, obstacleVector))
                 .sorted(Comparator.comparing(ObstacleVector::getDistance))
@@ -48,14 +48,14 @@ public class SimSensorController implements ISensorController {
         return viewingAngle >= minimumBorderAngle && viewingAngle <= maximumBorderAngle;
     }
 
-    private List<ObstacleVector> getObstacleVectorsWithinSight(List<? extends Obstacle> obstacles) {
+    private List<ObstacleVector> getObstacleVectorsWithinSight(List<? extends SimObstacle> obstacles) {
         Position ownerPosition = owner.getPosition();
         List<ObstacleVector> obstacleVectors = new ArrayList<>();
 
-        for (Obstacle obstacle : obstacles) {
+        for (SimObstacle simObstacle : obstacles) {
             // Find polar coordinates of food relative this entity
-            double dx = obstacle.getPosition().x - ownerPosition.x;
-            double dy = obstacle.getPosition().y - ownerPosition.y;
+            double dx = simObstacle.getPosition().x - ownerPosition.x;
+            double dy = simObstacle.getPosition().y - ownerPosition.y;
 
             // Find angle of food relative to entity
             if (dx == 0) dx = 0.000000000001;
@@ -70,33 +70,33 @@ public class SimSensorController implements ISensorController {
             // If the food is outside the viewing range, skip it
             if (Math.abs(angle) > Math.PI / 2 || distance > this.viewDistance) continue;
 
-            obstacleVectors.add(new ObstacleVector(distance, angle, obstacle.getSize()));
+            obstacleVectors.add(new ObstacleVector(distance, angle, simObstacle.getSize()));
         }
 
         return obstacleVectors;
     }
 
     public boolean isColliding() {
-        return collidesWithAny(nearbyObstacles);
+        return collidesWithAny(nearbySimObstacles);
     }
 
     public void prepareForNearbyObstacles() {
-        List<Obstacle> obstacles = owner.getWorld().getAllObstacles();
-        nearbyObstacles = sensorFilter.filter(obstacles);
+        List<SimObstacle> simObstacles = owner.getWorld().getAllObstacles();
+        nearbySimObstacles = sensorFilter.filter(simObstacles);
     }
 
-    private boolean collidesWithAny(List<Obstacle> obstacles) {
+    private boolean collidesWithAny(List<SimObstacle> simObstacles) {
         boolean isColliding = false;
 
-        for (Obstacle obstacle : obstacles) {
-            isColliding = isColliding || collidesWith(obstacle);
+        for (SimObstacle simObstacle : simObstacles) {
+            isColliding = isColliding || collidesWith(simObstacle);
         }
 
         return isColliding;
     }
 
-    private boolean collidesWith(Obstacle obstacle) {
-        boolean colliding = collisionDetector.colliding(owner, obstacle);
+    private boolean collidesWith(SimObstacle simObstacle) {
+        boolean colliding = collisionDetector.colliding(owner, simObstacle);
         if (!colliding) return false;
 
         owner.recordCollision();

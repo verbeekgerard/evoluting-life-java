@@ -26,13 +26,13 @@ public class SimWorld {
         return height;
     }
 
-    public List<Obstacle> getAllObstacles() {
-        List<Obstacle> obstacles = new ArrayList<>();
+    public List<SimObstacle> getAllObstacles() {
+        List<SimObstacle> simObstacles = new ArrayList<>();
 
-        obstacles.addAll(robotPopulation.getAllRobots());
-        obstacles.addAll(obstaclePopulation.getAllRoundObstacles());
+        simObstacles.addAll(robotPopulation.getAllRobots());
+        simObstacles.addAll(obstaclePopulation.getAllRoundObstacles());
 
-        return obstacles;
+        return simObstacles;
     }
 
     public SimRobotPopulation getRobotPopulation() {
