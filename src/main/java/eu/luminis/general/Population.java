@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import eu.luminis.entities.*;
 import eu.luminis.evolution.RouletteWheelSelectionByRank;
 import eu.luminis.genetics.Genome;
+import eu.luminis.robots.BorderDimensionsPositionGenerator;
 import eu.luminis.util.Range;
 import java.lang.reflect.Type;
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class Population {
 
 	private World world;
+	private final BorderDimensionsPositionGenerator borderDimensionsPositionGenerator;
 	private List<Animal> entities = new CopyOnWriteArrayList<>(); // Slow lost but no exceptions in UI
 	private Animal winningEntity;
 
@@ -25,6 +27,7 @@ public class Population {
 
 	public Population(World world) {
 		this.world = world;
+		this.borderDimensionsPositionGenerator = new BorderDimensionsPositionGenerator(world);
 		this.populationSize = Options.populationSize.get();
 
 		// Fill our population with eu.luminis.entities
@@ -101,10 +104,7 @@ public class Population {
     }
 
     private Position createRandomPosition() {
-        Range range = new Range(-0.98, 0.98);
-        double x = world.getWidth() /2 + world.getWidth() /2 * range.random();
-        double y = world.getHeight() /2 + world.getHeight() /2 * range.random();
-        return new Position(x, y, Math.random() * Math.PI * 2);
+        return borderDimensionsPositionGenerator.createRandomPositionWithinRelativeBorder(0.98);
     }
 
     private void produceChildren(List<Animal> parents) {

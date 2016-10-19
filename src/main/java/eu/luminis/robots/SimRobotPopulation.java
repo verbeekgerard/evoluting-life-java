@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 public class SimRobotPopulation {
     private SimWorld world;
+    private final BorderDimensionsPositionGenerator borderDimensionsPositionGenerator;
     private List<SimRobot> simRobots = new CopyOnWriteArrayList<>(); // Slow lost but no exceptions in UI
     private SimRobot winningEntity;
 
@@ -26,6 +27,7 @@ public class SimRobotPopulation {
 
     public SimRobotPopulation(SimWorld world) {
         this.world = world;
+        this.borderDimensionsPositionGenerator = new BorderDimensionsPositionGenerator(world);
         this.populationSize = Options.populationSize.get();
 
         for (int i = 0; i < populationSize; i++) {
@@ -93,11 +95,7 @@ public class SimRobotPopulation {
     }
 
     private Position createRandomPosition() {
-        Range range = new Range(-0.98, 0.98);
-        double x = world.getWidth() /2 + world.getWidth() /2 * range.random();
-        double y = world.getHeight() /2 + world.getHeight() /2 * range.random();
-
-        return new Position(x, y, Math.random() * Math.PI * 2);
+        return borderDimensionsPositionGenerator.createRandomPositionWithinRelativeBorder(0.98);
     }
 
     private void produceChildren(List<SimRobot> parents) {

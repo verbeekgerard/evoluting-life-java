@@ -38,7 +38,7 @@ public abstract class SimObstacle {
             return false;
         }
 
-        if (!isWithinWorldBounds()) {
+        if (!world.isWithinBorders(position)) {
             eventBroadcaster.broadcast(EventType.WANDERED, 1);
             return false;
         }
@@ -55,10 +55,5 @@ public abstract class SimObstacle {
 
     protected boolean isAlive() {
         return true;
-    }
-
-    private boolean isWithinWorldBounds() {
-        return position.x > 0 && position.x < world.getWidth() &&
-                position.y > 0 && position.y < world.getHeight();
     }
 }

@@ -37,7 +37,7 @@ public abstract class Organism extends SimObstacle {
     public boolean lives() {
         Position p = this.getPosition();
 
-        if (p.x > world.getWidth() || p.x < 0 || p.y > world.getHeight() || p.y < 0) {
+        if (!world.isWithinBorders(p)) {
             eventBroadcaster.broadcast(EventType.WANDERED, 1);
             return false;
         }
