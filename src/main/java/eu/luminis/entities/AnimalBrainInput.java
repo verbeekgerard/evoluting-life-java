@@ -40,9 +40,9 @@ public class AnimalBrainInput {
         inputs = new ArrayList<>();
 
         // left head
-        inputs.add((Math.PI/2 + headAngle) / Math.PI);
+        inputs.add(obstacle != null ? (Math.PI/2 + headAngle) / Math.PI : 0);
         // right head
-        inputs.add((Math.PI/2 - headAngle) / Math.PI);
+        inputs.add(obstacle != null ? (Math.PI/2 - headAngle) / Math.PI : 0);
         // distance
         inputs.add(obstacle != null ? (viewDistance - obstacle.getDistance()) / viewDistance : 0);
 
