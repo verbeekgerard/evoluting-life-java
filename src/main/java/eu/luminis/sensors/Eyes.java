@@ -2,7 +2,7 @@ package eu.luminis.sensors;
 
 import eu.luminis.entities.*;
 import eu.luminis.genetics.SensorGene;
-import eu.luminis.robots.SimObstacle;
+import eu.luminis.robots.sim.SimObstacle;
 
 import java.util.ArrayList;
 import java.util.List;

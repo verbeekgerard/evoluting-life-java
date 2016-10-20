@@ -2,9 +2,7 @@ package eu.luminis.evolution;
 
 import java.util.List;
 
-import eu.luminis.entities.Animal;
-import eu.luminis.robots.SimObstacle;
-import eu.luminis.robots.SimRobot;
+import eu.luminis.robots.sim.SimObstacle;
 import eu.luminis.util.Range;
 
 public class RouletteWheelSelectionByRank {

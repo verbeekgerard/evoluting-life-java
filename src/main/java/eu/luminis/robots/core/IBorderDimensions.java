@@ -1,4 +1,4 @@
-package eu.luminis.robots;
+package eu.luminis.robots.core;
 
 import eu.luminis.entities.Position;
 

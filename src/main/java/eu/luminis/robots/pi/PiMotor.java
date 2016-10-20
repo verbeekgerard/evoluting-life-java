@@ -1,4 +1,4 @@
-package eu.luminis.robots;
+package eu.luminis.robots.pi;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 

@@ -5,7 +5,7 @@ import java.util.List;
 import eu.luminis.brains.Brain;
 import eu.luminis.general.*;
 import eu.luminis.genetics.Genome;
-import eu.luminis.robots.SimObstacle;
+import eu.luminis.robots.sim.SimObstacle;
 import eu.luminis.sensors.Eyes;
 import eu.luminis.sensors.ObstacleVector;
 import eu.luminis.sensors.Obstacles;

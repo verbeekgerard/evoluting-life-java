@@ -1,8 +1,10 @@
-package eu.luminis.robots;
+package eu.luminis.robots.sim;
 
 import eu.luminis.entities.CollisionDetector;
 import eu.luminis.entities.Position;
 import eu.luminis.entities.SensorFilter;
+import eu.luminis.robots.core.IAngleRetriever;
+import eu.luminis.robots.core.ISensorController;
 import eu.luminis.sensors.ObstacleVector;
 
 import java.util.ArrayList;

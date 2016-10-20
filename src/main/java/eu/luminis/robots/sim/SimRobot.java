@@ -1,4 +1,4 @@
-package eu.luminis.robots;
+package eu.luminis.robots.sim;
 
 import eu.luminis.brains.Brain;
 import eu.luminis.entities.*;
@@ -7,6 +7,7 @@ import eu.luminis.general.EventType;
 import eu.luminis.general.Options;
 import eu.luminis.genetics.BrainGene;
 import eu.luminis.genetics.Genome;
+import eu.luminis.robots.core.Robot;
 
 public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     private CostCalculator costCalculator = CostCalculator.getInstance();

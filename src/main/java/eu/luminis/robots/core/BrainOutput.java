@@ -1,8 +1,8 @@
-package eu.luminis.robots;
+package eu.luminis.robots.core;
 
 import java.util.List;
 
-class BrainOutput {
+public class BrainOutput {
     public static int getNodesCount() {
         return 6;
     }

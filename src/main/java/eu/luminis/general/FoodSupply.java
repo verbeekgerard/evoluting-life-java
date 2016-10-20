@@ -4,8 +4,7 @@ import eu.luminis.entities.Plant;
 import eu.luminis.entities.Position;
 import eu.luminis.entities.World;
 import eu.luminis.genetics.Genome;
-import eu.luminis.robots.BorderDimensionsPositionGenerator;
-import eu.luminis.util.Range;
+import eu.luminis.robots.sim.BorderDimensionsPositionGenerator;
 
 import java.util.ArrayList;
 import java.util.List;

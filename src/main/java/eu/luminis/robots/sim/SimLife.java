@@ -1,4 +1,4 @@
-package eu.luminis.robots;
+package eu.luminis.robots.sim;
 
 public class SimLife {
     private int maxAge;

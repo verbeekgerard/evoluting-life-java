@@ -1,6 +1,6 @@
 package eu.luminis.entities;
 
-import eu.luminis.robots.SimObstacle;
+import eu.luminis.robots.sim.SimObstacle;
 
 public class CollisionDetector {
     public boolean colliding(SimObstacle a, SimObstacle b) {

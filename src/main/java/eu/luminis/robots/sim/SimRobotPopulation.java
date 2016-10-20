@@ -1,4 +1,4 @@
-package eu.luminis.robots;
+package eu.luminis.robots.sim;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -8,7 +8,8 @@ import eu.luminis.general.EventBroadcaster;
 import eu.luminis.general.EventType;
 import eu.luminis.general.Options;
 import eu.luminis.genetics.Genome;
-import eu.luminis.util.Range;
+import eu.luminis.robots.core.BrainInput;
+import eu.luminis.robots.core.BrainOutput;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

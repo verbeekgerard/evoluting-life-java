@@ -1,4 +1,6 @@
-package eu.luminis.robots;
+package eu.luminis.robots.sim;
+
+import eu.luminis.robots.core.IServoController;
 
 public class SimServoController implements IServoController {
     private SimRobot owner;

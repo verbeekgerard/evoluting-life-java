@@ -1,6 +1,6 @@
 package eu.luminis.entities;
 
-import eu.luminis.robots.SimObstacle;
+import eu.luminis.robots.sim.SimObstacle;
 
 import java.util.ArrayList;
 import java.util.List;

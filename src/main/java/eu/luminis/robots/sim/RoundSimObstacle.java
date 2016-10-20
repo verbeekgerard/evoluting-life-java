@@ -1,4 +1,4 @@
-package eu.luminis.robots;
+package eu.luminis.robots.sim;
 
 import eu.luminis.entities.Position;
 import eu.luminis.genetics.LifeGene;

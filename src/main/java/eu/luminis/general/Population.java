@@ -11,8 +11,8 @@ import com.google.gson.reflect.TypeToken;
 import eu.luminis.entities.*;
 import eu.luminis.evolution.RouletteWheelSelectionByRank;
 import eu.luminis.genetics.Genome;
-import eu.luminis.robots.BorderDimensionsPositionGenerator;
-import eu.luminis.util.Range;
+import eu.luminis.robots.sim.BorderDimensionsPositionGenerator;
+
 import java.lang.reflect.Type;
 import java.util.stream.Collectors;
 

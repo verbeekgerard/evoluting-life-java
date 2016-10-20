@@ -3,8 +3,8 @@ package eu.luminis.entities;
 import eu.luminis.general.EventBroadcaster;
 import eu.luminis.genetics.Genome;
 import eu.luminis.general.EventType;
-import eu.luminis.robots.SimObstacle;
-import eu.luminis.robots.SimWorld;
+import eu.luminis.robots.sim.SimObstacle;
+import eu.luminis.robots.sim.SimWorld;
 
 public abstract class Organism extends SimObstacle {
 

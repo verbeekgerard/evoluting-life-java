@@ -1,5 +1,6 @@
-package eu.luminis.robots;
+package eu.luminis.robots.pi;
 
+import eu.luminis.robots.core.IServoController;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class PiServoController implements IServoController {

@@ -1,4 +1,4 @@
-package eu.luminis.robots;
+package eu.luminis.robots.core;
 
 import eu.luminis.general.Options;
 import eu.luminis.util.Range;
@@ -6,7 +6,7 @@ import eu.luminis.util.Range;
 import java.util.ArrayList;
 import java.util.List;
 
-class BrainInput {
+public class BrainInput {
     public static int getNodesCount() {
         return 4;
     }
