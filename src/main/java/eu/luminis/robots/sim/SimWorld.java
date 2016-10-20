@@ -1,7 +1,5 @@
 package eu.luminis.robots.sim;
 
-import eu.luminis.robots.core.IBorderDimensions;
-
 import java.util.ArrayList;
 import java.util.List;
 

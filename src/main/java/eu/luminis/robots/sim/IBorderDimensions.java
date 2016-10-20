@@ -1,4 +1,4 @@
-package eu.luminis.robots.core;
+package eu.luminis.robots.sim;
 
 import eu.luminis.entities.Position;
 
