@@ -9,4 +9,10 @@ public class PiSensorController implements ISensorController {
         // TODO: Call sense on the R-Pi API
         throw new NotImplementedException();
     }
+
+    @Override
+    public double getViewDistance() {
+        // TODO: Find out what the view distance must be
+        throw new NotImplementedException();
+    }
 }

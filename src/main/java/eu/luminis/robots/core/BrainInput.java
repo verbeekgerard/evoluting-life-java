@@ -13,11 +13,13 @@ public class BrainInput {
 
     private List<Double> values;
     private final double distance;
+    private double viewDistance;
     private final double angle;
     private double fieldOfView;
 
-    public BrainInput(double distance, double angle, double fieldOfView) {
+    public BrainInput(double distance, double viewDistance, double angle, double fieldOfView) {
         this.distance = distance;
+        this.viewDistance = viewDistance;
         this.angle = angle;
         this.fieldOfView = fieldOfView;
     }
@@ -35,7 +37,7 @@ public class BrainInput {
 
         values.add((fieldOfView / 2 + angle) / fieldOfView); // left
         values.add((fieldOfView / 2 - angle) / fieldOfView); // right
-        values.add(distance);
+        values.add((viewDistance - distance) / viewDistance);
         values.add(new Range(0, 1).random());
 
         normalizeValues();

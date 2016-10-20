@@ -4,6 +4,8 @@ import eu.luminis.entities.Animal;
 import eu.luminis.general.Event;
 import eu.luminis.general.EventType;
 import eu.luminis.general.Population;
+import eu.luminis.robots.sim.SimRobot;
+import eu.luminis.robots.sim.SimRobotPopulation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +19,11 @@ public class StatsCollector implements Observer {
     private int totalWandered;
     private int totalDiedOfAge;
 
-    private Population population;
+    private SimRobotPopulation population;
     private Stats stats;
     private List<PeriodicStats> periodicStatsList = new ArrayList<>();
 
-    public StatsCollector(Population population) {
+    public StatsCollector(SimRobotPopulation population) {
         this.population = population;
     }
 
@@ -57,15 +59,15 @@ public class StatsCollector implements Observer {
         double totalAge = 0;
         double totalDistance = 0;
 
-        for (Animal animal : population.getEntities()) {
-            totalHealth += animal.getHealth();
-            totalAge += animal.getAge();
-            totalDistance += animal.getTravelledDistance();
+        for (SimRobot robot : population.getAllRobots()) {
+            totalHealth += robot.fitness();
+            totalAge += robot.getAgeInformation().getAge();
+            totalDistance += robot.getTravelledDistance();
         }
 
-        double avgHealth = totalHealth / population.getEntities().size();
-        double avgAge = totalAge / population.getEntities().size();
-        double avgDistance = totalDistance / population.getEntities().size();
+        double avgHealth = totalHealth / population.getAllRobots().size();
+        double avgAge = totalAge / population.getAllRobots().size();
+        double avgDistance = totalDistance / population.getAllRobots().size();
         double bestFitness = population.getWinningEntity().fitness();
 
         PeriodicStats periodicStats = new PeriodicStats(avgHealth, avgAge, avgDistance, bestFitness);

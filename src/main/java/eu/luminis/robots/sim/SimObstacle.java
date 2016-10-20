@@ -51,6 +51,10 @@ public abstract class SimObstacle {
         return true;
     }
 
+    public IAgeRetriever getAgeInformation() {
+        return life;
+    }
+
     protected abstract void run();
 
     protected boolean isAlive() {

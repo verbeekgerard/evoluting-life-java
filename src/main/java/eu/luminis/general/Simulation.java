@@ -1,47 +1,35 @@
 package eu.luminis.general;
 
-import eu.luminis.entities.World;
+import eu.luminis.robots.sim.SimWorld;
 
 public class Simulation {
 	
 	private Thread mainThread;
 	private boolean loop = true;
-	private FoodSupply foodSupply;
-	private Population population;
-	private World world;
-	private int iteration = 0;
+    private int iteration = 0;
+
+	private SimWorld world;
 
 	private static Simulation singleton = new Simulation();
-	
 	public static Simulation getInstance() {
       return singleton;
 	}
 	
 	private Simulation() {
-		this.world = new World();
-        this.foodSupply = new FoodSupply(world);
-        this.population = new Population(world);
+		this.world = new SimWorld();
 	}
 	
 	public String exportPopulation() {
-		return this.population.exportPopulation();
+		return this.world.getRobotPopulation().exportPopulation();
 	}
 	
 	public void importPopulation(String json) {
 		stop();
-		this.population.importPopulation(json);
+		this.world.getRobotPopulation().importPopulation(json);
 		start();
 	}
 
-    FoodSupply getFoodSupply() {
-        return foodSupply;
-    }
-
-    Population getPopulation() {
-        return population;
-    }
-
-    World getWorld() {
+    SimWorld getWorld() {
         return world;
     }
 
@@ -78,15 +66,9 @@ public class Simulation {
 	}
 
 	private void mainLoop() {
-        // Keep track of our iteration count
-        iteration++;
+        world.getObstaclePopulation().run();
+        world.getRobotPopulation().run();
 
-        // Run a tick of foodSupply life cycle
-        foodSupply.run();
-
-        // Run a tick of population life cycle
-        population.run(foodSupply.getPlants());
-
-        EventBroadcaster.getInstance().broadcast(EventType.CYCLE_END, iteration);
+        EventBroadcaster.getInstance().broadcast(EventType.CYCLE_END, iteration++);
 	}
 }

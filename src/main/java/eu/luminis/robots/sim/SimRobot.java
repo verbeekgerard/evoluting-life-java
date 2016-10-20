@@ -7,6 +7,7 @@ import eu.luminis.general.EventType;
 import eu.luminis.general.Options;
 import eu.luminis.genetics.BrainGene;
 import eu.luminis.genetics.Genome;
+import eu.luminis.robots.core.IAngleRetriever;
 import eu.luminis.robots.core.Robot;
 
 public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
@@ -15,6 +16,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     private final Genome genome;
     private final Robot robot;
     private final SimMotorsController motorsController;
+    private final SimServoController servoController;
     private final SimSensorController sensorController;
 
     private TravelledDistanceRecorder distanceRecorder;
@@ -30,10 +32,13 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     public SimRobot(Genome genome, Position position, SimWorld world) {
         super(world, position, genome.getLife());
         this.genome = genome;
+        this.initialEnergy = Options.initialEnergyOption.get();
+        this.size = Options.sizeOption.get();
+        this.distanceRecorder = new TravelledDistanceRecorder(position);
 
         BrainGene brainGene = genome.getBrain();
         motorsController = new SimMotorsController(this, genome.getMovement().getLinearForce());
-        SimServoController servoController = new SimServoController(this);
+        servoController = new SimServoController(this);
         sensorController = new SimSensorController(this, genome.getSensor().getViewDistance(), servoController);
         robot = new Robot(
                 new Brain(brainGene),
@@ -41,10 +46,6 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
                 servoController,
                 sensorController
         );
-
-        this.initialEnergy = Options.initialEnergyOption.get();
-        this.distanceRecorder = new TravelledDistanceRecorder(position);
-        this.size = Options.sizeOption.get();
     }
 
     public Double fitness() {
@@ -85,6 +86,14 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
 
     public void recordAngleChange(double acceleration) {
         headTurnCost += costCalculator.turnHead(acceleration);
+    }
+
+    public IAngleRetriever getServo() {
+        return servoController;
+    }
+
+    public double getTravelledDistance() {
+        return distanceRecorder.getTotalDistance();
     }
 
     @Override

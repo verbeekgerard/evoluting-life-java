@@ -52,12 +52,12 @@ public class Run {
     }
 
     private static void initializeCanvas(Simulation simulation, EventBroadcaster eventBroadcaster) {
-        Canvas canvas = new Canvas(simulation.getFoodSupply(), simulation.getPopulation(), simulation.getWorld());
+        Canvas canvas = new Canvas(simulation.getWorld());
         eventBroadcaster.addObserver(canvas);
     }
 
 	private static StatsCollector createStatsCollectorInstance(Simulation simulation, EventBroadcaster eventBroadcaster) { // TODO: move this to a factory
-		StatsCollector statsCollector = new StatsCollector(simulation.getPopulation());
+		StatsCollector statsCollector = new StatsCollector(simulation.getWorld().getRobotPopulation());
         eventBroadcaster.addObserver(statsCollector);
 
 		return statsCollector;

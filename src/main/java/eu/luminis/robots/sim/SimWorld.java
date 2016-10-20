@@ -7,13 +7,9 @@ public class SimWorld implements IBorderDimensions {
     private SimRobotPopulation robotPopulation;
     private StationaryObstaclePopulation obstaclePopulation;
 
-    @Deprecated
     public SimWorld() {
-    }
-
-    public SimWorld(SimRobotPopulation robotPopulation, StationaryObstaclePopulation obstaclePopulation) {
-        this.robotPopulation = robotPopulation;
-        this.obstaclePopulation = obstaclePopulation;
+        this.obstaclePopulation = new StationaryObstaclePopulation(this);
+        this.robotPopulation = new SimRobotPopulation(this);
     }
 
     @Override

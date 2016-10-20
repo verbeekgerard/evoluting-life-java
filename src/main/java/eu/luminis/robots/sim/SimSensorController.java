@@ -28,6 +28,11 @@ public class SimSensorController implements ISensorController {
         this.sensorFilter = new SensorFilter(owner, viewDistance);
     }
 
+    public void prepareForNearbyObstacles() {
+        List<SimObstacle> simObstacles = owner.getWorld().getAllObstacles();
+        nearbySimObstacles = sensorFilter.filter(simObstacles);
+    }
+
     @Override
     public double sense() {
         double viewingAngle = angleRetriever.getAngle();
@@ -40,6 +45,15 @@ public class SimSensorController implements ISensorController {
         return seeing.isPresent() ?
                 seeing.get().getDistance() :
                 viewDistance;
+    }
+
+    @Override
+    public double getViewDistance() {
+        return viewDistance;
+    }
+
+    public boolean isColliding() {
+        return collidesWithAny(nearbySimObstacles);
     }
 
     private boolean isLookingAt(double viewingAngle, ObstacleVector obstacleWithinSight) {
@@ -76,15 +90,6 @@ public class SimSensorController implements ISensorController {
         }
 
         return obstacleVectors;
-    }
-
-    public boolean isColliding() {
-        return collidesWithAny(nearbySimObstacles);
-    }
-
-    public void prepareForNearbyObstacles() {
-        List<SimObstacle> simObstacles = owner.getWorld().getAllObstacles();
-        nearbySimObstacles = sensorFilter.filter(simObstacles);
     }
 
     private boolean collidesWithAny(List<SimObstacle> simObstacles) {

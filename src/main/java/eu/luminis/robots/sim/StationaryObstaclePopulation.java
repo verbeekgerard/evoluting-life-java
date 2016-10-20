@@ -18,7 +18,8 @@ public class StationaryObstaclePopulation {
 
         double populationSize = (int)Options.roundObstaclePopulationSize.get();
         for (int i = 0; i < populationSize; i++) {
-            spawnNewRoundSimObstacle();
+            RoundSimObstacle newSimObstacle = spawnNewRoundSimObstacle();
+            roundSimObstacles.add(newSimObstacle);
         }
     }
 
@@ -44,9 +45,6 @@ public class StationaryObstaclePopulation {
 
     private RoundSimObstacle spawnNewRoundSimObstacle() {
         Position position = createRandomPosition();
-        RoundSimObstacle newSimObstacle = new RoundSimObstacle(world, position);
-        roundSimObstacles.add(newSimObstacle);
-
-        return newSimObstacle;
+        return new RoundSimObstacle(world, position);
     }
 }
