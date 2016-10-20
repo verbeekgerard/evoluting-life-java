@@ -22,6 +22,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     private TravelledDistanceRecorder distanceRecorder;
 
     private double initialEnergy;
+    private double usedEnergy = 0;
     private double movementCost = 0;
     private double headTurnCost = 0;
     private double collisionDamage = 0;
@@ -32,7 +33,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     public SimRobot(Genome genome, Position position, SimWorld world) {
         super(world, position, genome.getLife());
         this.genome = genome;
-        this.initialEnergy = Options.initialEnergyOption.get();
+        this.initialEnergy = Options.initialEnergy.get();
         this.size = Options.sizeOption.get();
         this.distanceRecorder = new TravelledDistanceRecorder(position);
 
@@ -49,7 +50,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     }
 
     public Double fitness() {
-        return this.initialEnergy + getDistanceReward() - collisionDamage - movementCost - headTurnCost;
+        return this.initialEnergy + getDistanceReward() - usedEnergy - collisionDamage - movementCost - headTurnCost;
     }
 
     public boolean isColliding() {
@@ -101,6 +102,8 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
         sensorController.prepareForNearbyObstacles();
         robot.run();
         isColliding = sensorController.isColliding();
+
+        usedEnergy += this.costCalculator.cycle();
     }
 
     @Override

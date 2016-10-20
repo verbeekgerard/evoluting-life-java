@@ -13,9 +13,9 @@ public class BrainInput {
 
     private List<Double> values;
     private final double distance;
-    private double viewDistance;
+    private final double viewDistance;
     private final double angle;
-    private double fieldOfView;
+    private final double fieldOfView;
 
     public BrainInput(double distance, double viewDistance, double angle, double fieldOfView) {
         this.distance = distance;

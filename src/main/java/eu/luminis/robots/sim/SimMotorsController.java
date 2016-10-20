@@ -8,7 +8,7 @@ public class SimMotorsController implements IMotorsController {
     private SimRobot owner;
 
     private final double linearForce;
-    private double linearFriction = Options.linearFrictionOption.get();
+    private double linearFriction = Options.linearFriction.get();
 
     private double velocityLeft = 0;
     private double velocityRight = 0;

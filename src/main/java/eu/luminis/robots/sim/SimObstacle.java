@@ -38,6 +38,7 @@ public abstract class SimObstacle {
             return false;
         }
 
+        world.keepWithinBorders(position); // TODO: fix wall detection and remove this line
         if (!world.isWithinBorders(position)) {
             eventBroadcaster.broadcast(EventType.WANDERED, 1);
             return false;

@@ -20,4 +20,22 @@ public interface IBorderDimensions {
         return position.x > getMinX() && position.x < getMaxX() &&
                 position.y > getMinY() && position.y < getMaxY();
     }
+
+    default void keepWithinBorders(Position position) {
+        if (position.x < 0) {
+            position.x = getMaxX();
+        }
+
+        if (position.x > getMaxX()) {
+            position.x = 0;
+        }
+
+        if (position.y < 0) {
+            position.y = getMaxY();
+        }
+
+        if (position.y > getMaxY()) {
+            position.y = 0;
+        }
+    }
 }

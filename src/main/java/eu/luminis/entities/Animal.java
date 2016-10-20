@@ -44,9 +44,9 @@ public class Animal extends Organism implements Comparable<Animal> {
         this.costCalculator = CostCalculator.getInstance();
 
         this.size = Options.sizeOption.get();
-        this.initialEnergy = Options.initialEnergyOption.get();
-        this.linearFriction = Options.linearFrictionOption.get();
-        this.angularFriction = Options.angularFrictionOption.get();
+        this.initialEnergy = Options.initialEnergy.get();
+        this.linearFriction = Options.linearFriction.get();
+        this.angularFriction = Options.angularFriction.get();
 
         this.sensorFilter = new SensorFilter(this, genome.getSensor().getViewDistance());
         this.eyes = new Eyes(this, genome.getSensor(), world);
