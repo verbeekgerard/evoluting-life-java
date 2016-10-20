@@ -19,7 +19,7 @@ public class FoodSupply {
         borderDimensionsPositionGenerator = new BorderDimensionsPositionGenerator(world);
         this.world = world;
 
-        int populationSize = (int)Options.plantPopulationSize.get();
+        int populationSize = (int)Options.roundObstaclePopulationSize.get();
 		for (int i = 0; i < populationSize; i++) {
             this.plants.add(createPlant());
         }

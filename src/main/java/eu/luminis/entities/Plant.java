@@ -12,19 +12,19 @@ public class Plant extends Organism {
 		super(genome, position, world);
 		
 		growthPercentage = new Range(Options.minGrowthPercentage.get(), Options.maxGrowthPercentage.get()).random();
-	    size = new Range(Options.minFoodSize.get(), Options.maxFoodSize.get()).random();
+	    size = new Range(Options.minRoundObstacleSize.get(), Options.maxRoundObstacleSize.get()).random();
 	}
 	
-    public void run(){
+    public void run() {
         this.age++;
         this.size += this.size * this.growthPercentage / 100;
-        if (this.size > Options.maxFoodSize.get()) {
-        	this.size = Options.maxFoodSize.get();
+        if (this.size > Options.maxRoundObstacleSize.get()) {
+        	this.size = Options.maxRoundObstacleSize.get();
         }
     }
 
     public double healthN() {
-        return size / Options.maxFoodSize.get();
+        return size / Options.maxRoundObstacleSize.get();
     }
     
 	@Override

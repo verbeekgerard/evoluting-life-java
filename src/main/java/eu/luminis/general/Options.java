@@ -17,12 +17,12 @@ public final class Options {
     public static Option maxOldAge = new Option(4000);
     public static Option oldAgeMutationRate = new Option(0.05);
 
-	// Plant
-	public static Option minFoodSize = new Option(4);
-	public static Option maxFoodSize = new Option(10);
+	// RoundSimObstacle
+	public static Option minRoundObstacleSize = new Option(4);
+	public static Option maxRoundObstacleSize = new Option(10);
 	public static Option minGrowthPercentage = new Option(0.01);
 	public static Option maxGrowthPercentage = new Option(0.05);
-	public static Option plantPopulationSize = new Option(10*8);
+	public static Option roundObstaclePopulationSize = new Option(10*8);
 
 	// Animal
 	public static Option sizeOption = new Option(12);
