@@ -57,7 +57,7 @@ public class SimSensorController implements ISensorController {
     }
 
     private boolean isLookingAt(double viewingAngle, ObstacleVector obstacleWithinSight) {
-        double angularRadius = Math.atan2(obstacleWithinSight.getSize(), obstacleWithinSight.getDistance());
+        double angularRadius = Math.atan2(obstacleWithinSight.getSize() / 2, obstacleWithinSight.getDistance());
         double minimumBorderAngle = obstacleWithinSight.getAngle() - angularRadius;
         double maximumBorderAngle = obstacleWithinSight.getAngle() + angularRadius;
 

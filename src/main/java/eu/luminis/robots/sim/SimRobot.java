@@ -39,7 +39,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
 
         BrainGene brainGene = genome.getBrain();
         motorsController = new SimMotorsController(this, genome.getMovement().getLinearForce());
-        servoController = new SimServoController(this);
+        servoController = new SimServoController(this, genome.getMovement().getAngularForce());
         sensorController = new SimSensorController(this, genome.getSensor().getViewDistance(), servoController);
         robot = new Robot(
                 new Brain(brainGene),

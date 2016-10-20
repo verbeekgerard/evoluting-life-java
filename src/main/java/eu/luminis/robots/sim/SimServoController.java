@@ -1,13 +1,19 @@
 package eu.luminis.robots.sim;
 
+import eu.luminis.general.Options;
 import eu.luminis.robots.core.IServoController;
 
 public class SimServoController implements IServoController {
     private SimRobot owner;
     private double angle;
 
-    public SimServoController(SimRobot owner) {
+    private final double angularForce;
+    private double angularFriction = Options.linearFriction.get();
+    private double angularVelocity = 0;
+
+    public SimServoController(SimRobot owner, double angularForce) {
         this.owner = owner;
+        this.angularForce = angularForce;
     }
 
     @Override
@@ -17,7 +23,11 @@ public class SimServoController implements IServoController {
 
     @Override
     public void changeAngle(double acceleration) {
-        angle += acceleration * 1;
+        double angularAcceleration = acceleration * angularForce;
+        angularVelocity += angularAcceleration;
+        angularVelocity -= angularVelocity * angularFriction;
+
+        angle += angularVelocity * 1;
 
         if (angle < -1 * Math.PI/2) {
             angle = -1 * Math.PI/2;
