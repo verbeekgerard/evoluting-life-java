@@ -1,5 +1,7 @@
 package eu.luminis.entities;
 
+import eu.luminis.geometry.Position;
+
 public class TravelledDistanceRecorder {
     private int steps = 0;
     private double historicalDistance = 0;

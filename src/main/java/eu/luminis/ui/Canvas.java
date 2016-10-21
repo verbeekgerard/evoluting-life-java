@@ -1,6 +1,6 @@
 package eu.luminis.ui;
 
-import eu.luminis.entities.Position;
+import eu.luminis.geometry.Position;
 import eu.luminis.general.Event;
 import eu.luminis.general.EventType;
 import eu.luminis.general.Options;

@@ -1,6 +1,6 @@
-package eu.luminis.robots.sim;
+package eu.luminis.geometry;
 
-import eu.luminis.entities.Position;
+import eu.luminis.geometry.Position;
 
 public interface IBorderDimensions {
     int getMinX();

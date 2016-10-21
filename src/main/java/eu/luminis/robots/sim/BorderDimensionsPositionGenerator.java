@@ -1,6 +1,7 @@
 package eu.luminis.robots.sim;
 
-import eu.luminis.entities.Position;
+import eu.luminis.geometry.IBorderDimensions;
+import eu.luminis.geometry.Position;
 import eu.luminis.util.Range;
 
 public class BorderDimensionsPositionGenerator {

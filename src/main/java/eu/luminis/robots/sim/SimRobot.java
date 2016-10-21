@@ -7,6 +7,7 @@ import eu.luminis.general.EventType;
 import eu.luminis.general.Options;
 import eu.luminis.genetics.BrainGene;
 import eu.luminis.genetics.Genome;
+import eu.luminis.geometry.Position;
 import eu.luminis.robots.core.IAngleRetriever;
 import eu.luminis.robots.core.Robot;
 

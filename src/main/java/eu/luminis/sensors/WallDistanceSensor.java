@@ -1,6 +1,6 @@
 package eu.luminis.sensors;
 
-import eu.luminis.entities.Position;
+import eu.luminis.geometry.Position;
 import eu.luminis.entities.World;
 
 class WallDistanceSensor {

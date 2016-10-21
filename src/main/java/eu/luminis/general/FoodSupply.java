@@ -1,7 +1,7 @@
 package eu.luminis.general;
 
 import eu.luminis.entities.Plant;
-import eu.luminis.entities.Position;
+import eu.luminis.geometry.Position;
 import eu.luminis.entities.World;
 import eu.luminis.genetics.Genome;
 import eu.luminis.robots.sim.BorderDimensionsPositionGenerator;

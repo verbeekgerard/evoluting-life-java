@@ -1,8 +1,9 @@
 package eu.luminis.robots.sim;
 
 import eu.luminis.entities.CollisionDetector;
-import eu.luminis.entities.Position;
+import eu.luminis.geometry.Position;
 import eu.luminis.entities.SensorFilter;
+import eu.luminis.geometry.Radians;
 import eu.luminis.robots.core.IAngleRetriever;
 import eu.luminis.robots.core.ISensorController;
 import eu.luminis.sensors.ObstacleVector;
@@ -15,6 +16,7 @@ import java.util.Optional;
 public class SimSensorController implements ISensorController {
     private SimRobot owner;
     private double viewDistance;
+    private double viewAngle = Math.PI;
     private IAngleRetriever angleRetriever;
     private SensorFilter sensorFilter;
     private CollisionDetector collisionDetector = new CollisionDetector();
@@ -69,22 +71,11 @@ public class SimSensorController implements ISensorController {
         List<ObstacleVector> obstacleVectors = new ArrayList<>();
 
         for (SimObstacle simObstacle : obstacles) {
-            // Find polar coordinates of food relative this entity
-            double dx = simObstacle.getPosition().x - ownerPosition.x;
-            double dy = simObstacle.getPosition().y - ownerPosition.y;
+            double angle = ownerPosition.calculateAngle(simObstacle.getPosition());
+            double distance = ownerPosition.calculateDistance(simObstacle.getPosition());
 
-            // Find angle of food relative to entity
-            if (dx == 0) dx = 0.000000000001;
-            double angle = ownerPosition.a - Math.atan2(dy, dx);
-
-            // Convert angles to right of center into negative values
-            if (angle > Math.PI) angle -= 2 * Math.PI;
-
-            // Calculate distance to this food
-            double distance = Math.sqrt(dx * dx + dy * dy);
-
-            // If the food is outside the viewing range, skip it
-            if (Math.abs(angle) > Math.PI / 2 || distance > this.viewDistance) continue;
+            // If the obstacle is outside the field of view, skip it
+            if (Math.abs(angle) > viewAngle / 2 || distance > viewDistance) continue;
 
             obstacleVectors.add(new ObstacleVector(distance, angle, simObstacle.getSize()));
         }
@@ -95,36 +86,50 @@ public class SimSensorController implements ISensorController {
     private double wallDistance() {
         Position ownerPosition = owner.getPosition();
 
-        double viewingAngle = ownerPosition.a + angleRetriever.getAngle();
-        viewingAngle = viewingAngle % (Math.PI * 2);
-        if (viewingAngle < 0) {
-            viewingAngle += Math.PI * 2;
-        }
-
+        double viewingAngle = Radians.getBounded(ownerPosition.a + angleRetriever.getAngle());
         double angleRadius = Math.PI / 10;
 
-        if (ownerPosition.x - owner.getWorld().getMinX() < viewDistance &&
-            Math.PI - angleRadius < viewingAngle && viewingAngle < Math.PI + angleRadius) {
-
+        if (isLeftWallVisible(ownerPosition, viewingAngle, angleRadius)) {
             return ownerPosition.x - owner.getWorld().getMinX();
         }
 
-        if (owner.getWorld().getMaxX() - ownerPosition.x < viewDistance &&
-            0 - angleRadius < viewingAngle && viewingAngle < 0 + angleRadius) {
+        if (isRightWallVisible(ownerPosition, viewingAngle, angleRadius)) {
             return owner.getWorld().getMaxX() - ownerPosition.x;
         }
 
-        if (ownerPosition.y - owner.getWorld().getMinY() < viewDistance &&
-                Math.PI * 1.5 - angleRadius < viewingAngle && viewingAngle < Math.PI * 1.5 + angleRadius) {
+        if (isTopWallVisible(ownerPosition, viewingAngle, angleRadius)) {
             return ownerPosition.y - owner.getWorld().getMinY();
         }
 
-        if (owner.getWorld().getMaxY() - ownerPosition.y < viewDistance &&
-            Math.PI * 0.5 - angleRadius < viewingAngle && viewingAngle < Math.PI * 0.5 + angleRadius) {
+        if (isBottomWallVisible(ownerPosition, viewingAngle, angleRadius)) {
             return owner.getWorld().getMaxY() - ownerPosition.y;
         }
 
         return viewDistance;
+    }
+
+    private boolean isBottomWallVisible(Position ownerPosition, double viewingAngle, double angleRadius) {
+        return owner.getWorld().getMaxY() - ownerPosition.y < viewDistance &&
+                isLookingAt(0.5 * Math.PI, angleRadius, viewingAngle);
+    }
+
+    private boolean isTopWallVisible(Position ownerPosition, double viewingAngle, double angleRadius) {
+        return ownerPosition.y - owner.getWorld().getMinY() < viewDistance &&
+                isLookingAt(1.5 * Math.PI, angleRadius, viewingAngle);
+    }
+
+    private boolean isRightWallVisible(Position ownerPosition, double viewingAngle, double angleRadius) {
+        return owner.getWorld().getMaxX() - ownerPosition.x < viewDistance &&
+                isLookingAt(0, angleRadius, viewingAngle);
+    }
+
+    private boolean isLeftWallVisible(Position ownerPosition, double viewingAngle, double angleRadius) {
+        return ownerPosition.x - owner.getWorld().getMinX() < viewDistance &&
+                isLookingAt(Math.PI, angleRadius, viewingAngle);
+    }
+
+    private boolean isLookingAt(double angle, double angleRadius, double viewingAngle) {
+        return angle - angleRadius < viewingAngle && viewingAngle < angle + angleRadius;
     }
 
     private boolean collidesWithAny(List<SimObstacle> simObstacles) {

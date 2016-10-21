@@ -1,5 +1,6 @@
 package eu.luminis.entities;
 
+import eu.luminis.geometry.Position;
 import eu.luminis.robots.sim.SimObstacle;
 
 import java.util.ArrayList;

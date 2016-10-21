@@ -1,6 +1,6 @@
 package eu.luminis.robots.sim;
 
-import eu.luminis.entities.Position;
+import eu.luminis.geometry.Position;
 import eu.luminis.general.Options;
 import eu.luminis.robots.core.IMotorsController;
 
@@ -28,8 +28,6 @@ public class SimMotorsController implements IMotorsController {
 
         // Keep angles within bounds
         p.a = p.a % (Math.PI * 2);
-        if (p.a < 0)
-            p.a += Math.PI * 2;
 
         // F=m*a => a=F/m, dv=a*dt => dv=dt*F/m, dt=one cycle, m=1
         double accelerationLeft = leftChange * linearForce;

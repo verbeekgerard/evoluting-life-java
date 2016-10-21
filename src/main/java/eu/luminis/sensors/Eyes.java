@@ -2,6 +2,7 @@ package eu.luminis.sensors;
 
 import eu.luminis.entities.*;
 import eu.luminis.genetics.SensorGene;
+import eu.luminis.geometry.Position;
 import eu.luminis.robots.sim.SimObstacle;
 
 import java.util.ArrayList;

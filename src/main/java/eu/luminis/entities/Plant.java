@@ -2,6 +2,7 @@ package eu.luminis.entities;
 
 import eu.luminis.genetics.Genome;
 import eu.luminis.general.Options;
+import eu.luminis.geometry.Position;
 import eu.luminis.util.Range;
 
 public class Plant extends Organism {

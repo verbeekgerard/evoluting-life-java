@@ -1,6 +1,6 @@
 package eu.luminis.robots.sim;
 
-import eu.luminis.entities.Position;
+import eu.luminis.geometry.Position;
 import eu.luminis.general.EventBroadcaster;
 import eu.luminis.general.EventType;
 import eu.luminis.genetics.LifeGene;

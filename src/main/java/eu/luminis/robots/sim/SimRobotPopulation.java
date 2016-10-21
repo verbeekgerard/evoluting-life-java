@@ -2,12 +2,12 @@ package eu.luminis.robots.sim;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import eu.luminis.entities.*;
 import eu.luminis.evolution.RouletteWheelSelectionByRank;
 import eu.luminis.general.EventBroadcaster;
 import eu.luminis.general.EventType;
 import eu.luminis.general.Options;
 import eu.luminis.genetics.Genome;
+import eu.luminis.geometry.Position;
 import eu.luminis.robots.core.BrainInput;
 import eu.luminis.robots.core.BrainOutput;
 
