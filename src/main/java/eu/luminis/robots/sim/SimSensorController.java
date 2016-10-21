@@ -10,7 +10,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-public class SimSensorController implements ISensorController {
+class SimSensorController implements ISensorController {
     private SimRobot owner;
     private double viewDistance;
     private double viewAngle = Math.PI;

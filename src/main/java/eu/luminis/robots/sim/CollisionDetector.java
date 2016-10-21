@@ -1,6 +1,6 @@
 package eu.luminis.robots.sim;
 
-public class CollisionDetector {
+class CollisionDetector {
     public boolean colliding(SimObstacle a, SimObstacle b) {
         if (a == b)
             return false;

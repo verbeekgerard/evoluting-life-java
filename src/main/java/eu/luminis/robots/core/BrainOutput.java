@@ -9,7 +9,7 @@ public class BrainOutput {
 
     private List<Double> values;
 
-    public BrainOutput(List<Double> values) {
+    BrainOutput(List<Double> values) {
         this.values = values;
     }
 

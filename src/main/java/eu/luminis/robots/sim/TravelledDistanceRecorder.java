@@ -2,7 +2,7 @@ package eu.luminis.robots.sim;
 
 import eu.luminis.geometry.Position;
 
-public class TravelledDistanceRecorder {
+class TravelledDistanceRecorder {
     private int steps = 0;
     private double historicalDistance = 0;
     private double currentDistance = 0;

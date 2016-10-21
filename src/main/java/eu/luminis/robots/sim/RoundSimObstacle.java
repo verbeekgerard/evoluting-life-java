@@ -5,7 +5,7 @@ import eu.luminis.general.Options;
 import eu.luminis.genetics.LifeGene;
 import eu.luminis.util.Range;
 
-public class RoundSimObstacle extends SimObstacle {
+class RoundSimObstacle extends SimObstacle {
     private double growthPercentage;
     private double size;
 

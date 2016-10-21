@@ -5,7 +5,7 @@ import eu.luminis.geometry.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SensorFilter {
+class SensorFilter {
     private final SimObstacle owner;
     private final double distanceSquared;
 

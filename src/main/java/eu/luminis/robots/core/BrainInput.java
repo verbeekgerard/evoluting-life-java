@@ -18,7 +18,7 @@ public class BrainInput {
     private final double fieldOfView;
     private double angleVelocity;
 
-    public BrainInput(double distance, double viewDistance, double angle, double fieldOfView, double angleVelocity) {
+    BrainInput(double distance, double viewDistance, double angle, double fieldOfView, double angleVelocity) {
         this.distance = distance;
         this.viewDistance = viewDistance;
         this.angle = angle;

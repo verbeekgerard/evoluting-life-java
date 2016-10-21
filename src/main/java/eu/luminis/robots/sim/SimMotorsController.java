@@ -4,7 +4,7 @@ import eu.luminis.geometry.Position;
 import eu.luminis.general.Options;
 import eu.luminis.robots.core.IMotorsController;
 
-public class SimMotorsController implements IMotorsController {
+class SimMotorsController implements IMotorsController {
     private SimRobot owner;
 
     private final double linearForce;

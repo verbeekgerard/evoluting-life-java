@@ -1,6 +1,6 @@
 package eu.luminis.robots.sim;
 
-public class SimLife implements IAgeRetriever {
+class SimLife implements IAgeRetriever {
     private int maxAge;
     private int age;
 

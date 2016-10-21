@@ -2,7 +2,7 @@ package eu.luminis.robots.sim;
 
 import eu.luminis.geometry.IBorderDimensions;
 
-public class BorderDimensions implements IBorderDimensions {
+class BorderDimensions implements IBorderDimensions {
     private int minX;
     private int maxX;
     private int minY;

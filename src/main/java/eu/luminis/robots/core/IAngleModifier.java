@@ -1,5 +1,5 @@
 package eu.luminis.robots.core;
 
-public interface IAngleModifier {
+interface IAngleModifier {
     void changeAngle(double acceleration);
 }
