@@ -1,7 +1,5 @@
 package eu.luminis.geometry;
 
-import eu.luminis.geometry.Position;
-
 public interface IBorderDimensions {
     int getMinX();
     int getMaxX();

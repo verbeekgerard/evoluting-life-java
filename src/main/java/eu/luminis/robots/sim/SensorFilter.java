@@ -1,7 +1,6 @@
-package eu.luminis.entities;
+package eu.luminis.robots.sim;
 
 import eu.luminis.geometry.Position;
-import eu.luminis.robots.sim.SimObstacle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,14 +14,6 @@ public class SensorFilter {
 
         double ds2 = Math.max(owner.getSize(), viewDistance); ds2 *= ds2;
         this.distanceSquared = ds2;
-    }
-
-    public List<SimObstacle> filter(List<Plant> plants, List<Animal> animals) {
-        List<SimObstacle> filteredOrganisms = new ArrayList<>();
-        filteredOrganisms.addAll(filter(plants));
-        filteredOrganisms.addAll(filter(animals));
-
-        return filteredOrganisms;
     }
 
     public List<SimObstacle> filter(List<? extends SimObstacle> obstacles) {

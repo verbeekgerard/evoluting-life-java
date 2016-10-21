@@ -1,12 +1,9 @@
 package eu.luminis.robots.sim;
 
-import eu.luminis.entities.CollisionDetector;
 import eu.luminis.geometry.Position;
-import eu.luminis.entities.SensorFilter;
 import eu.luminis.geometry.Radians;
 import eu.luminis.robots.core.IAngleRetriever;
 import eu.luminis.robots.core.ISensorController;
-import eu.luminis.sensors.ObstacleVector;
 
 import java.util.ArrayList;
 import java.util.Comparator;

@@ -1,4 +1,4 @@
-package eu.luminis.sensors;
+package eu.luminis.robots.sim;
 
 public class ObstacleVector implements Comparable<ObstacleVector> {
 	private double distance;
