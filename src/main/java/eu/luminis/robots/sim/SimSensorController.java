@@ -34,10 +34,10 @@ class SimSensorController implements ISensorController {
 
     @Override
     public double sense() {
-        double viewingAngle = angleRetriever.getAngle();
+        double sensorAngle = angleRetriever.getAngle();
         Optional<ObstacleVector> seeing = getObstacleVectorsWithinSight(nearbySimObstacles)
                 .stream()
-                .filter(obstacleVector -> isLookingAt(viewingAngle, obstacleVector))
+                .filter(obstacleVector -> isLookingAt(sensorAngle, obstacleVector))
                 .sorted(Comparator.comparing(ObstacleVector::getDistance))
                 .findFirst();
 
@@ -55,12 +55,12 @@ class SimSensorController implements ISensorController {
         return collidesWithAny(nearbySimObstacles);
     }
 
-    private boolean isLookingAt(double viewingAngle, ObstacleVector obstacleWithinSight) {
+    private boolean isLookingAt(double sensorAngle, ObstacleVector obstacleWithinSight) {
         double angularRadius = Math.atan2(obstacleWithinSight.getSize() / 2, obstacleWithinSight.getDistance());
         double minimumBorderAngle = obstacleWithinSight.getAngle() - angularRadius;
         double maximumBorderAngle = obstacleWithinSight.getAngle() + angularRadius;
 
-        return viewingAngle >= minimumBorderAngle && viewingAngle <= maximumBorderAngle;
+        return minimumBorderAngle <= sensorAngle && sensorAngle <= maximumBorderAngle;
     }
 
     private List<ObstacleVector> getObstacleVectorsWithinSight(List<? extends SimObstacle> obstacles) {
@@ -68,13 +68,14 @@ class SimSensorController implements ISensorController {
         List<ObstacleVector> obstacleVectors = new ArrayList<>();
 
         for (SimObstacle simObstacle : obstacles) {
-            double angle = ownerPosition.calculateAngle(simObstacle.getPosition());
+            double globalAngle = ownerPosition.calculateAngle(simObstacle.getPosition());
+            double relativeAngle = Radians.getRelativeDifference(ownerPosition.a, globalAngle);
             double distance = ownerPosition.calculateDistance(simObstacle.getPosition());
 
             // If the obstacle is outside the field of view, skip it
-            if (Math.abs(angle) > viewAngle / 2 || distance > viewDistance) continue;
+            if (Math.abs(relativeAngle) > viewAngle / 2 || distance > viewDistance) continue;
 
-            obstacleVectors.add(new ObstacleVector(distance, angle, simObstacle.getSize()));
+            obstacleVectors.add(new ObstacleVector(distance, relativeAngle, simObstacle.getSize()));
         }
 
         return obstacleVectors;

@@ -26,9 +26,6 @@ class SimMotorsController implements IMotorsController {
     public void move(double leftChange, double rightChange) {
         Position p = owner.getPosition();
 
-        // Keep angles within bounds
-        p.a = p.a % (Math.PI * 2);
-
         // F=m*a => a=F/m, dv=a*dt => dv=dt*F/m, dt=one cycle, m=1
         double accelerationLeft = leftChange * linearForce;
         velocityLeft += accelerationLeft;
@@ -39,6 +36,7 @@ class SimMotorsController implements IMotorsController {
         velocityRight -= velocityRight * linearFriction;
 
         p.a += (velocityLeft - velocityRight) / 10;
+        p.boundAngle();
 
         // Convert movement vector into polar
         double dx = (Math.cos(p.a) * getVelocity());

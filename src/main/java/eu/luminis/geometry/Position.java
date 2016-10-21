@@ -31,6 +31,10 @@ public class Position {
         return Radians.getBoundedArcTan(other.x-x, other.y-y);
     }
 
+    public void boundAngle() {
+        a = Radians.getBounded(a);
+    }
+
     public double getBoundedAngle() {
 		return Radians.getBounded(a);
 	}
