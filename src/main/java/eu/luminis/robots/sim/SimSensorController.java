@@ -42,9 +42,9 @@ public class SimSensorController implements ISensorController {
                 .sorted(Comparator.comparing(ObstacleVector::getDistance))
                 .findFirst();
 
-        return seeing.isPresent() ?
+        return Math.min(wallDistance(), seeing.isPresent() ?
                 seeing.get().getDistance() :
-                viewDistance;
+                viewDistance);
     }
 
     @Override
@@ -90,6 +90,41 @@ public class SimSensorController implements ISensorController {
         }
 
         return obstacleVectors;
+    }
+
+    private double wallDistance() {
+        Position ownerPosition = owner.getPosition();
+
+        double viewingAngle = ownerPosition.a + angleRetriever.getAngle();
+        viewingAngle = viewingAngle % (Math.PI * 2);
+        if (viewingAngle < 0) {
+            viewingAngle += Math.PI * 2;
+        }
+
+        double angleRadius = Math.PI / 10;
+
+        if (ownerPosition.x - owner.getWorld().getMinX() < viewDistance &&
+            Math.PI - angleRadius < viewingAngle && viewingAngle < Math.PI + angleRadius) {
+
+            return ownerPosition.x - owner.getWorld().getMinX();
+        }
+
+        if (owner.getWorld().getMaxX() - ownerPosition.x < viewDistance &&
+            0 - angleRadius < viewingAngle && viewingAngle < 0 + angleRadius) {
+            return owner.getWorld().getMaxX() - ownerPosition.x;
+        }
+
+        if (ownerPosition.y - owner.getWorld().getMinY() < viewDistance &&
+                Math.PI * 1.5 - angleRadius < viewingAngle && viewingAngle < Math.PI * 1.5 + angleRadius) {
+            return ownerPosition.y - owner.getWorld().getMinY();
+        }
+
+        if (owner.getWorld().getMaxY() - ownerPosition.y < viewDistance &&
+            Math.PI * 0.5 - angleRadius < viewingAngle && viewingAngle < Math.PI * 0.5 + angleRadius) {
+            return owner.getWorld().getMaxY() - ownerPosition.y;
+        }
+
+        return viewDistance;
     }
 
     private boolean collidesWithAny(List<SimObstacle> simObstacles) {

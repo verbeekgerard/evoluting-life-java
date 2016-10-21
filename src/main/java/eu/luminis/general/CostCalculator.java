@@ -26,6 +26,6 @@ public final class CostCalculator {
 	}
 
 	public double turnHead(double servoAcceleration) {
-		return ENERGY_COST * Math.abs(servoAcceleration) * 40;
+		return ENERGY_COST * Math.abs(servoAcceleration) / 4;
 	}
 }
