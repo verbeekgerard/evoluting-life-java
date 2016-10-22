@@ -31,6 +31,10 @@ class SimServoController implements IServoController {
 
         angle = viewAngleRange.assureBounds(angle + angularVelocity);
 
+        if (angle == viewAngleRange.getLowerBound() || angle == viewAngleRange.getUpperBound()) {
+            angularVelocity = 0;
+        }
+
         owner.recordAngleChange(acceleration);
     }
 }
