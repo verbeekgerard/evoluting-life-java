@@ -10,12 +10,12 @@ public class MovementGene extends Gene {
 	private double angularForce;
 	private double linearForce;
 	
-	public MovementGene(){
+	public MovementGene() {
 		initializeAngularForce();
 		initializeLinearForce();
 	}
 
-	public MovementGene(double angularForce, double linearForce){
+	public MovementGene(double angularForce, double linearForce) {
 		this.angularForce = angularForce;
         this.linearForce = linearForce;
 	}

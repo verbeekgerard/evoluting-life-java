@@ -2,7 +2,7 @@ package eu.luminis.robots.sim;
 
 import eu.luminis.brains.Brain;
 import eu.luminis.evolution.CostCalculator;
-import eu.luminis.general.EventType;
+import eu.luminis.events.EventType;
 import eu.luminis.general.Options;
 import eu.luminis.genetics.BrainGene;
 import eu.luminis.genetics.Genome;

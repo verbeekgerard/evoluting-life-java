@@ -1,5 +1,7 @@
 package eu.luminis.general;
 
+import eu.luminis.events.Event;
+import eu.luminis.events.EventType;
 import eu.luminis.util.Range;
 
 import java.util.Observable;

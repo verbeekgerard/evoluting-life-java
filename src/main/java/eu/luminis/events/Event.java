@@ -1,4 +1,4 @@
-package eu.luminis.general;
+package eu.luminis.events;
 
 public class Event {
 	public EventType type;

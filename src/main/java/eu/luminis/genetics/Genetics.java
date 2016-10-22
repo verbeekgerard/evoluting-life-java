@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Genetics {
+class Genetics {
 
 	// Creates two child by crossing over the genomes of a and b.
     public List<? extends Gene> mate(Gene a, Gene b) {

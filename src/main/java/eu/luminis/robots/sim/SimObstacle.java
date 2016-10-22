@@ -1,8 +1,8 @@
 package eu.luminis.robots.sim;
 
 import eu.luminis.geometry.Position;
-import eu.luminis.general.EventBroadcaster;
-import eu.luminis.general.EventType;
+import eu.luminis.events.EventBroadcaster;
+import eu.luminis.events.EventType;
 import eu.luminis.genetics.LifeGene;
 
 public abstract class SimObstacle {

@@ -1,4 +1,4 @@
-package eu.luminis.general;
+package eu.luminis.events;
 
 import java.util.Observable;
 

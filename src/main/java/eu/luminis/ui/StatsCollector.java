@@ -1,7 +1,7 @@
 package eu.luminis.ui;
 
-import eu.luminis.general.Event;
-import eu.luminis.general.EventType;
+import eu.luminis.events.Event;
+import eu.luminis.events.EventType;
 import eu.luminis.robots.sim.SimRobot;
 import eu.luminis.robots.sim.SimRobotPopulation;
 

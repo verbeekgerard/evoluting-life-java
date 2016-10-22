@@ -1,5 +1,7 @@
 package eu.luminis.general;
 
+import eu.luminis.events.EventBroadcaster;
+import eu.luminis.events.EventType;
 import eu.luminis.robots.sim.SimWorld;
 
 public class Simulation {

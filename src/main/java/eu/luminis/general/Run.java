@@ -1,5 +1,6 @@
 package eu.luminis.general;
 
+import eu.luminis.events.EventBroadcaster;
 import eu.luminis.export.ExportInfoImpl;
 import eu.luminis.ui.Canvas;
 import eu.luminis.ui.StatsCollector;

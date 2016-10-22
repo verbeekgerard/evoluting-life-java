@@ -36,7 +36,6 @@ class SimMotorsController implements IMotorsController {
         velocityRight -= velocityRight * linearFriction;
 
         p.a += (velocityLeft - velocityRight) / 10;
-        p.boundAngle();
 
         // Convert movement vector into polar
         double dx = (Math.cos(p.a) * getVelocity());

@@ -1,8 +1,8 @@
 package eu.luminis.ui;
 
 import eu.luminis.geometry.Position;
-import eu.luminis.general.Event;
-import eu.luminis.general.EventType;
+import eu.luminis.events.Event;
+import eu.luminis.events.EventType;
 import eu.luminis.general.Options;
 import eu.luminis.robots.sim.*;
 
