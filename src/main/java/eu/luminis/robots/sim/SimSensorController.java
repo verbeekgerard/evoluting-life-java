@@ -11,12 +11,13 @@ import java.util.List;
 import java.util.Optional;
 
 class SimSensorController implements ISensorController {
-    private SimRobot owner;
-    private double viewDistance;
-    private double viewAngle = Math.PI;
-    private IAngleRetriever angleRetriever;
-    private SensorFilter sensorFilter;
-    private CollisionDetector collisionDetector = new CollisionDetector();
+    private final static CollisionDetector collisionDetector = new CollisionDetector();
+
+    private final SimRobot owner;
+    private final double viewDistance;
+    private final double viewAngle = Math.PI;
+    private final IAngleRetriever angleRetriever;
+    private final SensorFilter sensorFilter;
 
     private List<SimObstacle> nearbySimObstacles;
 

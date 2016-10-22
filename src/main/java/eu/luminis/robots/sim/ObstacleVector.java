@@ -1,9 +1,9 @@
 package eu.luminis.robots.sim;
 
 class ObstacleVector implements Comparable<ObstacleVector> {
-	private double distance;
-	private double angle;
-	private double size;
+	private final double distance;
+	private final double angle;
+	private final double size;
 
 	public ObstacleVector(double distance, double angle, double size){
 		this.distance = distance;

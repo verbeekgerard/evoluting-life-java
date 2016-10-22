@@ -19,9 +19,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class SimRobotPopulation {
-    private SimWorld world;
+    private final SimWorld world;
     private final BorderDimensionsPositionGenerator borderDimensionsPositionGenerator;
-    private List<SimRobot> simRobots = new CopyOnWriteArrayList<>(); // Slow lost but no exceptions in UI
+    private final List<SimRobot> simRobots = new CopyOnWriteArrayList<>(); // Slow lost but no exceptions in UI
     private SimRobot winningEntity;
 
     private double populationSize;
@@ -46,7 +46,7 @@ public class SimRobotPopulation {
     }
 
     public void importPopulation(String json) {
-        simRobots = new CopyOnWriteArrayList<>();
+        simRobots.clear();
 
         Type listType = new TypeToken<ArrayList<Genome>>(){}.getType();
         List<Genome> genomes = new Gson().fromJson(json, listType);

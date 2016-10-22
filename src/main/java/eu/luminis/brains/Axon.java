@@ -1,12 +1,12 @@
 package eu.luminis.brains;
 
 class Axon {
-	
-	private double strength;
-	private Neuron targetNeuron;
+	private final double strength;
+	private final Neuron targetNeuron;
 	
 	public Axon(double strength) {
 		this.strength = strength;
+		this.targetNeuron = null;
 	}
 	
 	public Axon(double strength, Neuron targetNeuron) {
@@ -14,7 +14,8 @@ class Axon {
 		this.targetNeuron = targetNeuron;
 	}
 	
-	public void transmit(){
+	public void transmit() {
+		assert targetNeuron != null;
 		targetNeuron.excite(strength);
 	}	
 }

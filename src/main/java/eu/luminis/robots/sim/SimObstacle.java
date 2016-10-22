@@ -6,10 +6,11 @@ import eu.luminis.events.EventType;
 import eu.luminis.genetics.LifeGene;
 
 public abstract class SimObstacle {
+    protected final static EventBroadcaster eventBroadcaster = EventBroadcaster.getInstance();
+
     private final SimWorld world;
     private final Position position;
     private final SimLife life;
-    protected EventBroadcaster eventBroadcaster = EventBroadcaster.getInstance();
 
     public SimObstacle(SimWorld world, Position position, LifeGene lifeGene) {
         this.world = world;

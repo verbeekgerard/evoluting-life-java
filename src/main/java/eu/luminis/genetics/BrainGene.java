@@ -9,7 +9,7 @@ import eu.luminis.util.Range;
 
 public class BrainGene {
 	
-	private List<List<NeuronGene>> layers = new ArrayList<>();
+	private final List<List<NeuronGene>> layers = new ArrayList<>();
 	
 	public BrainGene(int inputCount, int outputCount) {
 		// Construct the output layer

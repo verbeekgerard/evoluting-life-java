@@ -8,9 +8,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class MutationFractionModifier implements Observer {
-    private Range mutationRange = new Range(Options.minMutationFraction.get(), Options.maxMutationFraction.get());
-    private int modificationPeriod = (int)Options.mutationFractionModificationPeriod.get();
-    private double mutationFractionExponent = Options.mutationFractionExponent.get();
+    private static final Range mutationRange = new Range(Options.minMutationFraction.get(), Options.maxMutationFraction.get());
+    private static final int modificationPeriod = (int)Options.mutationFractionModificationPeriod.get();
+    private static final double mutationFractionExponent = Options.mutationFractionExponent.get();
 
     private int periods = 0;
     private int iteration = 0;

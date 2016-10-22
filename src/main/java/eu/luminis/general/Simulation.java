@@ -5,18 +5,18 @@ import eu.luminis.events.EventType;
 import eu.luminis.robots.sim.SimWorld;
 
 public class Simulation {
-	
+
+    private static final Simulation singleton = new Simulation();
+    public static Simulation getInstance() {
+        return singleton;
+    }
+
+    private final SimWorld world;
+
 	private Thread mainThread;
 	private boolean loop = true;
     private int iteration = 0;
 
-	private SimWorld world;
-
-	private static Simulation singleton = new Simulation();
-	public static Simulation getInstance() {
-      return singleton;
-	}
-	
 	private Simulation() {
 		this.world = new SimWorld();
 	}

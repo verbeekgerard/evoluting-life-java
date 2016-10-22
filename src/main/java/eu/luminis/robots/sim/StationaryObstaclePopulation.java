@@ -10,7 +10,7 @@ public class StationaryObstaclePopulation {
     private final SimWorld world;
     private final BorderDimensionsPositionGenerator borderDimensionsPositionGenerator;
 
-    private List<SimObstacle> roundSimObstacles = new CopyOnWriteArrayList<>(); // Slow lost but no exceptions in UI
+    private final List<SimObstacle> roundSimObstacles = new CopyOnWriteArrayList<>(); // Slow lost but no exceptions in UI
 
     public StationaryObstaclePopulation(SimWorld world) {
         this.world = world;

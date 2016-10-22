@@ -11,7 +11,8 @@ import eu.luminis.robots.core.IAngleRetriever;
 import eu.luminis.robots.core.Robot;
 
 public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
-    private CostCalculator costCalculator = CostCalculator.getInstance();
+    private static final double initialEnergy = Options.initialEnergy.get();
+    private static final CostCalculator costCalculator = CostCalculator.getInstance();
 
     private final Genome genome;
     private final Robot robot;
@@ -19,21 +20,19 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     private final SimServoController servoController;
     private final SimSensorController sensorController;
 
-    private TravelledDistanceRecorder distanceRecorder;
+    private final TravelledDistanceRecorder distanceRecorder;
+    private final double size;
 
-    private double initialEnergy;
-    private double usedEnergy = 0;
+    private double cycleCost = 0;
     private double movementCost = 0;
     private double headTurnCost = 0;
     private double collisionDamage = 0;
 
-    private double size;
     private boolean isColliding = false;
 
     public SimRobot(Genome genome, Position position, SimWorld world) {
         super(world, position, genome.getLife());
         this.genome = genome;
-        this.initialEnergy = Options.initialEnergy.get();
         this.size = Options.sizeOption.get();
         this.distanceRecorder = new TravelledDistanceRecorder(position);
 
@@ -50,7 +49,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     }
 
     public Double fitness() {
-        return this.initialEnergy + getDistanceReward() - usedEnergy - collisionDamage - movementCost - headTurnCost;
+        return initialEnergy + getDistanceReward() - cycleCost - collisionDamage - movementCost - headTurnCost;
     }
 
     public boolean isColliding() {
@@ -103,7 +102,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
         robot.run();
         isColliding = sensorController.isColliding();
 
-        usedEnergy += this.costCalculator.cycle();
+        cycleCost += this.costCalculator.cycle();
     }
 
     @Override

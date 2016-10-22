@@ -7,8 +7,8 @@ import eu.luminis.genetics.BrainGene;
 import eu.luminis.genetics.NeuronGene;
 
 public class Brain {
-	private List<Layer> layers = new ArrayList<>();
-	private InputLayer inputLayer;
+	private final List<Layer> layers = new ArrayList<>();
+	private final InputLayer inputLayer;
 	
 	public Brain(BrainGene gen) {
 		List<List<NeuronGene>> genLayers = gen.getLayers();

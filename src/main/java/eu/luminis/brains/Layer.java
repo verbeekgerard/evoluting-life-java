@@ -8,7 +8,7 @@ import eu.luminis.genetics.NeuronGene;
 
 class Layer {
 
-	private List<Neuron> neurons = new ArrayList<>();
+	private final List<Neuron> neurons = new ArrayList<>();
 	
 	public Layer(List<NeuronGene> genomeLayer) {
 		this(genomeLayer, null);

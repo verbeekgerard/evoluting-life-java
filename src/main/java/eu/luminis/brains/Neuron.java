@@ -7,10 +7,10 @@ import eu.luminis.genetics.*;
 
 class Neuron {
 
-	private List<Axon> axons = new ArrayList<>();
-	private double excitation = 0;
-    private double threshold;
-    private double relaxation;
+	private final List<Axon> axons = new ArrayList<>();
+    private final double threshold;
+    private final double relaxation;
+    private double excitation = 0;
 
 	public Neuron(NeuronGene gene, List<Neuron> targetNeurons){
 		this.threshold = gene.getThreshold();

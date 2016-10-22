@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class NeuronGene extends Gene {
 	private double threshold;
 	private double relaxation;
-    private List<AxonGene> axons = new ArrayList<>();
+    private final List<AxonGene> axons = new ArrayList<>();
 
 	public NeuronGene(int maxOutputs) {
         initializeThreshold();

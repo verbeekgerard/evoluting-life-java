@@ -5,10 +5,10 @@ import eu.luminis.general.Options;
 import eu.luminis.robots.core.IMotorsController;
 
 class SimMotorsController implements IMotorsController {
-    private SimRobot owner;
+    private final static double linearFriction = Options.linearFriction.get();
 
+    private final SimRobot owner;
     private final double linearForce;
-    private double linearFriction = Options.linearFriction.get();
 
     private double velocityLeft = 0;
     private double velocityRight = 0;

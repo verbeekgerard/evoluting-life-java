@@ -3,7 +3,7 @@ package eu.luminis.events;
 import java.util.Observable;
 
 public class EventBroadcaster extends Observable {
-    private static EventBroadcaster singleton = new EventBroadcaster();
+    private static final EventBroadcaster singleton = new EventBroadcaster();
 
     public static EventBroadcaster getInstance() {
         return singleton;

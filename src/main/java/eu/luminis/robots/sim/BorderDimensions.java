@@ -3,10 +3,10 @@ package eu.luminis.robots.sim;
 import eu.luminis.geometry.IBorderDimensions;
 
 class BorderDimensions implements IBorderDimensions {
-    private int minX;
-    private int maxX;
-    private int minY;
-    private int maxY;
+    private final int minX;
+    private final int maxX;
+    private final int minY;
+    private final int maxY;
 
     public BorderDimensions(int width, int height) {
         minX = 0;

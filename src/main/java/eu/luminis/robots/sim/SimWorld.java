@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimWorld implements IBorderDimensions {
-    private SimRobotPopulation robotPopulation;
-    private StationaryObstaclePopulation obstaclePopulation;
+    private final SimRobotPopulation robotPopulation;
+    private final StationaryObstaclePopulation obstaclePopulation;
 
     public SimWorld() {
         this.obstaclePopulation = new StationaryObstaclePopulation(this);

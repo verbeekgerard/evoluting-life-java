@@ -5,7 +5,7 @@ import eu.luminis.geometry.Position;
 import eu.luminis.util.Range;
 
 class BorderDimensionsPositionGenerator {
-    private IBorderDimensions borderDimensions;
+    private final IBorderDimensions borderDimensions;
 
     public BorderDimensionsPositionGenerator(IBorderDimensions borderDimensions) {
         this.borderDimensions = borderDimensions;
@@ -31,5 +31,4 @@ class BorderDimensionsPositionGenerator {
 
         return new Position(rangeX.random(), rangeY.random(), Math.random() * Math.PI * 2);
     }
-
 }

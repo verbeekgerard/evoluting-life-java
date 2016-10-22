@@ -5,10 +5,10 @@ import java.util.List;
 
 public class Genome {
 
-	private BrainGene brain;
-	private LifeGene life;
-	private SensorGene sensor;
-	private MovementGene movement;
+	private final BrainGene brain;
+	private final LifeGene life;
+	private final SensorGene sensor;
+	private final MovementGene movement;
 	
 	public Genome(int inputCount, int outputCount){
 		this.brain = new BrainGene(inputCount, outputCount);
