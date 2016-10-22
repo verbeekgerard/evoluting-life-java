@@ -8,7 +8,7 @@ class SimServoController implements IServoController {
     private double angle;
 
     private final double angularForce;
-    private double angularFriction = Options.linearFriction.get();
+    private double angularFriction = Options.angularFriction.get();
     private double angularVelocity = 0;
 
     public SimServoController(SimRobot owner, double angularForce) {
@@ -27,7 +27,7 @@ class SimServoController implements IServoController {
         angularVelocity += angularAcceleration;
         angularVelocity -= angularVelocity * angularFriction;
 
-        angle += angularVelocity * 1;
+        angle += angularVelocity;
 
         if (angle < -1 * Math.PI/2) {
             angle = -1 * Math.PI/2;
