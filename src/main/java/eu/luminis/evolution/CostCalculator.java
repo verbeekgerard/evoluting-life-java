@@ -18,7 +18,7 @@ public final class CostCalculator {
 	}
 
 	public double collide(double velocity) {
-		return ENERGY_COST * Math.abs(velocity) * 20000;
+		return ENERGY_COST * (Math.abs(velocity) + 0.01) * 20000;
 	}
 	
 	public double distanceReward(double distance) {

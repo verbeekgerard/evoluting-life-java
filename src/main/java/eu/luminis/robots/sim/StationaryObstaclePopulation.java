@@ -40,7 +40,7 @@ public class StationaryObstaclePopulation {
     }
 
     private Position createRandomPosition() {
-        return borderDimensionsPositionGenerator.createRandomPositionWithinRelativeBorder(2);
+        return borderDimensionsPositionGenerator.createRandomPositionWithinFixedBorder(2);
     }
 
     private RoundSimObstacle spawnNewRoundSimObstacle() {

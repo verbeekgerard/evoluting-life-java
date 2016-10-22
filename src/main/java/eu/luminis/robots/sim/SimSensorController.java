@@ -53,7 +53,7 @@ class SimSensorController implements ISensorController {
     }
 
     public boolean isColliding() {
-        return collidesWithAny(nearbySimObstacles);
+        return collidesWithAny(nearbySimObstacles) || collidesWithWall();
     }
 
     private boolean isLookingAt(double sensorAngle, ObstacleVector obstacleWithinSight) {
@@ -143,6 +143,24 @@ class SimSensorController implements ISensorController {
 
     private boolean collidesWith(SimObstacle simObstacle) {
         boolean colliding = collisionDetector.colliding(owner, simObstacle);
+        if (!colliding) return false;
+
+        owner.recordCollision();
+
+        return true;
+    }
+
+    private boolean collidesWithWall() {
+        Position ownerPosition = owner.getPosition();
+        double ownerRadius = owner.getSize() / 2;
+        SimWorld world = owner.getWorld();
+
+        boolean colliding =
+                ownerPosition.x - world.getMinX() <= ownerRadius ||
+                world.getMaxX() - ownerPosition.x <= ownerRadius ||
+                ownerPosition.y - world.getMinY() <= ownerRadius ||
+                world.getMaxY() - ownerPosition.y <= ownerRadius;
+
         if (!colliding) return false;
 
         owner.recordCollision();

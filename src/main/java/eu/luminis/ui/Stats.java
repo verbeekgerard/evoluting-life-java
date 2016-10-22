@@ -75,7 +75,7 @@ public class Stats {
                 "totalCollisions:\t" + totalCollisions + "\t" +
 //                "totalStarved:\t" + totalStarved + "\t" +
 //                "totalWandered:\t" + totalWandered + "\t" +
-                "totalDiedOfAge:\t" + totalDiedOfAge + "\t" +
+//                "totalDiedOfAge:\t" + totalDiedOfAge + "\t" +
                 "best:\t" + df2.format(avgBestFitness) + "\t" +
                 "mutationFraction:\t" + getMutationFraction();
     }

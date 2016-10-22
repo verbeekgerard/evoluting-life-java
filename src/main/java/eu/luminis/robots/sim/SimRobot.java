@@ -58,7 +58,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
 
     @Override
     public int compareTo(SimRobot other) {
-        return other.fitness().compareTo(this.fitness());
+        return other.fitness().compareTo(fitness());
     }
 
     @Override
@@ -66,7 +66,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
         double fitness = fitness();
         double fitnessN = fitness > 0 ? 1 - 1 / Math.exp(fitness / 200) : 0;
 
-        return this.size * (1 + 0.75 * fitnessN);
+        return size * (1 + 0.75 * fitnessN);
     }
 
     public Genome getGenome() {
@@ -80,7 +80,10 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
 
     public void recordCollision() {
         double velocity = motorsController.getVelocity();
-        this.collisionDamage += costCalculator.collide(velocity);
+        collisionDamage += costCalculator.collide(velocity);
+
+        preventOverlap(velocity);
+
         eventBroadcaster.broadcast(EventType.COLLIDE, collisionDamage);
     }
 
@@ -102,7 +105,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
         robot.run();
         isColliding = sensorController.isColliding();
 
-        cycleCost += this.costCalculator.cycle();
+        cycleCost += costCalculator.cycle();
     }
 
     @Override
@@ -112,5 +115,16 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
 
     private double getDistanceReward() {
         return costCalculator.distanceReward(distanceRecorder.getTotalDistance());
+    }
+
+    private void preventOverlap(double velocity) {
+        Position position = getPosition();
+
+        double dx = Math.cos(position.a) * velocity;
+        double dy = Math.sin(position.a) * velocity;
+
+        // Move the entity opposite to it's velocity
+        position.x -= dx;
+        position.y -= dy;
     }
 }
