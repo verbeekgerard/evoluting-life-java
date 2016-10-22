@@ -25,7 +25,7 @@ public final class CostCalculator {
 		return ENERGY_COST * Math.abs(distance) * 50;
 	}
 
-	public double turnHead(double servoAcceleration) {
-		return ENERGY_COST * Math.abs(servoAcceleration) / 4;
+	public double turnHead(double angularAcceleration) {
+		return ENERGY_COST * Math.abs(angularAcceleration) / 4;
 	}
 }

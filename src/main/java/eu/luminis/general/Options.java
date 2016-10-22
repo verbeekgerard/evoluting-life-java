@@ -45,10 +45,10 @@ public final class Options {
 	}
 	
 	public static Option linearFriction = new Option(0.06); // 0.065 // 0.024
-	public static Option angularFriction = new Option(0.15); // 0.25 // 0.08
+	public static Option angularFriction = new Option(0.5); // 0.25 // 0.08
 
-	private static double minA = calculateForce(0.1, angularFriction.get());
-	private static double maxA = calculateForce(1.0, angularFriction.get());
+	private static double minA = calculateForce(0.5, angularFriction.get()); // 0.1
+	private static double maxA = calculateForce(2.0, angularFriction.get()); // 1.0
 	private static double minL = calculateForce(5.0, linearFriction.get());
 	private static double maxL = calculateForce(50.0,linearFriction.get());
 	
