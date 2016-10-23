@@ -32,8 +32,8 @@ public final class Options {
 	// SensorGene
 	public static Option minViewDistance = new Option(16 * 10);
 	public static Option maxViewDistance = new Option(16 * 12);
-	public static Option minFieldOfView = new Option(Math.PI / 32);
-	public static Option maxFieldOfView = new Option(Math.PI / 30);
+	public static Option minFieldOfView = new Option(Math.PI/2);
+	public static Option maxFieldOfView = new Option(Math.PI);
 	public static Option viewDistanceMutationRate = new Option(0.05);
 	public static Option viewDistanceReplacementRate = new Option(0.005);
 	public static Option fieldOfViewMutationRate = new Option(0.05);

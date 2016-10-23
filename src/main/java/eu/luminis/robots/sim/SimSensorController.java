@@ -15,14 +15,15 @@ class SimSensorController implements ISensorController {
 
     private final SimRobot owner;
     private final double viewDistance;
-    private final double viewAngle = Math.PI;
+    private final double viewAngle;
     private final IAngleRetriever angleRetriever;
     private final SensorFilter sensorFilter;
 
     private List<SimObstacle> nearbySimObstacles;
 
-    public SimSensorController(SimRobot owner, double viewDistance, IAngleRetriever angleRetriever) {
+    public SimSensorController(SimRobot owner, double viewAngle, double viewDistance, IAngleRetriever angleRetriever) {
         this.owner = owner;
+        this.viewAngle = viewAngle;
         this.viewDistance = viewDistance;
         this.angleRetriever = angleRetriever;
         this.sensorFilter = new SensorFilter(owner, viewDistance);

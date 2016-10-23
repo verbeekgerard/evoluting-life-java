@@ -36,12 +36,12 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
         this.size = Options.sizeOption.get();
         this.distanceRecorder = new TravelledDistanceRecorder(position);
 
-        BrainGene brainGene = genome.getBrain();
-        motorsController = new SimMotorsController(this, genome.getMovement().getLinearForce());
-        servoController = new SimServoController(this, genome.getMovement().getAngularForce());
-        sensorController = new SimSensorController(this, genome.getSensor().getViewDistance(), servoController);
+        Brain brain = initializeBrain(genome);
+        motorsController = initializeMotorsController(genome);
+        servoController = initializeServoController(genome);
+        sensorController = initializeSensorController(genome);
         robot = new Robot(
-                new Brain(brainGene),
+                brain,
                 motorsController,
                 servoController,
                 sensorController
@@ -111,6 +111,22 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     @Override
     protected boolean isAlive() {
         return fitness() > 0;
+    }
+
+    private Brain initializeBrain(Genome genome) {
+        return new Brain(genome.getBrain());
+    }
+
+    private SimMotorsController initializeMotorsController(Genome genome) {
+        return new SimMotorsController(this, genome.getMovement().getLinearForce());
+    }
+
+    private SimServoController initializeServoController(Genome genome) {
+        return new SimServoController(this, genome.getSensor().getFieldOfView(), genome.getMovement().getAngularForce());
+    }
+
+    private SimSensorController initializeSensorController(Genome genome) {
+        return new SimSensorController(this, genome.getSensor().getFieldOfView(), genome.getSensor().getViewDistance(), servoController);
     }
 
     private double getDistanceReward() {

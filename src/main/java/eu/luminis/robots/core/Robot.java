@@ -27,7 +27,7 @@ public class Robot {
         double servoAngle = servoController.getAngle();
 
         // 2. think
-        BrainInput input = new BrainInput(distance, sensorController.getViewDistance(), servoAngle, Math.PI, servoAngle - previousServoAngle);
+        BrainInput input = new BrainInput(distance, sensorController.getViewDistance(), servoAngle, servoController.getViewAngle(), servoAngle - previousServoAngle);
         List<Double> output = brain.think(input.getValues());
         BrainOutput brainOutput = new BrainOutput(output);
 

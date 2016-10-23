@@ -1,7 +1,7 @@
 package eu.luminis.general;
 
 import eu.luminis.events.EventBroadcaster;
-import eu.luminis.export.ExportInfoImpl;
+import eu.luminis.export.StatisticsExporter;
 import eu.luminis.ui.Canvas;
 import eu.luminis.ui.StatsCollector;
 import eu.luminis.ui.MainPanel;
@@ -38,7 +38,7 @@ public class Run {
 
     private static void initializeExportInfo(Simulation simulation, EventBroadcaster eventBroadcaster) {
         StatsCollector statsCollector = createStatsCollectorInstance(simulation, eventBroadcaster);
-        ExportInfoImpl.create(statsCollector);
+        StatisticsExporter.create(statsCollector);
     }
 
     private static void initializeStatsPrinter(Simulation simulation, EventBroadcaster eventBroadcaster) {

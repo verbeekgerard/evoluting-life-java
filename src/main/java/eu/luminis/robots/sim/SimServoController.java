@@ -5,17 +5,21 @@ import eu.luminis.robots.core.IServoController;
 import eu.luminis.util.Range;
 
 class SimServoController implements IServoController {
-    private final static Range viewAngleRange = new Range(-1 * Math.PI/2, Math.PI/2);
     private final static double angularFriction = Options.angularFriction.get();
 
     private final SimRobot owner;
-    private double angle;
+    private final double viewAngle;
     private final double angularForce;
+    private final Range viewAngleRange;
+
+    private double angle;
     private double angularVelocity = 0;
 
-    public SimServoController(SimRobot owner, double angularForce) {
+    public SimServoController(SimRobot owner, double viewAngle, double angularForce) {
         this.owner = owner;
+        this.viewAngle = viewAngle;
         this.angularForce = angularForce;
+        this.viewAngleRange = new Range(-1 * viewAngle/2, viewAngle/2);
     }
 
     @Override
@@ -36,5 +40,10 @@ class SimServoController implements IServoController {
         }
 
         owner.recordAngleChange(acceleration);
+    }
+
+    @Override
+    public double getViewAngle() {
+        return viewAngle;
     }
 }

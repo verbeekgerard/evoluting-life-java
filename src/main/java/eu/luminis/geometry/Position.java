@@ -24,23 +24,15 @@ public class Position {
 	}
 
 	public double calculateDistance(Position other) {
-		return Math.sqrt(Math.pow(other.x-x, 2) + Math.pow(other.y-y, 2));
+		return Math.sqrt(calculateSquaredDistance(other));
 	}
+
+    public double calculateSquaredDistance(Position other) {
+        return Math.pow(other.x-x, 2) + Math.pow(other.y-y, 2);
+    }
 
     public double calculateAngle(Position other) {
         return Radians.getBoundedArcTan(other.x-x, other.y-y);
-    }
-
-    public void boundAngle() {
-        a = Radians.getBounded(a);
-    }
-
-    public double getBoundedAngle() {
-		return Radians.getBounded(a);
-	}
-
-    public Position getRelativeDifference(Position other) {
-        return new Position(other.x-x, other.y-y, Radians.getBoundedDifference(a, other.a));
     }
 
     @Override

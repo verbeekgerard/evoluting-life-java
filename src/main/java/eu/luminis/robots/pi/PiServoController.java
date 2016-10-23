@@ -16,4 +16,10 @@ public class PiServoController implements IServoController {
         // TODO: Call moveTo on the R-Pi API
         throw new NotImplementedException();
     }
+
+    @Override
+    public double getViewAngle() {
+        // TODO: Find out what the maximum angles are
+        throw new NotImplementedException();
+    }
 }
