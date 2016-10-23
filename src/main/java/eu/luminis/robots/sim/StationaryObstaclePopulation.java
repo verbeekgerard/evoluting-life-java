@@ -8,13 +8,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class StationaryObstaclePopulation {
     private final SimWorld world;
-    private final BorderDimensionsPositionGenerator borderDimensionsPositionGenerator;
+    private final PositionGenerator positionGenerator;
 
     private final List<SimObstacle> roundSimObstacles = new CopyOnWriteArrayList<>(); // Slow lost but no exceptions in UI
 
     public StationaryObstaclePopulation(SimWorld world) {
         this.world = world;
-        this.borderDimensionsPositionGenerator = new BorderDimensionsPositionGenerator(world);
+        this.positionGenerator = new PositionGenerator(world);
 
         double populationSize = (int)Options.roundObstaclePopulationSize.get();
         for (int i = 0; i < populationSize; i++) {
@@ -40,7 +40,7 @@ public class StationaryObstaclePopulation {
     }
 
     private Position createRandomPosition() {
-        return borderDimensionsPositionGenerator.createRandomPositionWithinFixedBorder(2);
+        return positionGenerator.createRandomPositionWithinFixedBorder(2);
     }
 
     private RoundSimObstacle spawnNewRoundSimObstacle() {

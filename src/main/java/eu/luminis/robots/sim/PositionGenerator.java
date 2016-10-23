@@ -4,10 +4,10 @@ import eu.luminis.geometry.IBorderDimensions;
 import eu.luminis.geometry.Position;
 import eu.luminis.util.Range;
 
-class BorderDimensionsPositionGenerator {
+class PositionGenerator {
     private final IBorderDimensions borderDimensions;
 
-    public BorderDimensionsPositionGenerator(IBorderDimensions borderDimensions) {
+    public PositionGenerator(IBorderDimensions borderDimensions) {
         this.borderDimensions = borderDimensions;
     }
 
