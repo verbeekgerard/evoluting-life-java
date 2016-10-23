@@ -6,92 +6,93 @@ public final class Options {
 
     private Options() {}
 	
-	public static Option mainLoopSleep = new Option(0);
+	public final static Option mainLoopSleep = new Option(0);
 
-	public static Option mutationFraction = new Option(0.01);
-	public static Option minMutationFraction = new Option(0.0001);
-	public static Option maxMutationFraction = new Option(0.01);
-	public static Option mutationFractionModificationPeriod = new Option(100);
-	public static Option mutationFractionExponent = new Option(-1.0/1000000.0);
+	// Evolution
+	public final static Option mutationFraction = new Option(0.01);
+	public final static Option minMutationFraction = new Option(0.0001);
+	public final static Option maxMutationFraction = new Option(0.01);
+	public final static Option mutationFractionModificationPeriod = new Option(100);
+	public final static Option mutationFractionExponent = new Option(-1.0/1000000.0);
 
 	// LifeGene
-    public static Option minOldAge = new Option(3000);
-    public static Option maxOldAge = new Option(4000);
-    public static Option oldAgeMutationRate = new Option(0.05);
+    public final static Option minOldAge = new Option(3000);
+    public final static Option maxOldAge = new Option(4000);
+    public final static Option oldAgeMutationRate = new Option(0.05);
 
 	// RoundSimObstacle
-	public static Option minRoundObstacleSize = new Option(6);
-	public static Option maxRoundObstacleSize = new Option(14);
-	public static Option minGrowthPercentage = new Option(0.00001);
-	public static Option maxGrowthPercentage = new Option(0.00005);
-	public static Option roundObstaclePopulationSize = new Option(10*8);
+	public final static Option minRoundObstacleSize = new Option(6);
+	public final static Option maxRoundObstacleSize = new Option(14);
+	public final static Option minGrowthPercentage = new Option(0.00001);
+	public final static Option maxGrowthPercentage = new Option(0.00005);
+	public final static Option roundObstaclePopulationSize = new Option(10*8);
 
 	// SimRobot
-	public static Option sizeOption = new Option(12);
-	public static Option initialEnergy = new Option(8);
-	public static Option populationSize = new Option(16*8);
+	public final static Option sizeOption = new Option(12);
+	public final static Option initialEnergy = new Option(8);
+	public final static Option populationSize = new Option(16*8);
 
 	// SensorGene
-	public static Option minViewDistance = new Option(16 * 10);
-	public static Option maxViewDistance = new Option(16 * 12);
-	public static Option minFieldOfView = new Option(Math.PI/2);
-	public static Option maxFieldOfView = new Option(Math.PI);
-	public static Option viewDistanceMutationRate = new Option(0.05);
-	public static Option viewDistanceReplacementRate = new Option(0.005);
-	public static Option fieldOfViewMutationRate = new Option(0.05);
-	public static Option fieldOfViewReplacementRate = new Option(0.005);
+	public final static Option minViewDistance = new Option(16 * 10);
+	public final static Option maxViewDistance = new Option(16 * 12);
+	public final static Option minFieldOfView = new Option(Math.PI * 0.6);
+	public final static Option maxFieldOfView = new Option(Math.PI);
+	public final static Option viewDistanceMutationRate = new Option(0.05);
+	public final static Option viewDistanceReplacementRate = new Option(0.005);
+	public final static Option fieldOfViewMutationRate = new Option(0.05);
+	public final static Option fieldOfViewReplacementRate = new Option(0.005);
 	
 	// MovementGene
-	public static double calculateForce(double maxVelocity, double friction){
+	private static double calculateForce(double maxVelocity, double friction){
         return maxVelocity * friction;
 	}
 	
-	public static Option linearFriction = new Option(0.06); // 0.065 // 0.024
-	public static Option angularFriction = new Option(0.5); // 0.25 // 0.08
+	public final static Option linearFriction = new Option(0.06); // 0.06
+	public final static Option angularFriction = new Option(0.1); // 0.5
 
-	private static double minA = calculateForce(0.5, angularFriction.get()); // 0.1
-	private static double maxA = calculateForce(2.0, angularFriction.get()); // 1.0
+	private static double minA = calculateForce(0.1, angularFriction.get()); // 0.1
+	private static double maxA = calculateForce(1.2, angularFriction.get()); // 1.0
 	private static double minL = calculateForce(5.0, linearFriction.get());
 	private static double maxL = calculateForce(50.0,linearFriction.get());
 	
-	public static Option minAngularForce = new Option(minA);
-	public static Option maxAngularForce = new Option(maxA);
-	public static Option minLinearForce = new Option(minL);
-	public static Option maxLinearForce = new Option(maxL);
+	public final static Option minAngularForce = new Option(minA);
+	public final static Option maxAngularForce = new Option(maxA);
+	public final static Option minLinearForce = new Option(minL);
+	public final static Option maxLinearForce = new Option(maxL);
 
-	public static Option angularForceMutationRate = new Option(0.15);
-	public static Option angularForceReplacementRate = new Option(0.005);
-	public static Option linearForceMutationRate = new Option(0.15);
-	public static Option linearForceReplacementRate = new Option(0.005);
+	public final static Option angularForceMutationRate = new Option(0.15);
+	public final static Option angularForceReplacementRate = new Option(0.005);
+	public final static Option linearForceMutationRate = new Option(0.15);
+	public final static Option linearForceReplacementRate = new Option(0.005);
 		
 	// BrainGene
-	public static Option minHiddenLayers = new Option(1);
-	public static Option maxHiddenLayers = new Option(5);
-	public static Option maxNeuronsPerLayer = new Option(16);
-	public static Option layerMutationRate = new Option(0.01);    // adding or removing a neuron
-	public static Option geneMutationRate = new Option(0.3);    // percentual chance of genes within a genome to mutate
-	public static Option geneReplacementRate = new Option(0.001);  // completely replacing a genes properties
+	public final static Option minHiddenLayers = new Option(2);
+	public final static Option maxHiddenLayers = new Option(4);
+	public final static Option maxNeuronsPerLayer = new Option(16);
+	public final static Option layerMutationRate = new Option(0.01);    // adding or removing a neuron
+	public final static Option neuronMutationRate = new Option(0.2);
+	public final static Option neuronReplacementRate = new Option(0.001);
 	
 	// NeuronGene
-	public static Option minThreshold = new Option(0.1);
-	public static Option maxThreshold = new Option(1.0);
-	public static Option maxRelaxation = new Option(99.0);
+	public final static Option minThreshold = new Option(0.1);
+	public final static Option maxThreshold = new Option(1.0);
+	public final static Option maxRelaxation = new Option(99.0);
 
-	public static Option thresholdMutationRate = new Option(0.05);
-	public static Option thresholdReplacementRate = new Option(0.005);
-	public static Option relaxationMutationRate = new Option(0.05);
-	public static Option relaxationReplacementRate = new Option(0.005);
+	public final static Option thresholdMutationRate = new Option(0.05);
+	public final static Option thresholdReplacementRate = new Option(0.005);
+	public final static Option relaxationMutationRate = new Option(0.05);
+	public final static Option relaxationReplacementRate = new Option(0.005);
 	
 	// AxonGene
-	public static Option maxStrength = new Option(0.8);
-	public static Option minStrengthening = new Option(0.000001);
-	public static Option maxStrengthening = new Option(0.00002);
-	public static Option minWeakening = new Option(0.000001);
-	public static Option maxWeakening = new Option(0.000005);
-	public static Option strengthMutationRate = new Option(0.05);
-	public static Option strengthReplacementRate = new Option(0.005);
-	public static Option strengtheningMutationRate = new Option(0.05);
-	public static Option strengtheningReplacementRate = new Option(0.005);
-	public static Option weakeningMutationRate = new Option(0.05);
-	public static Option weakeningReplacementRate = new Option(0.005);
+	public final static Option maxStrength = new Option(0.8);
+	public final static Option minStrengthening = new Option(0.000001);
+	public final static Option maxStrengthening = new Option(0.00002);
+	public final static Option minWeakening = new Option(0.000001);
+	public final static Option maxWeakening = new Option(0.000005);
+	public final static Option strengthMutationRate = new Option(0.05);
+	public final static Option strengthReplacementRate = new Option(0.005);
+	public final static Option strengtheningMutationRate = new Option(0.05);
+	public final static Option strengtheningReplacementRate = new Option(0.005);
+	public final static Option weakeningMutationRate = new Option(0.05);
+	public final static Option weakeningReplacementRate = new Option(0.005);
 }

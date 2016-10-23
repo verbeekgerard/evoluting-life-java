@@ -50,34 +50,37 @@ public class Canvas extends JPanel implements Observer {
 
 		drawFieldOfView(robotPopulation.getWinningEntity(), g);
 
-		for (SimObstacle plant : obstaclePopulation.getAllRoundObstacles()) {
-			drawObstacle(plant, g);
+		for (SimObstacle obstacle : obstaclePopulation.getAllRoundObstacles()) {
+			drawObstacle(obstacle, g);
 		}
 
-		for (SimRobot animal : robotPopulation.getAllRobots()) {
-			drawCollisionBody(animal, g);
-			drawRobot(animal, robotPopulation.getWinningEntity(), g);
+		for (SimRobot robot : robotPopulation.getAllRobots()) {
+            //drawFieldOfView(robot, g);
+			drawCollisionBody(robot, g);
+			drawRobot(robot, robotPopulation.getWinningEntity(), g);
 		}
 	}
 
 	private void drawFieldOfView(SimRobot robot, Graphics g) {
-		if (robotPopulation.getWinningEntity() != null) {
-			Graphics2D g2 = (Graphics2D) g;
-
-			Position animalPosition = robot.getPosition();
-			double servoAngle = robot.getServo().getAngle();
-            double fieldOfView = Math.PI / 30;
-            double viewDistance = Options.maxViewDistance.get();
-
-			Color c = new Color(.9f, .9f, .9f, .1f);
-			g2.setColor(c);
-			g2.fillArc(new Double(animalPosition.x - (viewDistance / 2)).intValue(),
-					new Double(animalPosition.y - (viewDistance / 2)).intValue(),
-					new Double(viewDistance).intValue(),
-					new Double(viewDistance).intValue(),
-					new Double(Math.toDegrees(-1 * (animalPosition.a + servoAngle) + fieldOfView / 2)).intValue(),
-					new Double(-1 * Math.toDegrees(fieldOfView)).intValue());
+		if (robotPopulation.getWinningEntity() == null) {
+			return;
 		}
+
+		Graphics2D g2 = (Graphics2D) g;
+
+		Position robotPosition = robot.getPosition();
+		double servoAngle = robot.getServo().getAngle();
+		double fieldOfView = Math.PI / 30;
+		double viewDistance = Options.maxViewDistance.get();
+
+		Color c = new Color(.9f, .9f, .9f, .1f);
+		g2.setColor(c);
+		g2.fillArc(new Double(robotPosition.x - (viewDistance / 2)).intValue(),
+                new Double(robotPosition.y - (viewDistance / 2)).intValue(),
+                new Double(viewDistance).intValue(),
+                new Double(viewDistance).intValue(),
+                new Double(Math.toDegrees(-1 * (robotPosition.a + servoAngle) + fieldOfView / 2)).intValue(),
+                new Double(-1 * Math.toDegrees(fieldOfView)).intValue());
 	}
 
 	private void drawRobot(SimRobot robot, SimRobot bestRobot, Graphics g) {

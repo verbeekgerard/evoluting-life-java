@@ -52,13 +52,13 @@ public class BrainGene {
 			List<NeuronGene> stateLayer = layers.get(i);
 			
 			for (int j=0; j<stateLayer.size(); j++) {
-				if (Math.random() < Options.geneReplacementRate.get()) {
+				if (Math.random() < Options.neuronReplacementRate.get()) {
 					int targetCount = (i==0) ? 0 : layers.get(i-1).size();
 					stateLayer.set(j, new NeuronGene(targetCount));
 					continue;
 				}
 
-				if (Math.random() < Options.geneMutationRate.get()) {
+				if (Math.random() < Options.neuronMutationRate.get()) {
 					stateLayer.get(j).mutate();
 				}
 			}

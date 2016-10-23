@@ -1,6 +1,6 @@
 package eu.luminis.geometry;
 
-public class Radians {
+public final class Radians {
     public static double getBounded(double angle) {
         double bounded = angle % (2 * Math.PI);
         if (bounded < 0) return bounded + 2 * Math.PI;
@@ -28,8 +28,8 @@ public class Radians {
     public static double getBoundedArcTan(double x, double y) {
         if (x != 0) return getBounded(Math.atan2(y, x));
 
-        if (x == 0 && y > 0) return Math.PI/2;
-        if (x == 0 && y < 0) return 1.5 * Math.PI;
+        if (y > 0) return Math.PI/2;
+        if (y < 0) return 1.5 * Math.PI;
 
         return 0;
     }
