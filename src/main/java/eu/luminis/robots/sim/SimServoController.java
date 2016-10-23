@@ -1,6 +1,6 @@
 package eu.luminis.robots.sim;
 
-import eu.luminis.general.Options;
+import eu.luminis.Options;
 import eu.luminis.robots.core.IServoController;
 import eu.luminis.util.Range;
 

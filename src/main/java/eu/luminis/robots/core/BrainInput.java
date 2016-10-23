@@ -1,6 +1,6 @@
 package eu.luminis.robots.core;
 
-import eu.luminis.general.Options;
+import eu.luminis.Options;
 import eu.luminis.util.Range;
 
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.List;
 
 public class BrainInput {
     public static int getNodesCount() {
-        return 6;
+        return 8;
     }
 
     private List<Double> values;
@@ -39,6 +39,8 @@ public class BrainInput {
 
         values.add(distance == viewDistance ? 0 : (fieldOfView / 2 + angle) / fieldOfView); // left
         values.add(distance == viewDistance ? 0 : (fieldOfView / 2 - angle) / fieldOfView); // right
+        values.add((fieldOfView / 2 + angle) / fieldOfView); // left
+        values.add((fieldOfView / 2 - angle) / fieldOfView); // right
         values.add(angleVelocity < 0 ? -1 * angleVelocity : 0); // left
         values.add(angleVelocity > 0 ? angleVelocity : 0); // right
         values.add((viewDistance - distance) / viewDistance);

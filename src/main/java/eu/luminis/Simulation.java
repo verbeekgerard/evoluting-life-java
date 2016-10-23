@@ -1,4 +1,4 @@
-package eu.luminis.general;
+package eu.luminis;
 
 import eu.luminis.events.EventBroadcaster;
 import eu.luminis.events.EventType;

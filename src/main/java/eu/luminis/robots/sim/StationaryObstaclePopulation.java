@@ -1,7 +1,7 @@
 package eu.luminis.robots.sim;
 
 import eu.luminis.geometry.Position;
-import eu.luminis.general.Options;
+import eu.luminis.Options;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;

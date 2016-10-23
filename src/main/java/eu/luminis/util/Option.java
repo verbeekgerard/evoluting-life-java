@@ -1,4 +1,4 @@
-package eu.luminis.general;
+package eu.luminis.util;
 
 public class Option {
 

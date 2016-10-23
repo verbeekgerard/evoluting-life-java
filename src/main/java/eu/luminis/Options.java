@@ -1,4 +1,6 @@
-package eu.luminis.general;
+package eu.luminis;
+
+import eu.luminis.util.Option;
 
 public final class Options {
 
@@ -20,8 +22,8 @@ public final class Options {
 	// RoundSimObstacle
 	public static Option minRoundObstacleSize = new Option(6);
 	public static Option maxRoundObstacleSize = new Option(14);
-	public static Option minGrowthPercentage = new Option(0.01);
-	public static Option maxGrowthPercentage = new Option(0.05);
+	public static Option minGrowthPercentage = new Option(0.00001);
+	public static Option maxGrowthPercentage = new Option(0.00005);
 	public static Option roundObstaclePopulationSize = new Option(10*8);
 
 	// SimRobot

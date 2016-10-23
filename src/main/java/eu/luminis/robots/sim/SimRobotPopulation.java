@@ -5,7 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import eu.luminis.evolution.RouletteWheelSelectionByRank;
 import eu.luminis.events.EventBroadcaster;
 import eu.luminis.events.EventType;
-import eu.luminis.general.Options;
+import eu.luminis.Options;
 import eu.luminis.genetics.Genome;
 import eu.luminis.geometry.Position;
 import eu.luminis.robots.core.BrainInput;

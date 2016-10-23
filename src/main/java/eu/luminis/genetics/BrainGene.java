@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import eu.luminis.general.Options;
+import eu.luminis.Options;
 import eu.luminis.util.Range;
 
 public class BrainGene {

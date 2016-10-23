@@ -2,8 +2,8 @@ package eu.luminis.ui;
 
 import eu.luminis.events.Event;
 import eu.luminis.events.EventType;
-import eu.luminis.general.Simulation;
-import eu.luminis.general.Options;
+import eu.luminis.Simulation;
+import eu.luminis.Options;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

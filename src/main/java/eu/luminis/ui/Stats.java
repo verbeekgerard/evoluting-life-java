@@ -1,6 +1,6 @@
 package eu.luminis.ui;
 
-import eu.luminis.general.Options;
+import eu.luminis.Options;
 
 import java.text.DecimalFormat;
 import java.util.List;

@@ -1,6 +1,6 @@
 package eu.luminis.genetics;
 
-import eu.luminis.general.Options;
+import eu.luminis.Options;
 import eu.luminis.util.Range;
 
 import java.util.ArrayList;

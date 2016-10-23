@@ -1,6 +1,6 @@
 package eu.luminis.ui;
 
-import eu.luminis.general.Simulation;
+import eu.luminis.Simulation;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

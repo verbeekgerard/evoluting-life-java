@@ -1,7 +1,8 @@
-package eu.luminis.general;
+package eu.luminis;
 
 import eu.luminis.events.EventBroadcaster;
 import eu.luminis.export.StatisticsExporter;
+import eu.luminis.evolution.MutationFractionModifier;
 import eu.luminis.ui.Canvas;
 import eu.luminis.ui.StatsCollector;
 import eu.luminis.ui.MainPanel;

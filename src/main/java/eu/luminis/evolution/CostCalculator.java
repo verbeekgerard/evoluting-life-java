@@ -10,7 +10,7 @@ public final class CostCalculator {
 	}
 	
 	public double cycle() {
-		return ENERGY_COST * 40;
+		return ENERGY_COST * 20;
 	}
 
 	public double accelerate(double acceleration) {
@@ -26,6 +26,6 @@ public final class CostCalculator {
 	}
 
 	public double turnHead(double angularAcceleration) {
-		return ENERGY_COST * Math.abs(angularAcceleration) / 4;
+		return ENERGY_COST * Math.abs(angularAcceleration) / 10;
 	}
 }
