@@ -32,6 +32,7 @@ public class Robot {
         BrainInput input = brainInputFactory.create(distance, servoAngle, previousServoAngle);
         List<Double> output = brain.think(input.getValues());
         BrainOutput brainOutput = new BrainOutput(output);
+        previousServoAngle = servoAngle;
 
         // 3. control left and right motors
         motorsController.move(brainOutput.getMotorAccelerationLeft(), brainOutput.getMotorAccelerationRight());

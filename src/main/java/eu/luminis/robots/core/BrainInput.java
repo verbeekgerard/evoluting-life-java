@@ -12,17 +12,17 @@ public class BrainInput {
     }
 
     private List<Double> values;
-    private final double distance;
     private final double viewDistance;
-    private final double angle;
     private final double fieldOfView;
-    private double angleVelocity;
+    private final double distance;
+    private final double angle;
+    private final double angleVelocity;
 
     BrainInput(IBrainInputParameters parameters, double distance, double angle, double angleVelocity) {
-        this.distance = distance;
         this.viewDistance = parameters.getViewDistance();
-        this.angle = angle;
         this.fieldOfView = parameters.getFieldOfView();
+        this.distance = distance;
+        this.angle = angle;
         this.angleVelocity = angleVelocity;
     }
 

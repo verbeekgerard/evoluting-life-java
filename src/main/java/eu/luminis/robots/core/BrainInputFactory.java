@@ -1,6 +1,6 @@
 package eu.luminis.robots.core;
 
-public class BrainInputFactory implements IBrainInputParameters {
+class BrainInputFactory implements IBrainInputParameters {
     private final double viewDistance;
     private final double fieldOfView;
 
