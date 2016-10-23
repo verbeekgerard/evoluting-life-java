@@ -9,6 +9,7 @@ public class Robot {
     private final IMotorsController motorsController;
     private final IServoController servoController;
     private final ISensorController sensorController;
+    private final BrainInputFactory brainInputFactory;
 
     private double previousServoAngle;
 
@@ -17,6 +18,7 @@ public class Robot {
         this.motorsController = motorsController;
         this.servoController = servoController;
         this.sensorController = sensorController;
+        this.brainInputFactory = new BrainInputFactory(sensorController.getViewDistance(), servoController.getViewAngle());
 
         this.previousServoAngle = servoController.getAngle();
     }
@@ -27,7 +29,7 @@ public class Robot {
         double servoAngle = servoController.getAngle();
 
         // 2. think
-        BrainInput input = new BrainInput(distance, sensorController.getViewDistance(), servoAngle, servoController.getViewAngle(), servoAngle - previousServoAngle);
+        BrainInput input = brainInputFactory.create(distance, servoAngle, previousServoAngle);
         List<Double> output = brain.think(input.getValues());
         BrainOutput brainOutput = new BrainOutput(output);
 
