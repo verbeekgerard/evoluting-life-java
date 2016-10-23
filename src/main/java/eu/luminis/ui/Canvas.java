@@ -13,9 +13,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class Canvas extends JPanel implements Observer {
-
-	private static final long serialVersionUID = 1L;
-
     private StationaryObstaclePopulation obstaclePopulation;
 	private SimRobotPopulation robotPopulation;
 	private SimWorld world;
@@ -45,47 +42,63 @@ public class Canvas extends JPanel implements Observer {
 
     @Override
 	public void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
+
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, world.getWidth(), world.getHeight());
 
-		drawFieldOfView(robotPopulation.getWinningEntity(), g);
+		drawFieldOfView(robotPopulation.getWinningEntity(), g2);
+        drawTargetLine(robotPopulation.getWinningEntity(), g2);
 
 		for (SimObstacle obstacle : obstaclePopulation.getAllRoundObstacles()) {
-			drawObstacle(obstacle, g);
+			drawObstacle(obstacle, g2);
 		}
 
 		for (SimRobot robot : robotPopulation.getAllRobots()) {
-            //drawFieldOfView(robot, g);
-			drawCollisionBody(robot, g);
-			drawRobot(robot, robotPopulation.getWinningEntity(), g);
+            //drawFieldOfView(robot, g2);
+			drawCollisionBody(robot, g2);
+			drawRobot(robot, robotPopulation.getWinningEntity(), g2);
 		}
 	}
 
-	private void drawFieldOfView(SimRobot robot, Graphics g) {
-		if (robotPopulation.getWinningEntity() == null) {
+	private void drawFieldOfView(SimRobot robot, Graphics2D g2) {
+		if (robot == null) {
 			return;
 		}
-
-		Graphics2D g2 = (Graphics2D) g;
 
 		Position robotPosition = robot.getPosition();
 		double servoAngle = robot.getServo().getAngle();
 		double fieldOfView = Math.PI / 30;
-		double viewDistance = Options.maxViewDistance.get();
+		double viewDistance = robot.getViewDistance();
 
 		Color c = new Color(.9f, .9f, .9f, .1f);
 		g2.setColor(c);
-		g2.fillArc(new Double(robotPosition.x - (viewDistance / 2)).intValue(),
-                new Double(robotPosition.y - (viewDistance / 2)).intValue(),
-                new Double(viewDistance).intValue(),
-                new Double(viewDistance).intValue(),
+		g2.fillArc(new Double(robotPosition.x - (viewDistance)).intValue(),
+                new Double(robotPosition.y - (viewDistance)).intValue(),
+                new Double(viewDistance*2).intValue(),
+                new Double(viewDistance*2).intValue(),
                 new Double(Math.toDegrees(-1 * (robotPosition.a + servoAngle) + fieldOfView / 2)).intValue(),
                 new Double(-1 * Math.toDegrees(fieldOfView)).intValue());
 	}
 
-	private void drawRobot(SimRobot robot, SimRobot bestRobot, Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
+    private void drawTargetLine(SimRobot robot, Graphics2D g2) {
+        if (robot == null) {
+            return;
+        }
 
+        Position robotPosition = robot.getPosition();
+        Position targetObstaclePosition = robot.getTargetObstaclePosition();
+
+        if (targetObstaclePosition == null) {
+            return;
+        }
+
+        Color c = new Color(.9f, .9f, .9f, .8f);
+        g2.setColor(c);
+        g2.drawLine((int)robotPosition.x, (int)robotPosition.y, (int)targetObstaclePosition.x, (int)targetObstaclePosition.y);
+    }
+
+    private void drawRobot(SimRobot robot, SimRobot bestRobot, Graphics2D g2) {
 		double entitySize = robot.getSize();
 		Position animalPosition = robot.getPosition();
 		double ba = animalPosition.a + Math.PI; // Find the angle 180deg of entity
@@ -131,8 +144,7 @@ public class Canvas extends JPanel implements Observer {
 		g2.fill(polygon);
 	}
 	
-	private void drawCollisionBody(SimRobot robot, Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
+	private void drawCollisionBody(SimRobot robot, Graphics2D g2) {
 		float alpha = robot.isColliding() ? .9f : .1f ;
         BasicStroke stroke = robot.isColliding() ? new BasicStroke(1.5f) : new BasicStroke(0.5f) ;
 
@@ -145,9 +157,7 @@ public class Canvas extends JPanel implements Observer {
 				new Double(robot.getSize()).intValue(), new Double(robot.getSize()).intValue());
 	}
 	
-	private void drawObstacle(SimObstacle obstacle, Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
-
+	private void drawObstacle(SimObstacle obstacle, Graphics2D g2) {
 		g2.setColor(Color.GREEN);
 		g2.fillOval(
 				new Double(obstacle.getPosition().x).intValue() - new Double(obstacle.getSize()/2).intValue(),

@@ -33,15 +33,15 @@ public class SensorGene extends Gene {
             initializeViewDistance();
         }
         else if (Math.random() <= Options.viewDistanceMutationRate.get()) {
-        	this.viewDistance += new Range(Options.minViewDistance.get(), Options.maxViewDistance.get()).mutation(Options.mutationFraction.get());
+        	viewDistance += new Range(Options.minViewDistance.get(), Options.maxViewDistance.get()).mutation(Options.mutationFraction.get());
         }
 
         if (Math.random() <= Options.fieldOfViewReplacementRate.get()) {
             initializeFieldOfView();
         }
         else if (Math.random() <= Options.fieldOfViewMutationRate.get()) {
-        	this.fieldOfView += new Range(Options.minFieldOfView.get(), Options.maxFieldOfView.get()).mutation(Options.mutationFraction.get());
-        	this.fieldOfView = new Range(0, 2 * Math.PI).assureBounds(this.fieldOfView);
+        	fieldOfView += new Range(Options.minFieldOfView.get(), Options.maxFieldOfView.get()).mutation(Options.mutationFraction.get());
+        	fieldOfView = new Range(0, 2 * Math.PI).assureBounds(fieldOfView);
         }
     }
     
@@ -52,8 +52,8 @@ public class SensorGene extends Gene {
     @Override
     public List<Double> getInitiateProperties() {
         List<Double> list = new ArrayList<>();
-        list.add(this.viewDistance);
-        list.add(this.fieldOfView);
+        list.add(viewDistance);
+        list.add(fieldOfView);
 
         return list;
     }
@@ -64,10 +64,10 @@ public class SensorGene extends Gene {
     }
 
     private void initializeViewDistance() {
-        this.viewDistance = new Range(Options.minViewDistance.get(), Options.maxViewDistance.get()).random();
+        viewDistance = new Range(Options.minViewDistance.get(), Options.maxViewDistance.get()).random();
     }
 
     private void initializeFieldOfView() {
-        this.fieldOfView = new Range(Options.minFieldOfView.get(), Options.maxFieldOfView.get()).random();
+        fieldOfView = new Range(Options.minFieldOfView.get(), Options.maxFieldOfView.get()).random();
     }
 }

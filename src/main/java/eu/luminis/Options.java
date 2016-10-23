@@ -33,8 +33,8 @@ public final class Options {
 	public final static Option populationSize = new Option(16*8);
 
 	// SensorGene
-	public final static Option minViewDistance = new Option(16 * 10);
-	public final static Option maxViewDistance = new Option(16 * 12);
+	public final static Option minViewDistance = new Option(8 * 10);
+	public final static Option maxViewDistance = new Option(8 * 12);
 	public final static Option minFieldOfView = new Option(Math.PI * 0.6);
 	public final static Option maxFieldOfView = new Option(Math.PI);
 	public final static Option viewDistanceMutationRate = new Option(0.05);
@@ -48,10 +48,10 @@ public final class Options {
 	}
 	
 	public final static Option linearFriction = new Option(0.06); // 0.06
-	public final static Option angularFriction = new Option(0.1); // 0.5
+	public final static Option angularFriction = new Option(0.6); // 0.5
 
-	private static double minA = calculateForce(0.1, angularFriction.get()); // 0.1
-	private static double maxA = calculateForce(1.2, angularFriction.get()); // 1.0
+	private static double minA = calculateForce(0.3, angularFriction.get()); // 0.1
+	private static double maxA = calculateForce(1.4, angularFriction.get()); // 1.0
 	private static double minL = calculateForce(5.0, linearFriction.get());
 	private static double maxL = calculateForce(50.0,linearFriction.get());
 	
@@ -60,8 +60,8 @@ public final class Options {
 	public final static Option minLinearForce = new Option(minL);
 	public final static Option maxLinearForce = new Option(maxL);
 
-	public final static Option angularForceMutationRate = new Option(0.15);
-	public final static Option angularForceReplacementRate = new Option(0.005);
+	public final static Option angularForceMutationRate = new Option(0.25);
+	public final static Option angularForceReplacementRate = new Option(0.01);
 	public final static Option linearForceMutationRate = new Option(0.15);
 	public final static Option linearForceReplacementRate = new Option(0.005);
 		

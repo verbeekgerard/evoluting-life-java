@@ -43,9 +43,14 @@ class SimSensorController implements ISensorController {
                 .sorted(Comparator.comparing(ObstacleVector::getDistance))
                 .findFirst();
 
-        return Math.min(wallDistance(), seeing.isPresent() ?
-                seeing.get().getDistance() :
-                viewDistance);
+        ObstacleVector obstacleVector = seeing.isPresent() ? seeing.get() : null;
+        owner.setTargetObstaclePosition(obstacleVector == null ?
+                null :
+                obstacleVector.getPosition());
+
+        return Math.min(wallDistance(), obstacleVector == null ?
+                viewDistance :
+                obstacleVector.getDistance());
     }
 
     @Override
@@ -70,14 +75,16 @@ class SimSensorController implements ISensorController {
         List<ObstacleVector> obstacleVectors = new ArrayList<>();
 
         for (SimObstacle simObstacle : obstacles) {
-            double globalAngle = ownerPosition.calculateAngle(simObstacle.getPosition());
+            Position obstaclePosition = simObstacle.getPosition();
+
+            double globalAngle = ownerPosition.calculateAngle(obstaclePosition);
             double relativeAngle = Radians.getRelativeDifference(ownerPosition.a, globalAngle);
-            double distance = ownerPosition.calculateDistance(simObstacle.getPosition());
+            double distance = ownerPosition.calculateDistance(obstaclePosition);
 
             // If the obstacle is outside the field of view, skip it
             if (Math.abs(relativeAngle) > viewAngle / 2 || distance > viewDistance) continue;
 
-            obstacleVectors.add(new ObstacleVector(distance, relativeAngle, simObstacle.getSize()));
+            obstacleVectors.add(new ObstacleVector(distance, relativeAngle, simObstacle.getSize(), obstaclePosition));
         }
 
         return obstacleVectors;

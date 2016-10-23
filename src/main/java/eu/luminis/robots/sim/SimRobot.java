@@ -28,6 +28,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     private double collisionDamage = 0;
 
     private boolean isColliding = false;
+    private Position targetObstaclePosition;
 
     public SimRobot(Genome genome, Position position, SimWorld world) {
         super(world, position, genome.getLife());
@@ -96,6 +97,18 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
 
     public double getTravelledDistance() {
         return distanceRecorder.getTotalDistance();
+    }
+
+    public Position getTargetObstaclePosition() {
+        return targetObstaclePosition;
+    }
+
+    public void setTargetObstaclePosition(Position position) {
+        this.targetObstaclePosition = position;
+    }
+
+    public double getViewDistance() {
+        return sensorController.getViewDistance();
     }
 
     @Override

@@ -1,14 +1,18 @@
 package eu.luminis.robots.sim;
 
+import eu.luminis.geometry.Position;
+
 class ObstacleVector implements Comparable<ObstacleVector> {
 	private final double distance;
 	private final double angle;
 	private final double size;
+	private Position position;
 
-	public ObstacleVector(double distance, double angle, double size){
+	public ObstacleVector(double distance, double angle, double size, Position position) {
 		this.distance = distance;
 		this.angle = angle;
 		this.size = size;
+		this.position = position;
 	}
 
 	@Override
@@ -26,5 +30,9 @@ class ObstacleVector implements Comparable<ObstacleVector> {
 
 	public double getSize() {
 		return size;
+	}
+
+	public Position getPosition() {
+		return position;
 	}
 }
