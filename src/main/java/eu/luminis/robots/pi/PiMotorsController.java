@@ -1,20 +1,55 @@
 package eu.luminis.robots.pi;
 
+import java.io.IOException;
+
+import eu.luminis.Options;
 import eu.luminis.robots.core.IMotorsController;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class PiMotorsController implements IMotorsController {
-    private final PiMotor leftMotor;
-    private final PiMotor rightMotor;
+	
+    private PiMotor leftMotor = null;
+    private PiMotor rightMotor = null;
+    private final double linearForce;
 
-    public PiMotorsController(PiMotor leftMotor, PiMotor rightMotor) {
-        this.leftMotor = leftMotor;
-        this.rightMotor = rightMotor;
+    private double velocityLeft = 0;
+    private double velocityRight = 0;
+    
+    private final static double linearFriction = Options.linearFriction.get();
+
+    public PiMotorsController(double linearForce) {
+        try {
+			this.leftMotor = new PiMotor(17, 23);
+			this.rightMotor = new PiMotor(22, 27);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        this.linearForce = linearForce;
     }
 
     @Override
     public void move(double leftChange, double rightChange) {
-        // TODO: Call movement methods of the motors on the R-Pi API
-        throw new NotImplementedException();
+
+        double accelerationLeft = leftChange * linearForce;
+        velocityLeft += accelerationLeft;
+        velocityLeft -= velocityLeft * linearFriction;
+
+        double accelerationRight = rightChange * linearForce;
+        velocityRight += accelerationRight;
+        velocityRight -= velocityRight * linearFriction;
+
+        move(velocityLeft, leftMotor);
+        move(velocityRight, rightMotor);
     }
-}
+    
+    private void move(double velocity, PiMotor motor) {
+    	if (velocityLeft > 0) {
+    		motor.forward();
+        } else if (velocityLeft < 0) {
+        	motor.reverse();
+        } else {
+        	motor.stop();
+        }
+    }
+    
+}  
