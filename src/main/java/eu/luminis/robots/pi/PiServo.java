@@ -8,7 +8,7 @@ import static eu.luminis.robots.pi.util.SleepUtil.sleep;
 
 public class PiServo {
 
-    int servoblasterId;
+    private int servoblasterId;
 
     private double msPulse_0_Degrees;
     private double msPulse_90_Degrees;

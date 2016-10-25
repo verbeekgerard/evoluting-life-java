@@ -25,9 +25,9 @@ public class PiSensor extends Sensor<Double> {
     private GPIOPin echoPin;
 
     public PiSensor(int triggerPinNumber, int echoPinNumber) throws IOException {
-        triggerPin = (GPIOPin) DeviceManager.open(new GPIOPinConfig(DeviceConfig.DEFAULT, triggerPinNumber,
+        triggerPin = DeviceManager.open(new GPIOPinConfig(DeviceConfig.DEFAULT, triggerPinNumber,
                 GPIOPinConfig.DIR_OUTPUT_ONLY, GPIOPinConfig.MODE_OUTPUT_PUSH_PULL, GPIOPinConfig.TRIGGER_NONE, false));
-        echoPin = (GPIOPin) DeviceManager.open(new GPIOPinConfig(DeviceConfig.DEFAULT, echoPinNumber,
+        echoPin = DeviceManager.open(new GPIOPinConfig(DeviceConfig.DEFAULT, echoPinNumber,
                 GPIOPinConfig.DIR_INPUT_ONLY, GPIOPinConfig.MODE_INPUT_PULL_UP, GPIOPinConfig.TRIGGER_NONE, false));
     }
 
@@ -80,5 +80,4 @@ public class PiSensor extends Sensor<Double> {
         executorService.shutdownNow();
         super.shutdown();
     }
-
 }

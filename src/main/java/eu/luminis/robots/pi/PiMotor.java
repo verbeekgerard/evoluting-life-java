@@ -17,9 +17,9 @@ public class PiMotor {
     private GPIOPin reversePin;
 
     public PiMotor(int forwardPinNumber, int reversePinNumber) throws IOException {
-        this.forwardPin = (GPIOPin) DeviceManager.open(new GPIOPinConfig(DeviceConfig.DEFAULT, forwardPinNumber,
+        this.forwardPin = DeviceManager.open(new GPIOPinConfig(DeviceConfig.DEFAULT, forwardPinNumber,
                 GPIOPinConfig.DIR_OUTPUT_ONLY, GPIOPinConfig.MODE_OUTPUT_PUSH_PULL, GPIOPinConfig.TRIGGER_NONE, false));
-        this.reversePin = (GPIOPin) DeviceManager.open(new GPIOPinConfig(DeviceConfig.DEFAULT, reversePinNumber,
+        this.reversePin = DeviceManager.open(new GPIOPinConfig(DeviceConfig.DEFAULT, reversePinNumber,
                 GPIOPinConfig.DIR_OUTPUT_ONLY, GPIOPinConfig.MODE_OUTPUT_PUSH_PULL, GPIOPinConfig.TRIGGER_NONE, false));
     }
 

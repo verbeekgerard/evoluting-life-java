@@ -6,22 +6,21 @@ import eu.luminis.Options;
 import eu.luminis.robots.core.IMotorsController;
 
 public class PiMotorsController implements IMotorsController {
-	
+    private final static double linearFriction = Options.linearFriction.get();
+
+    private final double linearForce;
     private PiMotor leftMotor = null;
     private PiMotor rightMotor = null;
-    private final double linearForce;
 
     private double velocityLeft = 0;
     private double velocityRight = 0;
-    
-    private final static double linearFriction = Options.linearFriction.get();
 
     public PiMotorsController(double linearForce) {
         try {
 			this.leftMotor = new PiMotor(17, 23);
 			this.rightMotor = new PiMotor(22, 27);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// TODO: Auto-generated catch block
 			e.printStackTrace();
 		}
         this.linearForce = linearForce;
@@ -29,7 +28,6 @@ public class PiMotorsController implements IMotorsController {
 
     @Override
     public void move(double leftChange, double rightChange) {
-
         double accelerationLeft = leftChange * linearForce;
         velocityLeft += accelerationLeft;
         velocityLeft -= velocityLeft * linearFriction;
@@ -41,15 +39,14 @@ public class PiMotorsController implements IMotorsController {
         move(velocityLeft, leftMotor);
         move(velocityRight, rightMotor);
     }
-    
-    private void move(double velocity, PiMotor motor) {
-    	if (velocityLeft > 0) {
+
+    private static void move(double velocity, PiMotor motor) {
+    	if (velocity > 0) {
     		motor.forward();
-        } else if (velocityLeft < 0) {
+        } else if (velocity < 0) {
         	motor.reverse();
         } else {
         	motor.stop();
         }
     }
-    
-}  
+}
