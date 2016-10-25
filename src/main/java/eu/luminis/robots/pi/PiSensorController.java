@@ -8,13 +8,12 @@ import java.util.function.Predicate;
 import eu.luminis.robots.core.ISensorController;
 
 public class PiSensorController implements ISensorController {
+	private static final double viewDistance = 80; // TODO: Figure out what the true viewDistance is
+
 	private PiSensor piSensor;
-	private final double viewDistance;
 	private Double distance;
 
 	public PiSensorController() {
-		viewDistance = 80; // TODO: Figure out what the true viewDistance is
-
 		try {
 			piSensor = new PiSensor(19, 16);
 		} catch (IOException e) {
