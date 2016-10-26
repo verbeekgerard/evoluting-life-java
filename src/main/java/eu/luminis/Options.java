@@ -60,9 +60,9 @@ public final class Options {
 	public final static Option minLinearForce = new Option(minL);
 	public final static Option maxLinearForce = new Option(maxL);
 
-	public final static Option angularForceMutationRate = new Option(0.25);
-	public final static Option angularForceReplacementRate = new Option(0.01);
-	public final static Option linearForceMutationRate = new Option(0.15);
+	public final static Option angularForceMutationRate = new Option(0.05);
+	public final static Option angularForceReplacementRate = new Option(0.005);
+	public final static Option linearForceMutationRate = new Option(0.05);
 	public final static Option linearForceReplacementRate = new Option(0.005);
 		
 	// BrainGene
