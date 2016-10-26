@@ -37,8 +37,8 @@ public final class Options {
 	public final static Option maxViewDistance = new Option(15 * 8);
 	public final static Option minFieldOfView = new Option(Math.PI * 0.6);
 	public final static Option maxFieldOfView = new Option(Math.PI);
-	public final static Option viewDistanceMutationRate = new Option(0.1);
-	public final static Option viewDistanceReplacementRate = new Option(0.05);
+	public final static Option viewDistanceMutationRate = new Option(0.05);
+	public final static Option viewDistanceReplacementRate = new Option(0.005);
 	public final static Option fieldOfViewMutationRate = new Option(0.05);
 	public final static Option fieldOfViewReplacementRate = new Option(0.005);
 	
@@ -70,8 +70,8 @@ public final class Options {
 	public final static Option maxHiddenLayers = new Option(4);
 	public final static Option maxNeuronsPerLayer = new Option(16);
 	public final static Option layerMutationRate = new Option(0.01);    // adding or removing a neuron
-	public final static Option neuronMutationRate = new Option(0.2);
-	public final static Option neuronReplacementRate = new Option(0.001);
+	public final static Option neuronMutationRate = new Option(0.5);
+	public final static Option neuronReplacementRate = new Option(0.005);
 	
 	// NeuronGene
 	public final static Option minThreshold = new Option(0.1);
@@ -89,10 +89,10 @@ public final class Options {
 	public final static Option maxStrengthening = new Option(0.00002);
 	public final static Option minWeakening = new Option(0.000001);
 	public final static Option maxWeakening = new Option(0.000005);
-	public final static Option strengthMutationRate = new Option(0.05);
-	public final static Option strengthReplacementRate = new Option(0.005);
-	public final static Option strengtheningMutationRate = new Option(0.05);
-	public final static Option strengtheningReplacementRate = new Option(0.005);
-	public final static Option weakeningMutationRate = new Option(0.05);
-	public final static Option weakeningReplacementRate = new Option(0.005);
+	public final static Option strengthMutationRate = new Option(0.005);
+	public final static Option strengthReplacementRate = new Option(0.0005);
+	public final static Option strengtheningMutationRate = new Option(0.005);
+	public final static Option strengtheningReplacementRate = new Option(0.0005);
+	public final static Option weakeningMutationRate = new Option(0.005);
+	public final static Option weakeningReplacementRate = new Option(0.0005);
 }

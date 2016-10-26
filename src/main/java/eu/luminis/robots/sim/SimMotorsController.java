@@ -43,6 +43,6 @@ class SimMotorsController implements IMotorsController {
         p.x += dx;
         p.y += dy;
 
-        owner.recordMove(p, accelerationLeft + accelerationRight);
+        owner.recordMove(p, Math.abs(accelerationLeft) + Math.abs(accelerationRight));
     }
 }
