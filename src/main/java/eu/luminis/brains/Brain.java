@@ -13,20 +13,13 @@ public class Brain {
 	public Brain(BrainGene gen) {
 		List<List<NeuronGene>> genLayers = gen.getLayers();
 
-		// The output layer has no target layer
-		Layer layer = new Layer(genLayers.get(0));
-		layers.add(layer);
-		
-		// The other layers have target layers
-		for (int i = 1; i < genLayers.size() - 1; i++) {
-			layer = new Layer(genLayers.get(i), layers.get(layers.size() - 1));
-			layers.add(layer);
-		}
+		createOutputLayer(genLayers);
+		createHiddenLayers(genLayers);
 
 		// The input layer is of a different type
 		this.inputLayer = new InputLayer(genLayers.get(genLayers.size() - 1), layers.get(layers.size() - 1));
 	}
-	
+
 	public List<Double> think(List<Double> input) {
 		// Excite the input neurons
 		this.inputLayer.sense(input);
@@ -39,5 +32,17 @@ public class Brain {
 		}
 		
 		return output;
+	}
+
+	private void createOutputLayer(List<List<NeuronGene>> genLayers) {
+		Layer layer = new Layer(genLayers.get(0));
+		layers.add(layer);
+	}
+
+	private void createHiddenLayers(List<List<NeuronGene>> genLayers) {
+		for (int i = 1; i < genLayers.size() - 1; i++) {
+            Layer layer = new Layer(genLayers.get(i), layers.get(layers.size() - 1));
+			layers.add(layer);
+		}
 	}
 }

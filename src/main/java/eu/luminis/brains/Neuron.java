@@ -17,21 +17,13 @@ class Neuron {
         this.relaxation = gene.getRelaxation();
 		
         if (targetNeurons == null) {
-        	// Assemble an output neuron
-            for (AxonGene axonGene : gene.getAxons()) {
-                Axon axon = new Axon(axonGene.getStrength());
-                axons.add(axon);
-            }
+            assembleOutputNeuron(gene);
         } else {
-        	// Assemble a neuron that transmits to its axons
-        	for (int i = 0; i < gene.getAxons().size(); i++) {
-                Axon axon = new Axon(gene.getAxons().get(i).getStrength(), targetNeurons.get(i));
-                axons.add(axon);
-            }
+            assembleTransmittingNeuron(gene, targetNeurons);
         }
 	}
 
-	public double transmit() {
+    public double transmit() {
         if (this.excitation > this.threshold) {
         	double excitation = this.excitation;
         	this.excitation = 0;
@@ -51,5 +43,19 @@ class Neuron {
 	
 	public void excite(double value) {
         this.excitation += value;
+    }
+
+    private void assembleOutputNeuron(NeuronGene gene) {
+        for (AxonGene axonGene : gene.getAxons()) {
+            Axon axon = new Axon(axonGene.getStrength());
+            axons.add(axon);
+        }
+    }
+
+    private void assembleTransmittingNeuron(NeuronGene gene, List<Neuron> targetNeurons) {
+        for (int i = 0; i < gene.getAxons().size(); i++) {
+            Axon axon = new Axon(gene.getAxons().get(i).getStrength(), targetNeurons.get(i));
+            axons.add(axon);
+        }
     }
 }

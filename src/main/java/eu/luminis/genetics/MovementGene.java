@@ -29,25 +29,12 @@ public class MovementGene extends Gene {
 	}
 
 	public void mutate() {
-        if (Math.random() <= Options.angularForceReplacementRate.get()) {
-			initializeAngularForce();
-		}
-        else if (Math.random() <= Options.angularForceMutationRate.get()) {
-            this.angularForce += new Range(Options.minAngularForce.get(), Options.maxAngularForce.get()).mutation(Options.mutationFraction.get());
-            this.angularForce = new Range(0, 0).assureLowerBound(this.angularForce);
-        }
+		mutateAngularForce();
+		mutateLinearForce();
+	}
 
-        if (Math.random() <= Options.linearForceReplacementRate.get()) {
-			initializeLinearForce();
-		}
-        else if (Math.random() <= Options.linearForceMutationRate.get()) {
-            this.linearForce += new Range(Options.minLinearForce.get(), Options.maxLinearForce.get()).mutation(Options.mutationFraction.get());
-            this.linearForce = new Range(0, 0).assureLowerBound(this.linearForce);
-        }
-    }
-	
 	public List<MovementGene> mate(MovementGene partner) {
-		return (List<MovementGene>) new Genetics().mate(this, partner);
+		return new Genetics().mate(this, partner);
     }
 
 	@Override
@@ -62,6 +49,30 @@ public class MovementGene extends Gene {
 	@Override
 	public Gene initiate(List<Double> properties) {
 		return new MovementGene(properties.get(0), properties.get(1));
+	}
+
+	private void mutateAngularForce() {
+		if (Math.random() <= Options.angularForceReplacementRate.get()) {
+			initializeAngularForce();
+			return;
+		}
+
+		if (Math.random() <= Options.angularForceMutationRate.get()) {
+			this.angularForce += new Range(Options.minAngularForce.get(), Options.maxAngularForce.get()).mutation(Options.mutationFraction.get());
+			this.angularForce = new Range(0, 0).assureLowerBound(this.angularForce);
+		}
+	}
+
+	private void mutateLinearForce() {
+		if (Math.random() <= Options.linearForceReplacementRate.get()) {
+			initializeLinearForce();
+			return;
+		}
+
+		if (Math.random() <= Options.linearForceMutationRate.get()) {
+			this.linearForce += new Range(Options.minLinearForce.get(), Options.maxLinearForce.get()).mutation(Options.mutationFraction.get());
+			this.linearForce = new Range(0, 0).assureLowerBound(this.linearForce);
+		}
 	}
 
 	private void initializeAngularForce() {

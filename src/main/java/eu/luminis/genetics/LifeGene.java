@@ -28,7 +28,7 @@ public class LifeGene extends Gene {
     }
 
     public List<LifeGene> mate(LifeGene partner) {
-    	return (List<LifeGene>) new Genetics().mate(this, partner);
+    	return new Genetics().mate(this, partner);
     }
 
 	@Override

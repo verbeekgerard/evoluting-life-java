@@ -49,8 +49,7 @@ public class NeuronGene extends Gene {
     }
 
     public List<NeuronGene> mate(NeuronGene partner) {
-    	
-    	List<NeuronGene> children = (List<NeuronGene>) new Genetics().mate(this, partner);
+    	List<NeuronGene> children = new Genetics().mate(this, partner);
     	
         for (int i=0; i<this.axons.size(); i++) {
             List<AxonGene> childAxons = this.axons.get(i).mate(partner.axons.get(i));
@@ -78,26 +77,38 @@ public class NeuronGene extends Gene {
     }
 
     public void mutate() {
-        Range range;
+        mutateThreshold();
+        mutateRelaxation();
+        mutateAxons();
+    }
 
+    private void mutateThreshold() {
         if (Math.random() < Options.thresholdReplacementRate.get()) {
             initializeThreshold();
+            return;
         }
-        else if (Math.random() < Options.thresholdMutationRate.get()) {
-            range = new Range(Options.minThreshold.get(), Options.maxThreshold.get());
+
+        if (Math.random() < Options.thresholdMutationRate.get()) {
+            Range range = new Range(Options.minThreshold.get(), Options.maxThreshold.get());
             this.threshold += range.mutation(Options.mutationFraction.get());
             this.threshold = range.assureLowerBound(this.threshold);
         }
+    }
 
+    private void mutateRelaxation() {
         if (Math.random() < Options.relaxationReplacementRate.get()) {
             initializeRelaxation();
+            return;
         }
-        else if (Math.random() < Options.relaxationMutationRate.get()) {
-            range = new Range(0, Options.maxRelaxation.get());
+
+        if (Math.random() < Options.relaxationMutationRate.get()) {
+            Range range = new Range(0, Options.maxRelaxation.get());
             this.relaxation += Math.floor(range.mutation(Options.mutationFraction.get())) / 100;
             this.relaxation = range.assureBounds(this.relaxation);
         }
+    }
 
+    private void mutateAxons() {
         for (int i=0; i<this.axons.size(); i++) {
             this.axons.get(i).mutate();
         }

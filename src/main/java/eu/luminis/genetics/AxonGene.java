@@ -36,30 +36,13 @@ public class AxonGene extends Gene {
     }
 
     public void mutate() {
-        if (Math.random() <= Options.strengthReplacementRate.get()) {
-            initializeStrength();
-        }
-        else if (Math.random() <= Options.strengthMutationRate.get()) {
-            this.strength += new Range(-1 * Options.maxStrength.get(), Options.maxStrength.get()).mutation(Options.mutationFraction.get());
-        }
-
-        if (Math.random() <= Options.strengtheningReplacementRate.get()) {
-            initializeStrengthening();
-        }
-        else if (Math.random() <= Options.strengtheningMutationRate.get()) {
-            this.strengthening += new Range(Options.minStrengthening.get(), Options.maxStrengthening.get()).mutation(Options.mutationFraction.get());
-        }
-
-        if (Math.random() <= Options.weakeningReplacementRate.get()) {
-            initializeWeakening();
-        }
-        else if (Math.random() <= Options.weakeningMutationRate.get()) {
-            this.weakening += new Range(Options.minWeakening.get(), Options.maxWeakening.get()).mutation(Options.mutationFraction.get());
-        }
+        mutateStrength();
+        mutateStrengthening();
+        mutateWeakening();
     }
 
     public List<AxonGene> mate(AxonGene partner) {
-    	return (List<AxonGene>) new Genetics().mate(this, partner);
+    	return new Genetics().mate(this, partner);
     }
 
     @Override
@@ -76,6 +59,39 @@ public class AxonGene extends Gene {
 	public Gene initiate(List<Double> properties) {
 		return new AxonGene(properties.get(0), properties.get(1), properties.get(2));
 	}
+
+    private void mutateStrength() {
+        if (Math.random() <= Options.strengthReplacementRate.get()) {
+            initializeStrength();
+            return;
+        }
+
+        if (Math.random() <= Options.strengthMutationRate.get()) {
+            this.strength += new Range(-1 * Options.maxStrength.get(), Options.maxStrength.get()).mutation(Options.mutationFraction.get());
+        }
+    }
+
+    private void mutateStrengthening() {
+        if (Math.random() <= Options.strengtheningReplacementRate.get()) {
+            initializeStrengthening();
+            return;
+        }
+
+        if (Math.random() <= Options.strengtheningMutationRate.get()) {
+            this.strengthening += new Range(Options.minStrengthening.get(), Options.maxStrengthening.get()).mutation(Options.mutationFraction.get());
+        }
+    }
+
+    private void mutateWeakening() {
+        if (Math.random() <= Options.weakeningReplacementRate.get()) {
+            initializeWeakening();
+            return;
+        }
+
+        if (Math.random() <= Options.weakeningMutationRate.get()) {
+            this.weakening += new Range(Options.minWeakening.get(), Options.maxWeakening.get()).mutation(Options.mutationFraction.get());
+        }
+    }
 
     private void initializeStrength() {
         this.strength = new Range(-1 * Options.maxStrength.get(), Options.maxStrength.get()).random();

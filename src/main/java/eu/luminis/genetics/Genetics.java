@@ -5,11 +5,12 @@ import eu.luminis.util.Range;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 class Genetics {
 
 	// Creates two child by crossing over the genomes of a and b.
-    public List<? extends Gene> mate(Gene a, Gene b) {
+    public <TGene extends Gene> List<TGene> mate(TGene a, TGene b) {
         List<Double> propertiesA = a.getInitiateProperties();
         List<Double> propertiesB = b.getInitiateProperties();
 
@@ -25,12 +26,9 @@ class Genetics {
             }
         }
 
-        List<Gene> children = new ArrayList<>();
-        for (int i=0; i<2 ; i++) {
-            children.add(a.initiate(childrenProperties.get(i)));
-        }
-
-        return children;
+        return childrenProperties.stream()
+                .map(childProperties -> (TGene) a.initiate(childProperties))
+                .collect(Collectors.toList());
     }
 
     private <T> ArrayList<T> getAorBRandom(T a, T b){
