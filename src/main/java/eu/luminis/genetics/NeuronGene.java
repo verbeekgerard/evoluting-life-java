@@ -8,25 +8,25 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class NeuronGene extends Gene {
-	private double threshold;
-	private double relaxation;
+    private double threshold;
+    private double relaxation;
     private final List<AxonGene> axons = new ArrayList<>();
 
-	public NeuronGene(int maxOutputs) {
+    public NeuronGene(int maxOutputs) {
         initializeThreshold();
         initializeRelaxation();
 
-        for (int i=0; i<maxOutputs; i++) {
+        for (int i = 0; i < maxOutputs; i++) {
             this.axons.add(new AxonGene());
         }
-	}
+    }
 
     public NeuronGene(double threshold, double relaxation) {
         this.threshold = threshold;
         this.relaxation = relaxation;
-	}
-	
-	public NeuronGene(double threshold, double relaxation, List<AxonGene> axons) {
+    }
+
+    public NeuronGene(double threshold, double relaxation, List<AxonGene> axons) {
 
         this.threshold = threshold;
         this.relaxation = relaxation;
@@ -34,7 +34,7 @@ public class NeuronGene extends Gene {
         this.axons.addAll(axons.stream()
                 .map(axon -> new AxonGene(axon.getStrength(), axon.getStrengthening(), axon.getWeakening()))
                 .collect(Collectors.toList()));
-	}
+    }
 
     public double getThreshold() {
         return threshold;
@@ -49,17 +49,17 @@ public class NeuronGene extends Gene {
     }
 
     public List<NeuronGene> mate(NeuronGene partner) {
-    	List<NeuronGene> children = new Genetics().mate(this, partner);
-    	
-        for (int i=0; i<this.axons.size(); i++) {
+        List<NeuronGene> children = new Genetics().mate(this, partner);
+
+        for (int i = 0; i < this.axons.size(); i++) {
             List<AxonGene> childAxons = this.axons.get(i).mate(partner.axons.get(i));
-            
-            for (int j=0; j<children.size(); j++) {
-            	children.get(j).axons.add( childAxons.get(j) );
+
+            for (int j = 0; j < children.size(); j++) {
+                children.get(j).axons.add(childAxons.get(j));
             }
         }
 
-    	return children;
+        return children;
     }
 
     @Override
@@ -109,7 +109,7 @@ public class NeuronGene extends Gene {
     }
 
     private void mutateAxons() {
-        for (int i=0; i<this.axons.size(); i++) {
+        for (int i = 0; i < this.axons.size(); i++) {
             this.axons.get(i).mutate();
         }
     }

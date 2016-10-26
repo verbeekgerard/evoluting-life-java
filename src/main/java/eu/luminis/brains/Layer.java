@@ -8,13 +8,13 @@ import eu.luminis.genetics.NeuronGene;
 
 class Layer {
 
-	private final List<Neuron> neurons = new ArrayList<>();
-	
-	public Layer(List<NeuronGene> genomeLayer) {
-		this(genomeLayer, null);
-	}
-	
-	public Layer(List<NeuronGene> genomeLayer, Layer targetLayer) {
+        private final List<Neuron> neurons = new ArrayList<>();
+
+        public Layer(List<NeuronGene> genomeLayer) {
+                this(genomeLayer, null);
+        }
+
+        public Layer(List<NeuronGene> genomeLayer, Layer targetLayer) {
         List<Neuron> targetNeurons = targetLayer == null ?
                 null :
                 targetLayer.getNeurons();
@@ -23,15 +23,15 @@ class Layer {
             Neuron neuron = new Neuron(neuronGene, targetNeurons);
             neurons.add(neuron);
         }
-	}
-	
-	public List<Neuron> getNeurons(){
+        }
+
+        public List<Neuron> getNeurons(){
         return neurons;
     }
-	
-	public List<Double> transmit() {
+
+        public List<Double> transmit() {
         return neurons.stream()
                 .map(Neuron::transmit)
                 .collect(Collectors.toList());
-	}
+        }
 }

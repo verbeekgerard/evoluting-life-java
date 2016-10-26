@@ -19,37 +19,37 @@ import eu.luminis.robots.pi.PiSensorController;
 import eu.luminis.robots.pi.PiServoController;
 
 public class RunRobot {
-	
-	private static int iteration = 0;
-	
-	public static void main(String[] args) {
 
-		try {
-			String json = new String(readAllBytes(get("testrobot.json")));
-			Type listType = new TypeToken<ArrayList<Genome>>(){}.getType();
-			List<Genome> genomes = new Gson().fromJson(json, listType);
-			
-			Genome genome = genomes.get(0);
-			PiMotorsController piMotorsController = new PiMotorsController(genome.getMovement().getLinearForce());
-			PiServoController piServoController = new PiServoController(genome.getMovement().getAngularForce());
-			PiSensorController piSensorController = new PiSensorController();
-			
-			Robot robot = new Robot(new Brain(genome.getBrain()), piMotorsController, piServoController, piSensorController);
-			loop(robot);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void loop(Robot robot) {
-		System.out.println("Iteration: " + iteration++);
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} 
-		robot.run();	
-		loop(robot);
-	}
-	
+    private static int iteration = 0;
+
+    public static void main(String[] args) {
+
+        try {
+            String json = new String(readAllBytes(get("testrobot.json")));
+            Type listType = new TypeToken<ArrayList<Genome>>(){}.getType();
+            List<Genome> genomes = new Gson().fromJson(json, listType);
+
+            Genome genome = genomes.get(0);
+            PiMotorsController piMotorsController = new PiMotorsController(genome.getMovement().getLinearForce());
+            PiServoController piServoController = new PiServoController(genome.getMovement().getAngularForce());
+            PiSensorController piSensorController = new PiSensorController();
+
+            Robot robot = new Robot(new Brain(genome.getBrain()), piMotorsController, piServoController, piSensorController);
+            loop(robot);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loop(Robot robot) {
+        System.out.println("Iteration: " + iteration++);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        robot.run();
+        loop(robot);
+    }
+
 }

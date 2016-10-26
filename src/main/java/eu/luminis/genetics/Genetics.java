@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 class Genetics {
 
-	// Creates two child by crossing over the genomes of a and b.
+    // Creates two child by crossing over the genomes of a and b.
     public <TGene extends Gene> List<TGene> mate(TGene a, TGene b) {
         List<Double> propertiesA = a.getInitiateProperties();
         List<Double> propertiesB = b.getInitiateProperties();
@@ -32,12 +32,12 @@ class Genetics {
     }
 
     private <T> ArrayList<T> getAorBRandom(T a, T b){
-    	if (new Range(0, 100).random() > 50) {
-    		return new ArrayList<>(Arrays.asList(a, b));
-    	}
-    	else {
-    		return new ArrayList<>(Arrays.asList(b, a));
-    	}
+        if (new Range(0, 100).random() > 50) {
+            return new ArrayList<>(Arrays.asList(a, b));
+        }
+        else {
+            return new ArrayList<>(Arrays.asList(b, a));
+        }
     }
 
     private List<List<Double>> initializeChildrenProperties() {

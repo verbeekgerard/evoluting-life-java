@@ -7,26 +7,26 @@ import eu.luminis.genetics.*;
 
 class Neuron {
 
-	private final List<Axon> axons = new ArrayList<>();
+    private final List<Axon> axons = new ArrayList<>();
     private final double threshold;
     private final double relaxation;
     private double excitation = 0;
 
-	public Neuron(NeuronGene gene, List<Neuron> targetNeurons){
-		this.threshold = gene.getThreshold();
+    public Neuron(NeuronGene gene, List<Neuron> targetNeurons){
+        this.threshold = gene.getThreshold();
         this.relaxation = gene.getRelaxation();
-		
+
         if (targetNeurons == null) {
             assembleOutputNeuron(gene);
         } else {
             assembleTransmittingNeuron(gene, targetNeurons);
         }
-	}
+    }
 
     public double transmit() {
         if (this.excitation > this.threshold) {
-        	double excitation = this.excitation;
-        	this.excitation = 0;
+            double excitation = this.excitation;
+            this.excitation = 0;
 
             axons.forEach(Axon::transmit);
 
@@ -40,8 +40,8 @@ class Neuron {
             return 0;
         }
     }
-	
-	public void excite(double value) {
+
+    public void excite(double value) {
         this.excitation += value;
     }
 

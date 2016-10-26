@@ -28,16 +28,22 @@ public class PiMotorsController implements IMotorsController {
 
     @Override
     public void move(double leftChange, double rightChange) {
-        double accelerationLeft = leftChange * linearForce;
-        velocityLeft += accelerationLeft;
-        velocityLeft -= velocityLeft * linearFriction;
+        moveLeftMotor(leftChange);
+        moveRightMotor(rightChange);
+    }
 
+    private void moveRightMotor(double rightChange) {
         double accelerationRight = rightChange * linearForce;
         velocityRight += accelerationRight;
         velocityRight -= velocityRight * linearFriction;
-
-        move(velocityLeft, leftMotor);
         move(velocityRight, rightMotor);
+    }
+
+    private void moveLeftMotor(double leftChange) {
+        double accelerationLeft = leftChange * linearForce;
+        velocityLeft += accelerationLeft;
+        velocityLeft -= velocityLeft * linearFriction;
+        move(velocityLeft, leftMotor);
     }
 
     private static void move(double velocity, PiMotor motor) {

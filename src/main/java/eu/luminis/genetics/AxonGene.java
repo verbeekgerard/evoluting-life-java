@@ -7,18 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AxonGene extends Gene {
-	private double strength;
-	private double strengthening;
-	private double weakening;
+    private double strength;
+    private double strengthening;
+    private double weakening;
 
-	public AxonGene(double strength, double strengthening, double weakening) {
-		this.strength = strength;
-	    this.strengthening = strengthening;
-	    this.weakening = weakening;
-	}
-	
-	public AxonGene() {
-		initializeStrength();
+    public AxonGene(double strength, double strengthening, double weakening) {
+        this.strength = strength;
+        this.strengthening = strengthening;
+        this.weakening = weakening;
+    }
+
+    public AxonGene() {
+        initializeStrength();
         initializeStrengthening();
         initializeWeakening();
     }
@@ -42,7 +42,7 @@ public class AxonGene extends Gene {
     }
 
     public List<AxonGene> mate(AxonGene partner) {
-    	return new Genetics().mate(this, partner);
+        return new Genetics().mate(this, partner);
     }
 
     @Override
@@ -56,9 +56,9 @@ public class AxonGene extends Gene {
     }
 
     @Override
-	public Gene initiate(List<Double> properties) {
-		return new AxonGene(properties.get(0), properties.get(1), properties.get(2));
-	}
+    public Gene initiate(List<Double> properties) {
+        return new AxonGene(properties.get(0), properties.get(1), properties.get(2));
+    }
 
     private void mutateStrength() {
         if (Math.random() <= Options.strengthReplacementRate.get()) {
@@ -67,7 +67,8 @@ public class AxonGene extends Gene {
         }
 
         if (Math.random() <= Options.strengthMutationRate.get()) {
-            this.strength += new Range(-1 * Options.maxStrength.get(), Options.maxStrength.get()).mutation(Options.mutationFraction.get());
+            this.strength += new Range(-1 * Options.maxStrength.get(), Options.maxStrength.get())
+                    .mutation(Options.mutationFraction.get());
         }
     }
 
@@ -78,7 +79,8 @@ public class AxonGene extends Gene {
         }
 
         if (Math.random() <= Options.strengtheningMutationRate.get()) {
-            this.strengthening += new Range(Options.minStrengthening.get(), Options.maxStrengthening.get()).mutation(Options.mutationFraction.get());
+            this.strengthening += new Range(Options.minStrengthening.get(), Options.maxStrengthening.get())
+                    .mutation(Options.mutationFraction.get());
         }
     }
 
@@ -89,7 +91,8 @@ public class AxonGene extends Gene {
         }
 
         if (Math.random() <= Options.weakeningMutationRate.get()) {
-            this.weakening += new Range(Options.minWeakening.get(), Options.maxWeakening.get()).mutation(Options.mutationFraction.get());
+            this.weakening += new Range(Options.minWeakening.get(), Options.maxWeakening.get())
+                    .mutation(Options.mutationFraction.get());
         }
     }
 
@@ -98,7 +101,7 @@ public class AxonGene extends Gene {
     }
 
     private void initializeStrengthening() {
-        this.strengthening =  new Range(Options.minStrengthening.get(), Options.maxStrengthening.get()).random();
+        this.strengthening = new Range(Options.minStrengthening.get(), Options.maxStrengthening.get()).random();
     }
 
     private void initializeWeakening() {

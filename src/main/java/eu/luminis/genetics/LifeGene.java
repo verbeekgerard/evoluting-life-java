@@ -7,44 +7,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LifeGene extends Gene {
-	private double oldAge;
+    private double oldAge;
 
-	public LifeGene() {
-		initializeOldAge();
-	}
+    public LifeGene() {
+        initializeOldAge();
+    }
 
-	public LifeGene(double oldAge) {
-		this.oldAge = oldAge;
-	}
+    public LifeGene(double oldAge) {
+        this.oldAge = oldAge;
+    }
 
-	public double getOldAge() {
-		return oldAge;
-	}
+    public double getOldAge() {
+        return oldAge;
+    }
 
-	public void mutate() {
+    public void mutate() {
         if (Math.random() <= Options.oldAgeMutationRate.get()) {
-            this.oldAge += new Range(Options.minOldAge.get(), Options.maxOldAge.get()).mutation(Options.mutationFraction.get());
+            this.oldAge += new Range(Options.minOldAge.get(), Options.maxOldAge.get())
+                    .mutation(Options.mutationFraction.get());
         }
     }
 
     public List<LifeGene> mate(LifeGene partner) {
-    	return new Genetics().mate(this, partner);
+        return new Genetics().mate(this, partner);
     }
 
-	@Override
-	public List<Double> getInitiateProperties() {
-		List<Double> list = new ArrayList<>();
-		list.add(this.oldAge);
+    @Override
+    public List<Double> getInitiateProperties() {
+        List<Double> list = new ArrayList<>();
+        list.add(this.oldAge);
 
-		return list;
-	}
+        return list;
+    }
 
-	@Override
-	public Gene initiate(List<Double> properties) {
-		return new LifeGene(properties.get(0));
-	}
+    @Override
+    public Gene initiate(List<Double> properties) {
+        return new LifeGene(properties.get(0));
+    }
 
-	private void initializeOldAge() {
-		this.oldAge = new Range(Options.minOldAge.get(), Options.maxOldAge.get()).random();
-	}
+    private void initializeOldAge() {
+        this.oldAge = new Range(Options.minOldAge.get(), Options.maxOldAge.get()).random();
+    }
 }

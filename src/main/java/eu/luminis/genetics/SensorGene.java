@@ -9,12 +9,12 @@ import java.util.List;
 public class SensorGene extends Gene {
     private double viewDistance;
     private double fieldOfView;
-    
-    public SensorGene(double viewDistance, double fieldOfView){
-    	this.viewDistance = viewDistance;
+
+    public SensorGene(double viewDistance, double fieldOfView) {
+        this.viewDistance = viewDistance;
         this.fieldOfView = fieldOfView;
     }
-    
+
     public SensorGene() {
         initializeViewDistance();
         initializeFieldOfView();
@@ -34,7 +34,7 @@ public class SensorGene extends Gene {
     }
 
     public List<SensorGene> mate(SensorGene partner) {
-    	return new Genetics().mate(this, partner);
+        return new Genetics().mate(this, partner);
     }
 
     @Override
@@ -58,7 +58,8 @@ public class SensorGene extends Gene {
         }
 
         if (Math.random() <= Options.viewDistanceMutationRate.get()) {
-            viewDistance += new Range(Options.minViewDistance.get(), Options.maxViewDistance.get()).mutation(Options.mutationFraction.get());
+            viewDistance += new Range(Options.minViewDistance.get(), Options.maxViewDistance.get())
+                    .mutation(Options.mutationFraction.get());
         }
     }
 
@@ -69,7 +70,8 @@ public class SensorGene extends Gene {
         }
 
         if (Math.random() <= Options.fieldOfViewMutationRate.get()) {
-            fieldOfView += new Range(Options.minFieldOfView.get(), Options.maxFieldOfView.get()).mutation(Options.mutationFraction.get());
+            fieldOfView += new Range(Options.minFieldOfView.get(), Options.maxFieldOfView.get())
+                    .mutation(Options.mutationFraction.get());
             fieldOfView = new Range(0, 2 * Math.PI).assureBounds(fieldOfView);
         }
     }

@@ -9,7 +9,7 @@ import java.util.List;
 public class MovementGene extends Gene {
 	private double angularForce;
 	private double linearForce;
-	
+
 	public MovementGene() {
 		initializeAngularForce();
 		initializeLinearForce();
@@ -17,7 +17,7 @@ public class MovementGene extends Gene {
 
 	public MovementGene(double angularForce, double linearForce) {
 		this.angularForce = angularForce;
-        this.linearForce = linearForce;
+		this.linearForce = linearForce;
 	}
 
 	public double getAngularForce() {
@@ -35,7 +35,7 @@ public class MovementGene extends Gene {
 
 	public List<MovementGene> mate(MovementGene partner) {
 		return new Genetics().mate(this, partner);
-    }
+	}
 
 	@Override
 	public List<Double> getInitiateProperties() {
@@ -58,7 +58,8 @@ public class MovementGene extends Gene {
 		}
 
 		if (Math.random() <= Options.angularForceMutationRate.get()) {
-			this.angularForce += new Range(Options.minAngularForce.get(), Options.maxAngularForce.get()).mutation(Options.mutationFraction.get());
+			this.angularForce += new Range(Options.minAngularForce.get(), Options.maxAngularForce.get())
+					.mutation(Options.mutationFraction.get());
 			this.angularForce = new Range(0, 0).assureLowerBound(this.angularForce);
 		}
 	}
@@ -70,7 +71,8 @@ public class MovementGene extends Gene {
 		}
 
 		if (Math.random() <= Options.linearForceMutationRate.get()) {
-			this.linearForce += new Range(Options.minLinearForce.get(), Options.maxLinearForce.get()).mutation(Options.mutationFraction.get());
+			this.linearForce += new Range(Options.minLinearForce.get(), Options.maxLinearForce.get())
+					.mutation(Options.mutationFraction.get());
 			this.linearForce = new Range(0, 0).assureLowerBound(this.linearForce);
 		}
 	}
