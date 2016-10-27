@@ -11,7 +11,7 @@ public class Genome {
 	private final MovementGene movement;
 	
 	public Genome(int inputCount, int outputCount){
-		this.brain = new BrainGene(inputCount, outputCount);
+		this.brain = new BrainGeneBuilder(inputCount, outputCount).build();
 		this.life = new LifeGene();
 		this.sensor = new SensorGene();
 		this.movement = new MovementGene();

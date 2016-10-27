@@ -27,7 +27,6 @@ public class NeuronGene extends Gene {
     }
 
     public NeuronGene(double threshold, double relaxation, List<AxonGene> axons) {
-
         this.threshold = threshold;
         this.relaxation = relaxation;
 

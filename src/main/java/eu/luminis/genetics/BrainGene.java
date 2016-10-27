@@ -11,31 +11,15 @@ public class BrainGene {
 
     private final List<List<NeuronGene>> layers = new ArrayList<>();
 
-    public BrainGene(int inputCount, int outputCount) {
-        // Construct the output layer
-        layers.add(createLayer(0, outputCount));
-
-        // Construct the hidden layers
-        double minGenesPerHL = Math.max(inputCount, outputCount);
-        double numberOfHL = Math.floor(new Range(Options.minHiddenLayers.get(), Options.maxHiddenLayers.get()).random());
-        for (int i = 0; i < numberOfHL; i++) {
-
-            int maxTargetCount = layers.get(layers.size() - 1).size();
-            int neuronCount = (int) Math.floor(new Range(minGenesPerHL, Options.maxNeuronsPerLayer.get()).random());
-
-            layers.add(createLayer(maxTargetCount, neuronCount));
-        }
-
-        int maxTargetCount = layers.get(layers.size() - 1).size();
-
-        // Construct the input layer
-        layers.add(createLayer(maxTargetCount, inputCount));
-    }
-
     public BrainGene(List<List<NeuronGene>> stateLayers) {
         for (List<NeuronGene> stateLayer : stateLayers) {
-            List<NeuronGene> layer = stateLayer.stream().map(neuronGene -> new NeuronGene(neuronGene.getThreshold(),
-                    neuronGene.getRelaxation(), new ArrayList<>(neuronGene.getAxons()))).collect(Collectors.toList());
+            List<NeuronGene> layer = stateLayer.stream()
+                    .map(neuronGene ->
+                            new NeuronGene(
+                                    neuronGene.getThreshold(),
+                                    neuronGene.getRelaxation(),
+                                    new ArrayList<>(neuronGene.getAxons())))
+                    .collect(Collectors.toList());
 
             layers.add(layer);
         }
@@ -89,14 +73,6 @@ public class BrainGene {
 
     public List<List<NeuronGene>> getLayers() {
         return layers;
-    }
-
-    private List<NeuronGene> createLayer(int maxTargetCount, int neuronCount) {
-        List<NeuronGene> neuronGenes = new ArrayList<>();
-        for (int i = 0; i < neuronCount; i++) {
-            neuronGenes.add(new NeuronGene(maxTargetCount));
-        }
-        return neuronGenes;
     }
 
     private List<BrainGene> createChildClones(BrainGene a, BrainGene b) {
