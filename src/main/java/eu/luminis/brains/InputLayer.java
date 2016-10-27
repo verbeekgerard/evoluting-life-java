@@ -10,12 +10,14 @@ class InputLayer extends Layer {
 		super(list, targetLayer);
 	}
 
-	public void sense(List<Double> input) {
+	public InputLayer sense(List<Double> input) {
         // Excite the input neurons
         List<Neuron> inputNeurons = this.getNeurons();
 
         for (int i = inputNeurons.size()-1;i>=0; i--) {
         	inputNeurons.get(i).excite(input.get(i));
         }
+
+        return this;
 	}
 }

@@ -11,7 +11,7 @@ public class BrainGene {
 
     private final List<List<NeuronGene>> layers = new ArrayList<>();
 
-    public BrainGene(List<List<NeuronGene>> stateLayers) {
+    BrainGene(List<List<NeuronGene>> stateLayers) {
         for (List<NeuronGene> stateLayer : stateLayers) {
             List<NeuronGene> layer = stateLayer.stream()
                     .map(neuronGene ->

@@ -10,7 +10,7 @@ public class RouletteWheelSelectionByRank {
 	public SimObstacle select(List<? extends SimObstacle> entities) {
 		long scoreCount = entities.size();
 		
-	    double randomOccurrenceSum = new Range(1l, scoreCount * (scoreCount+1) / 2 ).random();
+	    double randomOccurrenceSum = new Range(1L, scoreCount * (scoreCount+1) / 2 ).random();
 
         for ( int i = 0; i < scoreCount; i++ ) {
             long occurrence = scoreCount - i - 1;

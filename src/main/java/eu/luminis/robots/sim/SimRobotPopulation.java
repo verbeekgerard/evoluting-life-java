@@ -64,7 +64,6 @@ public class SimRobotPopulation {
 
     public void run() {
         Collections.sort(this.simRobots);
-        // Find the best ranking entity
         winningEntity = this.simRobots.get(0);
 
         List<SimRobot> entitiesToRemove = new ArrayList<>();
@@ -81,9 +80,7 @@ public class SimRobotPopulation {
             produceChildren(parents);
         }
 
-        for (SimRobot entityToRemove : entitiesToRemove) {
-            this.simRobots.remove(entityToRemove);
-        }
+        entitiesToRemove.forEach(this.simRobots::remove);
 
         while (this.simRobots.size() <= populationSize - 2) {
             List<SimRobot> parents = selectParents();
@@ -120,8 +117,8 @@ public class SimRobotPopulation {
         List<SimRobot> parents = new ArrayList<>();
 
         for (int i = 0; i < 2; i++) {
-            SimRobot winningEntity = (SimRobot) new RouletteWheelSelectionByRank().select(this.simRobots);
-            parents.add(winningEntity);
+            SimRobot selectedEntity = (SimRobot) new RouletteWheelSelectionByRank().select(this.simRobots);
+            parents.add(selectedEntity);
         }
 
         return parents;

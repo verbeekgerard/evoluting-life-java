@@ -1,11 +1,11 @@
 package eu.luminis.robots.core;
 
-import eu.luminis.brains.Brain;
+import eu.luminis.brains.IBrain;
 
 import java.util.List;
 
 public class Robot {
-    private final Brain brain;
+    private final IBrain brain;
     private final IMotorsController motorsController;
     private final IServoController servoController;
     private final ISensorController sensorController;
@@ -13,7 +13,7 @@ public class Robot {
 
     private double previousServoAngle;
 
-    public Robot(Brain brain, IMotorsController motorsController, IServoController servoController, ISensorController sensorController) {
+    public Robot(IBrain brain, IMotorsController motorsController, IServoController servoController, ISensorController sensorController) {
         this.brain = brain;
         this.motorsController = motorsController;
         this.servoController = servoController;

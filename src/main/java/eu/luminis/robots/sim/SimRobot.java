@@ -1,6 +1,7 @@
 package eu.luminis.robots.sim;
 
-import eu.luminis.brains.Brain;
+import eu.luminis.brains.BrainBuilder;
+import eu.luminis.brains.IBrain;
 import eu.luminis.evolution.CostCalculator;
 import eu.luminis.events.EventType;
 import eu.luminis.Options;
@@ -36,7 +37,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
         this.size = Options.sizeOption.get();
         this.distanceRecorder = new TravelledDistanceRecorder(position);
 
-        Brain brain = initializeBrain(genome);
+        IBrain brain = initializeBrain(genome);
         motorsController = initializeMotorsController(genome);
         servoController = initializeServoController(genome);
         sensorController = initializeSensorController(genome);
@@ -125,8 +126,9 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
         return fitness() > 0;
     }
 
-    private Brain initializeBrain(Genome genome) {
-        return new Brain(genome.getBrain());
+    private IBrain initializeBrain(Genome genome) {
+        BrainBuilder builder = new BrainBuilder(genome.getBrain());
+        return builder.build();
     }
 
     private SimMotorsController initializeMotorsController(Genome genome) {

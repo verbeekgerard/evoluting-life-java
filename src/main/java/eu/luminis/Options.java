@@ -4,6 +4,9 @@ import eu.luminis.util.Option;
 
 public final class Options {
 
+    private final static double defaultMutationRate = 0.05;
+    private final static double defaultReplacementRate = 0.005;
+
     private Options() {
     }
 
@@ -38,19 +41,21 @@ public final class Options {
     public final static Option maxViewDistance = new Option(15 * 8);
     public final static Option minFieldOfView = new Option(Math.PI * 0.6);
     public final static Option maxFieldOfView = new Option(Math.PI);
-    public final static Option viewDistanceMutationRate = new Option(0.05);
-    public final static Option viewDistanceReplacementRate = new Option(0.005);
-    public final static Option fieldOfViewMutationRate = new Option(0.05);
-    public final static Option fieldOfViewReplacementRate = new Option(0.005);
+
+    private final static double sensorMutationRates = defaultMutationRate * 1.0;
+    private final static double sensorReplacementRates = defaultReplacementRate * 1.0;
+    public final static Option viewDistanceMutationRate = new Option(sensorMutationRates);
+    public final static Option viewDistanceReplacementRate = new Option(sensorReplacementRates);
+    public final static Option fieldOfViewMutationRate = new Option(sensorMutationRates);
+    public final static Option fieldOfViewReplacementRate = new Option(sensorReplacementRates);
 
     // MovementGene
-    private static double calculateForce(double maxVelocity, double friction) {
-        return maxVelocity * friction;
-    }
-
     public final static Option linearFriction = new Option(0.06); // 0.06
     public final static Option angularFriction = new Option(0.6); // 0.5
 
+    private static double calculateForce(double maxVelocity, double friction) {
+        return maxVelocity * friction;
+    }
     private static double minA = calculateForce(0.3, angularFriction.get()); // 0.1
     private static double maxA = calculateForce(2.0, angularFriction.get()); // 1.0
     private static double minL = calculateForce(5.0, linearFriction.get());
@@ -61,17 +66,20 @@ public final class Options {
     public final static Option minLinearForce = new Option(minL);
     public final static Option maxLinearForce = new Option(maxL);
 
-    public final static Option angularForceMutationRate = new Option(0.05);
-    public final static Option angularForceReplacementRate = new Option(0.005);
-    public final static Option linearForceMutationRate = new Option(0.05);
-    public final static Option linearForceReplacementRate = new Option(0.005);
+    private final static double movementMutationRates = defaultMutationRate * 1.0;
+    private final static double movementReplacementRates = defaultReplacementRate * 1.0;
+    public final static Option angularForceMutationRate = new Option(movementMutationRates);
+    public final static Option angularForceReplacementRate = new Option(movementReplacementRates);
+    public final static Option linearForceMutationRate = new Option(movementMutationRates);
+    public final static Option linearForceReplacementRate = new Option(movementReplacementRates);
 
     // BrainGene
     public final static Option minHiddenLayers = new Option(2);
     public final static Option maxHiddenLayers = new Option(4);
     public final static Option maxNeuronsPerLayer = new Option(16);
+
     public final static Option layerMutationRate = new Option(0.01); // adding or removing a neuron
-    public final static Option neuronMutationRate = new Option(0.95);
+    public final static Option neuronMutationRate = new Option(0.5);
     public final static Option neuronReplacementRate = new Option(0.005);
 
     // NeuronGene
@@ -79,10 +87,12 @@ public final class Options {
     public final static Option maxThreshold = new Option(1.0);
     public final static Option maxRelaxation = new Option(99.0);
 
-    public final static Option thresholdMutationRate = new Option(0.02);
-    public final static Option thresholdReplacementRate = new Option(0.002);
-    public final static Option relaxationMutationRate = new Option(0.02);
-    public final static Option relaxationReplacementRate = new Option(0.002);
+    private final static double neuronMutationRates = defaultMutationRate * 1.0;
+    private final static double neuronReplacementRates = defaultReplacementRate * 1.0;
+    public final static Option thresholdMutationRate = new Option(neuronMutationRates);
+    public final static Option thresholdReplacementRate = new Option(neuronReplacementRates);
+    public final static Option relaxationMutationRate = new Option(neuronMutationRates);
+    public final static Option relaxationReplacementRate = new Option(neuronReplacementRates);
 
     // AxonGene
     public final static Option maxStrength = new Option(0.8);
@@ -90,10 +100,13 @@ public final class Options {
     public final static Option maxStrengthening = new Option(0.00002);
     public final static Option minWeakening = new Option(0.000001);
     public final static Option maxWeakening = new Option(0.000005);
-    public final static Option strengthMutationRate = new Option(0.01);
-    public final static Option strengthReplacementRate = new Option(0.001);
-    public final static Option strengtheningMutationRate = new Option(0.01);
-    public final static Option strengtheningReplacementRate = new Option(0.001);
-    public final static Option weakeningMutationRate = new Option(0.01);
-    public final static Option weakeningReplacementRate = new Option(0.001);
+
+    private final static double axonMutationRates = defaultMutationRate * 0.5;
+    private final static double axonReplacementRates = defaultReplacementRate * 0.5;
+    public final static Option strengthMutationRate = new Option(axonMutationRates);
+    public final static Option strengthReplacementRate = new Option(axonReplacementRates);
+    public final static Option strengtheningMutationRate = new Option(axonMutationRates);
+    public final static Option strengtheningReplacementRate = new Option(axonReplacementRates);
+    public final static Option weakeningMutationRate = new Option(axonMutationRates);
+    public final static Option weakeningReplacementRate = new Option(axonReplacementRates);
 }

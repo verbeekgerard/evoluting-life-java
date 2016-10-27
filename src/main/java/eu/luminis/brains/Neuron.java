@@ -1,26 +1,17 @@
 package eu.luminis.brains;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import eu.luminis.genetics.*;
-
 class Neuron {
-
-    private final List<Axon> axons = new ArrayList<>();
+    private final List<Axon> axons;
     private final double threshold;
     private final double relaxation;
     private double excitation = 0;
 
-    public Neuron(NeuronGene gene, List<Neuron> targetNeurons){
-        this.threshold = gene.getThreshold();
-        this.relaxation = gene.getRelaxation();
-
-        if (targetNeurons == null) {
-            assembleOutputNeuron(gene);
-        } else {
-            assembleTransmittingNeuron(gene, targetNeurons);
-        }
+    Neuron(double threshold, double relaxation, List<Axon> axons) {
+        this.threshold = threshold;
+        this.relaxation = relaxation;
+        this.axons = axons;
     }
 
     public double transmit() {
@@ -43,19 +34,5 @@ class Neuron {
 
     public void excite(double value) {
         this.excitation += value;
-    }
-
-    private void assembleOutputNeuron(NeuronGene gene) {
-        for (AxonGene axonGene : gene.getAxons()) {
-            Axon axon = new Axon(axonGene.getStrength());
-            axons.add(axon);
-        }
-    }
-
-    private void assembleTransmittingNeuron(NeuronGene gene, List<Neuron> targetNeurons) {
-        for (int i = 0; i < gene.getAxons().size(); i++) {
-            Axon axon = new Axon(gene.getAxons().get(i).getStrength(), targetNeurons.get(i));
-            axons.add(axon);
-        }
     }
 }
