@@ -1,14 +1,14 @@
 package eu.luminis.ui;
 
 import eu.luminis.Simulation;
+import eu.luminis.genetics.Genome;
+import eu.luminis.util.GenesFile;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
-
-import static java.nio.file.Files.readAllBytes;
-import static java.nio.file.Paths.get;
+import java.util.List;
 
 class GenesFileReader extends GenesFileActionListener {
 
@@ -27,8 +27,10 @@ class GenesFileReader extends GenesFileActionListener {
 
     private void importFile(File file) {
         try {
-            String json = new String(readAllBytes(get(file.getPath())));
-            getSimulation().importPopulation(json);
+            GenesFile genesFile = new GenesFile(file.getPath());
+            List<Genome> genomes = genesFile.read();
+
+            getSimulation().importPopulation(genomes);
         }
         catch (IOException e) {
             e.printStackTrace();

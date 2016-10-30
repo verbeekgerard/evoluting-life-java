@@ -1,7 +1,5 @@
 package eu.luminis.robots.sim;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import eu.luminis.evolution.RouletteWheelSelectionByRank;
 import eu.luminis.events.EventBroadcaster;
 import eu.luminis.events.EventType;
@@ -11,11 +9,9 @@ import eu.luminis.geometry.Position;
 import eu.luminis.robots.core.BrainInput;
 import eu.luminis.robots.core.BrainOutput;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class SimRobotPopulation {
@@ -50,25 +46,16 @@ public class SimRobotPopulation {
         return winningEntity;
     }
 
-    public void importPopulation(String json) {
-        Type listType = new TypeToken<ArrayList<Genome>>(){}.getType();
-        List<Genome> genomes = new Gson().fromJson(json, listType);
-
-        List<SimRobot> robots = new ArrayList<>();
-        for (Genome genome : genomes) {
-            SimRobot robot = spawnNewEntity(genome);
-            robots.add(robot);
-        }
-
-        simRobots = robots;
+    public void importPopulation(List<Genome> genomes) {
+        simRobots = genomes.stream()
+                .map(this::spawnNewEntity)
+                .collect(Collectors.toList());
     }
 
-    public String exportPopulation() {
-        ArrayList<Genome> genomes = simRobots.stream()
+    public List<Genome> exportPopulation() {
+        return simRobots.stream()
                 .map(SimRobot::getGenome)
                 .collect(Collectors.toCollection(ArrayList::new));
-
-        return new Gson().toJson(genomes);
     }
 
     public void run() {

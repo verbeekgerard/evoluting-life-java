@@ -2,12 +2,15 @@ package eu.luminis;
 
 import eu.luminis.events.EventBroadcaster;
 import eu.luminis.events.EventType;
+import eu.luminis.genetics.Genome;
 import eu.luminis.robots.sim.SimWorld;
+
+import java.util.List;
 
 public class Simulation {
 
     private static final Simulation singleton = new Simulation();
-    public static Simulation getInstance() {
+    static Simulation getInstance() {
         return singleton;
     }
 
@@ -20,14 +23,14 @@ public class Simulation {
 	private Simulation() {
 		this.world = new SimWorld();
 	}
-	
-	public String exportPopulation() {
-		return this.world.getRobotPopulation().exportPopulation();
+
+	public List<Genome> exportPopulation() {
+		return  world.getRobotPopulation().exportPopulation();
 	}
 	
-	public void importPopulation(String json) {
+	public void importPopulation(List<Genome> genomes) {
 		stop();
-		this.world.getRobotPopulation().importPopulation(json);
+        world.getRobotPopulation().importPopulation(genomes);
 		start();
 	}
 
@@ -36,26 +39,29 @@ public class Simulation {
     }
 
 	void startMainLoop() {
-		mainThread = new Thread(() -> {
-			while (loop) {
-				mainLoop();
-				long sleepTime = (long) Options.mainLoopSleep.get();
-				if (sleepTime > 0){
-					try {
-						Thread.sleep(sleepTime);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		});
+		mainThread = createThread();
 		mainThread.start();
 	}
 
-	private void stop() {
+    private Thread createThread() {
+        return new Thread(() -> {
+            while (loop) {
+                mainLoop();
+                long sleepTime = (long) Options.mainLoopSleep.get();
+                if (sleepTime > 0) {
+                    try {
+                        Thread.sleep(sleepTime);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    private void stop() {
 		loop = false;
 		try {
-			// Wait for the thread to join
 			mainThread.join();
 		} catch (InterruptedException e) {
 			e.printStackTrace();

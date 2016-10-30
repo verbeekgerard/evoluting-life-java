@@ -28,7 +28,7 @@ abstract class GenesFileActionListener implements ActionListener {
     @Override
     public abstract void actionPerformed(ActionEvent e);
 
-    public Simulation getSimulation() {
+    protected Simulation getSimulation() {
         return simulation;
     }
 

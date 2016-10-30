@@ -1,15 +1,7 @@
 package eu.luminis;
 
-import static java.nio.file.Files.readAllBytes;
-import static java.nio.file.Paths.get;
-
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import eu.luminis.brains.BrainBuilder;
 import eu.luminis.brains.IBrain;
@@ -18,6 +10,7 @@ import eu.luminis.robots.core.Robot;
 import eu.luminis.robots.pi.PiMotorsController;
 import eu.luminis.robots.pi.PiSensorController;
 import eu.luminis.robots.pi.PiServoController;
+import eu.luminis.util.GenesFile;
 
 public class RunRobot {
 
@@ -26,9 +19,8 @@ public class RunRobot {
     public static void main(String[] args) {
 
         try {
-            String json = new String(readAllBytes(get("testrobot.json")));
-            Type listType = new TypeToken<ArrayList<Genome>>(){}.getType();
-            List<Genome> genomes = new Gson().fromJson(json, listType);
+            GenesFile genesFile = new GenesFile("testrobot.json");
+            List<Genome> genomes = genesFile.read();
 
             Robot robot = createRobot(genomes.get(0));
             loop(robot);
