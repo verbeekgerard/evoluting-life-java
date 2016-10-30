@@ -21,20 +21,25 @@ import java.util.stream.Collectors;
 public class SimRobotPopulation {
     private final SimWorld world;
     private final PositionGenerator positionGenerator;
-    private final List<SimRobot> simRobots = new CopyOnWriteArrayList<>(); // Slow lost but no exceptions in UI
-    private SimRobot winningEntity;
+    private final RouletteWheelSelectionByRank selection = new RouletteWheelSelectionByRank();
+    private final double populationSize;
 
-    private double populationSize;
+    private List<SimRobot> simRobots = new ArrayList<>();
+    private SimRobot winningEntity;
 
     public SimRobotPopulation(SimWorld world) {
         this.world = world;
         this.positionGenerator = new PositionGenerator(world);
         this.populationSize = Options.populationSize.get();
 
+        List<SimRobot> robots = new ArrayList<>();
         for (int i = 0; i < populationSize; i++) {
             Genome genome = createGenome();
-            spawnNewEntity(genome);
+            SimRobot robot = spawnNewEntity(genome);
+            robots.add(robot);
         }
+
+        simRobots = robots;
     }
 
     public List<SimRobot> getAllRobots() {
@@ -46,12 +51,16 @@ public class SimRobotPopulation {
     }
 
     public void importPopulation(String json) {
-        simRobots.clear();
-
         Type listType = new TypeToken<ArrayList<Genome>>(){}.getType();
         List<Genome> genomes = new Gson().fromJson(json, listType);
 
-        genomes.forEach(this::spawnNewEntity);
+        List<SimRobot> robots = new ArrayList<>();
+        for (Genome genome : genomes) {
+            SimRobot robot = spawnNewEntity(genome);
+            robots.add(robot);
+        }
+
+        simRobots = robots;
     }
 
     public String exportPopulation() {
@@ -63,29 +72,22 @@ public class SimRobotPopulation {
     }
 
     public void run() {
-        Collections.sort(this.simRobots);
-        winningEntity = this.simRobots.get(0);
+        simRobots.forEach(SimObstacle::runCycle);
 
-        List<SimRobot> entitiesToRemove = new ArrayList<>();
-        for (SimRobot entity : simRobots) {
-            entity.runCycle();
+        List<SimRobot> robots = simRobots.stream()
+                .filter(SimObstacle::survives)
+                .collect(Collectors.toList());
 
-            if (!entity.survives()) {
-                entitiesToRemove.add(entity);
-            }
+        Collections.sort(robots);
+
+        while (robots.size() <= populationSize - 2) {
+            List<SimRobot> parents = selectParents(robots);
+            List<SimRobot> children = produceChildren(parents);
+            robots.addAll(children);
         }
 
-        for (int i = 0; i < entitiesToRemove.size() / 2; i++) {
-            List<SimRobot> parents = selectParents();
-            produceChildren(parents);
-        }
-
-        entitiesToRemove.forEach(this.simRobots::remove);
-
-        while (this.simRobots.size() <= populationSize - 2) {
-            List<SimRobot> parents = selectParents();
-            produceChildren(parents);
-        }
+        winningEntity = robots.get(0);
+        simRobots = robots;
     }
 
     private Genome createGenome() {
@@ -96,28 +98,33 @@ public class SimRobotPopulation {
         return positionGenerator.createRandomPositionWithinRelativeBorder(0.98);
     }
 
-    private void produceChildren(List<SimRobot> parents) {
-        List<Genome> children = parents.get(0).getGenome().mate(parents.get(1).getGenome());
-        for (Genome child : children) {
-            child.mutate();
+    private List<SimRobot> produceChildren(List<SimRobot> parents) {
+        List<SimRobot> childRobots = new ArrayList<>();
+        List<Genome> childGenomes = parents.get(0).getGenome().mate(parents.get(1).getGenome());
+        for (Genome childGenome : childGenomes) {
+            childGenome.mutate();
 
-            spawnNewEntity(child);
+            SimRobot childRobot = spawnNewEntity(childGenome);
+            childRobots.add(childRobot);
         }
+
+        return childRobots;
     }
 
-    private void spawnNewEntity(Genome genome) {
+    private SimRobot spawnNewEntity(Genome genome) {
         Position position = createRandomPosition();
         SimRobot newSimRobot = new SimRobot(genome, position, world);
-        this.simRobots.add(newSimRobot);
 
         EventBroadcaster.getInstance().broadcast(EventType.NEW_ROBOT, newSimRobot);
+
+        return newSimRobot;
     }
 
-    private List<SimRobot> selectParents() {
+    private List<SimRobot> selectParents(List<SimRobot> robots) {
         List<SimRobot> parents = new ArrayList<>();
 
         for (int i = 0; i < 2; i++) {
-            SimRobot selectedEntity = (SimRobot) new RouletteWheelSelectionByRank().select(this.simRobots);
+            SimRobot selectedEntity = (SimRobot)selection.select(robots);
             parents.add(selectedEntity);
         }
 
