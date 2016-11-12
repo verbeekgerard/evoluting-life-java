@@ -25,6 +25,7 @@ public class StatsPrinter implements Observer {
 	}
 
 	private void printStats() {
-		System.out.println(collector.getStats().toString());
+		Stats stats = collector.getStats();
+		System.out.println((stats==null)?"No stats available": stats.toString());
 	}
 }

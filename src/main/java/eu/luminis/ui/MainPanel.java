@@ -135,9 +135,11 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
 
     private void updateStatsLabels() {
         Stats stats = this.statsCollector.getStats();
-        bestFitnessLbl.setText("Best fitness: " + stats.getAverageBestFitness());
-        avgFitnessLbl.setText("Avg fitness: " + stats.getAverageHealth());
-        avgAgeLbl.setText("Avg age: " + stats.getAverageAge());
-        avgDistanceLbl.setText("Avg distance: " + stats.getAverageDistance());
+        if(stats != null) {
+            bestFitnessLbl.setText("Best fitness: " + stats.getAverageBestFitness());
+            avgFitnessLbl.setText("Avg fitness: " + stats.getAverageHealth());
+            avgAgeLbl.setText("Avg age: " + stats.getAverageAge());
+            avgDistanceLbl.setText("Avg distance: " + stats.getAverageDistance());
+        }
     }
 }

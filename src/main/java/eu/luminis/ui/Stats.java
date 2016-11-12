@@ -12,10 +12,10 @@ public class Stats {
     private int totalWandered;
     private int totalDiedOfAge;
 
-    private double avgHealth;
-    private double avgAge;
-    private double avgDistance;
-    private double avgBestFitness;
+    private double averageHealth;
+    private double averageAge;
+    private double averageDistance;
+    private double averageBestFitness;
 
     private DecimalFormat df2 = new DecimalFormat("0.00");
 
@@ -37,10 +37,10 @@ public class Stats {
             totalBestFitness += periodicStats.getBestFitness();
         }
 
-        avgHealth = totalHealth / periodicStatsList.size();
-        avgAge = totalAge / periodicStatsList.size();
-        avgDistance = totalDistance / periodicStatsList.size();
-        avgBestFitness = totalBestFitness / periodicStatsList.size();
+        averageHealth = totalHealth / periodicStatsList.size();
+        averageAge = totalAge / periodicStatsList.size();
+        averageDistance = totalDistance / periodicStatsList.size();
+        averageBestFitness = totalBestFitness / periodicStatsList.size();
     }
 
     public int getTotalDiedOfAge() {
@@ -57,26 +57,26 @@ public class Stats {
     }
 
     public double getAverageHealth() {
-        return avgHealth;
+        return averageHealth;
     }
-    public double getAverageAge() { return avgAge; }
-    public double getAverageDistance() { return avgDistance; }
+    public double getAverageAge() { return averageAge; }
+    public double getAverageDistance() { return averageDistance; }
     public double getAverageBestFitness() {
-        return avgBestFitness;
+        return averageBestFitness;
     }
     public double getMutationFraction() { return Options.mutationFraction.get(); }
 
     @Override
     public String toString() {
         return
-                "avg. health:\t" + df2.format(avgHealth) + "\t" +
-                "avg. age:\t" + df2.format(avgAge) + "\t" +
-                "avg. distance:\t" + df2.format(avgDistance) + "\t" +
+                "avg. health:\t" + df2.format(averageHealth) + "\t" +
+                "avg. age:\t" + df2.format(averageAge) + "\t" +
+                "avg. distance:\t" + df2.format(averageDistance) + "\t" +
                 "totalCollisions:\t" + totalCollisions + "\t" +
 //                "totalStarved:\t" + totalStarved + "\t" +
 //                "totalWandered:\t" + totalWandered + "\t" +
 //                "totalDiedOfAge:\t" + totalDiedOfAge + "\t" +
-                "best:\t" + df2.format(avgBestFitness) + "\t" +
+                "best:\t" + df2.format(averageBestFitness) + "\t" +
                 "mutationFraction:\t" + getMutationFraction();
     }
 }
