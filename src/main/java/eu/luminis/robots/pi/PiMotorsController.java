@@ -28,31 +28,94 @@ public class PiMotorsController implements IMotorsController {
 
     @Override
     public void move(double leftChange, double rightChange) {
-        moveLeftMotor(leftChange);
-        moveRightMotor(rightChange);
+        calculateVelocityLeft(leftChange);
+        calculateVelocityRight(rightChange);
+
+        if (velocityRight == 0 && velocityLeft == 0) {
+            stop();
+        }
+
+        if (velocityRight > 0) {
+            if (velocityLeft > 0) {
+                moveForward();
+            } else {
+                turnLeft();
+            }
+        }
+
+        if (velocityRight < 0) {
+            if (velocityLeft < 0) {
+                moveBack();
+            } else {
+                turnRight();
+            }
+        }
     }
 
-    private void moveRightMotor(double rightChange) {
+    private void turnRight() {
+        rightMotor.reverse();
+        leftMotor.forward();
+    }
+
+    private void turnLeft() {
+        rightMotor.forward();
+        leftMotor.reverse();
+    }
+
+    private void stop() {
+        rightMotor.stop();
+        leftMotor.stop();
+    }
+
+    private void moveForward() {
+        if (velocityRight == velocityLeft) {
+            rightMotor.forward();
+            leftMotor.forward();
+        }
+        else if (velocityRight > velocityLeft) {
+            rightMotor.forward();
+            leftMotor.stop();
+        }
+        else {
+            rightMotor.stop();
+            leftMotor.forward();
+        }
+    }
+
+    private void moveBack() {
+        if (velocityRight == velocityLeft) {
+            rightMotor.reverse();
+            leftMotor.reverse();
+        }
+        else if (velocityRight > velocityLeft) {
+            rightMotor.stop();
+            leftMotor.reverse();
+        }
+        else {
+            rightMotor.reverse();
+            leftMotor.stop();
+        }
+    }
+
+    private void calculateVelocityRight(double rightChange) {
         double accelerationRight = rightChange * linearForce;
         velocityRight += accelerationRight;
         velocityRight -= velocityRight * linearFriction;
-        move(velocityRight, rightMotor);
     }
 
-    private void moveLeftMotor(double leftChange) {
+    private void calculateVelocityLeft(double leftChange) {
         double accelerationLeft = leftChange * linearForce;
         velocityLeft += accelerationLeft;
         velocityLeft -= velocityLeft * linearFriction;
-        move(velocityLeft, leftMotor);
     }
 
     private static void move(double velocity, PiMotor motor) {
-    	if (velocity > 0) {
-    		motor.forward();
+        if (velocity > 0) {
+            motor.forward();
         } else if (velocity < 0) {
-        	motor.reverse();
+            motor.reverse();
         } else {
-        	motor.stop();
+            motor.stop();
         }
     }
 }

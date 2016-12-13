@@ -33,7 +33,7 @@ public class RunRobot {
         System.out.println("Iteration: " + iteration++);
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(50);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
