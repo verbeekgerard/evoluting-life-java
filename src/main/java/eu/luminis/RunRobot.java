@@ -30,16 +30,15 @@ public class RunRobot {
     }
 
     private static void loop(Robot robot) {
-        System.out.println("Iteration: " + iteration++);
-
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        while (true){
+            try {
+                System.out.println("Iteration: " + iteration++);
+                robot.run();
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-
-        robot.run();
-        loop(robot);
     }
 
     private static Robot createRobot(Genome genome) {

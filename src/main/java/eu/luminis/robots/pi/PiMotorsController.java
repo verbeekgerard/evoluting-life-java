@@ -31,6 +31,7 @@ public class PiMotorsController implements IMotorsController {
         calculateVelocityLeft(leftChange);
         calculateVelocityRight(rightChange);
 
+        /*
         if (velocityRight == 0 && velocityLeft == 0) {
             stop();
         }
@@ -50,6 +51,10 @@ public class PiMotorsController implements IMotorsController {
                 turnRight();
             }
         }
+        */
+
+        move(velocityLeft, leftMotor);
+        move(velocityRight, rightMotor);
     }
 
     private void turnRight() {

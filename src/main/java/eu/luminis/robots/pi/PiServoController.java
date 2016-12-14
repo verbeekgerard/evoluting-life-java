@@ -46,7 +46,6 @@ public class PiServoController implements IServoController {
 
         int degrees = (int)Math.toDegrees(angle) + 90;
 
-        System.out.println("Turn Servo: " + degrees);
         piServo.moveTo(degrees);
     }
 
