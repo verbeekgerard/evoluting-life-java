@@ -11,7 +11,7 @@ public class PiSensorController implements ISensorController {
 	private static final double viewDistance = 80; // TODO: Figure out what the true viewDistance is
 
 	private PiSensor piSensor;
-	private Double distance;
+	private Double distance = viewDistance;
 
 	public PiSensorController() {
 		try {
@@ -33,20 +33,20 @@ public class PiSensorController implements ISensorController {
 		});
 
 		Consumer<Double> callback = d -> {
-			distance = d;
-			System.out.println("Sense: " + d);
+            distance = d == null ? viewDistance : d;
+			System.out.println("Sense: " + distance);
 		};
 
-		Predicate<Double> filter = d -> d != null && d < 50;
+		Predicate<Double> filter = d -> d == null || d < viewDistance;
 
 		piSensor.addSensorCallback(filter, callback);
 
-		piSensor.start(100);
+		piSensor.start(50);
 	}
 
 	@Override
 	public double sense() {
-		return distance == null ? viewDistance : distance;
+		return distance;
 	}
 
 	@Override

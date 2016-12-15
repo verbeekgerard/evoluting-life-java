@@ -62,19 +62,10 @@ public abstract class Sensor<T> {
             try {
                 sensorData = sense();
 
-                if (sensorData == null) {
-                    return;
+                if (sensorData != null) {
+                    denoise();
                 }
 
-                // denoise
-                if (buffer != null) {
-                    buffer.add(sensorData);
-                    if (buffer.filled()) {
-                        sensorData = denoiseFunction.apply(buffer.elements());
-                    } else {
-                        return; /* skip */
-                    }
-                }
                 // present the data to all callbacks
                 callbacks.forEach(c -> {
                     if (c.filter.test(sensorData)) {
@@ -86,6 +77,16 @@ public abstract class Sensor<T> {
             }
         }
 
+        private void denoise() {
+            if (buffer != null) {
+                buffer.add(sensorData);
+                if (buffer.filled()) {
+                    sensorData = denoiseFunction.apply(buffer.elements());
+                } else {
+                    sensorData = null;
+                }
+            }
+        }
     }
 
     /**
