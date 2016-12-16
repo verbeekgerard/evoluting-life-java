@@ -17,8 +17,6 @@ public class StatsCollector implements Observer {
     private int totalWandered;
     private int totalDiedOfAge;
 
-    private Stats stats;
-
     private SimRobotPopulation population;
     private List<PeriodicStats> periodicStatsList = new ArrayList<>();
 
@@ -47,7 +45,8 @@ public class StatsCollector implements Observer {
         }
     }
 
-    public Stats getStats(){
+    public Stats getStats() {
+        Stats stats = new Stats(totalStarved, totalCollisions, totalWandered, totalDiedOfAge, periodicStatsList);
         resetStats();
         return stats;
     }
@@ -71,8 +70,6 @@ public class StatsCollector implements Observer {
         PeriodicStats periodicStats = new PeriodicStats(avgHealth, avgAge, avgDistance, bestFitness);
 
         periodicStatsList.add(periodicStats);
-
-        stats = new Stats(totalStarved, totalCollisions, totalWandered, totalDiedOfAge, periodicStatsList);
     }
 
     private void resetStats() {
