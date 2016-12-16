@@ -16,18 +16,14 @@ public class PiSensorController implements ISensorController {
 		this.distance = viewDistance;
 
         Consumer<Double> callback = d -> {
-            distance = d == null ? viewDistance : d;
+            distance = d == null ? viewDistance : d > viewDistance ? viewDistance : d;
             System.out.println("Sense: " + distance);
         };
 
-        Predicate<Double> filter = d -> d == null || d < viewDistance;
-
-        PiSensor piSensor;
-
 		try {
-			piSensor = new PiSensor(19, 16);
+            PiSensor piSensor = new PiSensor(19, 16);
             configureNoiseReduction(piSensor);
-            piSensor.addSensorCallback(filter, callback);
+            piSensor.addSensorCallback(callback);
 
             piSensor.start(100);
         } catch (IOException e) {

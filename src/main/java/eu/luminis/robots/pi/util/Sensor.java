@@ -28,13 +28,13 @@ public abstract class Sensor<T> {
      */
     private class Callback {
 
-        public Callback(Predicate<T> filter, Consumer<T> callback) {
-            this.filter = filter;
+        public Callback(Consumer<T> callback, Predicate<T> filter) {
             this.callbackFunction = callback;
+            this.filter = filter;
         }
 
-        private Predicate<T> filter;
         private Consumer<T> callbackFunction;
+        private Predicate<T> filter;
     }
 
     private List<Callback> callbacks = new ArrayList<>();
@@ -63,7 +63,7 @@ public abstract class Sensor<T> {
                 sensorData = sense();
 
                 if (sensorData != null) {
-                    denoise();
+                    reduceNoise();
                 }
 
                 // present the data to all callbacks
@@ -77,7 +77,7 @@ public abstract class Sensor<T> {
             }
         }
 
-        private void denoise() {
+        private void reduceNoise() {
             if (buffer != null) {
                 buffer.add(sensorData);
                 if (buffer.filled()) {
@@ -137,12 +137,21 @@ public abstract class Sensor<T> {
 
     /**
      * Adds a callback to this sensor.
-     * 
-     * @param filter
+     *
      * @param callback
      */
-    public void addSensorCallback(Predicate<T> filter, Consumer<T> callback) {
-        callbacks.add(new Callback(filter, callback));
+    public void addSensorCallback(Consumer<T> callback) {
+        callbacks.add(new Callback(callback, d -> true));
+    }
+
+    /**
+     * Adds a callback to this sensor.
+     * 
+     * @param callback
+     * @param filter
+     */
+    public void addSensorCallback(Consumer<T> callback, Predicate<T> filter) {
+        callbacks.add(new Callback(callback, filter));
     }
 
     private RingBuffer<T> buffer;
