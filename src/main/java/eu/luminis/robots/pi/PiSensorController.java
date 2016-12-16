@@ -25,7 +25,8 @@ public class PiSensorController implements ISensorController {
             configureNoiseReduction(piSensor);
             piSensor.addSensorCallback(callback);
 
-            piSensor.start(100);
+            // piSensor.start(100);
+            piSensor.start();
         } catch (IOException e) {
 			e.printStackTrace();
 		}

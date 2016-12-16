@@ -37,7 +37,7 @@ public class RunRobot {
             try {
                 System.out.println("Iteration: " + iteration++);
                 robot.run();
-                Thread.sleep(100);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
