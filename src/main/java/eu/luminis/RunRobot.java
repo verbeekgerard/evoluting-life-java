@@ -17,7 +17,7 @@ import eu.luminis.util.GenesFile;
 
 public class RunRobot {
 
-    private static int iteration = 0;
+//    private static int iteration = 0;
 
     public static void main(String[] args) {
 
@@ -35,7 +35,7 @@ public class RunRobot {
     private static void loop(Robot robot) {
         while (true){
             try {
-                System.out.println("Iteration: " + iteration++);
+//                System.out.println("Iteration: " + iteration++);
                 robot.run();
                 Thread.sleep(50);
             } catch (InterruptedException e) {
@@ -59,14 +59,26 @@ public class RunRobot {
     }
 
     private static IMotorsController initializeMotorsController(Genome genome) {
-        return new PiMotorsController(genome.getMovement().getLinearForce());
+        double linearForce = genome.getMovement().getLinearForce();
+        System.out.println("Initializing motors with linearForce: " + linearForce);
+
+        return new PiMotorsController(linearForce);
     }
 
     private static IServoController initializeServoController(Genome genome) {
-        return new PiServoController(genome.getSensor().getFieldOfView(), genome.getMovement().getAngularForce());
+        double fieldOfView = genome.getSensor().getFieldOfView();
+        double angularForce = genome.getMovement().getAngularForce();
+
+        System.out.println("Initializing servo with fieldOfView: " + fieldOfView);
+        System.out.println("Initializing servo with angularForce: " + angularForce);
+
+        return new PiServoController(fieldOfView, angularForce);
     }
 
     private static ISensorController initializeSensorController(Genome genome) {
-        return new PiSensorController(genome.getSensor().getViewDistance());
+        double viewDistance = genome.getSensor().getViewDistance();
+        System.out.println("Initializing sensor with viewDistance: " + viewDistance);
+
+        return new PiSensorController(viewDistance);
     }
 }

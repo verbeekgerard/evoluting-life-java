@@ -31,75 +31,8 @@ public class PiMotorsController implements IMotorsController {
         calculateVelocityLeft(leftChange);
         calculateVelocityRight(rightChange);
 
-        /*
-        if (velocityRight == 0 && velocityLeft == 0) {
-            stop();
-        }
-
-        if (velocityRight > 0) {
-            if (velocityLeft > 0) {
-                moveForward();
-            } else {
-                turnLeft();
-            }
-        }
-
-        if (velocityRight < 0) {
-            if (velocityLeft < 0) {
-                moveBack();
-            } else {
-                turnRight();
-            }
-        }
-        */
-
         move(velocityLeft, leftMotor);
         move(velocityRight, rightMotor);
-    }
-
-    private void turnRight() {
-        rightMotor.reverse();
-        leftMotor.forward();
-    }
-
-    private void turnLeft() {
-        rightMotor.forward();
-        leftMotor.reverse();
-    }
-
-    private void stop() {
-        rightMotor.stop();
-        leftMotor.stop();
-    }
-
-    private void moveForward() {
-        if (velocityRight == velocityLeft) {
-            rightMotor.forward();
-            leftMotor.forward();
-        }
-        else if (velocityRight > velocityLeft) {
-            rightMotor.forward();
-            leftMotor.stop();
-        }
-        else {
-            rightMotor.stop();
-            leftMotor.forward();
-        }
-    }
-
-    private void moveBack() {
-        if (velocityRight == velocityLeft) {
-            rightMotor.reverse();
-            leftMotor.reverse();
-        }
-        else if (velocityRight > velocityLeft) {
-            rightMotor.stop();
-            leftMotor.reverse();
-        }
-        else {
-            rightMotor.reverse();
-            leftMotor.stop();
-        }
     }
 
     private void calculateVelocityRight(double rightChange) {

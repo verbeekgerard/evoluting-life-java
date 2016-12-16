@@ -33,7 +33,6 @@ public class PiSensor extends Sensor<Double> {
 
     @Override
     public Double sense() throws IOException {
-
         // trigger sensor
         triggerPin.setValue(true);
         SleepUtil.sleep(0, PULSE_NS);

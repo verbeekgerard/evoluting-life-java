@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import eu.luminis.robots.core.ISensorController;
+import eu.luminis.robots.pi.util.Led;
 
 public class PiSensorController implements ISensorController {
 	private final double viewDistance;
@@ -15,19 +16,25 @@ public class PiSensorController implements ISensorController {
 		this.viewDistance = viewDistance;
 		this.distance = viewDistance;
 
-        Consumer<Double> callback = d -> {
-            distance = d == null ? viewDistance : d > viewDistance ? viewDistance : d;
-            System.out.println("Sense: " + distance);
-        };
+        try {
+            Led led = new Led(21);
 
-		try {
+            Consumer<Double> callback = d -> {
+                distance = d == null ? viewDistance : d > viewDistance ? viewDistance : d;
+
+                if (distance < viewDistance) {
+                    led.blink(10, 1);
+                }
+
+//                System.out.println("Sense: " + distance);
+            };
+
             PiSensor piSensor = new PiSensor(19, 16);
             configureNoiseReduction(piSensor);
             piSensor.addSensorCallback(callback);
-
-            // piSensor.start(100);
             piSensor.start();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
 			e.printStackTrace();
 		}
     }
