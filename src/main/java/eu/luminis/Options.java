@@ -37,8 +37,8 @@ public final class Options {
     public final static Option populationSize = new Option(16 * 8);
 
     // SensorGene
-    public final static Option minViewDistance = new Option(5 * 8);
-    public final static Option maxViewDistance = new Option(15 * 8);
+    public final static Option minViewDistance = new Option(6 * 8);
+    public final static Option maxViewDistance = new Option(10 * 8);
     public final static Option minFieldOfView = new Option(Math.PI * 0.6);
     public final static Option maxFieldOfView = new Option(Math.PI);
 
@@ -50,7 +50,7 @@ public final class Options {
     public final static Option fieldOfViewReplacementRate = new Option(sensorReplacementRates);
 
     // MovementGene
-    public final static Option linearFriction = new Option(0.6); // 0.06
+    public final static Option linearFriction = new Option(0.7); // 0.06
     public final static Option angularFriction = new Option(0.6); // 0.5
 
     private static double calculateForce(double maxVelocity, double friction) {

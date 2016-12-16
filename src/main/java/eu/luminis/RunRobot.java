@@ -6,6 +6,9 @@ import java.util.List;
 import eu.luminis.brains.BrainBuilder;
 import eu.luminis.brains.IBrain;
 import eu.luminis.genetics.Genome;
+import eu.luminis.robots.core.IMotorsController;
+import eu.luminis.robots.core.ISensorController;
+import eu.luminis.robots.core.IServoController;
 import eu.luminis.robots.core.Robot;
 import eu.luminis.robots.pi.PiMotorsController;
 import eu.luminis.robots.pi.PiSensorController;
@@ -43,9 +46,9 @@ public class RunRobot {
 
     private static Robot createRobot(Genome genome) {
         IBrain brain = initializeBrain(genome);
-        PiMotorsController piMotorsController = new PiMotorsController(genome.getMovement().getLinearForce());
-        PiServoController piServoController = new PiServoController(genome.getMovement().getAngularForce());
-        PiSensorController piSensorController = new PiSensorController();
+        IMotorsController piMotorsController = initializeMotorsController(genome);
+        IServoController piServoController = initializeServoController(genome);
+        ISensorController piSensorController = initializeSensorController(genome);
 
         return new Robot(brain, piMotorsController, piServoController, piSensorController);
     }
@@ -53,5 +56,17 @@ public class RunRobot {
     private static IBrain initializeBrain(Genome genome) {
         BrainBuilder builder = new BrainBuilder(genome.getBrain());
         return builder.build();
+    }
+
+    private static IMotorsController initializeMotorsController(Genome genome) {
+        return new PiMotorsController(genome.getMovement().getLinearForce());
+    }
+
+    private static IServoController initializeServoController(Genome genome) {
+        return new PiServoController(genome.getSensor().getFieldOfView(), genome.getMovement().getAngularForce());
+    }
+
+    private static ISensorController initializeSensorController(Genome genome) {
+        return new PiSensorController(genome.getSensor().getViewDistance());
     }
 }

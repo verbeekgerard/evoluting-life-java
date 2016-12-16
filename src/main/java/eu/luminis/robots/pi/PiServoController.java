@@ -12,15 +12,15 @@ public class PiServoController implements IServoController {
 
     private final PiServo piServo = new PiServo(0, deg_0, deg_90, deg_180, 2.33, 100);
 
+    private final double viewAngle;
     private final double angularForce;
     private final Range viewAngleRange;
 
-    private final double viewAngle = Math.PI;
-
-    private Double angle;
+    private double angle;
     private double angularVelocity = 0;
 
-    public PiServoController(double angularForce) {
+    public PiServoController(double viewAngle, double angularForce) {
+        this.viewAngle = viewAngle;
         this.angularForce = angularForce;
         this.viewAngleRange = new Range(-1 * viewAngle/2, viewAngle/2);
 
