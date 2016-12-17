@@ -53,9 +53,9 @@ public class RunRobot {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("Shutdown hook called");
             try {
-                piMotorsController.shutdown();
                 piServoController.shutdown();
                 piSensorController.shutdown();
+                piMotorsController.shutdown();
             }
             catch (IOException e) {
                 e.printStackTrace();

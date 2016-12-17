@@ -9,8 +9,8 @@ public class PiMotorsController implements IMotorsController, IPiController {
     private final static double linearFriction = Options.linearFriction.get();
 
     private final double linearForce;
-    private PiMotor leftMotor = null;
-    private PiMotor rightMotor = null;
+    private final PiMotor leftMotor;
+    private final PiMotor rightMotor;
 
     private double velocityLeft = 0;
     private double velocityRight = 0;
