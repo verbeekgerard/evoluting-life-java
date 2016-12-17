@@ -44,11 +44,23 @@ public class RunRobot {
         }
     }
 
-    private static Robot createRobot(Genome genome) {
+    private static Robot createRobot(Genome genome) throws IOException {
         IBrain brain = initializeBrain(genome);
-        IMotorsController piMotorsController = initializeMotorsController(genome);
-        IServoController piServoController = initializeServoController(genome);
-        ISensorController piSensorController = initializeSensorController(genome);
+        PiMotorsController piMotorsController = initializeMotorsController(genome);
+        PiServoController piServoController = initializeServoController(genome);
+        PiSensorController piSensorController = initializeSensorController(genome);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("Shutdown hook called");
+            try {
+                piMotorsController.shutdown();
+                piServoController.shutdown();
+                piSensorController.shutdown();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }));
 
         return new Robot(brain, piMotorsController, piServoController, piSensorController);
     }
@@ -58,14 +70,14 @@ public class RunRobot {
         return builder.build();
     }
 
-    private static IMotorsController initializeMotorsController(Genome genome) {
+    private static PiMotorsController initializeMotorsController(Genome genome) throws IOException {
         double linearForce = genome.getMovement().getLinearForce();
         System.out.println("Initializing motors with linearForce: " + linearForce);
 
         return new PiMotorsController(linearForce);
     }
 
-    private static IServoController initializeServoController(Genome genome) {
+    private static PiServoController initializeServoController(Genome genome) {
         double fieldOfView = genome.getSensor().getFieldOfView();
         double angularForce = genome.getMovement().getAngularForce();
 
@@ -75,7 +87,7 @@ public class RunRobot {
         return new PiServoController(fieldOfView, angularForce);
     }
 
-    private static ISensorController initializeSensorController(Genome genome) {
+    private static PiSensorController initializeSensorController(Genome genome) throws IOException {
         double viewDistance = genome.getSensor().getViewDistance();
         System.out.println("Initializing sensor with viewDistance: " + viewDistance);
 

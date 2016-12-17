@@ -5,7 +5,7 @@ import java.io.IOException;
 import eu.luminis.Options;
 import eu.luminis.robots.core.IMotorsController;
 
-public class PiMotorsController implements IMotorsController {
+public class PiMotorsController implements IMotorsController, IPiController {
     private final static double linearFriction = Options.linearFriction.get();
 
     private final double linearForce;
@@ -15,14 +15,9 @@ public class PiMotorsController implements IMotorsController {
     private double velocityLeft = 0;
     private double velocityRight = 0;
 
-    public PiMotorsController(double linearForce) {
-        try {
-			this.leftMotor = new PiMotor(17, 23);
-			this.rightMotor = new PiMotor(22, 27);
-		} catch (IOException e) {
-			// TODO: Auto-generated catch block
-			e.printStackTrace();
-		}
+    public PiMotorsController(double linearForce) throws IOException {
+        this.leftMotor = new PiMotor(17, 23);
+        this.rightMotor = new PiMotor(22, 27);
         this.linearForce = linearForce;
     }
 
@@ -55,5 +50,11 @@ public class PiMotorsController implements IMotorsController {
         } else {
             motor.stop();
         }
+    }
+
+    @Override
+    public void shutdown() throws IOException {
+        leftMotor.shutdown();
+        rightMotor.shutdown();
     }
 }
