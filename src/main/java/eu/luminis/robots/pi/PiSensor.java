@@ -18,8 +18,9 @@ import jdk.dio.gpio.GPIOPinConfig;
 
 public class PiSensor extends Sensor<Double> {
 
-    private int PULSE_NS = 10000;
-    private int SPEEDOFSOUND_CM_S = 34000;
+    private static final int PULSE_NS = 10000;
+    private static final int SPEEDOFSOUND_CM_S = 34029;
+    private static final long ECHO_WAIT_NS = 10000000L * 2; // 20 ms
 
     private GPIOPin triggerPin;
     private GPIOPin echoPin;
@@ -33,29 +34,30 @@ public class PiSensor extends Sensor<Double> {
 
     @Override
     public Double sense() throws IOException {
-        // trigger sensor
-        triggerPin.setValue(true);
-        SleepUtil.sleep(0, PULSE_NS);
-        triggerPin.setValue(false);
+        triggerSensor();
 
-        // measure start and stop of the signal on echo line 
-        //  with a safe guard against looping forever
-        long signalStart = 0;
-        for (int i = 0; i < 1000 && !echoPin.getValue(); i++) {
-            signalStart = System.nanoTime();
-        }
-        long signalStop = 0;
-        for (int i = 0; i < 1000 && echoPin.getValue(); i++) {
-            signalStop = System.nanoTime();
+        long startTime = System.nanoTime(); //ns
+        long start = startTime;
+        //echo will go 0 to 1 and need to save time for that. 20 milliseconds difference
+        while (!echoPin.getValue() && start < startTime + ECHO_WAIT_NS) {
+            start = System.nanoTime();
         }
 
-        if (signalStop == 0 || signalStart == 0) {
+        if (start == startTime || start >= startTime + ECHO_WAIT_NS) {
             return null;
         }
 
-        long distance = (signalStop - signalStart) * SPEEDOFSOUND_CM_S;
+        long stop = start;
+        while (echoPin.getValue() && stop < start + ECHO_WAIT_NS) {
+            stop = System.nanoTime();
+        }
 
-        return new Double(distance / 2.0 / (1000000000L)); // cm/s
+        if (stop == start || stop >= start + ECHO_WAIT_NS) {
+            return null;
+        }
+
+        double deltaSeconds = (stop - start) * SPEEDOFSOUND_CM_S / 1000000000L;
+        return deltaSeconds / 2.0;
     }
 
     ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -78,5 +80,11 @@ public class PiSensor extends Sensor<Double> {
         triggerPin.close();
         executorService.shutdownNow();
         super.shutdown();
+    }
+
+    private void triggerSensor() throws IOException {
+        triggerPin.setValue(true);
+        SleepUtil.sleep(0, PULSE_NS);
+        triggerPin.setValue(false);
     }
 }

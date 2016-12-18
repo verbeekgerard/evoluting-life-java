@@ -59,6 +59,10 @@ public class PiMotor {
     public void shutdown() throws IOException {
         forwardPin.setValue(false);
         reversePin.setValue(false);
+
+        forwardPin.close();
+        reversePin.close();
+
         executorService.shutdownNow();
     }
 }
