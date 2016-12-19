@@ -17,8 +17,8 @@ public class PiPwmMotorsController implements IMotorsController, IPiController {
 
     public PiPwmMotorsController(double linearForce) throws IOException {
         double maxVelocity = linearForce / linearFriction;
-        this.leftMotor = new PiPwmMotor(17, 23, maxVelocity);
-        this.rightMotor = new PiPwmMotor(22, 27, maxVelocity);
+        this.leftMotor = new PiPwmMotor(12, 13, maxVelocity);
+        this.rightMotor = new PiPwmMotor(19, 16, maxVelocity);
         this.linearForce = linearForce;
     }
 

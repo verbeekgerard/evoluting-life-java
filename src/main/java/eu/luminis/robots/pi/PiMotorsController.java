@@ -16,8 +16,8 @@ public class PiMotorsController implements IMotorsController, IPiController {
     private double velocityRight = 0;
 
     public PiMotorsController(double linearForce) throws IOException {
-        this.leftMotor = new PiMotor(17, 23);
-        this.rightMotor = new PiMotor(22, 27);
+        this.leftMotor = new PiMotor(12, 13); // 12, 13
+        this.rightMotor = new PiMotor(19, 16); // 19, 16
         this.linearForce = linearForce;
     }
 
