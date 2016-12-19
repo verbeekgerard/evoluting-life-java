@@ -30,7 +30,7 @@ public class PiSensorController implements ISensorController, IPiController {
             // System.out.println("Sense: " + distance);
         };
 
-        piSensor = new PiSensor(19, 16);
+        piSensor = new PiSensor(11, 8);
         configureNoiseReduction(piSensor);
         piSensor.addSensorCallback(callback);
         piSensor.start();
