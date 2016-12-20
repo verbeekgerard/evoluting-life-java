@@ -6,21 +6,20 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.stream.LongStream;
 
-import jdk.dio.DeviceConfig;
-import jdk.dio.DeviceManager;
-import jdk.dio.gpio.GPIOPin;
-import jdk.dio.gpio.GPIOPinConfig;
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.Pin;
+import com.pi4j.io.gpio.PinState;
 
 import static eu.luminis.robots.pi.util.SleepUtil.sleep;
 
 public class Led {
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
-    private GPIOPin ledPin;
+    private final GpioPinDigitalOutput led;
     private Future<?> thread;
 
-    public Led(int pinNumber) throws IOException {
-        ledPin = DeviceManager.open(new GPIOPinConfig(DeviceConfig.DEFAULT, pinNumber,
-                GPIOPinConfig.DIR_OUTPUT_ONLY, GPIOPinConfig.MODE_OUTPUT_PUSH_PULL, GPIOPinConfig.TRIGGER_NONE, false));
+    public Led(GpioController gpio, Pin pin) {
+        led = gpio.provisionDigitalOutputPin(pin, PinState.LOW);
     }
 
     public void blink(long interval, long times) {
@@ -31,26 +30,17 @@ public class Led {
 
         // start new blinking thread
         thread = executorService.submit(() -> {
-            try {
-                ledPin.setValue(false);
-                LongStream.range(0, times*2).forEach((n) -> {
-                    try {
-                        ledPin.setValue(!ledPin.getValue());
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    sleep(interval);
-                });
-                ledPin.setValue(false);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            led.low();
+            LongStream.range(0, times*2).forEach((n) -> {
+                led.toggle();
+                sleep(interval);
+            });
+            led.low();
         });
     }
 
     public void shutdown() throws IOException {
-        ledPin.setValue(false);
-        ledPin.close();
+        led.low();
         executorService.shutdownNow();
     }
 }

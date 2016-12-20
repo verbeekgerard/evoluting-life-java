@@ -1,20 +1,13 @@
 package eu.luminis.robots.pi;
 
 import java.io.IOException;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.*;
 
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.Pin;
+import com.pi4j.io.gpio.PinState;
 import eu.luminis.robots.pi.util.Sensor;
-import eu.luminis.robots.pi.util.SleepUtil;
-import jdk.dio.DeviceConfig;
-import jdk.dio.DeviceManager;
-import jdk.dio.gpio.GPIOPin;
-import jdk.dio.gpio.GPIOPinConfig;
 
 public class PiSensor extends Sensor<Double> {
 
@@ -22,24 +15,22 @@ public class PiSensor extends Sensor<Double> {
     private static final int SPEEDOFSOUND_CM_S = 34029;
     private static final long ECHO_WAIT_NS = 10000000L * 2; // 20 ms
 
-    private GPIOPin triggerPin;
-    private GPIOPin echoPin;
+    private final GpioPinDigitalOutput trigger;
+    private final GpioPinDigitalOutput echo;
 
-    public PiSensor(int triggerPinNumber, int echoPinNumber) throws IOException {
-        triggerPin = DeviceManager.open(new GPIOPinConfig(DeviceConfig.DEFAULT, triggerPinNumber,
-                GPIOPinConfig.DIR_OUTPUT_ONLY, GPIOPinConfig.MODE_OUTPUT_PUSH_PULL, GPIOPinConfig.TRIGGER_NONE, false));
-        echoPin = DeviceManager.open(new GPIOPinConfig(DeviceConfig.DEFAULT, echoPinNumber,
-                GPIOPinConfig.DIR_INPUT_ONLY, GPIOPinConfig.MODE_INPUT_PULL_UP, GPIOPinConfig.TRIGGER_NONE, false));
+    public PiSensor(GpioController gpio, Pin triggerPin, Pin echoPin) {
+        trigger = gpio.provisionDigitalOutputPin(triggerPin, PinState.LOW);
+        echo = gpio.provisionDigitalOutputPin(echoPin, PinState.LOW);
     }
 
     @Override
-    public Double sense() throws IOException {
+    public Double sense() {
         triggerSensor();
 
         long startTime = System.nanoTime(); //ns
         long start = startTime;
         //echo will go 0 to 1 and need to save time for that. 20 milliseconds difference
-        while (!echoPin.getValue() && start < startTime + ECHO_WAIT_NS) {
+        while (echo.isLow() && start < startTime + ECHO_WAIT_NS) {
             start = System.nanoTime();
         }
 
@@ -48,7 +39,7 @@ public class PiSensor extends Sensor<Double> {
         }
 
         long stop = start;
-        while (echoPin.getValue() && stop < start + ECHO_WAIT_NS) {
+        while (echo.isHigh() && stop < start + ECHO_WAIT_NS) {
             stop = System.nanoTime();
         }
 
@@ -76,15 +67,12 @@ public class PiSensor extends Sensor<Double> {
 
     @Override
     public void shutdown() throws IOException {
-        echoPin.close();
-        triggerPin.close();
         executorService.shutdownNow();
+        trigger.low();
         super.shutdown();
     }
 
-    private void triggerSensor() throws IOException {
-        triggerPin.setValue(true);
-        SleepUtil.sleep(0, PULSE_NS);
-        triggerPin.setValue(false);
+    private void triggerSensor() {
+        trigger.pulse(1, true);
     }
 }

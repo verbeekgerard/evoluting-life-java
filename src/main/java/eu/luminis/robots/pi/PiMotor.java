@@ -1,68 +1,44 @@
 package eu.luminis.robots.pi;
 
-import java.io.IOException;
+import com.pi4j.io.gpio.*;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import jdk.dio.DeviceConfig;
-import jdk.dio.DeviceManager;
-import jdk.dio.gpio.GPIOPin;
-import jdk.dio.gpio.GPIOPinConfig;
-
 public class PiMotor {
+    private final GpioPinDigitalOutput forward;
+    private final GpioPinDigitalOutput reverse;
 
     ExecutorService executorService = Executors.newSingleThreadExecutor();
-
-    private GPIOPin forwardPin;
-    private GPIOPin reversePin;
-
-    public PiMotor(int forwardPinNumber, int reversePinNumber) throws IOException {
-        this.forwardPin = DeviceManager.open(new GPIOPinConfig(DeviceConfig.DEFAULT, forwardPinNumber,
-                GPIOPinConfig.DIR_OUTPUT_ONLY, GPIOPinConfig.MODE_OUTPUT_PUSH_PULL, GPIOPinConfig.TRIGGER_NONE, false));
-        this.reversePin = DeviceManager.open(new GPIOPinConfig(DeviceConfig.DEFAULT, reversePinNumber,
-                GPIOPinConfig.DIR_OUTPUT_ONLY, GPIOPinConfig.MODE_OUTPUT_PUSH_PULL, GPIOPinConfig.TRIGGER_NONE, false));
+    public PiMotor(GpioController gpio, Pin forwardPin, Pin reversePin) {
+        forward = gpio.provisionDigitalOutputPin(forwardPin, PinState.LOW);
+        reverse = gpio.provisionDigitalOutputPin(reversePin, PinState.LOW);
     }
 
     public void stop() {
         executorService.execute(() -> {
-            try {
-                forwardPin.setValue(false);
-                reversePin.setValue(false);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            forward.low();
+            reverse.low();
         });
     }
 
     public void forward() {
         executorService.execute(() -> {
-            try {
-                forwardPin.setValue(true);
-                reversePin.setValue(false);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            forward.high();
+            reverse.low();
         });
     }
 
     public void reverse() {
         executorService.execute(() -> {
-            try {
-                forwardPin.setValue(false);
-                reversePin.setValue(true);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            forward.low();
+            reverse.high();
         });
     }
 
-    public void shutdown() throws IOException {
-        forwardPin.setValue(false);
-        reversePin.setValue(false);
-
-        forwardPin.close();
-        reversePin.close();
-
+    public void shutdown() {
+        forward.low();
+        reverse.low();
         executorService.shutdownNow();
     }
 }
