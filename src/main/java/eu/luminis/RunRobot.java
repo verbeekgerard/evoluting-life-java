@@ -10,10 +10,7 @@ import eu.luminis.robots.core.IMotorsController;
 import eu.luminis.robots.core.ISensorController;
 import eu.luminis.robots.core.IServoController;
 import eu.luminis.robots.core.Robot;
-import eu.luminis.robots.pi.IPiController;
-import eu.luminis.robots.pi.PiMotorsController;
-import eu.luminis.robots.pi.PiSensorController;
-import eu.luminis.robots.pi.PiServoController;
+import eu.luminis.robots.pi.*;
 import eu.luminis.util.GenesFile;
 
 public class RunRobot {
@@ -23,7 +20,8 @@ public class RunRobot {
     public static void main(String[] args) {
 
         try {
-            GenesFile genesFile = new GenesFile("testrobot.json");
+            String genesFilePath = getFilePath(args);
+            GenesFile genesFile = new GenesFile(genesFilePath);
             List<Genome> genomes = genesFile.read();
 
             Robot robot = createRobot(genomes.get(0));
@@ -78,7 +76,7 @@ public class RunRobot {
         double linearForce = genome.getMovement().getLinearForce();
         System.out.println("Initializing motors with linearForce: " + linearForce);
 
-        return new PiMotorsController(linearForce);
+        return new PiPwmMotorsController(linearForce);
     }
 
     private static IPiController initializeServoController(Genome genome) {
@@ -96,5 +94,14 @@ public class RunRobot {
         System.out.println("Initializing sensor with viewDistance: " + viewDistance);
 
         return new PiSensorController(viewDistance);
+    }
+
+    private static String getFilePath(String[] args){
+        String filePath = "testrobot.json";
+        if(args.length > 0) {
+            filePath = args[0];
+        }
+
+        return filePath;
     }
 }
