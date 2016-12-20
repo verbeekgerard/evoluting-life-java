@@ -16,7 +16,7 @@ import eu.luminis.util.GenesFile;
 
 public class RunRobot {
 
-    // private static int iteration = 0;
+    private static int iteration = 0;
     private final static GpioController gpio = Pi4JControllerFactory.GetController();
 
     public static void main(String[] args) {
@@ -36,9 +36,9 @@ public class RunRobot {
     private static void loop(Robot robot) {
         while (true){
             try {
-                // System.out.println("Iteration: " + iteration++);
+                System.out.println("Iteration: " + iteration++);
                 robot.run();
-                Thread.sleep(50);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

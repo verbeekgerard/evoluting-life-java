@@ -1,6 +1,9 @@
 package eu.luminis.robots.pi;
 
-import com.pi4j.io.gpio.*;
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.Pin;
+import com.pi4j.io.gpio.PinState;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

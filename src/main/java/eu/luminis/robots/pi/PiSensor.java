@@ -3,29 +3,25 @@ package eu.luminis.robots.pi;
 import java.io.IOException;
 import java.util.concurrent.*;
 
-import com.pi4j.io.gpio.GpioController;
-import com.pi4j.io.gpio.GpioPinDigitalOutput;
-import com.pi4j.io.gpio.Pin;
-import com.pi4j.io.gpio.PinState;
+import com.pi4j.io.gpio.*;
 import eu.luminis.robots.pi.util.Sensor;
 
 public class PiSensor extends Sensor<Double> {
-
     private static final int PULSE_NS = 10000;
     private static final int SPEEDOFSOUND_CM_S = 34029;
     private static final long ECHO_WAIT_NS = 10000000L * 2; // 20 ms
 
     private final GpioPinDigitalOutput trigger;
-    private final GpioPinDigitalOutput echo;
+    private final GpioPinDigitalInput echo;
 
     public PiSensor(GpioController gpio, Pin triggerPin, Pin echoPin) {
         trigger = gpio.provisionDigitalOutputPin(triggerPin, PinState.LOW);
-        echo = gpio.provisionDigitalOutputPin(echoPin, PinState.LOW);
+        echo = gpio.provisionDigitalInputPin(echoPin, PinPullResistance.PULL_UP);
     }
 
     @Override
     public Double sense() {
-        triggerSensor();
+        trigger.pulse(1, true);
 
         long startTime = System.nanoTime(); //ns
         long start = startTime;
@@ -55,9 +51,9 @@ public class PiSensor extends Sensor<Double> {
 
     public Double sense(long msTimeout) {
         Callable<Double> callableSense = this::sense;
-      
+
         Future<Double> future = executorService.submit(callableSense);
-        
+
         try {
             return future.get(msTimeout, TimeUnit.MILLISECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
@@ -70,9 +66,5 @@ public class PiSensor extends Sensor<Double> {
         executorService.shutdownNow();
         trigger.low();
         super.shutdown();
-    }
-
-    private void triggerSensor() {
-        trigger.pulse(1, true);
     }
 }
