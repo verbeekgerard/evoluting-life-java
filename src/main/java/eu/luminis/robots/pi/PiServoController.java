@@ -4,8 +4,6 @@ import eu.luminis.Options;
 import eu.luminis.robots.core.IServoController;
 import eu.luminis.util.Range;
 
-import java.io.IOException;
-
 public class PiServoController implements IServoController, IPiController {
     private final static double angularFriction = Options.angularFriction.get();
     private static final double deg_0 = 0.58;

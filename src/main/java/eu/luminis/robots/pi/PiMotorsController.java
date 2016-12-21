@@ -1,7 +1,5 @@
 package eu.luminis.robots.pi;
 
-import java.io.IOException;
-
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.RaspiPin;
 import eu.luminis.Options;
@@ -19,8 +17,15 @@ public class PiMotorsController implements IMotorsController, IPiController {
     private double velocityRight = 0;
 
     public PiMotorsController(double linearForce) {
-        this.leftMotor = new PiMotor(gpio, RaspiPin.GPIO_23, RaspiPin.GPIO_22); // 12, 13
-        this.rightMotor = new PiMotor(gpio, RaspiPin.GPIO_26, RaspiPin.GPIO_27); // 19, 16
+        /*
+            Groen   - links vooruit     - IN2 - 23
+            Blauw   - links achteruit   - IN1 - 25
+            Oranje  - rechts vooruit    - IN4 - 26
+            Geel    - rechts achteruit  - IN3 - 28
+         */
+
+        this.leftMotor = new PiMotor(gpio, RaspiPin.GPIO_23, RaspiPin.GPIO_25); // 12, 13
+        this.rightMotor = new PiMotor(gpio, RaspiPin.GPIO_26, RaspiPin.GPIO_28); // 19, 16
         this.linearForce = linearForce;
     }
 

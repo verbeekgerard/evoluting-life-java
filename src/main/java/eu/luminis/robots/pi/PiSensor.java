@@ -1,10 +1,9 @@
 package eu.luminis.robots.pi;
 
-import java.io.IOException;
-import java.util.concurrent.*;
-
 import com.pi4j.io.gpio.*;
 import eu.luminis.robots.pi.util.Sensor;
+
+import java.util.concurrent.*;
 
 public class PiSensor extends Sensor<Double> {
     private static final int PULSE_NS = 10000;

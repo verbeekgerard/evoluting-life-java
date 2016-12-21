@@ -5,8 +5,6 @@ import com.pi4j.io.gpio.RaspiPin;
 import eu.luminis.Options;
 import eu.luminis.robots.core.IMotorsController;
 
-import java.io.IOException;
-
 public class PiPwmMotorsController implements IMotorsController, IPiController {
     private final static double linearFriction = Options.linearFriction.get();
     private final static GpioController gpio = Pi4JControllerFactory.GetController();
@@ -22,13 +20,13 @@ public class PiPwmMotorsController implements IMotorsController, IPiController {
     public PiPwmMotorsController(double linearForce) {
         /*
             Groen   - links vooruit     - IN2 - 23
-            Blauw   - links achteruit   - IN1 - 22
+            Blauw   - links achteruit   - IN1 - 25
             Oranje  - rechts vooruit    - IN4 - 26
-            Geel    - rechts achteruit  - IN3 - 27
+            Geel    - rechts achteruit  - IN3 - 28
          */
 
-        this.leftMotor = new PiPwmMotor(gpio, RaspiPin.GPIO_23, RaspiPin.GPIO_22); // 12, 13
-        this.rightMotor = new PiPwmMotor(gpio, RaspiPin.GPIO_26, RaspiPin.GPIO_27); // 19, 16
+        this.leftMotor = new PiPwmMotor(gpio, RaspiPin.GPIO_23, RaspiPin.GPIO_25); // 12, 13
+        this.rightMotor = new PiPwmMotor(gpio, RaspiPin.GPIO_26, RaspiPin.GPIO_28); // 19, 16
         this.linearForce = linearForce;
         this.maxVelocity = linearForce / linearFriction;
     }
