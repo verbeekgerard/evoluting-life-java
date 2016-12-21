@@ -101,6 +101,8 @@ public class RunRobot {
             filePath = args[0];
         }
 
+        System.out.println("Using genes file: " + filePath);
+
         return filePath;
     }
 }
