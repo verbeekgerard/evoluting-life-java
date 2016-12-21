@@ -43,7 +43,7 @@ The following pins are used for running the application on the Raspberry-Pi:
 * GPIO_25 : Left motor reverse  (output, soft PWM)
 * GPIO_26 : Right motor forward (output, hard PWM)
 * GPIO_28 : Right motor reverse (output, soft PWM)
-* GPIO_29 : Led                 (output)
+* GPIO_29 : Led                 (output)  
 ## Structure of the code
 The green colored boxes represent classes that are part of the core and are used in both simulation
 and on the Raspberry-Pi. The orange colored boxed represent classes that are used for the simulation only.
