@@ -1,1 +1,1 @@
-sudo java -Djava.security.policy=./gpio.policy -Djava.library.path=/home/pi/dio/dev/build/so -Djdk.dio.registry=/home/pi/dio/dev/config/dio.properties-raspberrypi -cp evoluting-life-java.jar eu.luminis.RunRobot
+sudo java -cp evoluting-life-java.jar eu.luminis.RunRobot
