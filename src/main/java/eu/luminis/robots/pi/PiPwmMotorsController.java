@@ -36,8 +36,16 @@ public class PiPwmMotorsController implements IMotorsController, IPiController {
         calculateVelocityLeft(leftChange);
         calculateVelocityRight(rightChange);
 
-        move(velocityLeft, leftMotor);
-        move(velocityRight, rightMotor);
+        double velocityScale = calculateVelocityScale();
+
+        move(velocityLeft * velocityScale, leftMotor);
+        move(velocityRight * velocityScale, rightMotor);
+    }
+
+    @Override
+    public void shutdown() {
+        leftMotor.shutdown();
+        rightMotor.shutdown();
     }
 
     private void calculateVelocityRight(double rightChange) {
@@ -62,9 +70,10 @@ public class PiPwmMotorsController implements IMotorsController, IPiController {
         }
     }
 
-    @Override
-    public void shutdown() {
-        leftMotor.shutdown();
-        rightMotor.shutdown();
+    private double calculateVelocityScale()
+    {
+        return Math.abs(velocityLeft) >= Math.abs(velocityRight) ?
+                maxVelocity / Math.abs(velocityLeft) :
+                maxVelocity / Math.abs(velocityRight);
     }
 }
