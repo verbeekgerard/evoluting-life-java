@@ -29,7 +29,7 @@ public class PiSensorController implements ISensorController, IPiController {
                 led.blink(10, 1);
             }
 
-            System.out.println("Sense: " + distance);
+            // System.out.println("Sense: " + distance);
         };
 
         piSensor = new PiSensor(gpio, RaspiPin.GPIO_14, RaspiPin.GPIO_10);
@@ -49,7 +49,7 @@ public class PiSensorController implements ISensorController, IPiController {
 	}
 
     @Override
-    public void shutdown() throws IOException {
+    public void shutdown() {
         piSensor.shutdown();
         led.shutdown();
     }

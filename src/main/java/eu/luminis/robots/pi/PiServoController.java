@@ -57,7 +57,7 @@ public class PiServoController implements IServoController, IPiController {
     }
 
     @Override
-    public void shutdown() throws IOException {
+    public void shutdown() {
         piServo.shutdown();
     }
 

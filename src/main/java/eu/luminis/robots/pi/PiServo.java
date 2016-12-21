@@ -49,7 +49,7 @@ public class PiServo {
         }
     }
 
-    public void shutdown() throws IOException {
+    public void shutdown() {
         moveTo(90);
     }
 }

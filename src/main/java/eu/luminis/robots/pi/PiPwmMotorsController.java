@@ -1,27 +1,36 @@
 package eu.luminis.robots.pi;
 
-import java.io.IOException;
-
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.RaspiPin;
 import eu.luminis.Options;
 import eu.luminis.robots.core.IMotorsController;
 
-public class PiMotorsController implements IMotorsController, IPiController {
+import java.io.IOException;
+
+public class PiPwmMotorsController implements IMotorsController, IPiController {
     private final static double linearFriction = Options.linearFriction.get();
     private final static GpioController gpio = Pi4JControllerFactory.GetController();
 
     private final double linearForce;
-    private final PiMotor leftMotor;
-    private final PiMotor rightMotor;
+    private final double maxVelocity;
+    private final PiPwmMotor leftMotor;
+    private final PiPwmMotor rightMotor;
 
     private double velocityLeft = 0;
     private double velocityRight = 0;
 
-    public PiMotorsController(double linearForce) {
-        this.leftMotor = new PiMotor(gpio, RaspiPin.GPIO_23, RaspiPin.GPIO_22); // 12, 13
-        this.rightMotor = new PiMotor(gpio, RaspiPin.GPIO_26, RaspiPin.GPIO_27); // 19, 16
+    public PiPwmMotorsController(double linearForce) {
+        /*
+            Groen   - links vooruit     - IN2 - 23
+            Blauw   - links achteruit   - IN1 - 22
+            Oranje  - rechts vooruit    - IN4 - 26
+            Geel    - rechts achteruit  - IN3 - 27
+         */
+
+        this.leftMotor = new PiPwmMotor(gpio, RaspiPin.GPIO_23, RaspiPin.GPIO_22); // 12, 13
+        this.rightMotor = new PiPwmMotor(gpio, RaspiPin.GPIO_26, RaspiPin.GPIO_27); // 19, 16
         this.linearForce = linearForce;
+        this.maxVelocity = linearForce / linearFriction;
     }
 
     @Override
@@ -45,11 +54,11 @@ public class PiMotorsController implements IMotorsController, IPiController {
         velocityLeft -= velocityLeft * linearFriction;
     }
 
-    private static void move(double velocity, PiMotor motor) {
+    private void move(double velocity, PiPwmMotor motor) {
         if (velocity > 0) {
-            motor.forward();
+            motor.forward(velocity / maxVelocity);
         } else if (velocity < 0) {
-            motor.reverse();
+            motor.reverse(-1 * velocity / maxVelocity);
         } else {
             motor.stop();
         }

@@ -22,7 +22,7 @@ public class Led {
         led.blink(interval, interval * times);
     }
 
-    public void shutdown() throws IOException {
+    public void shutdown() {
         led.low();
     }
 }

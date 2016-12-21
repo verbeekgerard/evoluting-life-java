@@ -16,7 +16,7 @@ import eu.luminis.util.GenesFile;
 
 public class RunRobot {
 
-    private static int iteration = 0;
+    // private static int iteration = 0;
     private final static GpioController gpio = Pi4JControllerFactory.GetController();
 
     public static void main(String[] args) {
@@ -36,7 +36,7 @@ public class RunRobot {
     private static void loop(Robot robot) {
         while (true){
             try {
-                System.out.println("Iteration: " + iteration++);
+                // System.out.println("Iteration: " + iteration++);
                 robot.run();
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -53,15 +53,11 @@ public class RunRobot {
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("Shutdown hook called");
-            try {
-                piServoController.shutdown();
-                piSensorController.shutdown();
-                piMotorsController.shutdown();
-                gpio.shutdown();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+
+            piServoController.shutdown();
+            piSensorController.shutdown();
+            piMotorsController.shutdown();
+            gpio.shutdown();
         }));
 
         return new Robot(brain,
