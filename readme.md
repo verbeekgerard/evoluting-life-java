@@ -32,7 +32,18 @@ in this repository to your Raspberry-Pi.
 #### The application
 Also copy the application 'evoluting-life-java-<version>-jar-with-dependencies.jar' that
 was previously build to your Raspberry-Pi.
-
+### Pin setup
+The pin numbering of wiringpi wil be used in this description and in code. Visit
+[Raspberry Pi Pinout](http://pinout.xyz/pinout/wiringpi) for reference.
+The following pins are used for running the application on the Raspberry-Pi:
+* GPIO_07 : Servo               (output)
+* GPIO_10 : Sensor echo         (input)
+* GPIO_14 : Sensor trigger      (output)
+* GPIO_23 : Left motor forward  (output, hard PWM)
+* GPIO_25 : Left motor reverse  (output, soft PWM)
+* GPIO_26 : Right motor forward (output, hard PWM)
+* GPIO_28 : Right motor reverse (output, soft PWM)
+* GPIO_29 : Led                 (output)
 ## Structure of the code
 The green colored boxes represent classes that are part of the core and are used in both simulation
 and on the Raspberry-Pi. The orange colored boxed represent classes that are used for the simulation only.

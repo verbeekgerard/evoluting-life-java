@@ -38,6 +38,12 @@ public class PiMotorsController implements IMotorsController, IPiController {
         move(velocityRight, rightMotor);
     }
 
+    @Override
+    public void shutdown() {
+        leftMotor.shutdown();
+        rightMotor.shutdown();
+    }
+
     private void calculateVelocityRight(double rightChange) {
         double accelerationRight = rightChange * linearForce;
         velocityRight += accelerationRight;
@@ -58,11 +64,5 @@ public class PiMotorsController implements IMotorsController, IPiController {
         } else {
             motor.stop();
         }
-    }
-
-    @Override
-    public void shutdown() {
-        leftMotor.shutdown();
-        rightMotor.shutdown();
     }
 }
