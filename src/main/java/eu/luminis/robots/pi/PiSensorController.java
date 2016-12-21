@@ -25,7 +25,7 @@ public class PiSensorController implements ISensorController, IPiController {
             distance = d == null ? viewDistance : d > viewDistance ? viewDistance : d;
 
             if (distance < viewDistance) {
-                led.blink(10, 1);
+                led.pulse(10);
             }
 
             // System.out.println("Sense: " + distance);
@@ -34,7 +34,7 @@ public class PiSensorController implements ISensorController, IPiController {
         piSensor = new PiSensor(gpio, RaspiPin.GPIO_14, RaspiPin.GPIO_10);
         configureNoiseReduction(piSensor);
         piSensor.addSensorCallback(callback);
-        piSensor.start();
+        piSensor.start(100);
     }
 
     @Override

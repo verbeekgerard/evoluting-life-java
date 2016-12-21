@@ -19,10 +19,10 @@ public class PiPwmMotorsController implements IMotorsController, IPiController {
 
     public PiPwmMotorsController(double linearForce) {
         /*
-            Groen   - links vooruit     - IN2 - 23
-            Blauw   - links achteruit   - IN1 - 25
-            Oranje  - rechts vooruit    - IN4 - 26
-            Geel    - rechts achteruit  - IN3 - 28
+            Groen   - links vooruit     - IN2 - 23 hard-pwm
+            Blauw   - links achteruit   - IN1 - 25 soft-pwm
+            Oranje  - rechts vooruit    - IN4 - 26 hard-pwm
+            Geel    - rechts achteruit  - IN3 - 28 soft-pwm
          */
 
         this.leftMotor = new PiPwmMotor(gpio, RaspiPin.GPIO_23, RaspiPin.GPIO_25); // 12, 13

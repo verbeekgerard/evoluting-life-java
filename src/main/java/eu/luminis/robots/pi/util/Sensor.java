@@ -106,7 +106,7 @@ public abstract class Sensor<T> {
      * Start sensing continuously.
      */
     public void start() {
-        scheduler = executorService.scheduleWithFixedDelay(new SenseTask(), 0, 50, TimeUnit.MILLISECONDS);
+        scheduler = executorService.scheduleWithFixedDelay(new SenseTask(), 0, 100, TimeUnit.MILLISECONDS);
     }
 
     public void pauze() {
@@ -169,5 +169,4 @@ public abstract class Sensor<T> {
         this.buffer = new RingBuffer<>(bufferSize);
         this.denoiseFunction = denoiseFunction;
     }
-
 }

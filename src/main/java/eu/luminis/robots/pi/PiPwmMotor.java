@@ -19,13 +19,13 @@ public class PiPwmMotor {
     }
 
     public void forward(double duty) {
-        System.out.println("forward: " + (int) (1024 * duty));
+        // System.out.println("forward: " + (int) (1024 * duty));
         forward.setPwm((int) (1024 * duty)); // 0 to 1024
         reverse.setPwm(0); // 0 to 100
     }
 
     public void reverse(double duty) {
-        System.out.println("reverse: " + (int) (100 * duty));
+        // System.out.println("reverse: " + (int) (100 * duty));
         forward.setPwm(0); // 0 to 1024
         reverse.setPwm((int) (100 * duty)); // 0 to 100
     }

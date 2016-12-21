@@ -20,6 +20,10 @@ public class Led {
         led.blink(interval, interval * times);
     }
 
+    public void pulse(long length) {
+        led.pulse(length);
+    }
+
     public void shutdown() {
         led.low();
     }

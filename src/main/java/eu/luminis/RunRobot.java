@@ -75,7 +75,7 @@ public class RunRobot {
         double linearForce = genome.getMovement().getLinearForce();
         System.out.println("Initializing motors with linearForce: " + linearForce);
 
-        return new PiMotorsController(linearForce);
+        return new PiPwmMotorsController(linearForce);
     }
 
     private static IPiController initializeServoController(Genome genome) {
