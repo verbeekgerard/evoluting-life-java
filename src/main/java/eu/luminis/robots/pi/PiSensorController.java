@@ -34,7 +34,7 @@ public class PiSensorController implements ISensorController, IPiController {
         piSensor = new PiSensor(gpio, RaspiPin.GPIO_14, RaspiPin.GPIO_10);
         configureNoiseReduction(piSensor);
         piSensor.addSensorCallback(callback);
-        piSensor.start(100);
+        piSensor.start(50);
     }
 
     @Override
