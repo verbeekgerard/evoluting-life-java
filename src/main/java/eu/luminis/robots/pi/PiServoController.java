@@ -9,8 +9,9 @@ public class PiServoController implements IServoController, IPiController {
     private static final double deg_0 = 0.58;
     private static final double deg_90 = 1.36;
     private static final double deg_180 = 2.32;
+    private static final double msDelayPerDegree = 2.33;
 
-    private final PiServo piServo = new PiServo(0, deg_0, deg_90, deg_180, 2.33);
+    private final PiServo piServo = new PiServo(0, deg_0, deg_90, deg_180, msDelayPerDegree);
 
     private final double viewAngle;
     private final double angularForce;
