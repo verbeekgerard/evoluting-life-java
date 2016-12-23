@@ -37,7 +37,7 @@ public class RunRobot {
             try {
                 // System.out.println("---------------------------------");
                 robot.run();
-                Thread.sleep(60);
+                Thread.sleep(100); // 60
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

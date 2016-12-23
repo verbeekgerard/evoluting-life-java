@@ -6,9 +6,8 @@ import eu.luminis.robots.pi.util.Sensor;
 import java.util.concurrent.*;
 
 public class PiSensor extends Sensor<Double> {
-    private static final int PULSE_NS = 10000;
     private static final int SPEEDOFSOUND_CM_S = 34029;
-    private static final long ECHO_WAIT_NS = 10000000L * 2; // 20 ms
+    private static final long ECHO_WAIT_NS = 1000000L * 12; // 12 ms => 0.012 sec * 34029 m/sec => 2.04m distance
 
     private final GpioPinDigitalOutput trigger;
     private final GpioPinDigitalInput echo;
