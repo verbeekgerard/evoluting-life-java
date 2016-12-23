@@ -53,5 +53,4 @@ public class PiServo {
 
         return Math.round(pulseInMs * 100);
     }
-
 }

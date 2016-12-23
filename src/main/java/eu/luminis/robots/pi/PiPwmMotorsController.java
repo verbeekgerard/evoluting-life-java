@@ -28,7 +28,7 @@ public class PiPwmMotorsController implements IMotorsController, IPiController {
         this.leftMotor = new PiPwmMotor(gpio, RaspiPin.GPIO_23, RaspiPin.GPIO_25); // 12, 13
         this.rightMotor = new PiPwmMotor(gpio, RaspiPin.GPIO_26, RaspiPin.GPIO_28); // 19, 16
         this.linearForce = linearForce;
-        this.maxVelocity = linearForce / linearFriction;
+        this.maxVelocity = (1 - linearFriction) * linearForce / linearFriction;
     }
 
     @Override

@@ -14,6 +14,8 @@ import eu.luminis.robots.core.Robot;
 import eu.luminis.robots.pi.*;
 import eu.luminis.util.GenesFile;
 
+import static eu.luminis.robots.pi.util.SleepUtil.sleep;
+
 public class RunRobot {
 
     private final static GpioController gpio = Pi4JControllerFactory.GetController();
@@ -26,21 +28,19 @@ public class RunRobot {
             List<Genome> genomes = genesFile.read();
 
             Robot robot = createRobot(genomes.get(0));
-            loop(robot);
+
+            int loopPeriod = getLoopPeriod(args);
+            loop(robot, loopPeriod);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void loop(Robot robot) {
+    private static void loop(Robot robot, int loopPeriod) {
         while (true){
-            try {
-                // System.out.println("---------------------------------");
-                robot.run();
-                Thread.sleep(100); // 60
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            // System.out.println("---------------------------------");
+            robot.run();
+            sleep(loopPeriod);
         }
     }
 
@@ -94,7 +94,7 @@ public class RunRobot {
         return new PiSensorController(viewDistance);
     }
 
-    private static String getFilePath(String[] args){
+    private static String getFilePath(String[] args) {
         String filePath = "testrobot.json";
         if(args.length > 0) {
             filePath = args[0];
@@ -103,5 +103,16 @@ public class RunRobot {
         System.out.println("Using genes file: " + filePath);
 
         return filePath;
+    }
+
+    private static int getLoopPeriod(String[] args) {
+        int loopPeriod = 90; // 60
+        if(args.length > 1) {
+            loopPeriod = Integer.parseInt(args[1]);
+        }
+
+        System.out.println("Using loop period (ms): " + loopPeriod);
+
+        return loopPeriod;
     }
 }
