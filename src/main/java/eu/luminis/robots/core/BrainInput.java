@@ -21,7 +21,7 @@ public class BrainInput {
     BrainInput(IBrainInputParameters parameters, double distance, double angle, double angleVelocity) {
         this.viewDistance = parameters.getViewDistance();
         this.fieldOfView = parameters.getFieldOfView();
-        this.distance = distance;
+        this.distance = new Range(0, this.viewDistance).assureBounds(distance);
         this.angle = angle;
         this.angleVelocity = angleVelocity;
     }

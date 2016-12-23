@@ -1,30 +1,21 @@
 package eu.luminis.robots.pi.util;
 
 import com.pi4j.io.gpio.GpioController;
-import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.GpioPinPwmOutput;
 import com.pi4j.io.gpio.Pin;
-import com.pi4j.io.gpio.PinState;
 
 public class Led {
-    private final GpioPinDigitalOutput led;
+    private final GpioPinPwmOutput led;
 
     public Led(GpioController gpio, Pin pin) {
-        led = gpio.provisionDigitalOutputPin(pin, PinState.LOW);
+        led = gpio.provisionSoftPwmOutputPin(pin, 0);
     }
 
-    public void blink(long interval, long times) {
-        // interrupt active blinking thread
-        led.blink(interval, 0);
-
-        // start new blinking thread
-        led.blink(interval, interval * times);
-    }
-
-    public void pulse(long length) {
-        led.pulse(length);
+    public void dim(double duty) {
+        led.setPwm((int)(duty * 100)); // 0 to 100
     }
 
     public void shutdown() {
-        led.low();
+        led.setPwm(0);
     }
 }

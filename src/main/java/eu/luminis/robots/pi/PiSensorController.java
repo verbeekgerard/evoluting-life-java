@@ -23,12 +23,7 @@ public class PiSensorController implements ISensorController, IPiController {
         led = new Led(gpio, RaspiPin.GPIO_29);
         Consumer<Double> callback = d -> {
             distance = d == null ? viewDistance : d > viewDistance ? viewDistance : d;
-
-            if (distance < viewDistance) {
-                led.pulse(10);
-            }
-
-            // System.out.println("Sense: " + distance);
+            // System.out.println("Sensor Callback: " + distance);
         };
 
         piSensor = new PiSensor(gpio, RaspiPin.GPIO_14, RaspiPin.GPIO_10);
@@ -39,7 +34,10 @@ public class PiSensorController implements ISensorController, IPiController {
 
     @Override
 	public double sense() {
-		return distance;
+        // System.out.println("Sense: " + distance);
+        led.dim((viewDistance - distance) / viewDistance);
+
+	    return distance;
 	}
 
 	@Override
