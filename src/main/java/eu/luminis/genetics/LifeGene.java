@@ -1,16 +1,15 @@
 package eu.luminis.genetics;
 
-import eu.luminis.Options;
-import eu.luminis.util.Range;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class LifeGene extends Gene {
+    private static final LifeGeneEvolver evolver = new LifeGeneEvolver();
+
     private double oldAge;
 
     public LifeGene() {
-        initializeOldAge();
+        oldAge = evolver.OldAge.getNewValue();
     }
 
     public LifeGene(double oldAge) {
@@ -22,14 +21,11 @@ public class LifeGene extends Gene {
     }
 
     public void mutate() {
-        if (Math.random() <= Options.oldAgeMutationRate.get()) {
-            this.oldAge += new Range(Options.minOldAge.get(), Options.maxOldAge.get())
-                    .mutation(Options.mutationFraction.get());
-        }
+        oldAge = evolver.OldAge.mutateValue(oldAge);
     }
 
     public List<LifeGene> mate(LifeGene partner) {
-        return new Genetics().mate(this, partner);
+        return evolver.mate(this, partner);
     }
 
     @Override
@@ -43,9 +39,5 @@ public class LifeGene extends Gene {
     @Override
     public Gene initiate(List<Double> properties) {
         return new LifeGene(properties.get(0));
-    }
-
-    private void initializeOldAge() {
-        this.oldAge = new Range(Options.minOldAge.get(), Options.maxOldAge.get()).random();
     }
 }

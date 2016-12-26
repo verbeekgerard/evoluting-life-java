@@ -14,13 +14,19 @@ class NeuronBuilder {
     }
 
     Neuron build() {
-        return new Neuron(gene.getThreshold(), gene.getRelaxation(), createOutputAxons());
+        return new Neuron(
+                gene.getThreshold(),
+                gene.getRelaxation(),
+                createOutputAxons());
     }
 
     Neuron build(List<Neuron> targetNeurons) {
         if (targetNeurons == null) return build();
 
-        return new Neuron(gene.getThreshold(), gene.getRelaxation(), createTransmittingAxons(targetNeurons));
+        return new Neuron(
+                gene.getThreshold(),
+                gene.getRelaxation(),
+                createTransmittingAxons(targetNeurons));
     }
 
     private List<Axon> createOutputAxons() {

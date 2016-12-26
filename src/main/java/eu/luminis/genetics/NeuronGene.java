@@ -1,20 +1,19 @@
 package eu.luminis.genetics;
 
-import eu.luminis.Options;
-import eu.luminis.util.Range;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class NeuronGene extends Gene {
+    private static final NeuronGeneEvolver evolver = new NeuronGeneEvolver();
+
     private double threshold;
     private double relaxation;
     private final List<AxonGene> axons = new ArrayList<>();
 
     public NeuronGene(int maxOutputs) {
-        initializeThreshold();
-        initializeRelaxation();
+        threshold = evolver.Threshold.getNewValue();
+        relaxation = evolver.Relaxation.getNewValue();
 
         for (int i = 0; i < maxOutputs; i++) {
             this.axons.add(new AxonGene());
@@ -48,7 +47,7 @@ public class NeuronGene extends Gene {
     }
 
     public List<NeuronGene> mate(NeuronGene partner) {
-        List<NeuronGene> children = new Genetics().mate(this, partner);
+        List<NeuronGene> children = evolver.mate(this, partner);
 
         for (int i = 0; i < this.axons.size(); i++) {
             List<AxonGene> childAxons = this.axons.get(i).mate(partner.axons.get(i));
@@ -76,48 +75,14 @@ public class NeuronGene extends Gene {
     }
 
     public void mutate() {
-        mutateThreshold();
-        mutateRelaxation();
+        threshold = evolver.Threshold.mutateValueWithLowerBound(threshold);
+        relaxation = evolver.Relaxation.mutateValueWithBounds(relaxation);
         mutateAxons();
-    }
-
-    private void mutateThreshold() {
-        if (Math.random() < Options.thresholdReplacementRate.get()) {
-            initializeThreshold();
-            return;
-        }
-
-        if (Math.random() < Options.thresholdMutationRate.get()) {
-            Range range = new Range(Options.minThreshold.get(), Options.maxThreshold.get());
-            this.threshold += range.mutation(Options.mutationFraction.get());
-            this.threshold = range.assureLowerBound(this.threshold);
-        }
-    }
-
-    private void mutateRelaxation() {
-        if (Math.random() < Options.relaxationReplacementRate.get()) {
-            initializeRelaxation();
-            return;
-        }
-
-        if (Math.random() < Options.relaxationMutationRate.get()) {
-            Range range = new Range(0, Options.maxRelaxation.get());
-            this.relaxation += Math.floor(range.mutation(Options.mutationFraction.get())) / 100;
-            this.relaxation = range.assureBounds(this.relaxation);
-        }
     }
 
     private void mutateAxons() {
         for (int i = 0; i < this.axons.size(); i++) {
             this.axons.get(i).mutate();
         }
-    }
-
-    private void initializeThreshold() {
-        this.threshold = new Range(Options.minThreshold.get(), Options.maxThreshold.get()).random();
-    }
-
-    private void initializeRelaxation() {
-        this.relaxation = Math.floor(new Range(0, Options.maxRelaxation.get()).random()) / 100;
     }
 }

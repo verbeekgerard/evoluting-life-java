@@ -85,7 +85,7 @@ public final class Options {
     // NeuronGene
     public final static Option minThreshold = new Option(0.1);
     public final static Option maxThreshold = new Option(1.0);
-    public final static Option maxRelaxation = new Option(99.0);
+    public final static Option maxRelaxation = new Option(0.99);
 
     private final static double neuronMutationRates = defaultMutationRate * 1.0;
     private final static double neuronReplacementRates = defaultReplacementRate * 1.0;

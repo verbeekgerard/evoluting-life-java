@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class Genetics {
+class Evolver {
 
     // Creates two child by crossing over the genomes of a and b.
     public <TGene extends Gene> List<TGene> mate(TGene a, TGene b) {

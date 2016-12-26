@@ -25,7 +25,7 @@ class Neuron {
         }
         else {
             this.excitation = this.excitation > 0 ?
-                    this.excitation * (1-this.relaxation) :
+                    this.excitation * (1 - this.relaxation) :
                     0;
 
             return 0;
