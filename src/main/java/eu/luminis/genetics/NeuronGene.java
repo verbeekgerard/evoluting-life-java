@@ -46,6 +46,12 @@ public class NeuronGene extends Gene {
         return axons;
     }
 
+    public void mutate() {
+        threshold = evolver.Threshold.mutateValueWithLowerBound(threshold);
+        relaxation = evolver.Relaxation.mutateValueWithBounds(relaxation);
+        mutateAxons();
+    }
+
     public List<NeuronGene> mate(NeuronGene partner) {
         List<NeuronGene> children = evolver.mate(this, partner);
 
@@ -72,12 +78,6 @@ public class NeuronGene extends Gene {
     @Override
     public Gene initiate(List<Double> properties) {
         return new NeuronGene(properties.get(0), properties.get(1));
-    }
-
-    public void mutate() {
-        threshold = evolver.Threshold.mutateValueWithLowerBound(threshold);
-        relaxation = evolver.Relaxation.mutateValueWithBounds(relaxation);
-        mutateAxons();
     }
 
     private void mutateAxons() {
