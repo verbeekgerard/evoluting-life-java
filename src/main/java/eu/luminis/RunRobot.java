@@ -19,17 +19,20 @@ import static eu.luminis.robots.pi.util.SleepUtil.sleep;
 public class RunRobot {
 
     private final static GpioController gpio = Pi4JControllerFactory.GetController();
+    private static boolean looping = false;
 
     public static void main(String[] args) {
-
         try {
             String genesFilePath = getFilePath(args);
+            System.out.println("Reading genes file: " + genesFilePath);
             GenesFile genesFile = new GenesFile(genesFilePath);
             List<Genome> genomes = genesFile.read();
 
+            System.out.println("Creating a robot from the first genome in the file");
             Robot robot = createRobot(genomes.get(0));
 
             int loopPeriod = getLoopPeriod(args);
+            System.out.println("Start looping with period (ms): " + loopPeriod);
             loop(robot, loopPeriod);
         } catch (IOException e) {
             e.printStackTrace();
@@ -37,7 +40,8 @@ public class RunRobot {
     }
 
     private static void loop(Robot robot, int loopPeriod) {
-        while (true){
+        looping = true;
+        while (looping){
             // System.out.println("---------------------------------");
             robot.run();
             sleep(loopPeriod);
@@ -53,10 +57,15 @@ public class RunRobot {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("Shutdown hook called");
 
-            piServoController.shutdown();
+            looping = false;
+            sleep(200);
+
             piSensorController.shutdown();
+            piServoController.shutdown();
             piMotorsController.shutdown();
             gpio.shutdown();
+
+            System.out.println("Shutdown completed");
         }));
 
         return new Robot(brain,
@@ -81,7 +90,7 @@ public class RunRobot {
         double fieldOfView = genome.getSensor().getFieldOfView();
         double angularForce = genome.getMovement().getAngularForce();
 
-        System.out.println("Initializing servo with fieldOfView: " + fieldOfView);
+        System.out.println("Initializing servo with fieldOfView: " + fieldOfView );
         System.out.println("Initializing servo with angularForce: " + angularForce);
 
         return new PiServoController(fieldOfView, angularForce);
@@ -100,18 +109,14 @@ public class RunRobot {
             filePath = args[0];
         }
 
-        System.out.println("Using genes file: " + filePath);
-
         return filePath;
     }
 
     private static int getLoopPeriod(String[] args) {
-        int loopPeriod = 90; // 60
+        int loopPeriod = 65; // 60
         if(args.length > 1) {
             loopPeriod = Integer.parseInt(args[1]);
         }
-
-        System.out.println("Using loop period (ms): " + loopPeriod);
 
         return loopPeriod;
     }

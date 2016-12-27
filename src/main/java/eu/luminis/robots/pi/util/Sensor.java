@@ -132,6 +132,7 @@ public abstract class Sensor<T> {
     abstract public T sense() throws IOException;
 
     public void shutdown() {
+        pauze();
         executorService.shutdownNow();
     }
 

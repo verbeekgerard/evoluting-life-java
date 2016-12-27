@@ -61,8 +61,8 @@ public class PiSensor extends Sensor<Double> {
 
     @Override
     public void shutdown() {
-        executorService.shutdownNow();
         trigger.low();
+        executorService.shutdownNow();
         super.shutdown();
     }
 }
