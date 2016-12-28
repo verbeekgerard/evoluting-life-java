@@ -21,19 +21,14 @@ public class PiSensorController implements ISensorController, IPiController {
 		this.distance = viewDistance;
 
         led = new Led(gpio, RaspiPin.GPIO_29);
-        Consumer<Double> callback = d -> {
-            distance = d == null ? viewDistance : d > viewDistance ? viewDistance : d;
-            // System.out.println("Sensor Callback: " + distance);
-        };
-
         piSensor = new PiSensor(gpio, RaspiPin.GPIO_14, RaspiPin.GPIO_10);
-        configureNoiseReduction(piSensor);
-        piSensor.addSensorCallback(callback);
-        piSensor.start(50);
     }
 
     @Override
 	public double sense() {
+	    Double d = piSensor.sense(PiSensor.echoWaitMs * 2);
+        distance = d == null ? viewDistance : d > viewDistance ? viewDistance : d;
+
         // System.out.println("Sense: " + distance);
         led.dim((viewDistance - distance) / viewDistance);
 
@@ -49,18 +44,5 @@ public class PiSensorController implements ISensorController, IPiController {
     public void shutdown() {
         piSensor.shutdown();
         led.shutdown();
-    }
-
-    private static void configureNoiseReduction(PiSensor piSensor) {
-        piSensor.enableNoiseReduction(5, values -> {
-            Collections.sort(values);
-
-            return values
-                    .subList(1, values.size() - 1)
-                    .stream()
-                    .mapToDouble(x -> x)
-                    .average()
-                    .getAsDouble();
-        });
     }
 }

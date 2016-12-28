@@ -17,7 +17,6 @@ import eu.luminis.util.GenesFile;
 import static eu.luminis.robots.pi.util.SleepUtil.sleep;
 
 public class RunRobot {
-
     private final static GpioController gpio = Pi4JControllerFactory.GetController();
     private static boolean looping = false;
 
@@ -31,20 +30,18 @@ public class RunRobot {
             System.out.println("Creating a robot from the first genome in the file");
             Robot robot = createRobot(genomes.get(0));
 
-            int loopPeriod = getLoopPeriod(args);
-            System.out.println("Start looping with period (ms): " + loopPeriod);
-            loop(robot, loopPeriod);
+            System.out.println("Start robot");
+            loop(robot);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void loop(Robot robot, int loopPeriod) {
+    private static void loop(Robot robot) {
         looping = true;
         while (looping){
             // System.out.println("---------------------------------");
             robot.run();
-            sleep(loopPeriod);
         }
     }
 
@@ -110,14 +107,5 @@ public class RunRobot {
         }
 
         return filePath;
-    }
-
-    private static int getLoopPeriod(String[] args) {
-        int loopPeriod = 65; // 60
-        if(args.length > 1) {
-            loopPeriod = Integer.parseInt(args[1]);
-        }
-
-        return loopPeriod;
     }
 }

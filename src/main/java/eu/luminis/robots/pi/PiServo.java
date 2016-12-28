@@ -30,7 +30,7 @@ public class PiServo {
         try (OutputStream out = new FileOutputStream("/dev/servoblaster");
                 OutputStreamWriter writer = new OutputStreamWriter(out)) {
 
-            writer.write(servoblasterId + "=" + getPulse(angle) + "\n");
+            writer.write(servoblasterId + "=" + getSteps(angle) + "\n");
             writer.flush();
 
         } catch (IOException e) {
@@ -38,7 +38,7 @@ public class PiServo {
         }
 
         // Make sure the servo has time to turn
-        sleep(Math.round(Math.abs(currentAngle - angle) * this.msDelayPerDegree));
+        sleep(Math.round(Math.abs(currentAngle - angle) * this.msDelayPerDegree) + PiSensor.echoWaitMs * 2);
         currentAngle = angle;
     }
 
@@ -46,11 +46,11 @@ public class PiServo {
         moveTo(90);
     }
 
-    private long getPulse(int angle) {
-        double pulseInMs = angle >= 90 ?
+    private long getSteps(int angle) {
+        double steps = angle >= 90 ?
                 (this.msPulse_180_Degrees - this.msPulse_90_Degrees) / 90 * (angle-90) + this.msPulse_90_Degrees :
                 (this.msPulse_90_Degrees - this.msPulse_0_Degrees) / 90 * angle + this.msPulse_0_Degrees;
 
-        return Math.round(pulseInMs * 100);
+        return Math.round(steps);
     }
 }
