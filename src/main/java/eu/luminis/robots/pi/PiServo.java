@@ -7,23 +7,16 @@ import java.io.OutputStreamWriter;
 import static eu.luminis.robots.pi.util.SleepUtil.sleep;
 
 public class PiServo {
+    private static final double steps_0_Degrees = 56;
+    private static final double steps_90_Degrees = 144;
+    private static final double steps_180_Degrees = 244;
+    private static final double msDelayPerDegree = 2.34;
 
-    private int servoblasterId;
-
-    private double msPulse_0_Degrees;
-    private double msPulse_90_Degrees;
-    private double msPulse_180_Degrees;
-    private double msDelayPerDegree;
-
+    private final int servoblasterId;
     private int currentAngle = 0;
         
-    public PiServo(int servoblasterId, double msPulse_0_Degrees, double msPulse_90_Degrees, double msPulse_180_Degrees,
-            double msDelayPerDegree) {
+    public PiServo(int servoblasterId) {
         this.servoblasterId = servoblasterId;
-        this.msPulse_0_Degrees = msPulse_0_Degrees;
-        this.msPulse_90_Degrees = msPulse_90_Degrees;
-        this.msPulse_180_Degrees = msPulse_180_Degrees;
-        this.msDelayPerDegree = msDelayPerDegree;
     }
 
     public void moveTo(int angle) {
@@ -38,7 +31,7 @@ public class PiServo {
         }
 
         // Make sure the servo has time to turn
-        sleep(Math.round(Math.abs(currentAngle - angle) * this.msDelayPerDegree) + PiSensor.echoWaitMs * 2);
+        sleep(Math.round(1.0 + Math.abs(currentAngle - angle) * msDelayPerDegree));
         currentAngle = angle;
     }
 
@@ -48,8 +41,8 @@ public class PiServo {
 
     private long getSteps(int angle) {
         double steps = angle >= 90 ?
-                (this.msPulse_180_Degrees - this.msPulse_90_Degrees) / 90 * (angle-90) + this.msPulse_90_Degrees :
-                (this.msPulse_90_Degrees - this.msPulse_0_Degrees) / 90 * angle + this.msPulse_0_Degrees;
+                (steps_180_Degrees - steps_90_Degrees) / 90 * (angle-90) + steps_90_Degrees :
+                (steps_90_Degrees - steps_0_Degrees) / 90 * angle + steps_0_Degrees;
 
         return Math.round(steps);
     }

@@ -14,20 +14,18 @@ public class PiSensorController implements ISensorController, IPiController {
     private final PiSensor piSensor;
     private final Led led;
 	private final double viewDistance;
-	private double distance;
 
 	public PiSensorController(double viewDistance) {
 		this.viewDistance = viewDistance;
-		this.distance = viewDistance;
 
         led = new Led(gpio, RaspiPin.GPIO_29);
-        piSensor = new PiSensor(gpio, RaspiPin.GPIO_14, RaspiPin.GPIO_10);
+        piSensor = new PiSensor(gpio, RaspiPin.GPIO_14, RaspiPin.GPIO_10, viewDistance);
     }
 
     @Override
 	public double sense() {
-	    Double d = piSensor.sense(PiSensor.echoWaitMs * 2);
-        distance = d == null ? viewDistance : d > viewDistance ? viewDistance : d;
+	    Double d = piSensor.sense(piSensor.getEchoWaitNs() * 2);
+        double distance = d == null ? viewDistance : d > viewDistance ? viewDistance : d;
 
         // System.out.println("Sense: " + distance);
         led.dim((viewDistance - distance) / viewDistance);

@@ -6,12 +6,8 @@ import eu.luminis.util.Range;
 
 public class PiServoController implements IServoController, IPiController {
     private final static double angularFriction = Options.angularFriction.get();
-    private static final double deg_0 = 56;
-    private static final double deg_90 = 144;
-    private static final double deg_180 = 244;
-    private static final double msDelayPerDegree = 2.33;
 
-    private final PiServo piServo = new PiServo(0, deg_0, deg_90, deg_180, msDelayPerDegree);
+    private final PiServo piServo = new PiServo(0);
 
     private final double viewAngle;
     private final double angularForce;

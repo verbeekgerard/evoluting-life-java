@@ -13,9 +13,9 @@ public final class Options {
     public final static Option mainLoopSleep = new Option(0);
 
     // Evolution
-    public final static Option mutationFraction = new Option(0.01);
+    public final static Option mutationFraction = new Option(0.05);
     public final static Option minMutationFraction = new Option(0.0001);
-    public final static Option maxMutationFraction = new Option(0.01);
+    public final static Option maxMutationFraction = new Option(0.05);
     public final static Option mutationFractionModificationPeriod = new Option(100);
     public final static Option mutationFractionExponent = new Option(-1.0 / 1000000.0);
 

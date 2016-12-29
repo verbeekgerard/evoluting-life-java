@@ -6,17 +6,18 @@ import eu.luminis.robots.pi.util.Sensor;
 import java.util.concurrent.*;
 
 public class PiSensor extends Sensor<Double> {
-    public static final long echoWaitMs = 12;
-
     private static final int SPEEDOFSOUND_CM_S = 34029;
-    private static final long ECHO_WAIT_NS = 1000000L * echoWaitMs; // 12 ms => 0.012 sec * 34029 m/sec => 2.04m distance
 
     private final GpioPinDigitalOutput trigger;
     private final GpioPinDigitalInput echo;
+    private final long echoWaitNs;
 
-    public PiSensor(GpioController gpio, Pin triggerPin, Pin echoPin) {
+    public PiSensor(GpioController gpio, Pin triggerPin, Pin echoPin, double maxDistanceCm) {
         trigger = gpio.provisionDigitalOutputPin(triggerPin, PinState.LOW);
         echo = gpio.provisionDigitalInputPin(echoPin, PinPullResistance.PULL_UP);
+
+        // v = cm/s => s = cm/v => cm/34029 => nanoseconds = 1.000.000.000 * cm/34029
+        echoWaitNs = 2 * ((long)(1000000000L * maxDistanceCm / SPEEDOFSOUND_CM_S) + 1);
     }
 
     @Override
@@ -26,20 +27,20 @@ public class PiSensor extends Sensor<Double> {
         long startTime = System.nanoTime(); //ns
         long start = startTime;
         //echo will go 0 to 1 and need to save time for that. 20 milliseconds difference
-        while (echo.isLow() && start < startTime + ECHO_WAIT_NS) {
+        while (echo.isLow() && start < startTime + echoWaitNs) {
             start = System.nanoTime();
         }
 
-        if (start == startTime || start >= startTime + ECHO_WAIT_NS) {
+        if (start == startTime || start >= startTime + echoWaitNs) {
             return null;
         }
 
         long stop = start;
-        while (echo.isHigh() && stop < start + ECHO_WAIT_NS) {
+        while (echo.isHigh() && stop < start + echoWaitNs) {
             stop = System.nanoTime();
         }
 
-        if (stop == start || stop >= start + ECHO_WAIT_NS) {
+        if (stop == start || stop >= start + echoWaitNs) {
             return null;
         }
 
@@ -47,7 +48,7 @@ public class PiSensor extends Sensor<Double> {
         return deltaSeconds / 2.0;
     }
 
-    ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public Double sense(long msTimeout) {
         Callable<Double> callableSense = this::sense;
@@ -66,5 +67,9 @@ public class PiSensor extends Sensor<Double> {
         trigger.low();
         executorService.shutdownNow();
         super.shutdown();
+    }
+
+    long getEchoWaitNs() {
+        return echoWaitNs;
     }
 }

@@ -27,8 +27,9 @@ public class RunRobot {
             GenesFile genesFile = new GenesFile(genesFilePath);
             List<Genome> genomes = genesFile.read();
 
-            System.out.println("Creating a robot from the first genome in the file");
-            Robot robot = createRobot(genomes.get(0));
+            int genomeIndex = getGenomeIndex(args);
+            System.out.println("Creating a robot from genome: " + genomeIndex);
+            Robot robot = createRobot(genomes.get(genomeIndex));
 
             System.out.println("Start robot");
             loop(robot);
@@ -107,5 +108,14 @@ public class RunRobot {
         }
 
         return filePath;
+    }
+
+    private static int getGenomeIndex(String[] args) {
+        int index = 0;
+        if(args.length > 1) {
+            index = Integer.parseInt(args[1]);
+        }
+
+        return index;
     }
 }
