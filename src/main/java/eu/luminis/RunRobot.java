@@ -31,18 +31,23 @@ public class RunRobot {
             System.out.println("Creating a robot from genome: " + genomeIndex);
             Robot robot = createRobot(genomes.get(genomeIndex));
 
-            System.out.println("Start robot");
-            loop(robot);
+            int loopDelay = getLoopDelay(args);
+            System.out.println("Start robot with loopDelay (ms): " + loopDelay);
+            loop(robot, loopDelay);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void loop(Robot robot) {
+    private static void loop(Robot robot, int loopDelay) {
         looping = true;
         while (looping){
             // System.out.println("---------------------------------");
             robot.run();
+
+            if (loopDelay > 0) {
+                sleep(loopDelay);
+            }
         }
     }
 
@@ -117,5 +122,14 @@ public class RunRobot {
         }
 
         return index;
+    }
+
+    private static int getLoopDelay(String[] args) {
+        int delay = 0;
+        if(args.length > 2) {
+            delay = Integer.parseInt(args[2]);
+        }
+
+        return delay;
     }
 }
