@@ -6,7 +6,7 @@ import eu.luminis.Options;
 import eu.luminis.robots.core.IMotorsController;
 
 public class PiMotorsController implements IMotorsController, IPiController {
-    private final static double linearFriction = Options.linearFriction.get() / 2.0;
+    private final static double linearFriction = Options.linearFriction.get();
     private final static GpioController gpio = Pi4JControllerFactory.GetController();
 
     private final double linearForce;
@@ -31,8 +31,8 @@ public class PiMotorsController implements IMotorsController, IPiController {
 
     @Override
     public void move(double leftChange, double rightChange) {
-        calculateVelocityLeft(leftChange);
-        calculateVelocityRight(rightChange);
+        velocityLeft = calculateVelocity(velocityLeft, leftChange);
+        velocityRight = calculateVelocity(velocityRight, rightChange);
 
         move(velocityLeft, leftMotor);
         move(velocityRight, rightMotor);
@@ -44,16 +44,8 @@ public class PiMotorsController implements IMotorsController, IPiController {
         rightMotor.shutdown();
     }
 
-    private void calculateVelocityRight(double rightChange) {
-        double accelerationRight = rightChange * linearForce;
-        velocityRight += accelerationRight;
-        velocityRight -= velocityRight * linearFriction;
-    }
-
-    private void calculateVelocityLeft(double leftChange) {
-        double accelerationLeft = leftChange * linearForce;
-        velocityLeft += accelerationLeft;
-        velocityLeft -= velocityLeft * linearFriction;
+    private double calculateVelocity(double initialVelocity, double linearChange) {
+        return initialVelocity * (1 - initialVelocity * linearFriction) + linearChange * linearForce;
     }
 
     private static void move(double velocity, PiMotor motor) {

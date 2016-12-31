@@ -30,11 +30,8 @@ public class PiServoController implements IServoController, IPiController {
     }
 
     @Override
-    public void changeAngle(double acceleration) {
-    	double angularAcceleration = acceleration * angularForce;
-        angularVelocity += angularAcceleration;
-        angularVelocity -= angularVelocity * angularFriction;
-
+    public void changeAngle(double change) {
+        angularVelocity = calculateVelocity(angularVelocity, change);
         angle = viewAngleRange.assureBounds(angle + angularVelocity);
 
         if (angle == viewAngleRange.getLowerBound() || angle == viewAngleRange.getUpperBound()) {
@@ -54,6 +51,10 @@ public class PiServoController implements IServoController, IPiController {
     @Override
     public void shutdown() {
         piServo.shutdown();
+    }
+
+    private double calculateVelocity(double initialVelocity, double change) {
+        return initialVelocity * (1 - initialVelocity * angularFriction) + change * angularForce;
     }
 
     private void initializeStartAngle() {

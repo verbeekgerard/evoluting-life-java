@@ -28,22 +28,23 @@ class SimServoController implements IServoController {
     }
 
     @Override
-    public void changeAngle(double acceleration) {
-        double angularAcceleration = acceleration * angularForce;
-        angularVelocity += angularAcceleration;
-        angularVelocity -= angularVelocity * angularFriction;
-
+    public void changeAngle(double change) {
+        angularVelocity = calculateVelocity(angularVelocity, change);
         angle = viewAngleRange.assureBounds(angle + angularVelocity);
 
         if (angle == viewAngleRange.getLowerBound() || angle == viewAngleRange.getUpperBound()) {
             angularVelocity = 0;
         }
 
-        owner.recordAngleChange(acceleration);
+        owner.recordAngleChange(change * angularForce);
     }
 
     @Override
     public double getViewAngle() {
         return viewAngle;
+    }
+
+    private double calculateVelocity(double initialVelocity, double change) {
+        return initialVelocity * (1 - initialVelocity * angularFriction) + change * angularForce;
     }
 }

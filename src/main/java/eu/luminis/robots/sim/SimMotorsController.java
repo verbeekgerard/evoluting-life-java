@@ -24,17 +24,10 @@ class SimMotorsController implements IMotorsController {
 
     @Override
     public void move(double leftChange, double rightChange) {
+        velocityLeft = calculateVelocity(velocityLeft, leftChange);
+        velocityRight = calculateVelocity(velocityRight, rightChange);
+
         Position ownerPosition = owner.getPosition();
-
-        // F=m*a => a=F/m, dv=a*dt => dv=dt*F/m, dt=one cycle, m=1
-        double accelerationLeft = leftChange * linearForce;
-        velocityLeft += accelerationLeft;
-        velocityLeft -= velocityLeft * linearFriction;
-
-        double accelerationRight = rightChange * linearForce;
-        velocityRight += accelerationRight;
-        velocityRight -= velocityRight * linearFriction;
-
         ownerPosition.a += (velocityLeft - velocityRight) / 10;
 
         // Convert movement vector into polar
@@ -43,6 +36,12 @@ class SimMotorsController implements IMotorsController {
         ownerPosition.x += dx;
         ownerPosition.y += dy;
 
-        owner.recordMove(ownerPosition, Math.abs(accelerationLeft) + Math.abs(accelerationRight));
+        double acceleration = (Math.abs(leftChange) + Math.abs(rightChange)) * linearForce;
+        owner.recordMove(ownerPosition, acceleration);
+    }
+
+    private double calculateVelocity(double initialVelocity, double linearChange) {
+        // F=m*a => a=F/m, dv=a*dt => dv=dt*F/m, dt=one cycle, m=1
+        return initialVelocity * (1 - initialVelocity * linearFriction) + linearChange * linearForce;
     }
 }
