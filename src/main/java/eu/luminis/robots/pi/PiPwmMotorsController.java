@@ -6,7 +6,7 @@ import eu.luminis.Options;
 import eu.luminis.robots.core.IMotorsController;
 
 public class PiPwmMotorsController implements IMotorsController, IPiController {
-    private final static double linearFriction = Options.linearFriction.get() / 2.0;
+    private final static double linearFriction = Options.linearFriction.get();
     private final static GpioController gpio = Pi4JControllerFactory.GetController();
 
     private final double linearForce;

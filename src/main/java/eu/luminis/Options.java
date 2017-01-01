@@ -25,8 +25,8 @@ public final class Options {
     public final static Option oldAgeMutationRate = new Option(0.05);
 
     // RoundSimObstacle
-    public final static Option minRoundObstacleSize = new Option(6);
-    public final static Option maxRoundObstacleSize = new Option(14);
+    public final static Option minRoundObstacleSize = new Option(2);
+    public final static Option maxRoundObstacleSize = new Option(18);
     public final static Option minGrowthPercentage = new Option(0.00001);
     public final static Option maxGrowthPercentage = new Option(0.00005);
     public final static Option roundObstaclePopulationSize = new Option(10 * 8);
