@@ -7,7 +7,7 @@ public class PopulationExporter  {
     
     private static Simulation simulation = Simulation.getInstance();
 
-    public String export() {
+    public static String export() {
         return new Gson().toJson(simulation.exportPopulation());
     }
 }
