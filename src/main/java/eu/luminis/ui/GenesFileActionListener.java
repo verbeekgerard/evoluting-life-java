@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-public abstract class GenesFileActionListener implements ActionListener {
+abstract class GenesFileActionListener implements ActionListener {
     private static final String FILE_EXTENSION = "json";
 
     private JFileChooser fileChooser;
