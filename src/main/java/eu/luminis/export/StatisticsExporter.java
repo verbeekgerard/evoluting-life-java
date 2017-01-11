@@ -9,16 +9,16 @@ public class StatisticsExporter implements IStatisticsExporter {
         if(instance == null) {
             instance = new StatisticsExporter(statsCollector);
         }
+
         return instance;
     }
+
     public static IStatisticsExporter getInstance(){
         return instance;
     }
 
     private final StatsCollector statsCollector;
-
     private StatisticsExporter(StatsCollector statsCollector) {
-
         this.statsCollector = statsCollector;
     }
 

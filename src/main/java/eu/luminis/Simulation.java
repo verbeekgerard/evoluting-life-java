@@ -8,9 +8,8 @@ import eu.luminis.robots.sim.SimWorld;
 import java.util.List;
 
 public class Simulation {
-
     private static final Simulation singleton = new Simulation();
-    static Simulation getInstance() {
+    public static Simulation getInstance() {
         return singleton;
     }
 
