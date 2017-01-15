@@ -5,10 +5,7 @@ import eu.luminis.events.EventType;
 import eu.luminis.robots.sim.SimRobot;
 import eu.luminis.robots.sim.SimRobotPopulation;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 public class StatsCollector implements Observer {
 
@@ -46,7 +43,8 @@ public class StatsCollector implements Observer {
     }
 
     public Stats getStats() {
-        Stats stats = new Stats(totalStarved, totalCollisions, totalWandered, totalDiedOfAge, periodicStatsList);
+        List<PeriodicStats> tempStatsList = new ArrayList(periodicStatsList);
+        Stats stats = new Stats(totalStarved, totalCollisions, totalWandered, totalDiedOfAge, tempStatsList);
         resetStats();
         return stats;
     }
