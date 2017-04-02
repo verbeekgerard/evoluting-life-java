@@ -13,9 +13,9 @@ public final class Options {
     public final static Option mainLoopSleep = new Option(0);
 
     // Evolution
-    public final static Option mutationFraction = new Option(0.02);
+    public final static Option mutationFraction = new Option(0.05);
     public final static Option minMutationFraction = new Option(0.000001);
-    public final static Option maxMutationFraction = new Option(0.02);
+    public final static Option maxMutationFraction = new Option(0.05);
     public final static Option mutationFractionModificationPeriod = new Option(100);
     public final static Option mutationFractionExponent = new Option(-1.0 / 1000000.0);
 
@@ -50,8 +50,8 @@ public final class Options {
     public final static Option fieldOfViewReplacementRate = new Option(sensorReplacementRates);
 
     // MovementGene
-    public final static Option linearFriction = new Option(0.1); // 0.7, 0.06
-    public final static Option angularFriction = new Option(0.1); // 0.5
+    public final static Option linearFriction = new Option(0.3); // 0.7, 0.06
+    public final static Option angularFriction = new Option(0.3); // 0.5
 
     private static double calculateForce(double maxVelocity, double friction) {
         return maxVelocity * friction;
