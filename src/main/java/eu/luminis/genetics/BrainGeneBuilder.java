@@ -1,8 +1,5 @@
 package eu.luminis.genetics;
 
-import eu.luminis.Options;
-import eu.luminis.util.Range;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,12 +47,14 @@ class BrainGeneBuilder {
     }
 
     private int getHiddenLayerCount() {
-        return (int)Math.floor(new Range(Options.minHiddenLayers.get(), Options.maxHiddenLayers.get()).random());
+        return 2;
+        // return (int)Math.floor(new Range(Options.minHiddenLayers.get(), Options.maxHiddenLayers.get()).random());
     }
 
-    private int getNeuronCount(double minGenesPerHL) {
-        return (int) Math.floor(new Range(2 * minGenesPerHL, 3 * minGenesPerHL).random());
-        // return (int) Math.floor(new Range(minGenesPerHL, Options.maxNeuronsPerLayer.get()).random());
+    private int getNeuronCount(int minimumHiddenLayerWidth) {
+        return 2 * minimumHiddenLayerWidth;
+        // return (int) Math.floor(new Range(2 * minimumHiddenLayerWidth, 3 * minimumHiddenLayerWidth).random());
+        // return (int) Math.floor(new Range(minimumHiddenLayerWidth, Options.maxNeuronsPerLayer.get()).random());
     }
 
     private List<NeuronGene> createLayer(int maxTargetCount, int neuronCount) {

@@ -51,14 +51,19 @@ public class Canvas extends JPanel implements Observer {
 			drawObstacle(obstacle, g2);
 		}
 
-		drawFieldOfView(robotPopulation.getWinningEntity(), g2);
-		drawTargetLine(robotPopulation.getWinningEntity(), g2);
+		// drawRobotMetaData(g2, robotPopulation.getWinningEntity());
 
 		for (SimRobot robot : robotPopulation.getAllRobots()) {
-            //drawFieldOfView(robot, g2);
-			drawCollisionBody(robot, g2);
+			drawRobotMetaData(g2, robot);
 			drawRobot(robot, robotPopulation.getWinningEntity(), g2);
 		}
+	}
+
+	private void drawRobotMetaData(Graphics2D g2, SimRobot robot) {
+		drawFieldOfView(robot, g2);
+		drawTargetLine(robot, g2);
+
+		drawCollisionBody(robot, g2);
 	}
 
 	private void drawFieldOfView(SimRobot robot, Graphics2D g2) {
