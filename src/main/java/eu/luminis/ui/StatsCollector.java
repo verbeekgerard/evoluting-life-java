@@ -43,9 +43,16 @@ public class StatsCollector implements Observer {
     }
 
     public Stats getStats() {
-        List<PeriodicStats> tempStatsList = new ArrayList(periodicStatsList);
+        List<PeriodicStats> tempStatsList = periodicStatsList;
+        this.periodicStatsList = new ArrayList<>();
+
         Stats stats = new Stats(totalStarved, totalCollisions, totalWandered, totalDiedOfAge, tempStatsList);
-        resetStats();
+
+        this.totalCollisions = 0;
+        this.totalStarved = 0;
+        this.totalWandered = 0;
+        this.totalDiedOfAge = 0;
+
         return stats;
     }
 
@@ -68,13 +75,5 @@ public class StatsCollector implements Observer {
         PeriodicStats periodicStats = new PeriodicStats(avgHealth, avgAge, avgDistance, bestFitness);
 
         periodicStatsList.add(periodicStats);
-    }
-
-    private void resetStats() {
-        this.periodicStatsList = new ArrayList<>();
-        this.totalCollisions = 0;
-        this.totalStarved = 0;
-        this.totalWandered = 0;
-        this.totalDiedOfAge = 0;
     }
 }

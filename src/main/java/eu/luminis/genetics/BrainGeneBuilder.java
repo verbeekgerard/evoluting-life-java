@@ -37,16 +37,25 @@ class BrainGeneBuilder {
     }
 
     private void addHiddenLayers() {
-        double minGenesPerHL = Math.max(inputCount, outputCount);
-        double numberOfHL = Math.floor(new Range(Options.minHiddenLayers.get(), Options.maxHiddenLayers.get()).random());
-        for (int i = 0; i < numberOfHL; i++) {
+        int minimumHiddenLayerWidth = Math.max(inputCount, outputCount);
+        int hiddenLayerCount = getHiddenLayerCount();
+        for (int i = 0; i < hiddenLayerCount; i++) {
 
             int maxTargetCount = layers.get(layers.size() - 1).size();
-            int neuronCount = (int) Math.floor(new Range(minGenesPerHL, Options.maxNeuronsPerLayer.get()).random());
+            int neuronCount = getNeuronCount(minimumHiddenLayerWidth);
 
             List<NeuronGene> layer = createLayer(maxTargetCount, neuronCount);
             layers.add(layer);
         }
+    }
+
+    private int getHiddenLayerCount() {
+        return (int)Math.floor(new Range(Options.minHiddenLayers.get(), Options.maxHiddenLayers.get()).random());
+    }
+
+    private int getNeuronCount(double minGenesPerHL) {
+        return (int) Math.floor(new Range(2 * minGenesPerHL, 3 * minGenesPerHL).random());
+        // return (int) Math.floor(new Range(minGenesPerHL, Options.maxNeuronsPerLayer.get()).random());
     }
 
     private List<NeuronGene> createLayer(int maxTargetCount, int neuronCount) {

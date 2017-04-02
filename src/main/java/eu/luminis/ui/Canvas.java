@@ -47,12 +47,12 @@ public class Canvas extends JPanel implements Observer {
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, world.getWidth(), world.getHeight());
 
-		drawFieldOfView(robotPopulation.getWinningEntity(), g2);
-        drawTargetLine(robotPopulation.getWinningEntity(), g2);
-
 		for (SimObstacle obstacle : obstaclePopulation.getAllRoundObstacles()) {
 			drawObstacle(obstacle, g2);
 		}
+
+		drawFieldOfView(robotPopulation.getWinningEntity(), g2);
+		drawTargetLine(robotPopulation.getWinningEntity(), g2);
 
 		for (SimRobot robot : robotPopulation.getAllRobots()) {
             //drawFieldOfView(robot, g2);

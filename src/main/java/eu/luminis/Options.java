@@ -50,15 +50,15 @@ public final class Options {
     public final static Option fieldOfViewReplacementRate = new Option(sensorReplacementRates);
 
     // MovementGene
-    public final static Option linearFriction = new Option(0.05); // 0.7, 0.06
+    public final static Option linearFriction = new Option(0.1); // 0.7, 0.06
     public final static Option angularFriction = new Option(0.1); // 0.5
 
     private static double calculateForce(double maxVelocity, double friction) {
         return maxVelocity * friction;
     }
     private static double minA = calculateForce(0.1, angularFriction.get()); // 0.1
-    private static double maxA = calculateForce(5.0, angularFriction.get()); // 1.0
-    private static double minL = calculateForce(1.0, linearFriction.get());
+    private static double maxA = calculateForce(10.0, angularFriction.get()); // 1.0
+    private static double minL = calculateForce(0.1, linearFriction.get());
     private static double maxL = calculateForce(24.0, linearFriction.get());
 
     public final static Option minAngularForce = new Option(minA);
