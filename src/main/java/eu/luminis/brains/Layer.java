@@ -2,7 +2,6 @@ package eu.luminis.brains;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import eu.luminis.genetics.NeuronGene;
 
@@ -45,7 +44,7 @@ class Layer {
         List<ITransmitter> transmitters = new ArrayList<>();
 
         for (Neuron neuron : neurons) {
-            Neuron.TransmitResult neuronOutput = neuron.transmit();
+            TransmitResult neuronOutput = neuron.transmit();
             values.add(neuronOutput.getValue());
             transmitters.addAll(neuronOutput.getTransmitters());
         }
