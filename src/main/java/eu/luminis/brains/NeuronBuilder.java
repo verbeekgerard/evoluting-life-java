@@ -26,25 +26,26 @@ class NeuronBuilder {
         return new Neuron(
                 gene.getThreshold(),
                 gene.getRelaxation(),
-                createTransmittingAxons(targetNeurons));
+                createTransmittingAxons(targetNeurons, 0));
+    }
+
+    void complement(Neuron neuron, List<Neuron> targetNeurons) {
+        if (neuron == null || targetNeurons == null) return;
+
+        int offset = gene.getAxons().size() - targetNeurons.size();
+        List<Axon> recurrentAxons = createTransmittingAxons(targetNeurons, offset);
+        neuron.addRecurrentAxons(recurrentAxons);
     }
 
     private List<Axon> createOutputAxons() {
-        List<Axon> axons = new ArrayList<>();
-
-        for (AxonGene axonGene : gene.getAxons()) {
-            Axon axon = new Axon(axonGene.getStrength());
-            axons.add(axon);
-        }
-
-        return axons;
+        return new ArrayList<>();
     }
 
-    private List<Axon> createTransmittingAxons(List<Neuron> targetNeurons) {
+    private List<Axon> createTransmittingAxons(List<Neuron> targetNeurons, int offset) {
         List<Axon> axons = new ArrayList<>();
 
-        for (int i = 0; i < gene.getAxons().size(); i++) {
-            Axon axon = new Axon(gene.getAxons().get(i).getStrength(), targetNeurons.get(i));
+        for (int i = 0; i < targetNeurons.size(); i++) {
+            Axon axon = new Axon(gene.getAxons().get(i + offset).getStrength(), targetNeurons.get(i));
             axons.add(axon);
         }
 

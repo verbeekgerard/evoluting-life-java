@@ -1,5 +1,6 @@
 package eu.luminis.brains;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class Neuron {
@@ -14,25 +15,46 @@ class Neuron {
         this.axons = axons;
     }
 
-    public double transmit() {
-        if (this.excitation > this.threshold) {
-            double excitation = this.excitation;
-            this.excitation = 0;
+    public TransmitResult transmit() {
+        if (excitation > threshold) {
+            TransmitResult result = new TransmitResult(excitation, axons);
+            excitation = 0;
 
-            axons.forEach(Axon::transmit);
-
-            return excitation;
+            return result;
         }
         else {
             this.excitation = this.excitation > 0 ?
                     this.excitation * (1 - this.relaxation) :
                     0;
 
-            return 0;
+            return new TransmitResult(0, new ArrayList<>());
         }
     }
 
     public void excite(double value) {
         this.excitation += value;
+    }
+
+    void addRecurrentAxons(List<Axon> axons) {
+        this.axons.addAll(axons);
+    }
+
+    class TransmitResult {
+        private final double value;
+        private final List<? extends ITransmitter> transmitters;
+
+        TransmitResult(double value, List<? extends ITransmitter> transmitters) {
+
+            this.value = value;
+            this.transmitters = transmitters;
+        }
+
+        public double getValue() {
+            return value;
+        }
+
+        public List<? extends ITransmitter> getTransmitters() {
+            return transmitters;
+        }
     }
 }

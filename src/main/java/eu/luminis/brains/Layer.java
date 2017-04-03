@@ -24,6 +24,14 @@ class Layer {
             Neuron neuron = builder.build(targetNeurons);
             neurons.add(neuron);
         }
+
+        int i = 0;
+        for (NeuronGene neuronGene : layerGenes) {
+            NeuronBuilder builder = new NeuronBuilder(neuronGene);
+
+            Neuron neuron = neurons.get(i++);
+            builder.complement(neuron, neurons);
+        }
     }
 
     public List<Neuron> getNeurons() {
@@ -31,8 +39,19 @@ class Layer {
     }
 
     public List<Double> transmit() {
-        return neurons.stream()
-                .map(Neuron::transmit)
-                .collect(Collectors.toList());
+        List<Double> values = new ArrayList<>();
+        List<ITransmitter> transmitters = new ArrayList<>();
+
+        for (Neuron neuron : neurons) {
+            Neuron.TransmitResult neuronOutput = neuron.transmit();
+            values.add(neuronOutput.getValue());
+            transmitters.addAll(neuronOutput.getTransmitters());
+        }
+
+        for (ITransmitter transmitter : transmitters) {
+            transmitter.transmit();
+        }
+
+        return values;
     }
 }

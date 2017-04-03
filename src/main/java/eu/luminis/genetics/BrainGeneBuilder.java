@@ -61,7 +61,7 @@ class BrainGeneBuilder {
     private List<NeuronGene> createLayer(int maxTargetCount, int neuronCount) {
         List<NeuronGene> neuronGenes = new ArrayList<>();
         for (int i = 0; i < neuronCount; i++) {
-            neuronGenes.add(new NeuronGene(maxTargetCount));
+            neuronGenes.add(new NeuronGene(maxTargetCount + neuronCount));
         }
         return neuronGenes;
     }

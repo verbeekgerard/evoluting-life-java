@@ -30,14 +30,16 @@ public class BrainGene {
             List<NeuronGene> stateLayer = layers.get(i);
 
             for (int j = 0; j < stateLayer.size(); j++) {
+                NeuronGene gene = stateLayer.get(j);
+
                 if (Math.random() < Options.neuronReplacementRate.get()) {
-                    int targetCount = (i == 0) ? 0 : layers.get(i - 1).size();
+                    int targetCount = gene.getAxons().size();
                     stateLayer.set(j, new NeuronGene(targetCount));
                     continue;
                 }
 
                 if (Math.random() < Options.neuronMutationRate.get()) {
-                    stateLayer.get(j).mutate();
+                    gene.mutate();
                 }
             }
         }
@@ -56,12 +58,18 @@ public class BrainGene {
         children.add(new BrainGene(getEmptyChild(a.size())));
 
         for (int i = 0; i < a.size(); i++) {
-            if (a.get(i).size() != b.get(i).size()) {
+            List<NeuronGene> layerA = a.get(i);
+            List<NeuronGene> layerB = b.get(i);
+
+            if (layerA.size() != layerB.size()) {
                 return createChildClones(this, partner);
             }
 
-            for (int j = 0; j < a.get(i).size(); j++) {
-                List<NeuronGene> childNeurons = a.get(i).get(j).mate(b.get(i).get(j));
+            for (int j = 0; j < layerA.size(); j++) {
+                NeuronGene geneA = layerA.get(j);
+                NeuronGene geneB = layerB.get(j);
+                List<NeuronGene> childNeurons = geneA.mate(geneB);
+
                 for (int k = 0; k < 2; k++) {
                     children.get(k).layers.get(i).add(childNeurons.get(k));
                 }
