@@ -25,14 +25,14 @@ class BrainGeneBuilder {
     }
 
     private void addOutputLayer() {
-        List<NeuronGene> layer = createLayer(0, outputCount);
+        List<NeuronGene> layer = createLayer(0, outputCount, false);
         layers.add(layer);
     }
 
     private void addInputLayer() {
         int maxTargetCount = layers.get(layers.size() - 1).size();
 
-        List<NeuronGene> layer = createLayer(maxTargetCount, inputCount);
+        List<NeuronGene> layer = createLayer(maxTargetCount, inputCount, false);
         layers.add(layer);
     }
 
@@ -44,7 +44,7 @@ class BrainGeneBuilder {
             int maxTargetCount = layers.get(layers.size() - 1).size();
             int neuronCount = getNeuronCount(minimumHiddenLayerWidth);
 
-            List<NeuronGene> layer = createLayer(maxTargetCount, neuronCount);
+            List<NeuronGene> layer = createLayer(maxTargetCount, neuronCount, true);
             layers.add(layer);
         }
     }
@@ -54,15 +54,18 @@ class BrainGeneBuilder {
     }
 
     private int getNeuronCount(int minimumHiddenLayerWidth) {
-        return (int) Math.floor(new Range(minimumHiddenLayerWidth + 1, 4 * minimumHiddenLayerWidth).random());
+        return (int) Math.floor(new Range(minimumHiddenLayerWidth + 1, 2 * minimumHiddenLayerWidth).random());
         // return (int) Math.floor(new Range(minimumHiddenLayerWidth, Options.maxNeuronsPerLayer.get()).random());
     }
 
-    private List<NeuronGene> createLayer(int maxTargetCount, int neuronCount) {
+    private List<NeuronGene> createLayer(int maxTargetCount, int neuronCount, boolean recurrent) {
+        int axonCount = recurrent ? maxTargetCount + neuronCount : maxTargetCount;
+
         List<NeuronGene> neuronGenes = new ArrayList<>();
         for (int i = 0; i < neuronCount; i++) {
-            neuronGenes.add(new NeuronGene(maxTargetCount + neuronCount));
+            neuronGenes.add(new NeuronGene(axonCount));
         }
+
         return neuronGenes;
     }
 }

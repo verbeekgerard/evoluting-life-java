@@ -37,7 +37,7 @@ public class BrainBuilder {
         layers.add(outputLayer);
 
         for (int i = 1; i < genLayers.size() - 1; i++) {
-            Layer layer = new Layer(genLayers.get(i), layers.get(layers.size() - 1));
+            Layer layer = new Layer(genLayers.get(i), layers.get(layers.size() - 1), true);
             layers.add(layer);
         }
 

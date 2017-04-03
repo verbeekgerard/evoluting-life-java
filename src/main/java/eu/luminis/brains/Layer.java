@@ -11,10 +11,10 @@ class Layer {
     private final List<Neuron> neurons = new ArrayList<>();
 
     public Layer(List<NeuronGene> layerGenes) {
-        this(layerGenes, null);
+        this(layerGenes, null, false);
     }
 
-    public Layer(List<NeuronGene> layerGenes, Layer targetLayer) {
+    public Layer(List<NeuronGene> layerGenes, Layer targetLayer, boolean recurrent) {
         List<Neuron> targetNeurons = targetLayer == null ?
                 null :
                 targetLayer.getNeurons();
@@ -24,6 +24,8 @@ class Layer {
             Neuron neuron = builder.build(targetNeurons);
             neurons.add(neuron);
         }
+
+        if (!recurrent) return;
 
         int i = 0;
         for (NeuronGene neuronGene : layerGenes) {
