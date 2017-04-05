@@ -16,7 +16,7 @@ class TravelledDistanceRecorder {
         currentDistance = position.calculateDistance(startPosition);
 
         steps++;
-        if (steps > 300 || currentDistance > 300) {
+        if (steps > 500 || currentDistance > 300) {
             initializeDistanceVariables(position);
         }
     }

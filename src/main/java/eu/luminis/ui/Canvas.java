@@ -100,7 +100,8 @@ public class Canvas extends JPanel implements Observer {
 
         Color c = new Color(.9f, .9f, .9f, .8f);
         g2.setColor(c);
-        g2.drawLine((int)robotPosition.x, (int)robotPosition.y, (int)targetObstaclePosition.x, (int)targetObstaclePosition.y);
+		g2.setStroke(new BasicStroke(1));
+		g2.drawLine((int)robotPosition.x, (int)robotPosition.y, (int)targetObstaclePosition.x, (int)targetObstaclePosition.y);
     }
 
     private void drawRobot(SimRobot robot, SimRobot bestRobot, Graphics2D g2) {
