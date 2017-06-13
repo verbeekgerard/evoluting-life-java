@@ -13,9 +13,10 @@ public final class Options {
     public final static Option mainLoopSleep = new Option(0);
 
     // Evolution
-    public final static Option mutationFraction = new Option(0.03);
-    public final static Option minMutationFraction = new Option(0.000001);
-    public final static Option maxMutationFraction = new Option(0.03);
+    private final static double defaultMutationFraction = 0.03;
+    public final static Option mutationFraction = new Option(defaultMutationFraction);
+    public final static Option minMutationFraction = new Option(0.0001);
+    public final static Option maxMutationFraction = new Option(defaultMutationFraction);
     public final static Option mutationFractionModificationPeriod = new Option(100);
     public final static Option mutationFractionExponent = new Option(-1.0 / 1000000.0);
 
@@ -29,7 +30,7 @@ public final class Options {
     public final static Option maxRoundObstacleSize = new Option(18);
     public final static Option minGrowthPercentage = new Option(0.00001);
     public final static Option maxGrowthPercentage = new Option(0.00005);
-    public final static Option roundObstaclePopulationSize = new Option(10 * 8);
+    public final static Option roundObstaclePopulationSize = new Option(24 * 8);
 
     // SimRobot
     public final static Option sizeOption = new Option(12);
@@ -50,16 +51,16 @@ public final class Options {
     public final static Option fieldOfViewReplacementRate = new Option(sensorReplacementRates);
 
     // MovementGene
-    public final static Option linearFriction = new Option(0.3); // 0.7, 0.06
-    public final static Option angularFriction = new Option(0.1); // 0.5
+    public final static Option linearFriction = new Option(0.8); // 0.7, 0.06
+    public final static Option angularFriction = new Option(0.8); // 0.5
 
     private static double calculateForce(double maxVelocity, double friction) {
         return maxVelocity * friction;
     }
-    private static double minA = calculateForce(0.05, angularFriction.get()); // 0.1
-    private static double maxA = calculateForce(2.5, angularFriction.get()); // 1.0
-    private static double minL = calculateForce(0.05, linearFriction.get());
-    private static double maxL = calculateForce(2.5, linearFriction.get());
+    private static double minA = calculateForce(0.01, angularFriction.get()); // 0.1
+    private static double maxA = calculateForce(1.0, angularFriction.get()); // 1.0
+    private static double minL = calculateForce(0.1, linearFriction.get());
+    private static double maxL = calculateForce(3.5, linearFriction.get());
 
     public final static Option minAngularForce = new Option(minA);
     public final static Option maxAngularForce = new Option(maxA);
@@ -76,9 +77,7 @@ public final class Options {
     // BrainGene
     public final static Option minHiddenLayers = new Option(1);
     public final static Option maxHiddenLayers = new Option(3);
-    public final static Option maxNeuronsPerLayer = new Option(16);
 
-    public final static Option layerMutationRate = new Option(0.01); // adding or removing a neuron
     public final static Option neuronMutationRate = new Option(0.5);
     public final static Option neuronReplacementRate = new Option(0.005);
 

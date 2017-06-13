@@ -4,6 +4,7 @@ import eu.luminis.evolution.RouletteWheelSelectionByRank;
 import eu.luminis.events.EventBroadcaster;
 import eu.luminis.events.EventType;
 import eu.luminis.Options;
+import eu.luminis.evolution.TournamentSelection;
 import eu.luminis.genetics.Genome;
 import eu.luminis.geometry.Position;
 import eu.luminis.robots.core.BrainInput;
@@ -17,7 +18,8 @@ import java.util.stream.Collectors;
 public class SimRobotPopulation {
     private final SimWorld world;
     private final PositionGenerator positionGenerator;
-    private final RouletteWheelSelectionByRank selection = new RouletteWheelSelectionByRank();
+    // private final RouletteWheelSelectionByRank selection = new RouletteWheelSelectionByRank();
+    private final TournamentSelection selection = new TournamentSelection();
     private final double populationSize;
 
     private List<SimRobot> simRobots = new ArrayList<>();

@@ -25,6 +25,10 @@ public class Genome {
 	}
 	
 	public void mutate() {
+		if (Math.random() > 0.2) {
+			return;
+		}
+
 		this.brain.mutate();
 		this.life.mutate();
 		this.sensor.mutate();

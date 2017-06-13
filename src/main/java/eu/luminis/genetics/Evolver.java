@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 class Evolver {
 
-    // Creates two child by crossing over the genomes of a and b.
+    // Creates two children by crossing over the genomes of a and b.
     public <TGene extends Gene> List<TGene> mate(TGene a, TGene b) {
         List<Double> propertiesA = a.getInitiateProperties();
         List<Double> propertiesB = b.getInitiateProperties();

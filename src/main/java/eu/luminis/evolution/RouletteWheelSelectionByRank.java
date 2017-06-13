@@ -8,21 +8,25 @@ import eu.luminis.util.Range;
 public class RouletteWheelSelectionByRank {
 	
 	public SimObstacle select(List<? extends SimObstacle> entities) {
-		long scoreCount = entities.size();
-		
-	    double randomOccurrenceSum = new Range(1L, scoreCount * (scoreCount+1) / 2 ).random();
+		long populationSize = entities.size();
 
-        for ( int i = 0; i < scoreCount; i++ ) {
-            long occurrence = scoreCount - i - 1;
-            long occurrenceSum = occurrence * (occurrence+1) / 2;
+		long maxPoolIndex = calculateMaxPoolIndex(populationSize);
+	    double randomPoolIndex = new Range(1, maxPoolIndex).random();
 
-            if (randomOccurrenceSum > occurrenceSum) {
+        for ( int i = 0; i < populationSize; i++ ) {
+            long nextMaxPoolIndex = calculateMaxPoolIndex(populationSize - i - 1);
+
+            if (randomPoolIndex > nextMaxPoolIndex) {
             	return entities.get(i);
             }
         }
 
-        throw new RuntimeException("rouletteWheelSelectionByRank didn't select a score: " + randomOccurrenceSum);
+        throw new RuntimeException("rouletteWheelSelectionByRank didn't select a score: " + randomPoolIndex);
 	}
+
+	private long calculateMaxPoolIndex(long rank) {
+	    return rank * (rank + 1) / 2;
+    }
 }
 
 /*

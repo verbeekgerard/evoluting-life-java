@@ -50,10 +50,12 @@ class BrainGeneBuilder {
     }
 
     private int getHiddenLayerCount() {
+        // return 3;
         return (int)Math.floor(new Range(Options.minHiddenLayers.get(), Options.maxHiddenLayers.get()).random());
     }
 
     private int getNeuronCount(int minimumHiddenLayerWidth) {
+        // return 3 + minimumHiddenLayerWidth;
         return (int) Math.floor(new Range(minimumHiddenLayerWidth + 1, 2 * minimumHiddenLayerWidth).random());
         // return (int) Math.floor(new Range(minimumHiddenLayerWidth, Options.maxNeuronsPerLayer.get()).random());
     }

@@ -21,7 +21,7 @@ public class SimWorld implements IBorderDimensions {
 
     @Override
     public int getMaxX() {
-        return 1280;
+        return 1600;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class SimWorld implements IBorderDimensions {
 
     @Override
     public int getMaxY() {
-        return 720;
+        return 900;
     }
 
     public List<SimObstacle> getAllObstacles() {
