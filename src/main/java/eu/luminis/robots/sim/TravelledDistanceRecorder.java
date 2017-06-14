@@ -21,7 +21,7 @@ class TravelledDistanceRecorder {
         }
     }
 
-    public double getTotalDistance() {
+    public Double getTotalDistance() {
         return historicalDistance + currentDistance;
     }
 

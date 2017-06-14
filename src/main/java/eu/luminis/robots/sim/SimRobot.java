@@ -50,6 +50,10 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     }
 
     public Double fitness() {
+        return health();
+    }
+
+    public Double health() {
         return initialEnergy + getDistanceReward() - cycleCost - collisionDamage - movementCost - headTurnCost;
     }
 
@@ -59,6 +63,11 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
 
     @Override
     public int compareTo(SimRobot other) {
+        int ageCompare = other.getAgeInformation().getAge().compareTo(getAgeInformation().getAge());
+        if (ageCompare != 0) {
+            return ageCompare;
+        }
+
         return other.fitness().compareTo(fitness());
     }
 
@@ -123,7 +132,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
 
     @Override
     protected boolean isAlive() {
-        return fitness() > 0;
+        return health() > 0;
     }
 
     private IBrain initializeBrain(Genome genome) {

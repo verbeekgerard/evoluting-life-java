@@ -17,7 +17,7 @@ class SimLife implements IAgeRetriever {
     }
 
     @Override
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
