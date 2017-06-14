@@ -62,7 +62,7 @@ public class StatsCollector implements Observer {
         double totalDistance = 0;
 
         for (SimRobot robot : population.getAllRobots()) {
-            totalHealth += robot.fitness();
+            totalHealth += robot.health();
             totalAge += robot.getAgeInformation().getAge();
             totalDistance += robot.getTravelledDistance();
         }
