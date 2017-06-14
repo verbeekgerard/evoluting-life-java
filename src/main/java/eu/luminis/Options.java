@@ -15,7 +15,7 @@ public final class Options {
     // Evolution
     private final static double defaultMutationFraction = 0.03;
     public final static Option mutationFraction = new Option(defaultMutationFraction);
-    public final static Option minMutationFraction = new Option(0.0001);
+    public final static Option minMutationFraction = new Option(0.001);
     public final static Option maxMutationFraction = new Option(defaultMutationFraction);
     public final static Option mutationFractionModificationPeriod = new Option(100);
     public final static Option mutationFractionExponent = new Option(-1.0 / 1000000.0);
