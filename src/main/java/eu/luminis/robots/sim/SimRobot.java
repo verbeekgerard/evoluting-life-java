@@ -153,7 +153,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     }
 
     private double getDistanceReward() {
-        return costCalculator.distanceReward(distanceRecorder.getTotalDistance());
+        return costCalculator.distanceReward(getTravelledDistance());
     }
 
     private void preventOverlap(double velocity) {
