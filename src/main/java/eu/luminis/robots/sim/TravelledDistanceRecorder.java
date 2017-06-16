@@ -1,5 +1,6 @@
 package eu.luminis.robots.sim;
 
+import eu.luminis.Options;
 import eu.luminis.geometry.Position;
 
 class TravelledDistanceRecorder {
@@ -7,6 +8,9 @@ class TravelledDistanceRecorder {
     private double historicalDistance = 0;
     private double currentDistance = 0;
     private Position startPosition;
+
+    private static final double travelledDistanceSavePointSteps = Options.travelledDistanceSavePointSteps.get();
+    private static final double travelledDistanceSavePointDistance = Options.travelledDistanceSavePointDistance.get();
 
     public TravelledDistanceRecorder(Position startPosition) {
         initializeDistanceVariables(startPosition);
@@ -16,7 +20,7 @@ class TravelledDistanceRecorder {
         currentDistance = position.calculateDistance(startPosition);
 
         steps++;
-        if (steps > 500 || currentDistance > 250) {
+        if (steps > travelledDistanceSavePointSteps || currentDistance > travelledDistanceSavePointDistance) {
             initializeDistanceVariables(position);
         }
     }

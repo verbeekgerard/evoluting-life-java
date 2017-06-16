@@ -20,9 +20,19 @@ public final class Options {
     public final static Option mutationFractionModificationPeriod = new Option(100);
     public final static Option mutationFractionExponent = new Option(-1.0 / 1000000.0);
 
+    // Fitness
+    public final static Option cycleCostFactor = new Option(30.0);
+    public final static Option distanceRewardFactor = new Option(50.0);
+    public final static Option collideCostFactor = new Option(200000.0);
+    public final static Option linearAccelerationCostFactor = new Option(0.1);
+    public final static Option angularAccelerationCostFactor = new Option(1.0);
+
+    public final static Option travelledDistanceSavePointSteps = new Option(500);
+    public final static Option travelledDistanceSavePointDistance = new Option(250);
+
     // LifeGene
-    public final static Option minOldAge = new Option(3000);
-    public final static Option maxOldAge = new Option(4000);
+    public final static Option minOldAge = new Option(5000);
+    public final static Option maxOldAge = new Option(100000);
     public final static Option oldAgeMutationRate = new Option(0.05);
 
     // RoundSimObstacle
