@@ -1,6 +1,7 @@
 package eu.luminis.evolution;
 
 import eu.luminis.Options;
+import eu.luminis.util.Option;
 
 public final class CostCalculator {
 
@@ -11,29 +12,29 @@ public final class CostCalculator {
 		return instance;
 	}
 
-	private static final double cycleCostFactor = Options.cycleCostFactor.get();
-	private static final double linearAccelerationCostFactor = Options.linearAccelerationCostFactor.get();
-	private static final double collideCostFactor = Options.collideCostFactor.get();
-	private static final double distanceRewardFactor = Options.distanceRewardFactor.get();
-	private static final double angularAccelerationCostFactor = Options.angularAccelerationCostFactor.get();
+	private static final Option cycleCostFactor = Options.cycleCostFactor;
+	private static final Option linearAccelerationCostFactor = Options.linearAccelerationCostFactor;
+	private static final Option collideCostFactor = Options.collideCostFactor;
+	private static final Option distanceRewardFactor = Options.distanceRewardFactor;
+	private static final Option angularAccelerationCostFactor = Options.angularAccelerationCostFactor;
 
 	public double cycle() {
-		return ENERGY_COST * cycleCostFactor;
+		return ENERGY_COST * cycleCostFactor.get();
 	}
 
 	public double accelerate(double acceleration) {
-		return ENERGY_COST * Math.abs(acceleration) * linearAccelerationCostFactor;
+		return ENERGY_COST * Math.abs(acceleration) * linearAccelerationCostFactor.get();
 	}
 
 	public double collide(double velocity) {
-		return ENERGY_COST * (Math.abs(velocity) + 0.001) * collideCostFactor;
+		return ENERGY_COST * (Math.abs(velocity) + 0.001) * collideCostFactor.get();
 	}
 
 	public double distanceReward(double distance) {
-		return ENERGY_COST * distance * distanceRewardFactor;
+		return ENERGY_COST * distance * distanceRewardFactor.get();
 	}
 
 	public double turnHead(double angularAcceleration) {
-		return ENERGY_COST * Math.abs(angularAcceleration) * angularAccelerationCostFactor;
+		return ENERGY_COST * Math.abs(angularAcceleration) * angularAccelerationCostFactor.get();
 	}
 }

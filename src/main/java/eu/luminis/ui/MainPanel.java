@@ -9,11 +9,13 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
 public class MainPanel extends JPanel implements ChangeListener, Observer {
     private static final long serialVersionUID = 1L;
+    private DecimalFormat df2 = new DecimalFormat("0.00");
 
 	private static final int FPS_MIN = 0;
 	private static final int FPS_MAX = 100;
@@ -27,6 +29,7 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
     private JLabel avgFitnessLbl;
     private JLabel avgAgeLbl;
     private JLabel avgDistanceLbl;
+    private JLabel cycleCostLbl;
 
     public MainPanel(StatsCollector statsCollector, Simulation simulation) {
 		this.statsCollector = statsCollector;
@@ -40,7 +43,7 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
 	    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 	    frame.add(this);
-	    frame.setSize(300, 330);
+	    frame.setSize(300, 360);
 	    frame.setVisible(true);
 	    frame.setResizable(false);
 
@@ -51,10 +54,10 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
         actionsPanel.setBounds(0, 0, 300, 100);
         add(actionsPanel);
 
-        statsPanel.setBounds(0, 100, 300, 100);
+        statsPanel.setBounds(0, 100, 300, 120);
         add(statsPanel);
 
-        delayPanel.setBounds(0, 200, 300, 100);
+        delayPanel.setBounds(0, 220, 300, 100);
         add(delayPanel);
 	}
 
@@ -110,6 +113,9 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
         avgDistanceLbl = new JLabel("", JLabel.LEFT);
         statsPanel.add(avgDistanceLbl);
 
+        cycleCostLbl = new JLabel("", JLabel.LEFT);
+        statsPanel.add(cycleCostLbl);
+
         return statsPanel;
     }
 
@@ -135,11 +141,14 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
 
     private void updateStatsLabels() {
         Stats stats = this.statsCollector.getStats();
-        if(stats != null) {
-            bestFitnessLbl.setText("Best fitness: " + stats.getAverageBestFitness());
-            avgFitnessLbl.setText("Avg health: " + stats.getAverageHealth());
-            avgAgeLbl.setText("Avg age: " + stats.getAverageAge());
-            avgDistanceLbl.setText("Avg distance: " + stats.getAverageDistance());
+        if(stats == null) {
+            return;
         }
+
+        bestFitnessLbl.setText("Best fitness: " + df2.format(stats.getAverageBestFitness()));
+        avgFitnessLbl.setText("Avg health: " + df2.format(stats.getAverageHealth()));
+        avgAgeLbl.setText("Avg age: " + df2.format(stats.getAverageAge()));
+        avgDistanceLbl.setText("Avg distance: " + df2.format(stats.getAverageDistance()));
+        cycleCostLbl.setText("Cycle cost: " + df2.format(Options.cycleCostFactor.get()));
     }
 }
