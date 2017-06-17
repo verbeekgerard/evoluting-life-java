@@ -29,9 +29,11 @@ public class CycleCostFactorModifier implements Observer {
     private void processCycleEnd() {
         IAgeRetriever winner = population.getWinningEntity().getAgeInformation();
 
-        if (winner.getAge() >= winner.getOldAge()) {
-            double currentFactor = cycleCostFactor.get();
-            cycleCostFactor.set(currentFactor + 0.01);
+        if (winner.getAge() < winner.getOldAge()) {
+            return;
         }
+
+        double currentFactor = cycleCostFactor.get();
+        cycleCostFactor.set(currentFactor + 0.001);
     }
 }

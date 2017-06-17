@@ -15,7 +15,7 @@ import java.util.Observer;
 
 public class MainPanel extends JPanel implements ChangeListener, Observer {
     private static final long serialVersionUID = 1L;
-    private DecimalFormat df2 = new DecimalFormat("0.00");
+    private DecimalFormat decimalFormat = new DecimalFormat("0.000");
 
 	private static final int FPS_MIN = 0;
 	private static final int FPS_MAX = 100;
@@ -145,10 +145,10 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
             return;
         }
 
-        bestFitnessLbl.setText("Best fitness: " + df2.format(stats.getAverageBestFitness()));
-        avgFitnessLbl.setText("Avg health: " + df2.format(stats.getAverageHealth()));
-        avgAgeLbl.setText("Avg age: " + df2.format(stats.getAverageAge()));
-        avgDistanceLbl.setText("Avg distance: " + df2.format(stats.getAverageDistance()));
-        cycleCostLbl.setText("Cycle cost: " + df2.format(Options.cycleCostFactor.get()));
+        bestFitnessLbl.setText("Best fitness: " + decimalFormat.format(stats.getAverageBestFitness()));
+        avgFitnessLbl.setText("Avg health: " + decimalFormat.format(stats.getAverageHealth()));
+        avgAgeLbl.setText("Avg age: " + decimalFormat.format(stats.getAverageAge()));
+        avgDistanceLbl.setText("Avg distance: " + decimalFormat.format(stats.getAverageDistance()));
+        cycleCostLbl.setText("Cycle cost: " + decimalFormat.format(Options.cycleCostFactor.get()));
     }
 }

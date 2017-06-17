@@ -31,8 +31,8 @@ public final class Options {
     public final static Option travelledDistanceSavePointDistance = new Option(250);
 
     // LifeGene
-    public final static Option minOldAge = new Option(4000);
-    public final static Option maxOldAge = new Option(5000);
+    public final static Option minOldAge = new Option(6000);
+    public final static Option maxOldAge = new Option(7000);
     public final static Option oldAgeMutationRate = new Option(0.05);
 
     // RoundSimObstacle
@@ -62,7 +62,7 @@ public final class Options {
 
     // MovementGene
     public final static Option linearFriction = new Option(0.4); // 0.7, 0.06
-    public final static Option angularFriction = new Option(0.6); // 0.5
+    public final static Option angularFriction = new Option(0.8); // 0.5
 
     private static double calculateForce(double maxVelocity, double friction) {
         return maxVelocity * friction;
