@@ -44,7 +44,7 @@ class BrainGeneBuilder {
             int maxTargetCount = layers.get(layers.size() - 1).size();
             int neuronCount = getNeuronCount(minimumHiddenLayerWidth);
 
-            List<NeuronGene> layer = createLayer(maxTargetCount, neuronCount, true);
+            List<NeuronGene> layer = createLayer(maxTargetCount, neuronCount, Options.brainIsRecurrent);
             layers.add(layer);
         }
     }

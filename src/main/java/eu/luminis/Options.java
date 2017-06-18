@@ -85,6 +85,8 @@ public final class Options {
     public final static Option linearForceReplacementRate = new Option(movementReplacementRates);
 
     // BrainGene
+    public final static boolean brainIsRecurrent = true;
+
     public final static Option minHiddenLayers = new Option(1);
     public final static Option maxHiddenLayers = new Option(3);
 

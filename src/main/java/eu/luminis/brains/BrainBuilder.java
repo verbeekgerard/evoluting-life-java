@@ -1,5 +1,6 @@
 package eu.luminis.brains;
 
+import eu.luminis.Options;
 import eu.luminis.genetics.BrainGene;
 import eu.luminis.genetics.NeuronGene;
 
@@ -37,7 +38,7 @@ public class BrainBuilder {
         layers.add(outputLayer);
 
         for (int i = 1; i < genLayers.size() - 1; i++) {
-            Layer layer = new Layer(genLayers.get(i), layers.get(layers.size() - 1), true);
+            Layer layer = new Layer(genLayers.get(i), layers.get(layers.size() - 1), Options.brainIsRecurrent);
             layers.add(layer);
         }
 
