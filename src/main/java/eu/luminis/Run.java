@@ -9,16 +9,24 @@ import eu.luminis.ui.StatsCollector;
 import eu.luminis.ui.MainPanel;
 import eu.luminis.ui.StatsPrinter;
 
+import java.util.Arrays;
+
 public class Run {
 
 	/**
 	 * @param args
-	 * 0:	visible:	'true' or 'false'
+	 * headless:	'headless'
+     * rnn:         'rnn'
 	 */
 	public static void main(String[] args) {
 		boolean visible = getVisible(args);
+		Options.brainIsRecurrent = getRecurrentNeuralNetwork(args);
 
-		Simulation simulation = Simulation.getInstance();
+        System.out.println("Start simulation with " + (Options.brainIsRecurrent ?
+                "recurrent neural networks" :
+                "feed forward neural networks"));
+
+        Simulation simulation = Simulation.getInstance();
 		EventBroadcaster eventBroadcaster = EventBroadcaster.getInstance();
 		
 		if(visible){
@@ -73,10 +81,10 @@ public class Run {
 	}
 
     private static boolean getVisible(String[] args){
-        boolean visible = true;
-        if(args.length > 0) {
-            visible = Boolean.valueOf((args[0]));
-        }
-        return visible;
+        return Arrays.asList(args).indexOf("headless") == -1;
+    }
+
+    private static boolean getRecurrentNeuralNetwork(String[] args){
+        return Arrays.asList(args).indexOf("rnn") > -1;
     }
 }
