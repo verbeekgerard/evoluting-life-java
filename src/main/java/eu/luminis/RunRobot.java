@@ -1,6 +1,7 @@
 package eu.luminis;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import com.pi4j.io.gpio.GpioController;
@@ -22,6 +23,11 @@ public class RunRobot {
 
     public static void main(String[] args) {
         try {
+            Options.brainIsRecurrent = getRecurrentNeuralNetwork(args);
+            System.out.println("Using " + (Options.brainIsRecurrent ?
+                    "recurrent neural networks" :
+                    "feed forward neural networks"));
+
             String genesFilePath = getFilePath(args);
             System.out.println("Reading genes file: " + genesFilePath);
             GenesFile genesFile = new GenesFile(genesFilePath);
@@ -131,5 +137,9 @@ public class RunRobot {
         }
 
         return delay;
+    }
+
+    private static boolean getRecurrentNeuralNetwork(String[] args){
+        return Arrays.asList(args).indexOf("rnn") > -1;
     }
 }
