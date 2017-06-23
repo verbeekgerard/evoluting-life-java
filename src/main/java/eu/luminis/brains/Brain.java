@@ -4,12 +4,12 @@ import java.util.List;
 
 class Brain implements IBrain {
     private final Layer outputLayer;
-    private final List<Layer> layers;
+    private final List<Layer> hiddenLayers;
     private final InputLayer inputLayer;
 
-    Brain(Layer outputLayer, List<Layer> layers, InputLayer inputLayer) {
+    Brain(Layer outputLayer, List<Layer> hiddenLayers, InputLayer inputLayer) {
         this.outputLayer = outputLayer;
-        this.layers = layers;
+        this.hiddenLayers = hiddenLayers;
         this.inputLayer = inputLayer;
     }
 
@@ -17,8 +17,8 @@ class Brain implements IBrain {
     public List<Double> think(List<Double> input) {
         this.inputLayer.sense(input).transmit();
 
-        for (int i = layers.size()-1; i >= 0; i--) {
-            Layer layer = layers.get(i);
+        for (int i = hiddenLayers.size()-1; i >= 0; i--) {
+            Layer layer = hiddenLayers.get(i);
             layer.transmit();
         }
 

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Builds up a layer of the neural network
  */
-public class LayerBuilder {
+class LayerBuilder {
     private Layer targetLayer;
     private List<NeuronGene> layerGenes;
     private boolean isRecurrent = false;
