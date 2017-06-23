@@ -7,32 +7,10 @@ import eu.luminis.genetics.NeuronGene;
 
 class Layer {
 
-    private final List<Neuron> neurons = new ArrayList<>();
+    private final List<Neuron> neurons;
 
-    public Layer(List<NeuronGene> layerGenes) {
-        this(layerGenes, null, false);
-    }
-
-    public Layer(List<NeuronGene> layerGenes, Layer targetLayer, boolean recurrent) {
-        List<Neuron> targetNeurons = targetLayer == null ?
-                null :
-                targetLayer.getNeurons();
-
-        for (NeuronGene neuronGene : layerGenes) {
-            NeuronBuilder builder = new NeuronBuilder(neuronGene);
-            Neuron neuron = builder.build(targetNeurons);
-            neurons.add(neuron);
-        }
-
-        if (!recurrent) return;
-
-        int i = 0;
-        for (NeuronGene neuronGene : layerGenes) {
-            NeuronBuilder builder = new NeuronBuilder(neuronGene);
-
-            Neuron neuron = neurons.get(i++);
-            builder.complement(neuron, neurons);
-        }
+    public Layer(List<Neuron> neurons) {
+        this.neurons = neurons;
     }
 
     public List<Neuron> getNeurons() {

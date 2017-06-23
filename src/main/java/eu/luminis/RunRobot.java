@@ -84,8 +84,10 @@ public class RunRobot {
     }
 
     private static IBrain initializeBrain(Genome genome) {
-        BrainBuilder builder = new BrainBuilder(genome.getBrain());
-        return builder.build();
+        return BrainBuilder
+                .brain()
+                .withBrainChromosome(genome.getBrain())
+                .build();
     }
 
     private static IPiController initializeMotorsController(Genome genome) {

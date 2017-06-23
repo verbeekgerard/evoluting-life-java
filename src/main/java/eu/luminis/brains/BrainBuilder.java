@@ -8,10 +8,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BrainBuilder {
-    private List<List<NeuronGene>> genLayers;
+    private BrainGene brainChromosome;
 
-    public BrainBuilder(BrainGene brainGene) {
-        this.genLayers = brainGene.getLayers();
+    private BrainBuilder () {
+
+    }
+
+    public static BrainBuilder brain() {
+        return new BrainBuilder();
+    }
+
+    public BrainBuilder withBrainChromosome(BrainGene brainChromosome) {
+        this.brainChromosome = brainChromosome;
+
+        return this;
     }
 
     public IBrain build() {
@@ -26,19 +36,38 @@ public class BrainBuilder {
     }
 
     private InputLayer createInputLayer(Layer firstHiddenLayer) {
-        return new InputLayer(genLayers.get(genLayers.size() - 1), firstHiddenLayer);
+        List<List<NeuronGene>> genLayers = brainChromosome.getLayers();
+        List<NeuronGene> genLayer = genLayers.get(genLayers.size() - 1);
+
+        return LayerBuilder
+                .layer()
+                .withNeuronGenes(genLayer)
+                .withTargetLayer(firstHiddenLayer)
+                .buildAsInput();
     }
 
     private Layer createOutputLayer() {
-        return new Layer(genLayers.get(0));
+        List<NeuronGene> genLayer = brainChromosome.getLayers().get(0);
+
+        return LayerBuilder
+                .layer()
+                .withNeuronGenes(genLayer)
+                .build();
     }
 
     private List<Layer> createHiddenLayers(Layer outputLayer) {
+        List<List<NeuronGene>> genLayers = brainChromosome.getLayers();
         List<Layer> layers = new ArrayList<>();
         layers.add(outputLayer);
 
         for (int i = 1; i < genLayers.size() - 1; i++) {
-            Layer layer = new Layer(genLayers.get(i), layers.get(layers.size() - 1), Options.brainIsRecurrent);
+            Layer targetLayer = layers.get(layers.size() - 1);
+            Layer layer = LayerBuilder
+                    .layer()
+                    .withNeuronGenes(genLayers.get(i))
+                    .withTargetLayer(targetLayer)
+                    .withRecurrence(Options.brainIsRecurrent)
+                    .build();
             layers.add(layer);
         }
 

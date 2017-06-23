@@ -136,8 +136,10 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     }
 
     private IBrain initializeBrain(Genome genome) {
-        BrainBuilder builder = new BrainBuilder(genome.getBrain());
-        return builder.build();
+        return BrainBuilder
+                .brain()
+                .withBrainChromosome(genome.getBrain())
+                .build();
     }
 
     private SimMotorsController initializeMotorsController(Genome genome) {

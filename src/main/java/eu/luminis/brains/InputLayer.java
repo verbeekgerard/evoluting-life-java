@@ -6,8 +6,8 @@ import eu.luminis.genetics.NeuronGene;
 
 class InputLayer extends Layer {
 
-    public InputLayer(List<NeuronGene> list, Layer targetLayer) {
-        super(list, targetLayer, false);
+    public InputLayer(List<Neuron> list) {
+        super(list);
     }
 
     public InputLayer sense(List<Double> input) {
