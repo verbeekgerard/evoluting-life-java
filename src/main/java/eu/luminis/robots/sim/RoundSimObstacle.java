@@ -11,8 +11,8 @@ class RoundSimObstacle extends SimObstacle {
 
     private double size;
 
-    public RoundSimObstacle(SimWorld world, Position position) {
-        super(world, position, new LifeGene());
+    public RoundSimObstacle(SimWorld world, Position position, SimLife life) {
+        super(world, position, life);
 
         growthPercentage = new Range(Options.minGrowthPercentage.get(), Options.maxGrowthPercentage.get()).random();
         sizeRange = new Range(Options.minRoundObstacleSize.get(), Options.maxRoundObstacleSize.get());

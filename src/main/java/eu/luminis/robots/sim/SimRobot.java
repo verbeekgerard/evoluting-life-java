@@ -32,7 +32,8 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     private Position targetObstaclePosition;
 
     public SimRobot(Genome genome, Position position, SimWorld world) {
-        super(world, position, genome.getLife());
+        super(world, position, new SimLife((int)genome.getLife().getOldAge()));
+
         this.genome = genome;
         this.size = Options.sizeOption.get();
         this.distanceRecorder = new TravelledDistanceRecorder(position);

@@ -1,6 +1,5 @@
 package eu.luminis.robots.sim;
 
-import eu.luminis.geometry.Position;
 import eu.luminis.Options;
 
 import java.util.List;
@@ -8,13 +7,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class StationaryObstaclePopulation {
     private final SimWorld world;
-    private final PositionGenerator positionGenerator;
 
     private final List<SimObstacle> roundSimObstacles = new CopyOnWriteArrayList<>(); // Slow lost but no exceptions in UI
 
     public StationaryObstaclePopulation(SimWorld world) {
         this.world = world;
-        this.positionGenerator = new PositionGenerator(world);
 
         double populationSize = (int)Options.roundObstaclePopulationSize.get();
         for (int i = 0; i < populationSize; i++) {
@@ -39,12 +36,10 @@ public class StationaryObstaclePopulation {
         return roundSimObstacles;
     }
 
-    private Position createRandomPosition() {
-        return positionGenerator.createRandomPositionWithinFixedBorder(2);
-    }
-
     private RoundSimObstacle spawnNewRoundSimObstacle() {
-        Position position = createRandomPosition();
-        return new RoundSimObstacle(world, position);
+        return RoundSimObstacleBuilder
+                .roundSimObstacle()
+                .withWorld(world)
+                .build();
     }
 }

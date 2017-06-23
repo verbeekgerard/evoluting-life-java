@@ -12,10 +12,10 @@ public abstract class SimObstacle {
     private final Position position;
     private final SimLife life;
 
-    public SimObstacle(SimWorld world, Position position, LifeGene lifeGene) {
+    public SimObstacle(SimWorld world, Position position, SimLife life) {
         this.world = world;
         this.position = position;
-        this.life = new SimLife((int)lifeGene.getOldAge());
+        this.life = life;
     }
 
     final public void runCycle() {
