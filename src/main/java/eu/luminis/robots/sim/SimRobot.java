@@ -14,28 +14,28 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     private static final CostCalculator costCalculator = CostCalculator.getInstance();
 
     private final Genome genome;
+    private final SimMovementRecorder simMovementRecorder;
     private final Robot robot;
     private final SimMotorsController motorsController;
     private final SimServoController servoController;
     private final SimSensorController sensorController;
 
-    private final TravelledDistanceRecorder distanceRecorder;
     private final double size;
 
     private double cycleCost = 0;
-    private double movementCost = 0;
     private double headTurnCost = 0;
     private double collisionDamage = 0;
 
     private boolean isColliding = false;
     private Position targetObstaclePosition;
 
-    public SimRobot(Genome genome, Position position, SimWorld world, IBrain brain, SimLife simLife) {
-        super(world, position, simLife);
+    public SimRobot(Genome genome, SimWorld world, IBrain brain, SimLife simLife, SimMovementRecorder simMovementRecorder) {
+        super(world, simMovementRecorder, simLife);
 
         this.genome = genome;
         this.size = Options.sizeOption.get();
-        this.distanceRecorder = new TravelledDistanceRecorder(position);
+
+        this.simMovementRecorder = simMovementRecorder;
 
         motorsController = initializeMotorsController(genome);
         servoController = initializeServoController(genome);
@@ -53,7 +53,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     }
 
     public Double health() {
-        return initialEnergy + getDistanceReward() - cycleCost - collisionDamage - movementCost - headTurnCost;
+        return initialEnergy + getDistanceReward() - cycleCost - collisionDamage - simMovementRecorder.getMovementCost() - headTurnCost;
     }
 
     public boolean isColliding() {
@@ -82,11 +82,6 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
         return genome;
     }
 
-    public void recordMove(Position newPosition, double acceleration) {
-        distanceRecorder.recordMove(newPosition);
-        movementCost += costCalculator.accelerate(acceleration);
-    }
-
     public void recordCollision() {
         double velocity = motorsController.getVelocity();
         collisionDamage += costCalculator.collide(velocity);
@@ -105,7 +100,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     }
 
     public double getTravelledDistance() {
-        return distanceRecorder.getTotalDistance();
+        return simMovementRecorder.getTotalDistance();
     }
 
     public Position getTargetObstaclePosition() {
@@ -135,7 +130,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     }
 
     private SimMotorsController initializeMotorsController(Genome genome) {
-        return new SimMotorsController(this, genome.getMovement().getLinearForce());
+        return new SimMotorsController(simMovementRecorder, genome.getMovement().getLinearForce());
     }
 
     private SimServoController initializeServoController(Genome genome) {

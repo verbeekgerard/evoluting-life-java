@@ -8,14 +8,14 @@ import eu.luminis.robots.core.IMotorsController;
 class SimMotorsController implements IMotorsController {
     private final static double linearFriction = Options.linearFriction.get();
 
-    private final SimRobot owner;
+    private final SimMovementRecorder movementRecorder;
     private final double linearForce;
 
     private double velocityLeft = 0;
     private double velocityRight = 0;
 
-    public SimMotorsController(SimRobot owner, double linearForce) {
-        this.owner = owner;
+    public SimMotorsController(SimMovementRecorder movementRecorder, double linearForce) {
+        this.movementRecorder = movementRecorder;
         this.linearForce = linearForce;
     }
 
@@ -28,13 +28,13 @@ class SimMotorsController implements IMotorsController {
         velocityLeft = calculateVelocity(velocityLeft, leftChange);
         velocityRight = calculateVelocity(velocityRight, rightChange);
 
-        Position ownerPosition = owner.getPosition();
+        Position ownerPosition = movementRecorder.getPosition();
         ownerPosition.a += (velocityLeft - velocityRight) / 10;
         Velocity velocity = new Velocity(getVelocity(), ownerPosition.a);
         ownerPosition.Add(velocity);
 
         double acceleration = (Math.abs(leftChange) + Math.abs(rightChange)) * linearForce;
-        owner.recordMove(ownerPosition, acceleration);
+        movementRecorder.recordMove(ownerPosition, acceleration);
     }
 
     private double calculateVelocity(double initialVelocity, double linearChange) {

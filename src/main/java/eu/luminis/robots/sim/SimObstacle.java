@@ -3,18 +3,17 @@ package eu.luminis.robots.sim;
 import eu.luminis.geometry.Position;
 import eu.luminis.events.EventBroadcaster;
 import eu.luminis.events.EventType;
-import eu.luminis.genetics.LifeGene;
 
 public abstract class SimObstacle {
     protected final static EventBroadcaster eventBroadcaster = EventBroadcaster.getInstance();
 
     private final SimWorld world;
-    private final Position position;
+    private final SimMovementRecorder movementRecorder;
     private final SimLife life;
 
-    public SimObstacle(SimWorld world, Position position, SimLife life) {
+    public SimObstacle(SimWorld world, SimMovementRecorder movementRecorder, SimLife life) {
         this.world = world;
-        this.position = position;
+        this.movementRecorder = movementRecorder;
         this.life = life;
     }
 
@@ -28,7 +27,7 @@ public abstract class SimObstacle {
     }
 
     public final Position getPosition() {
-        return position;
+        return movementRecorder.getPosition();
     }
 
     public abstract double getSize();
@@ -39,7 +38,7 @@ public abstract class SimObstacle {
             return false;
         }
 
-        if (!world.isWithinBorders(position)) {
+        if (!world.isWithinBorders(movementRecorder.getPosition())) {
             eventBroadcaster.broadcast(EventType.WANDERED, 1);
             return false;
         }

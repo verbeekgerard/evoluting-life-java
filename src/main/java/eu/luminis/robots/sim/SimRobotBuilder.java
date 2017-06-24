@@ -12,7 +12,7 @@ import eu.luminis.geometry.Position;
  */
 public class SimRobotBuilder {
     private Genome genome;
-    private Position position;
+    private SimMovementRecorder movementRecorder;
     private SimWorld world;
 
     private IBrain brain;
@@ -30,7 +30,8 @@ public class SimRobotBuilder {
         this.world = world;
 
         PositionGenerator positionGenerator = new PositionGenerator(world);
-        this.position = positionGenerator.createRandomPositionWithinFixedBorder(2);
+        Position position = positionGenerator.createRandomPositionWithinFixedBorder(2);
+        initializeSimMovementRecorder(position);
 
         return this;
     }
@@ -44,16 +45,20 @@ public class SimRobotBuilder {
     }
 
     public SimRobotBuilder withPosition(Position position) {
-        this.position = position;
+        initializeSimMovementRecorder(position);
         return this;
     }
 
     public SimRobot build() {
-        SimRobot newSimRobot = new SimRobot(genome, position, world, brain, simLife);
+        SimRobot newSimRobot = new SimRobot(genome, world, brain, simLife, movementRecorder);
 
         EventBroadcaster.getInstance().broadcast(EventType.NEW_ROBOT, newSimRobot);
 
         return newSimRobot;
+    }
+
+    private void initializeSimMovementRecorder(Position position) {
+        this.movementRecorder = new SimMovementRecorder(position);
     }
 
     private IBrain initializeBrain(Genome genome) {

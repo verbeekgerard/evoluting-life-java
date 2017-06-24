@@ -8,7 +8,7 @@ import eu.luminis.geometry.Position;
  */
 public class RoundSimObstacleBuilder {
     private LifeGene lifeChromosome = new LifeGene();
-    private Position position;
+    private SimMovementRecorder movementRecorder;
     private SimWorld world;
 
     private RoundSimObstacleBuilder(){
@@ -23,13 +23,14 @@ public class RoundSimObstacleBuilder {
         this.world = world;
 
         PositionGenerator positionGenerator = new PositionGenerator(world);
-        this.position = positionGenerator.createRandomPositionWithinFixedBorder(2);
+        Position position = positionGenerator.createRandomPositionWithinFixedBorder(2);
+        initializeSimMovementRecorder(position);
 
         return this;
     }
 
     public RoundSimObstacleBuilder withPosition(Position position) {
-        this.position = position;
+        initializeSimMovementRecorder(position);
         return this;
     }
 
@@ -40,6 +41,11 @@ public class RoundSimObstacleBuilder {
 
     public RoundSimObstacle build() {
         SimLife simLife = new SimLife((int)lifeChromosome.getOldAge());
-        return new RoundSimObstacle(world, position, simLife);
+        return new RoundSimObstacle(world, movementRecorder, simLife);
     }
+
+    private void initializeSimMovementRecorder(Position position) {
+        this.movementRecorder = new SimMovementRecorder(position);
+    }
+
 }
