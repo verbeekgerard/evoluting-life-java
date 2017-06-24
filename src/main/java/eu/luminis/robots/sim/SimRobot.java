@@ -31,14 +31,13 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     private boolean isColliding = false;
     private Position targetObstaclePosition;
 
-    public SimRobot(Genome genome, Position position, SimWorld world) {
-        super(world, position, new SimLife((int)genome.getLife().getOldAge()));
+    public SimRobot(Genome genome, Position position, SimWorld world, IBrain brain, SimLife simLife) {
+        super(world, position, simLife);
 
         this.genome = genome;
         this.size = Options.sizeOption.get();
         this.distanceRecorder = new TravelledDistanceRecorder(position);
 
-        IBrain brain = initializeBrain(genome);
         motorsController = initializeMotorsController(genome);
         servoController = initializeServoController(genome);
         sensorController = initializeSensorController(genome);
@@ -134,13 +133,6 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     @Override
     protected boolean isAlive() {
         return health() > 0;
-    }
-
-    private IBrain initializeBrain(Genome genome) {
-        return BrainBuilder
-                .brain()
-                .withBrainChromosome(genome.getBrain())
-                .build();
     }
 
     private SimMotorsController initializeMotorsController(Genome genome) {
