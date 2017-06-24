@@ -50,7 +50,8 @@ public class SimRobotBuilder {
     }
 
     public SimRobot build() {
-        SimRobot newSimRobot = new SimRobot(genome, world, brain, simLife, movementRecorder);
+        SimServoAngleRecorder angleRecorder = new SimServoAngleRecorder();
+        SimRobot newSimRobot = new SimRobot(genome, world, brain, simLife, movementRecorder, angleRecorder);
 
         EventBroadcaster.getInstance().broadcast(EventType.NEW_ROBOT, newSimRobot);
 

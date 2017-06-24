@@ -14,6 +14,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     private static final CostCalculator costCalculator = CostCalculator.getInstance();
 
     private final Genome genome;
+    private final SimServoAngleRecorder simServoAngleRecorder;
     private final SimMovementRecorder simMovementRecorder;
     private final Robot robot;
     private final SimMotorsController motorsController;
@@ -23,19 +24,19 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     private final double size;
 
     private double cycleCost = 0;
-    private double headTurnCost = 0;
     private double collisionDamage = 0;
 
     private boolean isColliding = false;
     private Position targetObstaclePosition;
 
-    public SimRobot(Genome genome, SimWorld world, IBrain brain, SimLife simLife, SimMovementRecorder simMovementRecorder) {
+    public SimRobot(Genome genome, SimWorld world, IBrain brain, SimLife simLife, SimMovementRecorder simMovementRecorder, SimServoAngleRecorder simServoAngleRecorder) {
         super(world, simMovementRecorder, simLife);
 
         this.genome = genome;
         this.size = Options.sizeOption.get();
 
         this.simMovementRecorder = simMovementRecorder;
+        this.simServoAngleRecorder = simServoAngleRecorder;
 
         motorsController = initializeMotorsController(genome);
         servoController = initializeServoController(genome);
@@ -53,7 +54,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     }
 
     public Double health() {
-        return initialEnergy + getDistanceReward() - cycleCost - collisionDamage - simMovementRecorder.getMovementCost() - headTurnCost;
+        return initialEnergy + getDistanceReward() - cycleCost - collisionDamage - simMovementRecorder.getMovementCost() - simServoAngleRecorder.getHeadTurnCost();
     }
 
     public boolean isColliding() {
@@ -91,12 +92,8 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
         eventBroadcaster.broadcast(EventType.COLLIDE, collisionDamage);
     }
 
-    public void recordAngleChange(double acceleration) {
-        headTurnCost += costCalculator.turnHead(acceleration);
-    }
-
     public IAngleRetriever getServo() {
-        return servoController;
+        return simServoAngleRecorder;
     }
 
     public double getTravelledDistance() {
@@ -134,7 +131,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     }
 
     private SimServoController initializeServoController(Genome genome) {
-        return new SimServoController(this, genome.getSensor().getFieldOfView(), genome.getMovement().getAngularForce());
+        return new SimServoController(simServoAngleRecorder, genome.getSensor().getFieldOfView(), genome.getMovement().getAngularForce());
     }
 
     private SimSensorController initializeSensorController(Genome genome) {
