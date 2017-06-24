@@ -35,6 +35,11 @@ public class Position {
         return Radians.getBoundedArcTan(other.x-x, other.y-y);
     }
 
+    public void Add(Velocity velocity) {
+	    x += velocity.getX();
+	    y += velocity.getY();
+    }
+
     @Override
 	public String toString() {
 		return "x: " + x + ", y: " + y + ", a: " + a;

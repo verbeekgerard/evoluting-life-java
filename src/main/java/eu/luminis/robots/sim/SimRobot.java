@@ -1,10 +1,9 @@
 package eu.luminis.robots.sim;
 
-import eu.luminis.brains.BrainBuilder;
-import eu.luminis.brains.IBrain;
-import eu.luminis.evolution.CostCalculator;
-import eu.luminis.events.EventType;
 import eu.luminis.Options;
+import eu.luminis.brains.IBrain;
+import eu.luminis.events.EventType;
+import eu.luminis.evolution.CostCalculator;
 import eu.luminis.genetics.Genome;
 import eu.luminis.geometry.Position;
 import eu.luminis.robots.core.IAngleRetriever;

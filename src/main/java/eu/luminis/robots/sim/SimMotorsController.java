@@ -2,6 +2,7 @@ package eu.luminis.robots.sim;
 
 import eu.luminis.geometry.Position;
 import eu.luminis.Options;
+import eu.luminis.geometry.Velocity;
 import eu.luminis.robots.core.IMotorsController;
 
 class SimMotorsController implements IMotorsController {
@@ -29,12 +30,8 @@ class SimMotorsController implements IMotorsController {
 
         Position ownerPosition = owner.getPosition();
         ownerPosition.a += (velocityLeft - velocityRight) / 10;
-
-        // Convert movement vector into polar
-        double dx = (Math.cos(ownerPosition.a) * getVelocity());
-        double dy = (Math.sin(ownerPosition.a) * getVelocity());
-        ownerPosition.x += dx;
-        ownerPosition.y += dy;
+        Velocity velocity = new Velocity(getVelocity(), ownerPosition.a);
+        ownerPosition.Add(velocity);
 
         double acceleration = (Math.abs(leftChange) + Math.abs(rightChange)) * linearForce;
         owner.recordMove(ownerPosition, acceleration);
