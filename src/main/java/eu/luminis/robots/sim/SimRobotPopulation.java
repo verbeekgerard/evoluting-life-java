@@ -1,12 +1,10 @@
 package eu.luminis.robots.sim;
 
-import eu.luminis.evolution.RouletteWheelSelectionByRank;
+import eu.luminis.Options;
 import eu.luminis.events.EventBroadcaster;
 import eu.luminis.events.EventType;
-import eu.luminis.Options;
 import eu.luminis.evolution.TournamentSelection;
 import eu.luminis.genetics.Genome;
-import eu.luminis.geometry.Position;
 import eu.luminis.robots.core.BrainInput;
 import eu.luminis.robots.core.BrainOutput;
 
@@ -17,7 +15,6 @@ import java.util.stream.Collectors;
 
 public class SimRobotPopulation {
     private final SimWorld world;
-    private final PositionGenerator positionGenerator;
     // private final RouletteWheelSelectionByRank selection = new RouletteWheelSelectionByRank();
     private final TournamentSelection selection = new TournamentSelection();
     private final double populationSize;
@@ -27,7 +24,6 @@ public class SimRobotPopulation {
 
     public SimRobotPopulation(SimWorld world) {
         this.world = world;
-        this.positionGenerator = new PositionGenerator(world);
         this.populationSize = Options.populationSize.get();
 
         List<SimRobot> robots = new ArrayList<>();
@@ -83,10 +79,6 @@ public class SimRobotPopulation {
         return new Genome(BrainInput.getNodesCount(), BrainOutput.getNodesCount());
     }
 
-    private Position createRandomPosition() {
-        return positionGenerator.createRandomPositionWithinRelativeBorder(0.98);
-    }
-
     private List<SimRobot> produceChildren(List<SimRobot> parents) {
         List<SimRobot> childRobots = new ArrayList<>();
         List<Genome> childGenomes = parents.get(0).getGenome().mate(parents.get(1).getGenome());
@@ -101,12 +93,11 @@ public class SimRobotPopulation {
     }
 
     private SimRobot spawnNewEntity(Genome genome) {
-        Position position = createRandomPosition();
-        SimRobot newSimRobot = new SimRobot(genome, position, world);
-
-        EventBroadcaster.getInstance().broadcast(EventType.NEW_ROBOT, newSimRobot);
-
-        return newSimRobot;
+        return SimRobotBuilder
+                .simRobot()
+                .withGenome(genome)
+                .withWorld(world)
+                .build();
     }
 
     private List<SimRobot> selectParents(List<SimRobot> robots) {
