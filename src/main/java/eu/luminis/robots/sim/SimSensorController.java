@@ -104,41 +104,41 @@ class SimSensorController implements ISensorController {
         double angleRadius = Math.PI / 10;
 
         if (isLeftWallVisible(robotPosition, viewingAngle, angleRadius)) {
-            return robotPosition.x - owner.getWorld().getMinX();
+            return robotPosition.getX() - owner.getWorld().getMinX();
         }
 
         if (isRightWallVisible(robotPosition, viewingAngle, angleRadius)) {
-            return owner.getWorld().getMaxX() - robotPosition.x;
+            return owner.getWorld().getMaxX() - robotPosition.getX();
         }
 
         if (isTopWallVisible(robotPosition, viewingAngle, angleRadius)) {
-            return robotPosition.y - owner.getWorld().getMinY();
+            return robotPosition.getY() - owner.getWorld().getMinY();
         }
 
         if (isBottomWallVisible(robotPosition, viewingAngle, angleRadius)) {
-            return owner.getWorld().getMaxY() - robotPosition.y;
+            return owner.getWorld().getMaxY() - robotPosition.getY();
         }
 
         return viewDistance;
     }
 
     private boolean isBottomWallVisible(Position robotPosition, double viewingAngle, double angleRadius) {
-        return owner.getWorld().getMaxY() - robotPosition.y < viewDistance &&
+        return owner.getWorld().getMaxY() - robotPosition.getY() < viewDistance &&
                 isLookingAt(0.5 * Math.PI, angleRadius, viewingAngle);
     }
 
     private boolean isTopWallVisible(Position robotPosition, double viewingAngle, double angleRadius) {
-        return robotPosition.y - owner.getWorld().getMinY() < viewDistance &&
+        return robotPosition.getY() - owner.getWorld().getMinY() < viewDistance &&
                 isLookingAt(1.5 * Math.PI, angleRadius, viewingAngle);
     }
 
     private boolean isRightWallVisible(Position robotPosition, double viewingAngle, double angleRadius) {
-        return owner.getWorld().getMaxX() - robotPosition.x < viewDistance &&
+        return owner.getWorld().getMaxX() - robotPosition.getX() < viewDistance &&
                 isLookingAt(0, angleRadius, viewingAngle);
     }
 
     private boolean isLeftWallVisible(Position robotPosition, double viewingAngle, double angleRadius) {
-        return robotPosition.x - owner.getWorld().getMinX() < viewDistance &&
+        return robotPosition.getX() - owner.getWorld().getMinX() < viewDistance &&
                 isLookingAt(Math.PI, angleRadius, viewingAngle);
     }
 
@@ -171,10 +171,10 @@ class SimSensorController implements ISensorController {
         SimWorld world = owner.getWorld();
 
         boolean colliding =
-                robotPosition.x - world.getMinX() <= robotRadius ||
-                world.getMaxX() - robotPosition.x <= robotRadius ||
-                robotPosition.y - world.getMinY() <= robotRadius ||
-                world.getMaxY() - robotPosition.y <= robotRadius;
+                robotPosition.getX() - world.getMinX() <= robotRadius ||
+                world.getMaxX() - robotPosition.getX() <= robotRadius ||
+                robotPosition.getY() - world.getMinY() <= robotRadius ||
+                world.getMaxY() - robotPosition.getY() <= robotRadius;
 
         if (!colliding) return false;
 

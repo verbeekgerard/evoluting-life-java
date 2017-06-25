@@ -144,9 +144,6 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
 
     private void preventOverlap(Velocity velocity) {
         Position position = getPosition();
-
-        // Move the entity opposite to it's velocity
-        position.x -= velocity.getX();
-        position.y -= velocity.getY();
+        position.Subtract(velocity); // Move the entity opposite to it's velocity
     }
 }

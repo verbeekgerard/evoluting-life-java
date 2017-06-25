@@ -1,9 +1,8 @@
 package eu.luminis.geometry;
 
 public class Position {
-
-	public double x;
-	public double y;
+	private double x;
+	private double y;
 
 	public Position(double x, double y) {
 		this.x = x;
@@ -14,6 +13,14 @@ public class Position {
 		this.x = p.x;
 		this.y = p.y;
 	}
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
 
 	public double calculateDistance(Position other) {
 		return Math.sqrt(calculateSquaredDistance(other));
@@ -30,6 +37,11 @@ public class Position {
     public void Add(Velocity velocity) {
 	    x += velocity.getX();
 	    y += velocity.getY();
+    }
+
+    public void Subtract(Velocity velocity) {
+        x -= velocity.getX();
+        y -= velocity.getY();
     }
 
     @Override

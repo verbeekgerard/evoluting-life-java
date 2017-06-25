@@ -3,7 +3,6 @@ package eu.luminis.ui;
 import eu.luminis.geometry.Position;
 import eu.luminis.events.Event;
 import eu.luminis.events.EventType;
-import eu.luminis.Options;
 import eu.luminis.geometry.Velocity;
 import eu.luminis.robots.sim.*;
 
@@ -80,8 +79,8 @@ public class Canvas extends JPanel implements Observer {
 
 		Color c = new Color(.9f, .9f, .9f, .1f);
 		g2.setColor(c);
-		g2.fillArc(new Double(robotPosition.x - (viewDistance)).intValue(),
-                new Double(robotPosition.y - (viewDistance)).intValue(),
+		g2.fillArc(new Double(robotPosition.getX() - (viewDistance)).intValue(),
+                new Double(robotPosition.getY() - (viewDistance)).intValue(),
                 new Double(viewDistance*2).intValue(),
                 new Double(viewDistance*2).intValue(),
                 new Double(Math.toDegrees(-1 * (robotVelocity.getAngle() + servoAngle) + fieldOfView / 2)).intValue(),
@@ -103,7 +102,7 @@ public class Canvas extends JPanel implements Observer {
         Color c = new Color(.9f, .9f, .9f, .8f);
         g2.setColor(c);
 		g2.setStroke(new BasicStroke(1));
-		g2.drawLine((int)robotPosition.x, (int)robotPosition.y, (int)targetObstaclePosition.x, (int)targetObstaclePosition.y);
+		g2.drawLine((int) robotPosition.getX(), (int) robotPosition.getY(), (int) targetObstaclePosition.getX(), (int) targetObstaclePosition.getY());
     }
 
     private void drawRobot(SimRobot robot, SimRobot bestRobot, Graphics2D g2) {
@@ -132,9 +131,9 @@ public class Canvas extends JPanel implements Observer {
 
 		// Draw the triangle
 		GeneralPath polygon = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
-		polygon.moveTo(robotPosition.x, robotPosition.y);
-		polygon.lineTo(robotPosition.x + lx, robotPosition.y + ly);
-		polygon.quadTo(robotPosition.x + cx, robotPosition.y + cy, robotPosition.x + rx, robotPosition.y + ry);
+		polygon.moveTo(robotPosition.getX(), robotPosition.getY());
+		polygon.lineTo(robotPosition.getX() + lx, robotPosition.getY() + ly);
+		polygon.quadTo(robotPosition.getX() + cx, robotPosition.getY() + cy, robotPosition.getX() + rx, robotPosition.getY() + ry);
 		polygon.closePath();
 
 		if (robotAge > 30)
@@ -162,22 +161,22 @@ public class Canvas extends JPanel implements Observer {
 		g2.setColor(color);
 		g2.setStroke(stroke);
 		g2.drawOval(
-				new Double(robot.getPosition().x).intValue() - new Double(robot.getSize()/2).intValue(),
-				new Double(robot.getPosition().y).intValue() - new Double(robot.getSize()/2).intValue(),
+				new Double(robot.getPosition().getX()).intValue() - new Double(robot.getSize()/2).intValue(),
+				new Double(robot.getPosition().getY()).intValue() - new Double(robot.getSize()/2).intValue(),
 				new Double(robot.getSize()).intValue(), new Double(robot.getSize()).intValue());
 	}
 	
 	private void drawObstacle(SimObstacle obstacle, Graphics2D g2) {
 		g2.setColor(Color.GREEN);
 		g2.fillOval(
-				new Double(obstacle.getPosition().x).intValue() - new Double(obstacle.getSize()/2).intValue(),
-				new Double(obstacle.getPosition().y).intValue() - new Double(obstacle.getSize()/2).intValue(),
+				new Double(obstacle.getPosition().getX()).intValue() - new Double(obstacle.getSize()/2).intValue(),
+				new Double(obstacle.getPosition().getY()).intValue() - new Double(obstacle.getSize()/2).intValue(),
 				new Double(obstacle.getSize()).intValue(), new Double(obstacle.getSize()).intValue());
 
 		g2.setColor(Color.BLACK);
 		g2.drawOval(
-				new Double(obstacle.getPosition().x).intValue() - new Double(obstacle.getSize()/2).intValue(),
-				new Double(obstacle.getPosition().y).intValue() - new Double(obstacle.getSize()/2).intValue(),
+				new Double(obstacle.getPosition().getX()).intValue() - new Double(obstacle.getSize()/2).intValue(),
+				new Double(obstacle.getPosition().getY()).intValue() - new Double(obstacle.getSize()/2).intValue(),
 				new Double(obstacle.getSize()).intValue(), new Double(obstacle.getSize()).intValue());
 	}
 }
