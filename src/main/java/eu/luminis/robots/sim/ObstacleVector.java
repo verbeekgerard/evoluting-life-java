@@ -11,10 +11,10 @@ class ObstacleVector implements Comparable<ObstacleVector> {
 	private Position position;
 
 	public ObstacleVector(Position originPosition, Velocity originVelocity, Position obstaclePosition, double obstacleSize) {
-		double globalAngle = originPosition.calculateAngle(obstaclePosition);
+		double globalAngle = originPosition.angle(obstaclePosition);
 
 		angle = Radians.getRelativeDifference(originVelocity.getAngle(), globalAngle);
-		distance = originPosition.calculateDistance(obstaclePosition);
+		distance = originPosition.distance(obstaclePosition);
 		position = obstaclePosition;
         size = obstacleSize;
 	}

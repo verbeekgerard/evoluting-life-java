@@ -29,7 +29,7 @@ class SimMotorsController implements IMotorsController {
 
         Velocity currentVelocity = movementRecorder.getVelocity();
         double directionChange = (velocityLeft - velocityRight) / 10;
-        Velocity velocity = new Velocity(getVelocity(), currentVelocity.getAngle() + directionChange);
+        Velocity velocity = new Velocity(currentVelocity.getAngle() + directionChange, getVelocity());
 
         double acceleration = (Math.abs(leftChange) + Math.abs(rightChange)) * linearForce;
         movementRecorder.recordMove(velocity, acceleration);

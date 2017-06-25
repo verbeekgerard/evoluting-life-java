@@ -17,7 +17,7 @@ class TravelledDistanceRecorder {
     }
 
     public void recordMove(Position position) {
-        currentDistance = position.calculateDistance(startPosition);
+        currentDistance = position.distance(startPosition);
 
         steps++;
         if (steps > travelledDistanceSavePointSteps || currentDistance > travelledDistanceSavePointDistance) {

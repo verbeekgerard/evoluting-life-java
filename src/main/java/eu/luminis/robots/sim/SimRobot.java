@@ -85,9 +85,9 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
 
     public void recordCollision() {
         Velocity velocity = simMovementRecorder.getVelocity();
-        collisionDamage += costCalculator.collide(velocity.getMagnitude());
+        collisionDamage += costCalculator.collide(velocity.getLength());
 
-        preventOverlap(velocity);
+        simMovementRecorder.preventOverlap();
 
         eventBroadcaster.broadcast(EventType.COLLIDE, collisionDamage);
     }
@@ -140,10 +140,5 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
 
     private double getDistanceReward() {
         return costCalculator.distanceReward(getTravelledDistance());
-    }
-
-    private void preventOverlap(Velocity velocity) {
-        Position position = getPosition();
-        position.Subtract(velocity); // Move the entity opposite to it's velocity
     }
 }

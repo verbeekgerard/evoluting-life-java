@@ -16,7 +16,7 @@ public class SimMovementRecorder {
     private Double movementCost = 0.0;
 
     public SimMovementRecorder(Position position) {
-        this(position, new Velocity(0, Math.random() * Math.PI * 2));
+        this(position, new Velocity(Math.random() * Math.PI * 2, 0));
     }
 
     public SimMovementRecorder(Position position, Velocity velocity) {
@@ -39,6 +39,10 @@ public class SimMovementRecorder {
         this.distanceRecorder.recordMove(this.position);
 
         this.movementCost += costCalculator.accelerate(acceleration);
+    }
+
+    public void preventOverlap() {
+        position.Subtract(velocity); // Move the entity opposite to it's velocity
     }
 
     public Double getMovementCost() {

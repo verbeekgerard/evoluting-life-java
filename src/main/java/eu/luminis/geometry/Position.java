@@ -10,8 +10,7 @@ public class Position {
 	}
 
 	public Position(Position p) {
-		this.x = p.x;
-		this.y = p.y;
+	    this(p.x, p.y);
 	}
 
     public double getX() {
@@ -22,15 +21,15 @@ public class Position {
         return y;
     }
 
-	public double calculateDistance(Position other) {
-		return Math.sqrt(calculateSquaredDistance(other));
+	public double distance(Position other) {
+		return Math.sqrt(squaredDistance(other));
 	}
 
-    public double calculateSquaredDistance(Position other) {
+    public double squaredDistance(Position other) {
         return Math.pow(other.x-x, 2) + Math.pow(other.y-y, 2);
     }
 
-    public double calculateAngle(Position other) {
+    public double angle(Position other) {
         return Radians.getBoundedArcTan(other.x-x, other.y-y);
     }
 

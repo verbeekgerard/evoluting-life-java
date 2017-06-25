@@ -14,6 +14,7 @@ public final class Radians {
         if (angle <= -1 * Math.PI) {
             angle = 2 * Math.PI + angle;
         }
+
         if (angle > Math.PI) {
             angle = angle - 2 * Math.PI;
         }

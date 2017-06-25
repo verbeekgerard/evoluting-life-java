@@ -21,7 +21,7 @@ class SensorFilter {
         for (SimObstacle simObstacle : obstacles) {
             if (simObstacle == owner) continue;
 
-            double distance = ownerPosition.calculateDistance(simObstacle.getPosition());
+            double distance = ownerPosition.distance(simObstacle.getPosition());
             if (distance > viewDistance) continue;
 
             filtered.add(simObstacle);
