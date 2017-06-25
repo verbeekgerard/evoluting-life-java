@@ -10,7 +10,6 @@ public class Vector {
     private double length;
 
     private boolean isPolar = false;
-    private boolean isTransformed = false;
 
     public static Vector cartesian(double x, double y) {
         return new Vector(x, y);
@@ -37,56 +36,23 @@ public class Vector {
         this.angle = vector.angle;
         this.length = vector.length;
 
-        this.isTransformed = vector.isTransformed;
         this.isPolar = vector.isPolar;
     }
 
     public double getX() {
-        if (!isPolar || isTransformed) {
-            return x;
-        }
-
-        this.x = Math.cos(angle) * length;
-        this.y = Math.sin(angle) * length;
-        isTransformed = true;
-
-        return x;
+        return isPolar ? Math.cos(angle) * length : x;
     }
 
     public double getY() {
-        if (!isPolar || isTransformed) {
-            return y;
-        }
-
-        this.x = Math.cos(angle) * length;
-        this.y = Math.sin(angle) * length;
-        isTransformed = true;
-
-        return y;
+        return isPolar ? Math.sin(angle) * length : y;
     }
 
     public double getAngle() {
-        if (isPolar || isTransformed) {
-            return angle;
-        }
-
-        angle = Math.atan2(y, x);
-        length = Math.sqrt(x * x + y * y);
-        isTransformed = true;
-
-        return angle;
+        return isPolar ? angle : Math.atan2(y, x);
     }
 
     public double getLength() {
-        if (isPolar || isTransformed) {
-            return length;
-        }
-
-        angle = Math.atan2(y, x);
-        length = Math.sqrt(x * x + y * y);
-        isTransformed = true;
-
-        return length;
+        return isPolar ? length : Math.sqrt(x * x + y * y);
     }
 
     public double relativeAngle(Vector other) {
