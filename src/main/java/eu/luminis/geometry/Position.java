@@ -25,7 +25,7 @@ public class Position {
 		return Math.sqrt(squaredDistance(other));
 	}
 
-    public double squaredDistance(Position other) {
+    private double squaredDistance(Position other) {
         return Math.pow(other.x-x, 2) + Math.pow(other.y-y, 2);
     }
 
@@ -33,14 +33,12 @@ public class Position {
         return Radians.getBoundedArcTan(other.x-x, other.y-y);
     }
 
-    public void Add(Velocity velocity) {
-	    x += velocity.getX();
-	    y += velocity.getY();
+    public Position Add(Velocity velocity) {
+	    return new Position(x + velocity.getX(), y + velocity.getY());
     }
 
-    public void Subtract(Velocity velocity) {
-        x -= velocity.getX();
-        y -= velocity.getY();
+    public Position Subtract(Velocity velocity) {
+        return new Position(x - velocity.getX(), y - velocity.getY());
     }
 
     @Override
