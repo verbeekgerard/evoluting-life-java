@@ -1,17 +1,16 @@
 package eu.luminis.robots.sim;
 
-import eu.luminis.geometry.Position;
 import eu.luminis.geometry.Radians;
-import eu.luminis.geometry.Velocity;
+import eu.luminis.geometry.Vector;
 
 class ObstacleVector implements Comparable<ObstacleVector> {
 	private final double distance;
 	private final double angle;
 	private final double size;
-	private Position position;
+	private Vector position;
 
-	public ObstacleVector(Position originPosition, Velocity originVelocity, Position obstaclePosition, double obstacleSize) {
-		double globalAngle = originPosition.angle(obstaclePosition);
+	public ObstacleVector(Vector originPosition, Vector originVelocity, Vector obstaclePosition, double obstacleSize) {
+		double globalAngle = originPosition.relativeAngle(obstaclePosition);
 
 		angle = Radians.getRelativeDifference(originVelocity.getAngle(), globalAngle);
 		distance = originPosition.distance(obstaclePosition);
@@ -36,7 +35,7 @@ class ObstacleVector implements Comparable<ObstacleVector> {
 		return size;
 	}
 
-	public Position getPosition() {
+	public Vector getPosition() {
 		return position;
 	}
 }

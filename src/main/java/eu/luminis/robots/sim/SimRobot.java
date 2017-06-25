@@ -5,8 +5,7 @@ import eu.luminis.brains.IBrain;
 import eu.luminis.events.EventType;
 import eu.luminis.evolution.CostCalculator;
 import eu.luminis.genetics.Genome;
-import eu.luminis.geometry.Position;
-import eu.luminis.geometry.Velocity;
+import eu.luminis.geometry.Vector;
 import eu.luminis.robots.core.IAngleRetriever;
 import eu.luminis.robots.core.Robot;
 
@@ -27,7 +26,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     private double collisionDamage = 0;
 
     private boolean isColliding = false;
-    private Position targetObstaclePosition;
+    private Vector targetObstaclePosition;
 
     public SimRobot(Genome genome, SimWorld world, IBrain brain, SimLife simLife, SimMovementRecorder simMovementRecorder, SimServoAngleRecorder simServoAngleRecorder) {
         super(world, simMovementRecorder, simLife);
@@ -84,7 +83,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     }
 
     public void recordCollision() {
-        Velocity velocity = simMovementRecorder.getVelocity();
+        Vector velocity = simMovementRecorder.getVelocity();
         collisionDamage += costCalculator.collide(velocity.getLength());
 
         simMovementRecorder.preventOverlap();
@@ -100,11 +99,11 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
         return simMovementRecorder.getTotalDistance();
     }
 
-    public Position getTargetObstaclePosition() {
+    public Vector getTargetObstaclePosition() {
         return targetObstaclePosition;
     }
 
-    public void setTargetObstaclePosition(Position position) {
+    public void setTargetObstaclePosition(Vector position) {
         this.targetObstaclePosition = position;
     }
 

@@ -12,15 +12,33 @@ public class Vector {
     private boolean isPolar = false;
     private boolean isTransformed = false;
 
-    public Vector(double x, double y) {
+    public static Vector cartesian(double x, double y) {
+        return new Vector(x, y);
+    }
+
+    public static Vector polar(double angle, double length) {
+        return new Vector(angle, length, true);
+    }
+
+    private Vector(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
-    public Vector(double angle, double length, boolean polar) {
+    private Vector(double angle, double length, boolean polar) {
         this.isPolar = polar;
         this.angle = angle;
         this.length = length;
+    }
+
+    public Vector(Vector vector) {
+        this.x = vector.x;
+        this.y = vector.y;
+        this.angle = vector.angle;
+        this.length = vector.length;
+
+        this.isTransformed = vector.isTransformed;
+        this.isPolar = vector.isPolar;
     }
 
     public double getX() {
@@ -71,11 +89,19 @@ public class Vector {
         return length;
     }
 
-    public Vector Add(Vector vector) {
+    public double relativeAngle(Vector other) {
+        return Radians.getBoundedArcTan(other.getX()-getX(), other.getY()-getY());
+    }
+
+    public Vector add(Vector vector) {
         return new Vector(getX() + vector.getX(), this.getY() + vector.getY());
     }
 
-    public Vector Subtract(Vector vector) {
+    public Vector subtract(Vector vector) {
         return new Vector(getX() - vector.getX(), this.getY() - vector.getY());
+    }
+
+    public double distance(Vector vector) {
+        return subtract(vector).getLength();
     }
 }

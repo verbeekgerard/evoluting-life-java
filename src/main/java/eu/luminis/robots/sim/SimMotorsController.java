@@ -1,7 +1,7 @@
 package eu.luminis.robots.sim;
 
 import eu.luminis.Options;
-import eu.luminis.geometry.Velocity;
+import eu.luminis.geometry.Vector;
 import eu.luminis.robots.core.IMotorsController;
 
 class SimMotorsController implements IMotorsController {
@@ -27,9 +27,9 @@ class SimMotorsController implements IMotorsController {
         velocityLeft = calculateVelocity(velocityLeft, leftChange);
         velocityRight = calculateVelocity(velocityRight, rightChange);
 
-        Velocity currentVelocity = movementRecorder.getVelocity();
+        Vector currentVelocity = movementRecorder.getVelocity();
         double directionChange = (velocityLeft - velocityRight) / 10;
-        Velocity velocity = new Velocity(currentVelocity.getAngle() + directionChange, getVelocity());
+        Vector velocity = Vector.polar(currentVelocity.getAngle() + directionChange, getVelocity());
 
         double acceleration = (Math.abs(leftChange) + Math.abs(rightChange)) * linearForce;
         movementRecorder.recordMove(velocity, acceleration);

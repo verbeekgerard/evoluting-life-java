@@ -14,7 +14,7 @@ public interface IBorderDimensions {
         return getMaxY() - getMinY();
     }
 
-    default boolean isWithinBorders(Position position) {
+    default boolean isWithinBorders(Vector position) {
         return position.getX() > getMinX() && position.getX() < getMaxX() &&
                 position.getY() > getMinY() && position.getY() < getMaxY();
     }

@@ -5,7 +5,7 @@ import eu.luminis.brains.IBrain;
 import eu.luminis.events.EventBroadcaster;
 import eu.luminis.events.EventType;
 import eu.luminis.genetics.Genome;
-import eu.luminis.geometry.Position;
+import eu.luminis.geometry.Vector;
 
 /**
  * Builds a SimRobot
@@ -30,7 +30,7 @@ public class SimRobotBuilder {
         this.world = world;
 
         PositionGenerator positionGenerator = new PositionGenerator(world);
-        Position position = positionGenerator.createRandomPositionWithinFixedBorder(2);
+        Vector position = positionGenerator.createRandomPositionWithinFixedBorder(2);
         initializeSimMovementRecorder(position);
 
         return this;
@@ -44,7 +44,7 @@ public class SimRobotBuilder {
         return this;
     }
 
-    public SimRobotBuilder withPosition(Position position) {
+    public SimRobotBuilder withPosition(Vector position) {
         initializeSimMovementRecorder(position);
         return this;
     }
@@ -58,7 +58,7 @@ public class SimRobotBuilder {
         return newSimRobot;
     }
 
-    private void initializeSimMovementRecorder(Position position) {
+    private void initializeSimMovementRecorder(Vector position) {
         this.movementRecorder = new SimMovementRecorder(position);
     }
 

@@ -1,9 +1,8 @@
 package eu.luminis.ui;
 
-import eu.luminis.geometry.Position;
 import eu.luminis.events.Event;
 import eu.luminis.events.EventType;
-import eu.luminis.geometry.Velocity;
+import eu.luminis.geometry.Vector;
 import eu.luminis.robots.sim.*;
 
 import javax.swing.*;
@@ -71,8 +70,8 @@ public class Canvas extends JPanel implements Observer {
 			return;
 		}
 
-		Position robotPosition = robot.getPosition();
-		Velocity robotVelocity = robot.getVelocity();
+        Vector robotPosition = robot.getPosition();
+        Vector robotVelocity = robot.getVelocity();
 		double servoAngle = robot.getServo().getAngle();
 		double fieldOfView = Math.PI / 30;
 		double viewDistance = robot.getViewDistance();
@@ -92,8 +91,8 @@ public class Canvas extends JPanel implements Observer {
             return;
         }
 
-        Position robotPosition = robot.getPosition();
-        Position targetObstaclePosition = robot.getTargetObstaclePosition();
+        Vector robotPosition = robot.getPosition();
+        Vector targetObstaclePosition = robot.getTargetObstaclePosition();
 
         if (targetObstaclePosition == null) {
             return;
@@ -106,7 +105,7 @@ public class Canvas extends JPanel implements Observer {
     }
 
     private void drawRobot(SimRobot robot, SimRobot bestRobot, Graphics2D g2) {
-		Velocity robotVelocity = robot.getVelocity();
+        Vector robotVelocity = robot.getVelocity();
 		double ba = robotVelocity.getAngle() + Math.PI; // Find the angle 180deg of entity
         double entitySize = robot.getSize();
 
@@ -127,7 +126,7 @@ public class Canvas extends JPanel implements Observer {
 		int robotOldAge = robot.getAgeInformation().getOldAge();
 		g2.setStroke(new BasicStroke((float) (2 + Math.floor(5 * robotAge / robotOldAge))));
 
-		Position robotPosition = robot.getPosition();
+        Vector robotPosition = robot.getPosition();
 
 		// Draw the triangle
 		GeneralPath polygon = new GeneralPath(GeneralPath.WIND_EVEN_ODD);

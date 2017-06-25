@@ -1,7 +1,7 @@
 package eu.luminis.robots.sim;
 
 import eu.luminis.geometry.IBorderDimensions;
-import eu.luminis.geometry.Position;
+import eu.luminis.geometry.Vector;
 import eu.luminis.util.Range;
 
 class PositionGenerator {
@@ -11,24 +11,24 @@ class PositionGenerator {
         this.borderDimensions = borderDimensions;
     }
 
-    public Position createRandomPositionWithinBorder() {
+    public Vector createRandomPositionWithinBorder() {
         return createRandomPosition(this.borderDimensions);
     }
 
-    public Position createRandomPositionWithinFixedBorder(int border) {
+    public Vector createRandomPositionWithinFixedBorder(int border) {
         BorderDimensions borderDimensions = new BorderDimensions(this.borderDimensions, border);
         return createRandomPosition(borderDimensions);
     }
 
-    public Position createRandomPositionWithinRelativeBorder(double relativeSize) {
+    public Vector createRandomPositionWithinRelativeBorder(double relativeSize) {
         BorderDimensions borderDimensions = new BorderDimensions(this.borderDimensions, relativeSize);
         return createRandomPosition(borderDimensions);
     }
 
-    private Position createRandomPosition(IBorderDimensions borderDimensions) {
+    private Vector createRandomPosition(IBorderDimensions borderDimensions) {
         Range rangeX = new Range(borderDimensions.getMinX(), borderDimensions.getMaxX());
         Range rangeY = new Range(borderDimensions.getMinY(), borderDimensions.getMaxY());
 
-        return new Position(rangeX.random(), rangeY.random());
+        return Vector.cartesian(rangeX.random(), rangeY.random());
     }
 }

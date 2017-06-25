@@ -1,8 +1,7 @@
 package eu.luminis.robots.sim;
 
-import eu.luminis.geometry.Position;
 import eu.luminis.geometry.Radians;
-import eu.luminis.geometry.Velocity;
+import eu.luminis.geometry.Vector;
 import eu.luminis.robots.core.IAngleRetriever;
 import eu.luminis.robots.core.ISensorController;
 
@@ -75,13 +74,13 @@ class SimSensorController implements ISensorController {
     }
 
     private List<ObstacleVector> getObstacleVectorsWithinSight(List<? extends SimObstacle> obstacles) {
-        Position robotPosition = movementRecorder.getPosition();
-        Velocity robotVelocity = movementRecorder.getVelocity();
+        Vector robotPosition = movementRecorder.getPosition();
+        Vector robotVelocity = movementRecorder.getVelocity();
 
         List<ObstacleVector> obstacleVectors = new ArrayList<>();
 
         for (SimObstacle simObstacle : obstacles) {
-            Position obstaclePosition = simObstacle.getPosition();
+            Vector obstaclePosition = simObstacle.getPosition();
             ObstacleVector obstacleVector = new ObstacleVector(robotPosition, robotVelocity, obstaclePosition, simObstacle.getSize());
 
             // If the obstacle is outside the field of view, skip it
@@ -94,8 +93,8 @@ class SimSensorController implements ISensorController {
     }
 
     private double wallDistance() {
-        Position robotPosition = movementRecorder.getPosition();
-        Velocity robotVelocity = movementRecorder.getVelocity();
+        Vector robotPosition = movementRecorder.getPosition();
+        Vector robotVelocity = movementRecorder.getVelocity();
 
         double viewingAngle = Radians.getBounded(robotVelocity.getAngle() + angleRetriever.getAngle());
         double angleRadius = Math.PI / 10;
@@ -119,22 +118,22 @@ class SimSensorController implements ISensorController {
         return viewDistance;
     }
 
-    private boolean isBottomWallVisible(Position robotPosition, double viewingAngle, double angleRadius) {
+    private boolean isBottomWallVisible(Vector robotPosition, double viewingAngle, double angleRadius) {
         return owner.getWorld().getMaxY() - robotPosition.getY() < viewDistance &&
                 isLookingAt(0.5 * Math.PI, angleRadius, viewingAngle);
     }
 
-    private boolean isTopWallVisible(Position robotPosition, double viewingAngle, double angleRadius) {
+    private boolean isTopWallVisible(Vector robotPosition, double viewingAngle, double angleRadius) {
         return robotPosition.getY() - owner.getWorld().getMinY() < viewDistance &&
                 isLookingAt(1.5 * Math.PI, angleRadius, viewingAngle);
     }
 
-    private boolean isRightWallVisible(Position robotPosition, double viewingAngle, double angleRadius) {
+    private boolean isRightWallVisible(Vector robotPosition, double viewingAngle, double angleRadius) {
         return owner.getWorld().getMaxX() - robotPosition.getX() < viewDistance &&
                 isLookingAt(0, angleRadius, viewingAngle);
     }
 
-    private boolean isLeftWallVisible(Position robotPosition, double viewingAngle, double angleRadius) {
+    private boolean isLeftWallVisible(Vector robotPosition, double viewingAngle, double angleRadius) {
         return robotPosition.getX() - owner.getWorld().getMinX() < viewDistance &&
                 isLookingAt(Math.PI, angleRadius, viewingAngle);
     }
@@ -163,7 +162,7 @@ class SimSensorController implements ISensorController {
     }
 
     private boolean collidesWithWall() {
-        Position robotPosition = movementRecorder.getPosition();
+        Vector robotPosition = movementRecorder.getPosition();
         double robotRadius = owner.getSize() / 2;
         SimWorld world = owner.getWorld();
 

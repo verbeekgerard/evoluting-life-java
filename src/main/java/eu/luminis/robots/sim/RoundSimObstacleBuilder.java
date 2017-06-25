@@ -1,7 +1,7 @@
 package eu.luminis.robots.sim;
 
 import eu.luminis.genetics.LifeGene;
-import eu.luminis.geometry.Position;
+import eu.luminis.geometry.Vector;
 
 /**
  * Builds up a RoundSimObstacle
@@ -23,13 +23,13 @@ public class RoundSimObstacleBuilder {
         this.world = world;
 
         PositionGenerator positionGenerator = new PositionGenerator(world);
-        Position position = positionGenerator.createRandomPositionWithinFixedBorder(2);
+        Vector position = positionGenerator.createRandomPositionWithinFixedBorder(2);
         initializeSimMovementRecorder(position);
 
         return this;
     }
 
-    public RoundSimObstacleBuilder withPosition(Position position) {
+    public RoundSimObstacleBuilder withPosition(Vector position) {
         initializeSimMovementRecorder(position);
         return this;
     }
@@ -44,7 +44,7 @@ public class RoundSimObstacleBuilder {
         return new RoundSimObstacle(world, movementRecorder, simLife);
     }
 
-    private void initializeSimMovementRecorder(Position position) {
+    private void initializeSimMovementRecorder(Vector position) {
         this.movementRecorder = new SimMovementRecorder(position);
     }
 

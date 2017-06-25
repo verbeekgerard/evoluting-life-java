@@ -1,6 +1,6 @@
 package eu.luminis.robots.sim;
 
-import eu.luminis.geometry.Position;
+import eu.luminis.geometry.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ class SensorFilter {
     }
 
     public List<SimObstacle> filter(List<? extends SimObstacle> obstacles) {
-        Position ownerPosition = owner.getPosition();
+        Vector ownerPosition = owner.getPosition();
         List<SimObstacle> filtered = new ArrayList<>();
 
         for (SimObstacle simObstacle : obstacles) {

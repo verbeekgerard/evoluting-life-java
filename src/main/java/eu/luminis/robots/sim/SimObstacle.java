@@ -1,9 +1,8 @@
 package eu.luminis.robots.sim;
 
-import eu.luminis.geometry.Position;
 import eu.luminis.events.EventBroadcaster;
 import eu.luminis.events.EventType;
-import eu.luminis.geometry.Velocity;
+import eu.luminis.geometry.Vector;
 
 public abstract class SimObstacle {
     protected final static EventBroadcaster eventBroadcaster = EventBroadcaster.getInstance();
@@ -27,11 +26,11 @@ public abstract class SimObstacle {
         return world;
     }
 
-    public final Position getPosition() {
+    public final Vector getPosition() {
         return movementRecorder.getPosition();
     }
 
-    public final Velocity getVelocity() {
+    public final Vector getVelocity() {
         return movementRecorder.getVelocity();
     }
 

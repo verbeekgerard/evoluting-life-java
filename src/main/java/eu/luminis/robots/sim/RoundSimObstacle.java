@@ -1,8 +1,6 @@
 package eu.luminis.robots.sim;
 
-import eu.luminis.geometry.Position;
 import eu.luminis.Options;
-import eu.luminis.genetics.LifeGene;
 import eu.luminis.util.Range;
 
 class RoundSimObstacle extends SimObstacle {
