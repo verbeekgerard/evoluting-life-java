@@ -6,6 +6,7 @@ import eu.luminis.events.EventType;
 import eu.luminis.evolution.CostCalculator;
 import eu.luminis.genetics.Genome;
 import eu.luminis.geometry.Position;
+import eu.luminis.geometry.Velocity;
 import eu.luminis.robots.core.IAngleRetriever;
 import eu.luminis.robots.core.Robot;
 
@@ -83,8 +84,8 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     }
 
     public void recordCollision() {
-        double velocity = simMovementRecorder.getVelocity().getMagnitude();
-        collisionDamage += costCalculator.collide(velocity);
+        Velocity velocity = simMovementRecorder.getVelocity();
+        collisionDamage += costCalculator.collide(velocity.getMagnitude());
 
         preventOverlap(velocity);
 
@@ -141,14 +142,11 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
         return costCalculator.distanceReward(getTravelledDistance());
     }
 
-    private void preventOverlap(double velocity) {
+    private void preventOverlap(Velocity velocity) {
         Position position = getPosition();
 
-        double dx = Math.cos(position.a) * velocity;
-        double dy = Math.sin(position.a) * velocity;
-
         // Move the entity opposite to it's velocity
-        position.x -= dx;
-        position.y -= dy;
+        position.x -= velocity.getX();
+        position.y -= velocity.getY();
     }
 }
