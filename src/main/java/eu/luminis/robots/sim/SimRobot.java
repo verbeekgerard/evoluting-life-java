@@ -16,9 +16,8 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     private final Genome genome;
     private final SimServoAngleRecorder simServoAngleRecorder;
     private final SimMovementRecorder simMovementRecorder;
+
     private final Robot robot;
-    private final SimMotorsController motorsController;
-    private final SimServoController servoController;
     private final SimSensorController sensorController;
 
     private final double size;
@@ -38,8 +37,8 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
         this.simMovementRecorder = simMovementRecorder;
         this.simServoAngleRecorder = simServoAngleRecorder;
 
-        motorsController = initializeMotorsController(genome);
-        servoController = initializeServoController(genome);
+        SimMotorsController motorsController = initializeMotorsController(genome);
+        SimServoController servoController = initializeServoController(genome);
         sensorController = initializeSensorController(genome);
         robot = new Robot(
                 brain,
@@ -84,7 +83,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     }
 
     public void recordCollision() {
-        double velocity = motorsController.getVelocity();
+        double velocity = simMovementRecorder.getVelocity().getMagnitude();
         collisionDamage += costCalculator.collide(velocity);
 
         preventOverlap(velocity);
@@ -135,7 +134,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     }
 
     private SimSensorController initializeSensorController(Genome genome) {
-        return new SimSensorController(this, genome.getSensor().getFieldOfView(), genome.getSensor().getViewDistance(), servoController);
+        return new SimSensorController(this, genome.getSensor().getFieldOfView(), genome.getSensor().getViewDistance(), simServoAngleRecorder);
     }
 
     private double getDistanceReward() {

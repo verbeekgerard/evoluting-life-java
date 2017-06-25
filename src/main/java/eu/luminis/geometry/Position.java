@@ -38,6 +38,7 @@ public class Position {
     public void Add(Velocity velocity) {
 	    x += velocity.getX();
 	    y += velocity.getY();
+	    a = velocity.getAngle();
     }
 
     @Override
