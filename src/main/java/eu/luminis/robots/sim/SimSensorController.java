@@ -82,15 +82,12 @@ class SimSensorController implements ISensorController {
 
         for (SimObstacle simObstacle : obstacles) {
             Position obstaclePosition = simObstacle.getPosition();
-
-            double globalAngle = robotPosition.calculateAngle(obstaclePosition);
-            double relativeAngle = Radians.getRelativeDifference(robotVelocity.getAngle(), globalAngle);
-            double distance = robotPosition.calculateDistance(obstaclePosition);
+            ObstacleVector obstacleVector = new ObstacleVector(robotPosition, robotVelocity, obstaclePosition, simObstacle.getSize());
 
             // If the obstacle is outside the field of view, skip it
-            if (Math.abs(relativeAngle) > viewAngle / 2 || distance > viewDistance) continue;
+            if (Math.abs(obstacleVector.getAngle()) > viewAngle / 2 || obstacleVector.getDistance() > viewDistance) continue;
 
-            obstacleVectors.add(new ObstacleVector(distance, relativeAngle, simObstacle.getSize(), obstaclePosition));
+            obstacleVectors.add(obstacleVector);
         }
 
         return obstacleVectors;
