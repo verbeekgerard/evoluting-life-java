@@ -16,8 +16,12 @@ public class SimMovementRecorder {
     private Double movementCost = 0.0;
 
     public SimMovementRecorder(Position position) {
+        this(position, new Velocity(0, Math.random() * Math.PI * 2));
+    }
+
+    public SimMovementRecorder(Position position, Velocity velocity) {
         this.position = position;
-        this.velocity = new Velocity(0, position.a);
+        this.velocity = velocity;
         this.distanceRecorder = new TravelledDistanceRecorder(position);
     }
 

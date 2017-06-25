@@ -4,6 +4,7 @@ import eu.luminis.geometry.Position;
 import eu.luminis.events.Event;
 import eu.luminis.events.EventType;
 import eu.luminis.Options;
+import eu.luminis.geometry.Velocity;
 import eu.luminis.robots.sim.*;
 
 import javax.swing.*;
@@ -72,6 +73,7 @@ public class Canvas extends JPanel implements Observer {
 		}
 
 		Position robotPosition = robot.getPosition();
+		Velocity robotVelocity = robot.getVelocity();
 		double servoAngle = robot.getServo().getAngle();
 		double fieldOfView = Math.PI / 30;
 		double viewDistance = robot.getViewDistance();
@@ -82,7 +84,7 @@ public class Canvas extends JPanel implements Observer {
                 new Double(robotPosition.y - (viewDistance)).intValue(),
                 new Double(viewDistance*2).intValue(),
                 new Double(viewDistance*2).intValue(),
-                new Double(Math.toDegrees(-1 * (robotPosition.a + servoAngle) + fieldOfView / 2)).intValue(),
+                new Double(Math.toDegrees(-1 * (robotVelocity.getAngle() + servoAngle) + fieldOfView / 2)).intValue(),
                 new Double(-1 * Math.toDegrees(fieldOfView)).intValue());
 	}
 
@@ -105,11 +107,11 @@ public class Canvas extends JPanel implements Observer {
     }
 
     private void drawRobot(SimRobot robot, SimRobot bestRobot, Graphics2D g2) {
-		double entitySize = robot.getSize();
-		Position animalPosition = robot.getPosition();
-		double ba = animalPosition.a + Math.PI; // Find the angle 180deg of entity
+		Velocity robotVelocity = robot.getVelocity();
+		double ba = robotVelocity.getAngle() + Math.PI; // Find the angle 180deg of entity
+        double entitySize = robot.getSize();
 
-		// Find left back triangle point
+        // Find left back triangle point
         double WEDGE_ANGLE = Math.PI * 0.25;
         double lx = Math.cos(ba + (WEDGE_ANGLE / 2)) * entitySize;
 		double ly = Math.sin(ba + (WEDGE_ANGLE / 2)) * entitySize;
@@ -126,11 +128,13 @@ public class Canvas extends JPanel implements Observer {
 		int robotOldAge = robot.getAgeInformation().getOldAge();
 		g2.setStroke(new BasicStroke((float) (2 + Math.floor(5 * robotAge / robotOldAge))));
 
+		Position robotPosition = robot.getPosition();
+
 		// Draw the triangle
 		GeneralPath polygon = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
-		polygon.moveTo(animalPosition.x, animalPosition.y);
-		polygon.lineTo(animalPosition.x + lx, animalPosition.y + ly);
-		polygon.quadTo(animalPosition.x + cx, animalPosition.y + cy, animalPosition.x + rx, animalPosition.y + ry);
+		polygon.moveTo(robotPosition.x, robotPosition.y);
+		polygon.lineTo(robotPosition.x + lx, robotPosition.y + ly);
+		polygon.quadTo(robotPosition.x + cx, robotPosition.y + cy, robotPosition.x + rx, robotPosition.y + ry);
 		polygon.closePath();
 
 		if (robotAge > 30)

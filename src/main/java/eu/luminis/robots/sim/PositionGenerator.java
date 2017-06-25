@@ -29,6 +29,6 @@ class PositionGenerator {
         Range rangeX = new Range(borderDimensions.getMinX(), borderDimensions.getMaxX());
         Range rangeY = new Range(borderDimensions.getMinY(), borderDimensions.getMaxY());
 
-        return new Position(rangeX.random(), rangeY.random(), Math.random() * Math.PI * 2);
+        return new Position(rangeX.random(), rangeY.random());
     }
 }

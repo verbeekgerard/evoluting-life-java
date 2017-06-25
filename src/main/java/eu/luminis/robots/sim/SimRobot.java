@@ -135,7 +135,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     }
 
     private SimSensorController initializeSensorController(Genome genome) {
-        return new SimSensorController(this, genome.getSensor().getFieldOfView(), genome.getSensor().getViewDistance(), simServoAngleRecorder);
+        return new SimSensorController(this, this.simMovementRecorder, genome.getSensor().getFieldOfView(), genome.getSensor().getViewDistance(), simServoAngleRecorder);
     }
 
     private double getDistanceReward() {
