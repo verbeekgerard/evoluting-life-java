@@ -12,7 +12,7 @@ public class SimMovementRecorder {
     private final TravelledDistanceRecorder distanceRecorder;
     private Vector position;
     private Vector velocity;
-    private Double movementCost = 0.0;
+    private double movementCost = 0.0;
 
     public SimMovementRecorder(Vector position) {
         this(position, Vector.polar(Math.random() * Math.PI * 2, 0));
@@ -44,11 +44,11 @@ public class SimMovementRecorder {
         this.position = position.subtract(velocity); // Move the entity opposite to it's velocity
     }
 
-    public Double getMovementCost() {
+    public double getMovementCost() {
         return movementCost;
     }
 
-    public Double getTotalDistance() {
+    public double getTotalDistance() {
         return distanceRecorder.getTotalDistance();
     }
 }
