@@ -22,6 +22,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
 
     private final double size;
 
+    private double health = initialEnergy;
     private double cycleCost = 0;
     private double collisionDamage = 0;
 
@@ -53,7 +54,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     }
 
     public Double health() {
-        return initialEnergy + getDistanceReward() - cycleCost - collisionDamage - simMovementRecorder.getMovementCost() - simServoAngleRecorder.getHeadTurnCost();
+        return health;
     }
 
     public boolean isColliding() {
@@ -72,10 +73,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
 
     @Override
     public double getSize() {
-        double health = health();
-        double healthN = health > 0 ? 1 - 1 / Math.exp(health / 200) : 0;
-
-        return size * (1 + 0.75 * healthN);
+        return size;
     }
 
     public Genome getGenome() {
@@ -118,6 +116,8 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
         isColliding = sensorController.isColliding();
 
         cycleCost += costCalculator.cycle();
+
+        health = initialEnergy + getDistanceReward() - cycleCost - collisionDamage - simMovementRecorder.getMovementCost() - simServoAngleRecorder.getHeadTurnCost();
     }
 
     @Override

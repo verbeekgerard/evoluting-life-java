@@ -43,7 +43,7 @@ public final class Options {
     public final static Option roundObstaclePopulationSize = new Option(24 * 8);
 
     // SimRobot
-    public final static Option sizeOption = new Option(12);
+    public final static Option sizeOption = new Option(14);
     public final static Option initialEnergy = new Option(8);
     public final static Option populationSize = new Option(16 * 8);
 
