@@ -30,6 +30,9 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
     private JLabel avgAgeLbl;
     private JLabel avgDistanceLbl;
     private JLabel cycleCostLbl;
+    private JLabel cycleTimeLbl;
+
+    private long startTime = System.nanoTime();
 
     public MainPanel(StatsCollector statsCollector, Simulation simulation) {
 		this.statsCollector = statsCollector;
@@ -43,7 +46,7 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
 	    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 	    frame.add(this);
-	    frame.setSize(300, 360);
+	    frame.setSize(300, 380);
 	    frame.setVisible(true);
 	    frame.setResizable(false);
 
@@ -54,10 +57,10 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
         actionsPanel.setBounds(0, 0, 300, 100);
         add(actionsPanel);
 
-        statsPanel.setBounds(0, 100, 300, 120);
+        statsPanel.setBounds(0, 100, 300, 140);
         add(statsPanel);
 
-        delayPanel.setBounds(0, 220, 300, 100);
+        delayPanel.setBounds(0, 240, 300, 100);
         add(delayPanel);
 	}
 
@@ -116,6 +119,9 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
         cycleCostLbl = new JLabel("", JLabel.LEFT);
         statsPanel.add(cycleCostLbl);
 
+        cycleTimeLbl = new JLabel("", JLabel.LEFT);
+        statsPanel.add(cycleTimeLbl);
+
         return statsPanel;
     }
 
@@ -150,5 +156,8 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
         avgAgeLbl.setText("Avg age: " + decimalFormat.format(stats.getAverageAge()));
         avgDistanceLbl.setText("Avg distance: " + decimalFormat.format(stats.getAverageDistance()));
         cycleCostLbl.setText("Cycle cost: " + decimalFormat.format(Options.cycleCostFactor.get()));
+        cycleTimeLbl.setText("Cycle time: " + (System.nanoTime() - startTime));
+
+        startTime = System.nanoTime();
     }
 }
