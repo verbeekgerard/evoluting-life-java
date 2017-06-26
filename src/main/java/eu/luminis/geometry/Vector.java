@@ -71,6 +71,13 @@ public abstract class Vector {
         return getLength(getX() - vector.getX(), getY() - vector.getY());
     }
 
+    public double squaredDistance(Vector vector) {
+        return getSquaredLength(getX() - vector.getX(), getY() - vector.getY());
+    }
+
+    protected static double getSquaredLength(double x, double y) {
+        return x * x + y * y;
+    }
     protected static double getLength(double x, double y) {
         return Math.sqrt(x * x + y * y);
     }

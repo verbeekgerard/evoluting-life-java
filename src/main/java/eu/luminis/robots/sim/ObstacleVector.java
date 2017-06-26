@@ -4,7 +4,7 @@ import eu.luminis.geometry.Radians;
 import eu.luminis.geometry.Vector;
 
 class ObstacleVector implements Comparable<ObstacleVector> {
-	private final double distance;
+    private final double squaredDistance;
 	private final double angle;
 	private final double size;
 	private Vector position;
@@ -13,19 +13,19 @@ class ObstacleVector implements Comparable<ObstacleVector> {
 		double globalAngle = originPosition.relativeAngle(obstaclePosition);
 
 		angle = Radians.getRelativeDifference(originVelocity.getAngle(), globalAngle);
-		distance = originPosition.distance(obstaclePosition);
+        squaredDistance = originPosition.squaredDistance(obstaclePosition);
 		position = obstaclePosition;
         size = obstacleSize;
 	}
 
 	@Override
 	public int compareTo(ObstacleVector o) {
-		return new Double(this.distance).compareTo(o.distance);
+		return new Double(this.squaredDistance).compareTo(o.squaredDistance);
 	}
 
-	public double getDistance() {
-		return distance;
-	}
+    public double getSquaredDistance() {
+        return squaredDistance;
+    }
 
 	public double getAngle() {
 		return angle;

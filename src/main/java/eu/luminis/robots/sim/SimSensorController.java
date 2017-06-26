@@ -43,7 +43,7 @@ class SimSensorController implements ISensorController {
         Optional<ObstacleVector> seeing = getObstacleVectorsWithinSight(nearbySimObstacles)
                 .stream()
                 .filter(obstacleVector -> isLookingAt(sensorAngle, obstacleVector))
-                .sorted(Comparator.comparing(ObstacleVector::getDistance))
+                .sorted(Comparator.comparing(ObstacleVector::getSquaredDistance))
                 .findFirst();
 
         ObstacleVector obstacleVector = seeing.isPresent() ? seeing.get() : null;
@@ -53,7 +53,7 @@ class SimSensorController implements ISensorController {
 
         return Math.min(wallDistance(), obstacleVector == null ?
                 viewDistance :
-                obstacleVector.getDistance());
+                Math.sqrt(obstacleVector.getSquaredDistance()));
     }
 
     @Override
@@ -66,7 +66,7 @@ class SimSensorController implements ISensorController {
     }
 
     private boolean isLookingAt(double sensorAngle, ObstacleVector obstacleWithinSight) {
-        double angularRadius = Math.atan2(obstacleWithinSight.getSize() / 2, obstacleWithinSight.getDistance());
+        double angularRadius = Math.atan2(obstacleWithinSight.getSize() / 2, Math.sqrt(obstacleWithinSight.getSquaredDistance()));
         double minimumBorderAngle = obstacleWithinSight.getAngle() - angularRadius;
         double maximumBorderAngle = obstacleWithinSight.getAngle() + angularRadius;
 
@@ -84,7 +84,8 @@ class SimSensorController implements ISensorController {
             ObstacleVector obstacleVector = new ObstacleVector(robotPosition, robotVelocity, obstaclePosition, simObstacle.getSize());
 
             // If the obstacle is outside the field of view, skip it
-            if (Math.abs(obstacleVector.getAngle()) > viewAngle / 2 || obstacleVector.getDistance() > viewDistance) continue;
+            if (Math.abs(obstacleVector.getAngle()) > viewAngle / 2 || obstacleVector.getSquaredDistance() > viewDistance * viewDistance)
+                continue;
 
             obstacleVectors.add(obstacleVector);
         }

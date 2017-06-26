@@ -7,11 +7,13 @@ import java.util.List;
 
 class SensorFilter {
     private final SimObstacle owner;
-    private final double viewDistance;
+    private final double viewDistanceSquared;
 
     public SensorFilter(SimObstacle owner, double viewDistance) {
         this.owner = owner;
-        this.viewDistance = Math.max(owner.getSize(), viewDistance);
+
+        double v2 = Math.max(owner.getSize(), viewDistance); v2 *= v2;
+        this.viewDistanceSquared = v2;
     }
 
     public List<SimObstacle> filter(List<? extends SimObstacle> obstacles) {
@@ -21,8 +23,8 @@ class SensorFilter {
         for (SimObstacle simObstacle : obstacles) {
             if (simObstacle == owner) continue;
 
-            double distance = ownerPosition.distance(simObstacle.getPosition());
-            if (distance > viewDistance) continue;
+            double d2 = ownerPosition.squaredDistance(simObstacle.getPosition());
+            if (d2 > viewDistanceSquared) continue;
 
             filtered.add(simObstacle);
         }
