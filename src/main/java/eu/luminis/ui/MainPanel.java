@@ -16,6 +16,7 @@ import java.util.Observer;
 public class MainPanel extends JPanel implements ChangeListener, Observer {
     private static final long serialVersionUID = 1L;
     private DecimalFormat decimalFormat = new DecimalFormat("0.000");
+    private DecimalFormat numberFormat = new DecimalFormat("#,###,###,###");
 
 	private static final int FPS_MIN = 0;
 	private static final int FPS_MAX = 100;
@@ -156,7 +157,7 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
         avgAgeLbl.setText("Avg age: " + decimalFormat.format(stats.getAverageAge()));
         avgDistanceLbl.setText("Avg distance: " + decimalFormat.format(stats.getAverageDistance()));
         cycleCostLbl.setText("Cycle cost: " + decimalFormat.format(Options.cycleCostFactor.get()));
-        cycleTimeLbl.setText("Cycle time: " + (System.nanoTime() - startTime));
+        cycleTimeLbl.setText("Cycle time: " + numberFormat.format(System.nanoTime() - startTime));
 
         startTime = System.nanoTime();
     }
