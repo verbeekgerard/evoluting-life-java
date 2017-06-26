@@ -35,6 +35,15 @@ public final class Radians {
         return 0;
     }
 
+    public static double getArcTan(double x, double y) {
+        if (x != 0) return Math.atan2(y, x);
+
+        if (y > 0) return Math.PI/2;
+        if (y < 0) return 1.5 * Math.PI;
+
+        return 0;
+    }
+
     public static double getSmallestDifference(double a, double b) {
         double angle = Math.abs(getBounded(a) - getBounded(b));
 

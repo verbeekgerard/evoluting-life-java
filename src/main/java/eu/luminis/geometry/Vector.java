@@ -4,10 +4,10 @@ package eu.luminis.geometry;
  * Represents a 2d vector
  */
 public class Vector {
-    private double x;
-    private double y;
-    private double angle;
-    private double length;
+    private Double x;
+    private Double y;
+    private Double angle;
+    private Double length;
 
     private boolean isPolar = false;
 
@@ -40,34 +40,54 @@ public class Vector {
     }
 
     public double getX() {
-        return isPolar ? Math.cos(angle) * length : x;
+        if (x == null) {
+            x = Math.cos(angle) * length;
+        }
+
+        return x;
     }
 
     public double getY() {
-        return isPolar ? Math.sin(angle) * length : y;
+        if (y == null) {
+            y = Math.sin(angle) * length;
+        }
+
+        return y;
     }
 
     public double getAngle() {
-        return isPolar ? angle : Math.atan2(y, x);
+        if (angle == null) {
+            angle = Radians.getArcTan(x, y);
+        }
+
+        return angle;
     }
 
     public double getLength() {
-        return isPolar ? length : Math.sqrt(x * x + y * y);
+        if (length == null) {
+            length = getLength(x, y);
+        }
+
+        return length;
     }
 
     public double relativeAngle(Vector other) {
-        return Radians.getBoundedArcTan(other.getX()-getX(), other.getY()-getY());
+        return Radians.getBoundedArcTan(other.getX() - getX(), other.getY() - getY());
     }
 
     public Vector add(Vector vector) {
-        return new Vector(getX() + vector.getX(), this.getY() + vector.getY());
+        return new Vector(getX() + vector.getX(), getY() + vector.getY());
     }
 
     public Vector subtract(Vector vector) {
-        return new Vector(getX() - vector.getX(), this.getY() - vector.getY());
+        return new Vector(getX() - vector.getX(), getY() - vector.getY());
     }
 
     public double distance(Vector vector) {
-        return subtract(vector).getLength();
+        return getLength(getX() - vector.getX(), getY() - vector.getY());
+    }
+
+    private static double getLength(double x, double y) {
+        return Math.sqrt(x * x + y * y);
     }
 }
