@@ -3,28 +3,28 @@ package eu.luminis.geometry;
 /**
  * Represents a 2d vector
  */
-public class Vector {
-    private Double x;
-    private Double y;
-    private Double angle;
-    private Double length;
+public abstract class Vector {
+    private double x;
+    private double y;
+    private double angle;
+    private double length;
 
     private boolean isPolar = false;
 
     public static Vector cartesian(double x, double y) {
-        return new Vector(x, y);
+        return new CartesianVector(x, y);
     }
 
     public static Vector polar(double angle, double length) {
-        return new Vector(angle, length, true);
+        return new PolarVector(angle, length);
     }
 
-    private Vector(double x, double y) {
+    protected Vector(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
-    private Vector(double angle, double length, boolean polar) {
+    protected Vector(double angle, double length, boolean polar) {
         this.isPolar = polar;
         this.angle = angle;
         this.length = length;
@@ -40,34 +40,18 @@ public class Vector {
     }
 
     public double getX() {
-        if (x == null) {
-            x = Math.cos(angle) * length;
-        }
-
         return x;
     }
 
     public double getY() {
-        if (y == null) {
-            y = Math.sin(angle) * length;
-        }
-
         return y;
     }
 
     public double getAngle() {
-        if (angle == null) {
-            angle = Radians.getArcTan(x, y);
-        }
-
         return angle;
     }
 
     public double getLength() {
-        if (length == null) {
-            length = getLength(x, y);
-        }
-
         return length;
     }
 
@@ -76,18 +60,18 @@ public class Vector {
     }
 
     public Vector add(Vector vector) {
-        return new Vector(getX() + vector.getX(), getY() + vector.getY());
+        return Vector.cartesian(getX() + vector.getX(), getY() + vector.getY());
     }
 
     public Vector subtract(Vector vector) {
-        return new Vector(getX() - vector.getX(), getY() - vector.getY());
+        return Vector.cartesian(getX() - vector.getX(), getY() - vector.getY());
     }
 
     public double distance(Vector vector) {
         return getLength(getX() - vector.getX(), getY() - vector.getY());
     }
 
-    private static double getLength(double x, double y) {
+    protected static double getLength(double x, double y) {
         return Math.sqrt(x * x + y * y);
     }
 }

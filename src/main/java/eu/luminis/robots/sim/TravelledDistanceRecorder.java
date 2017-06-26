@@ -33,6 +33,6 @@ class TravelledDistanceRecorder {
         historicalDistance += currentDistance;
         steps = 0;
         currentDistance = 0;
-        startPosition = new Vector(position);
+        startPosition = Vector.cartesian(position.getX(), position.getY());
     }
 }
