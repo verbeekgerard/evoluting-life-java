@@ -1,8 +1,6 @@
 package eu.luminis.robots.sim;
 
 import eu.luminis.Options;
-import eu.luminis.brains.IBrain;
-import eu.luminis.events.EventType;
 import eu.luminis.evolution.CostCalculator;
 import eu.luminis.genetics.Genome;
 import eu.luminis.geometry.Vector;
@@ -14,39 +12,32 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     private static final CostCalculator costCalculator = CostCalculator.getInstance();
 
     private final Genome genome;
+    private final SimCollisionRecorder collisionRecorder;
     private final SimServoAngleRecorder simServoAngleRecorder;
     private final SimMovementRecorder simMovementRecorder;
 
     private final Robot robot;
     private final SimSensorController sensorController;
 
-    private final double size;
-
     private double health = initialEnergy;
     private double cycleCost = 0;
-    private double collisionDamage = 0;
 
     private boolean isColliding = false;
-    private Vector targetObstaclePosition;
 
-    public SimRobot(Genome genome, SimWorld world, IBrain brain, SimLife simLife, SimMovementRecorder simMovementRecorder, SimServoAngleRecorder simServoAngleRecorder) {
+    public SimRobot(Genome genome, SimWorld world, Robot robot, SimLife simLife,
+                    SimMovementRecorder simMovementRecorder,
+                    SimServoAngleRecorder simServoAngleRecorder,
+                    SimCollisionRecorder collisionRecorder,
+                    SimSensorController sensorController) {
         super(world, simMovementRecorder, simLife);
 
         this.genome = genome;
-        this.size = Options.sizeOption.get();
-
+        this.robot = robot;
         this.simMovementRecorder = simMovementRecorder;
         this.simServoAngleRecorder = simServoAngleRecorder;
+        this.collisionRecorder = collisionRecorder;
 
-        SimMotorsController motorsController = initializeMotorsController(genome);
-        SimServoController servoController = initializeServoController(genome);
-        sensorController = initializeSensorController(genome);
-        robot = new Robot(
-                brain,
-                motorsController,
-                servoController,
-                sensorController
-        );
+        this.sensorController = sensorController;
     }
 
     public Double fitness() {
@@ -73,20 +64,11 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
 
     @Override
     public double getSize() {
-        return size;
+        return collisionRecorder.getSize();
     }
 
     public Genome getGenome() {
         return genome;
-    }
-
-    public void recordCollision() {
-        Vector velocity = simMovementRecorder.getVelocity();
-        collisionDamage += costCalculator.collide(velocity.getLength());
-
-        simMovementRecorder.preventOverlap();
-
-        eventBroadcaster.broadcast(EventType.COLLIDE, collisionDamage);
     }
 
     public IAngleRetriever getServo() {
@@ -98,15 +80,11 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     }
 
     public Vector getTargetObstaclePosition() {
-        return targetObstaclePosition;
-    }
-
-    public void setTargetObstaclePosition(Vector position) {
-        this.targetObstaclePosition = position;
+        return collisionRecorder.getTargetObstaclePosition();
     }
 
     public double getViewDistance() {
-        return sensorController.getViewDistance();
+        return collisionRecorder.getViewDistance();
     }
 
     @Override
@@ -117,24 +95,15 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
 
         cycleCost += costCalculator.cycle();
 
-        health = initialEnergy + getDistanceReward() - cycleCost - collisionDamage - simMovementRecorder.getMovementCost() - simServoAngleRecorder.getHeadTurnCost();
+        health = initialEnergy + getDistanceReward() - cycleCost -
+                collisionRecorder.getCollisionDamage() -
+                simMovementRecorder.getMovementCost() -
+                simServoAngleRecorder.getHeadTurnCost();
     }
 
     @Override
     protected boolean isAlive() {
         return health() > 0;
-    }
-
-    private SimMotorsController initializeMotorsController(Genome genome) {
-        return new SimMotorsController(simMovementRecorder, genome.getMovement().getLinearForce());
-    }
-
-    private SimServoController initializeServoController(Genome genome) {
-        return new SimServoController(simServoAngleRecorder, genome.getSensor().getFieldOfView(), genome.getMovement().getAngularForce());
-    }
-
-    private SimSensorController initializeSensorController(Genome genome) {
-        return new SimSensorController(this, this.simMovementRecorder, genome.getSensor().getFieldOfView(), genome.getSensor().getViewDistance(), simServoAngleRecorder);
     }
 
     private double getDistanceReward() {

@@ -13,27 +13,27 @@ import java.util.Optional;
 class SimSensorController implements ISensorController {
     private final static CollisionDetector collisionDetector = new CollisionDetector();
 
-    private final SimRobot owner;
     private final double viewDistance;
     private final double viewAngle;
     private final IAngleRetriever angleRetriever;
     private final SensorFilter sensorFilter;
 
+    private final SimCollisionRecorder collisionRecorder;
     private final SimMovementRecorder movementRecorder;
 
     private List<SimObstacle> nearbySimObstacles;
 
-    public SimSensorController(SimRobot owner, SimMovementRecorder movementRecorder, double viewAngle, double viewDistance, IAngleRetriever angleRetriever) {
-        this.owner = owner;
+    public SimSensorController(SimCollisionRecorder collisionRecorder, SimMovementRecorder movementRecorder, double viewAngle, IAngleRetriever angleRetriever) {
+        this.collisionRecorder = collisionRecorder;
         this.movementRecorder = movementRecorder;
         this.viewAngle = viewAngle;
-        this.viewDistance = viewDistance;
+        this.viewDistance = collisionRecorder.getViewDistance();
         this.angleRetriever = angleRetriever;
-        this.sensorFilter = new SensorFilter(owner, viewDistance);
+        this.sensorFilter = new SensorFilter(movementRecorder, collisionRecorder);
     }
 
     public void prepareForNearbyObstacles() {
-        List<SimObstacle> simObstacles = owner.getWorld().getAllObstacles();
+        List<SimObstacle> simObstacles = collisionRecorder.getWorld().getAllObstacles(); // TODO: Get the obstacles from somewhere else
         nearbySimObstacles = sensorFilter.filter(simObstacles);
     }
 
@@ -46,8 +46,8 @@ class SimSensorController implements ISensorController {
                 .sorted(Comparator.comparing(ObstacleVector::getSquaredDistance))
                 .findFirst();
 
-        ObstacleVector obstacleVector = seeing.isPresent() ? seeing.get() : null;
-        owner.setTargetObstaclePosition(obstacleVector == null ?
+        ObstacleVector obstacleVector = seeing.orElse(null);
+        collisionRecorder.setTargetObstaclePosition(obstacleVector == null ?
                 null :
                 obstacleVector.getPosition());
 
@@ -101,41 +101,41 @@ class SimSensorController implements ISensorController {
         double angleRadius = Math.PI / 10;
 
         if (isLeftWallVisible(robotPosition, viewingAngle, angleRadius)) {
-            return robotPosition.getX() - owner.getWorld().getMinX();
+            return robotPosition.getX() - collisionRecorder.getWorld().getMinX();
         }
 
         if (isRightWallVisible(robotPosition, viewingAngle, angleRadius)) {
-            return owner.getWorld().getMaxX() - robotPosition.getX();
+            return collisionRecorder.getWorld().getMaxX() - robotPosition.getX();
         }
 
         if (isTopWallVisible(robotPosition, viewingAngle, angleRadius)) {
-            return robotPosition.getY() - owner.getWorld().getMinY();
+            return robotPosition.getY() - collisionRecorder.getWorld().getMinY();
         }
 
         if (isBottomWallVisible(robotPosition, viewingAngle, angleRadius)) {
-            return owner.getWorld().getMaxY() - robotPosition.getY();
+            return collisionRecorder.getWorld().getMaxY() - robotPosition.getY();
         }
 
         return viewDistance;
     }
 
     private boolean isBottomWallVisible(Vector robotPosition, double viewingAngle, double angleRadius) {
-        return owner.getWorld().getMaxY() - robotPosition.getY() < viewDistance &&
+        return collisionRecorder.getWorld().getMaxY() - robotPosition.getY() < viewDistance &&
                 isLookingAt(0.5 * Math.PI, angleRadius, viewingAngle);
     }
 
     private boolean isTopWallVisible(Vector robotPosition, double viewingAngle, double angleRadius) {
-        return robotPosition.getY() - owner.getWorld().getMinY() < viewDistance &&
+        return robotPosition.getY() - collisionRecorder.getWorld().getMinY() < viewDistance &&
                 isLookingAt(1.5 * Math.PI, angleRadius, viewingAngle);
     }
 
     private boolean isRightWallVisible(Vector robotPosition, double viewingAngle, double angleRadius) {
-        return owner.getWorld().getMaxX() - robotPosition.getX() < viewDistance &&
+        return collisionRecorder.getWorld().getMaxX() - robotPosition.getX() < viewDistance &&
                 isLookingAt(0, angleRadius, viewingAngle);
     }
 
     private boolean isLeftWallVisible(Vector robotPosition, double viewingAngle, double angleRadius) {
-        return robotPosition.getX() - owner.getWorld().getMinX() < viewDistance &&
+        return robotPosition.getX() - collisionRecorder.getWorld().getMinX() < viewDistance &&
                 isLookingAt(Math.PI, angleRadius, viewingAngle);
     }
 
@@ -154,18 +154,23 @@ class SimSensorController implements ISensorController {
     }
 
     private boolean collidesWith(SimObstacle simObstacle) {
-        boolean colliding = collisionDetector.colliding(owner, simObstacle);
+        boolean colliding = collisionDetector.colliding(
+                movementRecorder.getPosition(),
+                simObstacle.getPosition(),
+                collisionRecorder.getSize(),
+                simObstacle.getSize());
+
         if (!colliding) return false;
 
-        owner.recordCollision();
+        collisionRecorder.recordCollision();
 
         return true;
     }
 
     private boolean collidesWithWall() {
         Vector robotPosition = movementRecorder.getPosition();
-        double robotRadius = owner.getSize() / 2;
-        SimWorld world = owner.getWorld();
+        double robotRadius = collisionRecorder.getSize() / 2;
+        SimWorld world = collisionRecorder.getWorld();
 
         boolean colliding =
                 robotPosition.getX() - world.getMinX() <= robotRadius ||
@@ -175,7 +180,7 @@ class SimSensorController implements ISensorController {
 
         if (!colliding) return false;
 
-        owner.recordCollision();
+        collisionRecorder.recordCollision();
 
         return true;
     }

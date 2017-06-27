@@ -6,24 +6,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 class SensorFilter {
-    private final SimObstacle owner;
+    private final SimMovementRecorder movementRecorder;
     private final double viewDistanceSquared;
 
-    public SensorFilter(SimObstacle owner, double viewDistance) {
-        this.owner = owner;
-
-        double v2 = Math.max(owner.getSize(), viewDistance); v2 *= v2;
+    public SensorFilter(SimMovementRecorder movementRecorder, SimCollisionRecorder collisionRecorder) {
+        this.movementRecorder = movementRecorder;
+        double v2 = Math.max(collisionRecorder.getSize(), collisionRecorder.getViewDistance()); v2 *= v2;
         this.viewDistanceSquared = v2;
     }
 
     public List<SimObstacle> filter(List<? extends SimObstacle> obstacles) {
-        Vector ownerPosition = owner.getPosition();
+        Vector robotPosition = movementRecorder.getPosition();
         List<SimObstacle> filtered = new ArrayList<>();
 
         for (SimObstacle simObstacle : obstacles) {
-            if (simObstacle == owner) continue;
+            if (simObstacle.getPosition() == robotPosition) continue;
 
-            double d2 = ownerPosition.squaredDistance(simObstacle.getPosition());
+            double d2 = robotPosition.squaredDistance(simObstacle.getPosition());
             if (d2 > viewDistanceSquared) continue;
 
             filtered.add(simObstacle);

@@ -2,16 +2,17 @@ package eu.luminis.robots.sim;
 
 import eu.luminis.events.EventBroadcaster;
 import eu.luminis.events.EventType;
+import eu.luminis.geometry.IBorderDimensions;
 import eu.luminis.geometry.Vector;
 
 public abstract class SimObstacle {
     protected final static EventBroadcaster eventBroadcaster = EventBroadcaster.getInstance();
 
-    private final SimWorld world;
+    private final IBorderDimensions world;
     private final SimMovementRecorder movementRecorder;
     private final SimLife life;
 
-    public SimObstacle(SimWorld world, SimMovementRecorder movementRecorder, SimLife life) {
+    public SimObstacle(IBorderDimensions world, SimMovementRecorder movementRecorder, SimLife life) {
         this.world = world;
         this.movementRecorder = movementRecorder;
         this.life = life;
@@ -20,10 +21,6 @@ public abstract class SimObstacle {
     final public void runCycle() {
         life.recordLifeCycle();
         run();
-    }
-
-    public final SimWorld getWorld() {
-        return world;
     }
 
     public final Vector getPosition() {
