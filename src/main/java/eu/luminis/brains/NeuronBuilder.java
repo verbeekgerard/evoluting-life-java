@@ -19,7 +19,7 @@ class NeuronBuilder {
                 createOutputAxons());
     }
 
-    Neuron build(List<Neuron> targetNeurons) {
+    Neuron build(Neuron[] targetNeurons) {
         if (targetNeurons == null) return build();
 
         return new Neuron(
@@ -28,10 +28,10 @@ class NeuronBuilder {
                 createTransmittingAxons(targetNeurons, 0));
     }
 
-    void complement(Neuron neuron, List<Neuron> targetNeurons) {
+    void complement(Neuron neuron, Neuron[] targetNeurons) {
         if (neuron == null || targetNeurons == null) return;
 
-        int offset = gene.getAxons().size() - targetNeurons.size();
+        int offset = gene.getAxons().size() - targetNeurons.length;
         Axon[] recurrentAxons = createTransmittingAxons(targetNeurons, offset);
         neuron.addRecurrentAxons(recurrentAxons);
     }
@@ -40,11 +40,11 @@ class NeuronBuilder {
         return new Axon[0];
     }
 
-    private Axon[] createTransmittingAxons(List<Neuron> targetNeurons, int offset) {
-        Axon[] axons = new Axon[targetNeurons.size()];
+    private Axon[] createTransmittingAxons(Neuron[] targetNeurons, int offset) {
+        Axon[] axons = new Axon[targetNeurons.length];
 
-        for (int i = 0; i < targetNeurons.size(); i++) {
-            Axon axon = new Axon(gene.getAxons().get(i + offset).getStrength(), targetNeurons.get(i));
+        for (int i = 0; i < targetNeurons.length; i++) {
+            Axon axon = new Axon(gene.getAxons().get(i + offset).getStrength(), targetNeurons[i]);
             axons[i] = axon;
         }
 

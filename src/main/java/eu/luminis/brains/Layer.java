@@ -1,25 +1,23 @@
 package eu.luminis.brains;
 
-import java.util.List;
-
 class Layer {
 
-    private final List<Neuron> neurons;
+    private final Neuron[] neurons;
 
-    public Layer(List<Neuron> neurons) {
+    public Layer(Neuron[] neurons) {
         this.neurons = neurons;
     }
 
-    public List<Neuron> getNeurons() {
+    public Neuron[] getNeurons() {
         return neurons;
     }
 
     public double[] transmit() {
-        double[] values = new double[neurons.size()];
-        ITransmitter[][] transmitters = new ITransmitter[neurons.size()][];
+        double[] values = new double[neurons.length];
+        ITransmitter[][] transmitters = new ITransmitter[neurons.length][];
 
-        for (int i=0; i<neurons.size(); i++) {
-            TransmitResult neuronOutput = neurons.get(i).transmit();
+        for (int i=0; i<neurons.length; i++) {
+            TransmitResult neuronOutput = neurons[i].transmit();
             values[i] = neuronOutput.getValue();
             transmitters[i] = neuronOutput.getTransmitters();
         }

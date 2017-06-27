@@ -36,26 +36,26 @@ class LayerBuilder {
     }
 
     public Layer build() {
-        List<Neuron> neurons = buildNeuronList();
+        Neuron[] neurons = buildNeuronList();
         return new Layer(neurons);
     }
 
     public InputLayer buildAsInput() {
-        List<Neuron> neurons = buildNeuronList();
+        Neuron[] neurons = buildNeuronList();
         return new InputLayer(neurons);
     }
 
-    private List<Neuron> buildNeuronList() {
-        List<Neuron> neurons = new ArrayList<>();
+    private Neuron[] buildNeuronList() {
+        Neuron[] neurons = new Neuron[layerGenes.size()];
 
-        List<Neuron> targetNeurons = targetLayer == null ?
+        Neuron[] targetNeurons = targetLayer == null ?
                 null :
                 targetLayer.getNeurons();
 
-        for (NeuronGene neuronGene : layerGenes) {
-            NeuronBuilder builder = new NeuronBuilder(neuronGene);
+        for (int i=0; i<layerGenes.size(); i++) {
+            NeuronBuilder builder = new NeuronBuilder(layerGenes.get(i));
             Neuron neuron = builder.build(targetNeurons);
-            neurons.add(neuron);
+            neurons[i] = neuron;
         }
 
         if (!isRecurrent) return neurons;
@@ -64,7 +64,7 @@ class LayerBuilder {
         for (NeuronGene neuronGene : layerGenes) {
             NeuronBuilder builder = new NeuronBuilder(neuronGene);
 
-            Neuron neuron = neurons.get(i++);
+            Neuron neuron = neurons[i++];
             builder.complement(neuron, neurons);
         }
 
