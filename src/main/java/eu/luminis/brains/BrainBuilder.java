@@ -10,7 +10,7 @@ import java.util.List;
 public class BrainBuilder {
     private BrainGene brainChromosome;
 
-    private BrainBuilder () {
+    private BrainBuilder() {
 
     }
 
@@ -26,10 +26,10 @@ public class BrainBuilder {
 
     public IBrain build() {
         Layer outputLayer = createOutputLayer();
-        List<Layer> hiddenLayers = createHiddenLayers(outputLayer);
+        Layer[] hiddenLayers = createHiddenLayers(outputLayer);
 
         // The input layer is of a different type
-        Layer firstHiddenLayer = hiddenLayers.get(hiddenLayers.size() - 1);
+        Layer firstHiddenLayer = hiddenLayers[hiddenLayers.length - 1];
         InputLayer inputLayer = createInputLayer(firstHiddenLayer);
 
         return new Brain(outputLayer, hiddenLayers, inputLayer);
@@ -55,24 +55,26 @@ public class BrainBuilder {
                 .build();
     }
 
-    private List<Layer> createHiddenLayers(Layer outputLayer) {
+    private Layer[] createHiddenLayers(Layer outputLayer) {
         List<List<NeuronGene>> genLayers = brainChromosome.getLayers();
-        List<Layer> layers = new ArrayList<>();
-        layers.add(outputLayer);
 
-        for (int i = 1; i < genLayers.size() - 1; i++) {
-            Layer targetLayer = layers.get(layers.size() - 1);
-            Layer layer = LayerBuilder
-                    .layer()
-                    .withNeuronGenes(genLayers.get(i))
-                    .withTargetLayer(targetLayer)
-                    .withRecurrence(Options.brainIsRecurrent)
-                    .build();
-            layers.add(layer);
+        Layer[] layers = new Layer[genLayers.size() - 2]; // exclude the input and output layers
+        layers[0] = createHiddenLayer(genLayers.get(1), outputLayer);
+
+        for (int i = 2; i < genLayers.size() - 1; i++) {
+            Layer targetLayer = layers[i - 2];
+            layers[i - 1] = createHiddenLayer(genLayers.get(i), targetLayer);
         }
 
-        layers.remove(0);
-
         return layers;
+    }
+
+    private Layer createHiddenLayer(List<NeuronGene> layerGene, Layer targetLayer) {
+        return LayerBuilder
+                .layer()
+                .withNeuronGenes(layerGene)
+                .withTargetLayer(targetLayer)
+                .withRecurrence(Options.brainIsRecurrent)
+                .build();
     }
 }
