@@ -1,8 +1,7 @@
 package eu.luminis.genetics;
 
-import java.util.List;
-
 abstract class Gene {
-    public abstract List<Double> getInitiateProperties();
-    public abstract Gene initiate(List<Double> properties);
+    public abstract double[] getInitiateProperties();
+    public abstract <TGene extends Gene> TGene initiate(double[] properties);
+    public abstract <TGene extends Gene> TGene[] newArray(int size);
 }

@@ -40,16 +40,16 @@ public class Genome {
     	List<Genome> children = new ArrayList<>();
 
     	List<BrainGene> brainChildren = this.brain.mate(partner.brain);
-    	List<LifeGene> lifeChildren = this.life.mate(partner.life);
-    	List<SensorGene> sensorChildren = this.sensor.mate(partner.sensor);
-        List<MovementGene> movementChildren = this.movement.mate(partner.movement);
+    	LifeGene[] lifeChildren = this.life.mate(partner.life);
+    	SensorGene[] sensorChildren = this.sensor.mate(partner.sensor);
+        MovementGene[] movementChildren = this.movement.mate(partner.movement);
    
         for (int i = 0; i < brainChildren.size(); i++) { 
             children.add(new Genome(
         		brainChildren.get(i),
-        		lifeChildren.get(i),
-        		sensorChildren.get(i),
-                movementChildren.get(i)
+        		lifeChildren[i],
+        		sensorChildren[i],
+                movementChildren[i]
             ));
         }
 

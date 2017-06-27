@@ -1,8 +1,5 @@
 package eu.luminis.genetics;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MovementGene extends Gene {
     private static final MovementGeneEvolver evolver = new MovementGeneEvolver();
 
@@ -32,21 +29,25 @@ public class MovementGene extends Gene {
         linearForce = evolver.LinearForce.mutateValueWithLowerBound(linearForce, 0);
 	}
 
-	public List<MovementGene> mate(MovementGene partner) {
+	public MovementGene[] mate(MovementGene partner) {
 		return evolver.mate(this, partner);
 	}
 
 	@Override
-	public List<Double> getInitiateProperties() {
-		List<Double> list = new ArrayList<>();
-		list.add(this.angularForce);
-		list.add(this.linearForce);
-
-		return list;
+	public double[] getInitiateProperties() {
+		return new double[] {
+				this.angularForce,
+				this.linearForce
+		};
 	}
 
 	@Override
-	public Gene initiate(List<Double> properties) {
-		return new MovementGene(properties.get(0), properties.get(1));
+	public MovementGene initiate(double[] properties) {
+		return new MovementGene(properties[0], properties[1]);
 	}
+
+    @Override
+    public MovementGene[] newArray(int size) {
+        return new MovementGene[size];
+    }
 }

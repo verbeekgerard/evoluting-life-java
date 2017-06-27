@@ -1,8 +1,5 @@
 package eu.luminis.genetics;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SensorGene extends Gene {
     private static final SensorGeneEvolver evolver = new SensorGeneEvolver();
 
@@ -32,21 +29,25 @@ public class SensorGene extends Gene {
         fieldOfView = evolver.FieldOfView.mutateValueWithBounds(fieldOfView, 0, 2 * Math.PI);
     }
 
-    public List<SensorGene> mate(SensorGene partner) {
+    public SensorGene[] mate(SensorGene partner) {
         return evolver.mate(this, partner);
     }
 
     @Override
-    public List<Double> getInitiateProperties() {
-        List<Double> list = new ArrayList<>();
-        list.add(viewDistance);
-        list.add(fieldOfView);
-
-        return list;
+    public double[] getInitiateProperties() {
+        return new double[] {
+                this.viewDistance,
+                this.fieldOfView
+        };
     }
 
     @Override
-    public Gene initiate(List<Double> properties) {
-        return new SensorGene(properties.get(0), properties.get(1));
+    public SensorGene initiate(double[] properties) {
+        return new SensorGene(properties[0], properties[1]);
+    }
+
+    @Override
+    public SensorGene[] newArray(int size) {
+        return new SensorGene[size];
     }
 }

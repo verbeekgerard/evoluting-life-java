@@ -1,8 +1,5 @@
 package eu.luminis.genetics;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class AxonGene extends Gene {
     private static final AxonGeneEvolver evolver = new AxonGeneEvolver();
 
@@ -40,22 +37,26 @@ public class AxonGene extends Gene {
         weakening = evolver.Weakening.mutateValue(weakening);
     }
 
-    public List<AxonGene> mate(AxonGene partner) {
+    public AxonGene[] mate(AxonGene partner) {
         return evolver.mate(this, partner);
     }
 
     @Override
-    public List<Double> getInitiateProperties() {
-        List<Double> list = new ArrayList<>();
-        list.add(this.strength);
-        list.add(this.strengthening);
-        list.add(this.weakening);
-
-        return list;
+    public double[] getInitiateProperties() {
+        return new double[] {
+            this.strength,
+            this.strengthening,
+            this.weakening
+        };
     }
 
     @Override
-    public Gene initiate(List<Double> properties) {
-        return new AxonGene(properties.get(0), properties.get(1), properties.get(2));
+    public AxonGene initiate(double[] properties) {
+        return new AxonGene(properties[0], properties[1], properties[2]);
+    }
+
+    @Override
+    public AxonGene[] newArray(int size) {
+        return new AxonGene[size];
     }
 }

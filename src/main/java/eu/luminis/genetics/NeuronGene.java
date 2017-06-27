@@ -1,37 +1,37 @@
 package eu.luminis.genetics;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class NeuronGene extends Gene {
     private static final NeuronGeneEvolver evolver = new NeuronGeneEvolver();
 
     private double threshold;
     private double relaxation;
-    private final List<AxonGene> axons = new ArrayList<>();
+    private final AxonGene[] axons;
 
     public NeuronGene(int maxOutputs) {
         threshold = evolver.Threshold.getNewValue();
         relaxation = evolver.Relaxation.getNewValue();
 
+        axons = new AxonGene[maxOutputs];
         for (int i = 0; i < maxOutputs; i++) {
-            this.axons.add(new AxonGene());
+            this.axons[i] = new AxonGene();
         }
     }
 
-    public NeuronGene(double threshold, double relaxation) {
+    public NeuronGene(double threshold, double relaxation, int axonCount) {
         this.threshold = threshold;
         this.relaxation = relaxation;
+        this.axons = new AxonGene[axonCount];
     }
 
-    public NeuronGene(double threshold, double relaxation, List<AxonGene> axons) {
+    public NeuronGene(double threshold, double relaxation, AxonGene[] axons) {
         this.threshold = threshold;
         this.relaxation = relaxation;
 
-        this.axons.addAll(axons.stream()
-                .map(axon -> new AxonGene(axon.getStrength(), axon.getStrengthening(), axon.getWeakening()))
-                .collect(Collectors.toList()));
+        this.axons = new AxonGene[axons.length];
+        for (int i=0; i<axons.length; i++) {
+            AxonGene axon = axons[i];
+            this.axons[i] = new AxonGene(axon.getStrength(), axon.getStrengthening(), axon.getWeakening());
+        }
     }
 
     public double getThreshold() {
@@ -42,7 +42,7 @@ public class NeuronGene extends Gene {
         return relaxation;
     }
 
-    public List<AxonGene> getAxons() {
+    public AxonGene[] getAxons() {
         return axons;
     }
 
@@ -52,14 +52,14 @@ public class NeuronGene extends Gene {
         mutateAxons();
     }
 
-    public List<NeuronGene> mate(NeuronGene partner) {
-        List<NeuronGene> children = evolver.mate(this, partner);
+    public NeuronGene[] mate(NeuronGene partner) {
+        NeuronGene[] children = evolver.mate(this, partner);
 
-        for (int i = 0; i < this.axons.size(); i++) {
-            List<AxonGene> childAxons = this.axons.get(i).mate(partner.axons.get(i));
+        for (int i = 0; i < this.axons.length; i++) {
+            AxonGene[] childAxons = this.axons[i].mate(partner.axons[i]);
 
-            for (int j = 0; j < children.size(); j++) {
-                children.get(j).axons.add(childAxons.get(j));
+            for (int j = 0; j < children.length; j++) {
+                children[j].axons[i] = childAxons[j];
             }
         }
 
@@ -67,22 +67,26 @@ public class NeuronGene extends Gene {
     }
 
     @Override
-    public List<Double> getInitiateProperties() {
-        List<Double> list = new ArrayList<>();
-        list.add(this.threshold);
-        list.add(this.relaxation);
-
-        return list;
+    public double[] getInitiateProperties() {
+        return new double[] {
+                this.threshold,
+                this.relaxation
+        };
     }
 
     @Override
-    public Gene initiate(List<Double> properties) {
-        return new NeuronGene(properties.get(0), properties.get(1));
+    public NeuronGene initiate(double[] properties) {
+        return new NeuronGene(properties[0], properties[1], this.axons.length);
+    }
+
+    @Override
+    public NeuronGene[] newArray(int size) {
+        return new NeuronGene[size];
     }
 
     private void mutateAxons() {
-        for (int i = 0; i < this.axons.size(); i++) {
-            this.axons.get(i).mutate();
+        for (AxonGene axon : this.axons) {
+            axon.mutate();
         }
     }
 }

@@ -1,8 +1,5 @@
 package eu.luminis.genetics;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class LifeGene extends Gene {
     private static final LifeGeneEvolver evolver = new LifeGeneEvolver();
 
@@ -24,20 +21,22 @@ public class LifeGene extends Gene {
         oldAge = evolver.OldAge.mutateValue(oldAge);
     }
 
-    public List<LifeGene> mate(LifeGene partner) {
+    public LifeGene[] mate(LifeGene partner) {
         return evolver.mate(this, partner);
     }
 
     @Override
-    public List<Double> getInitiateProperties() {
-        List<Double> list = new ArrayList<>();
-        list.add(this.oldAge);
-
-        return list;
+    public double[] getInitiateProperties() {
+        return new double[] {this.oldAge};
     }
 
     @Override
-    public Gene initiate(List<Double> properties) {
-        return new LifeGene(properties.get(0));
+    public LifeGene initiate(double[] properties) {
+        return new LifeGene(properties[0]);
+    }
+
+    @Override
+    public LifeGene[] newArray(int size) {
+        return new LifeGene[size];
     }
 }

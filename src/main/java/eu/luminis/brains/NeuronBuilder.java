@@ -31,7 +31,7 @@ class NeuronBuilder {
     void complement(Neuron neuron, Neuron[] targetNeurons) {
         if (neuron == null || targetNeurons == null) return;
 
-        int offset = gene.getAxons().size() - targetNeurons.length;
+        int offset = gene.getAxons().length - targetNeurons.length;
         Axon[] recurrentAxons = createTransmittingAxons(targetNeurons, offset);
         neuron.addRecurrentAxons(recurrentAxons);
     }
@@ -44,7 +44,7 @@ class NeuronBuilder {
         Axon[] axons = new Axon[targetNeurons.length];
 
         for (int i = 0; i < targetNeurons.length; i++) {
-            Axon axon = new Axon(gene.getAxons().get(i + offset).getStrength(), targetNeurons[i]);
+            Axon axon = new Axon(gene.getAxons()[i + offset].getStrength(), targetNeurons[i]);
             axons[i] = axon;
         }
 

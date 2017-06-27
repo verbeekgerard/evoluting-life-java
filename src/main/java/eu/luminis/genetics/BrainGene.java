@@ -18,7 +18,7 @@ public class BrainGene {
                             new NeuronGene(
                                     neuronGene.getThreshold(),
                                     neuronGene.getRelaxation(),
-                                    new ArrayList<>(neuronGene.getAxons())))
+                                    neuronGene.getAxons()))
                     .collect(Collectors.toList());
 
             layers.add(layer);
@@ -33,7 +33,7 @@ public class BrainGene {
                 NeuronGene gene = stateLayer.get(j);
 
                 if (Math.random() < Options.neuronReplacementRate.get()) {
-                    int targetCount = gene.getAxons().size();
+                    int targetCount = gene.getAxons().length;
                     stateLayer.set(j, new NeuronGene(targetCount));
                     continue;
                 }
@@ -68,10 +68,10 @@ public class BrainGene {
             for (int j = 0; j < layerA.size(); j++) {
                 NeuronGene geneA = layerA.get(j);
                 NeuronGene geneB = layerB.get(j);
-                List<NeuronGene> childNeurons = geneA.mate(geneB);
+                NeuronGene[] childNeurons = geneA.mate(geneB);
 
                 for (int k = 0; k < 2; k++) {
-                    children.get(k).layers.get(i).add(childNeurons.get(k));
+                    children.get(k).layers.get(i).add(childNeurons[k]);
                 }
             }
         }
