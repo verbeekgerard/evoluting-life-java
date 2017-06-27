@@ -35,16 +35,16 @@ public class BrainInput {
     }
 
     private double[] createValues() {
-        values =  new double[8];
-
-        values[0] = (distance == viewDistance ? 0 : (fieldOfView / 2 + angle) / fieldOfView); // left
-        values[1] = (distance == viewDistance ? 0 : (fieldOfView / 2 - angle) / fieldOfView); // right
-        values[2] = ((fieldOfView / 2 + angle) / fieldOfView); // left
-        values[3] = ((fieldOfView / 2 - angle) / fieldOfView); // right
-        values[4] = (angleVelocity < 0 ? -1 * angleVelocity : 0); // left
-        values[5] = (angleVelocity > 0 ? angleVelocity : 0); // right
-        values[6] = ((viewDistance - distance) / viewDistance);
-        values[7] = (new Range(0, 1).random());
+        values = new double[] {
+            distance == viewDistance ? 0 : (fieldOfView / 2 + angle) / fieldOfView, // left
+            distance == viewDistance ? 0 : (fieldOfView / 2 - angle) / fieldOfView, // right
+            (fieldOfView / 2 + angle) / fieldOfView, // left
+            (fieldOfView / 2 - angle) / fieldOfView, // right
+            angleVelocity < 0 ? -1 * angleVelocity : 0, // left
+            angleVelocity > 0 ? angleVelocity : 0, // right
+            (viewDistance - distance) / viewDistance,
+            new Range(0, 1).random()
+        };
 
         normalizeValues();
 
@@ -55,8 +55,7 @@ public class BrainInput {
         double normalizationFactor = (Options.maxThreshold.get() + Options.minThreshold.get()) / 2;
 
         for (int i = 0; i < values.length; i++) {
-            double normalizedValue = values[i] * normalizationFactor;
-            values[i] = normalizedValue;
+            values[i] *= normalizationFactor;
         }
     }
 }
