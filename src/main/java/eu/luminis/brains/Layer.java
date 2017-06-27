@@ -1,9 +1,6 @@
 package eu.luminis.brains;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import eu.luminis.genetics.NeuronGene;
 
 class Layer {
 
@@ -17,13 +14,13 @@ class Layer {
         return neurons;
     }
 
-    public List<Double> transmit() {
-        List<Double> values = new ArrayList<>();
+    public double[] transmit() {
+        double[] values = new double[neurons.size()];
         ITransmitter[][] transmitters = new ITransmitter[neurons.size()][];
 
         for (int i=0; i<neurons.size(); i++) {
             TransmitResult neuronOutput = neurons.get(i).transmit();
-            values.add(neuronOutput.getValue());
+            values[i] = neuronOutput.getValue();
             transmitters[i] = neuronOutput.getTransmitters();
         }
 

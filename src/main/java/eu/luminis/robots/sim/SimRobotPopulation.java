@@ -59,9 +59,7 @@ public class SimRobotPopulation {
     public void run() {
         simRobots.parallelStream().forEach(SimObstacle::runCycle);
 
-        List<SimRobot> robots = simRobots.stream()
-                .filter(SimObstacle::survives)
-                .collect(Collectors.toList());
+        List<SimRobot> robots = getSurvivors();
 
         Collections.sort(robots);
 
@@ -73,6 +71,17 @@ public class SimRobotPopulation {
 
         winningEntity = robots.get(0);
         simRobots = robots;
+    }
+
+    private List<SimRobot> getSurvivors() {
+        List<SimRobot> survivors = new ArrayList<>();
+        for (SimRobot simRobot : simRobots) {
+            if (simRobot.survives()) {
+                survivors.add(simRobot);
+            }
+        }
+
+        return survivors;
     }
 
     private Genome createGenome() {

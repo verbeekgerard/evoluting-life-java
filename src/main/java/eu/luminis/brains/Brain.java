@@ -14,7 +14,7 @@ class Brain implements IBrain {
     }
 
     @Override
-    public List<Double> think(List<Double> input) {
+    public double[] think(List<Double> input) {
         this.inputLayer.sense(input).transmit();
 
         for (int i = hiddenLayers.size()-1; i >= 0; i--) {

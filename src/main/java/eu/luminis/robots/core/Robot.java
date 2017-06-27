@@ -30,7 +30,7 @@ public class Robot {
 
         // 2. think
         BrainInput input = brainInputFactory.create(distance, servoAngle, previousServoAngle);
-        List<Double> output = brain.think(input.getValues());
+        double[] output = brain.think(input.getValues());
         BrainOutput brainOutput = new BrainOutput(output);
         previousServoAngle = servoAngle;
 
