@@ -2,12 +2,6 @@ package eu.luminis.genetics;
 
 import eu.luminis.util.Range;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 class Evolver {
 
     // Creates two children by crossing over the genomes of a and b.
@@ -18,12 +12,11 @@ class Evolver {
         double[][] childrenProperties = initializeChildrenProperties(propertiesA.length);
 
         for (int j=0; j<propertiesA.length; j++) {
-            double[][] AorB = getAorBRandom(propertiesA, propertiesB);
+            double[] AorB = getAorBRandom(propertiesA[j], propertiesB[j]);
 
             for (int i=0; i<2; i++) {
-                double[] aOrB = AorB[i];
-                double value = aOrB[j];
-                childrenProperties[i][j] = value;
+                double aOrB = AorB[i];
+                childrenProperties[i][j] = aOrB;
             }
         }
 
@@ -36,11 +29,11 @@ class Evolver {
         return genes;
     }
 
-    private double[][] getAorBRandom(double[] a, double[] b) {
+    private double[] getAorBRandom(double a, double b) {
         if (new Range(0, 100).random() < 50) {
-            return new double[][]{a, b};
+            return new double[]{a, b};
         } else {
-            return new double[][]{b, a};
+            return new double[]{b, a};
         }
     }
 
