@@ -32,20 +32,20 @@ class NeuronBuilder {
         if (neuron == null || targetNeurons == null) return;
 
         int offset = gene.getAxons().size() - targetNeurons.size();
-        List<Axon> recurrentAxons = createTransmittingAxons(targetNeurons, offset);
+        Axon[] recurrentAxons = createTransmittingAxons(targetNeurons, offset);
         neuron.addRecurrentAxons(recurrentAxons);
     }
 
-    private List<Axon> createOutputAxons() {
-        return new ArrayList<>();
+    private Axon[] createOutputAxons() {
+        return new Axon[0];
     }
 
-    private List<Axon> createTransmittingAxons(List<Neuron> targetNeurons, int offset) {
-        List<Axon> axons = new ArrayList<>();
+    private Axon[] createTransmittingAxons(List<Neuron> targetNeurons, int offset) {
+        Axon[] axons = new Axon[targetNeurons.size()];
 
         for (int i = 0; i < targetNeurons.size(); i++) {
             Axon axon = new Axon(gene.getAxons().get(i + offset).getStrength(), targetNeurons.get(i));
-            axons.add(axon);
+            axons[i] = axon;
         }
 
         return axons;

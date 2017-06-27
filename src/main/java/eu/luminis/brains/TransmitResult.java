@@ -1,12 +1,10 @@
 package eu.luminis.brains;
 
-import java.util.List;
-
-class TransmitResult {
+class TransmitResult<T extends ITransmitter> {
     private final double value;
-    private final List<? extends ITransmitter> transmitters;
+    private final T[] transmitters;
 
-    TransmitResult(double value, List<? extends ITransmitter> transmitters) {
+    TransmitResult(double value, T[] transmitters) {
 
         this.value = value;
         this.transmitters = transmitters;
@@ -16,7 +14,7 @@ class TransmitResult {
         return value;
     }
 
-    public List<? extends ITransmitter> getTransmitters() {
+    public T[] getTransmitters() {
         return transmitters;
     }
 }

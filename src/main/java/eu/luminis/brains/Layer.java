@@ -19,16 +19,18 @@ class Layer {
 
     public List<Double> transmit() {
         List<Double> values = new ArrayList<>();
-        List<ITransmitter> transmitters = new ArrayList<>();
+        ITransmitter[][] transmitters = new ITransmitter[neurons.size()][];
 
-        for (Neuron neuron : neurons) {
-            TransmitResult neuronOutput = neuron.transmit();
+        for (int i=0; i<neurons.size(); i++) {
+            TransmitResult neuronOutput = neurons.get(i).transmit();
             values.add(neuronOutput.getValue());
-            transmitters.addAll(neuronOutput.getTransmitters());
+            transmitters[i] = neuronOutput.getTransmitters();
         }
 
-        for (ITransmitter transmitter : transmitters) {
-            transmitter.transmit();
+        for (int i=0; i<transmitters.length; i++) {
+            for (int j=0; j<transmitters[i].length; j++) {
+                transmitters[i][j].transmit();
+            }
         }
 
         return values;
