@@ -1,10 +1,5 @@
 package eu.luminis.brains;
 
-import com.sun.tools.javac.util.ArrayUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-
 class Neuron {
     private Axon[] axons;
     private final double threshold;
@@ -17,9 +12,9 @@ class Neuron {
         this.axons = axons;
     }
 
-    public TransmitResult transmit() {
+    public TransmitResult<Axon> transmit() {
         if (excitation > threshold) {
-            TransmitResult result = new TransmitResult(excitation, axons);
+            TransmitResult<Axon> result = new TransmitResult<>(excitation, axons);
             excitation = 0;
 
             return result;
@@ -29,7 +24,7 @@ class Neuron {
                     this.excitation * (1 - this.relaxation) :
                     0;
 
-            return new TransmitResult(0, new Axon[0]);
+            return new TransmitResult<>(0, new Axon[0]);
         }
     }
 
@@ -38,6 +33,10 @@ class Neuron {
     }
 
     void addRecurrentAxons(Axon[] axons) {
-        System.arraycopy(axons, 0, this.axons, this.axons.length, axons.length);
+        Axon[] all = new Axon[this.axons.length + axons.length];
+        System.arraycopy(this.axons, 0, all, 0, this.axons.length);
+        System.arraycopy(axons, 0, all, this.axons.length, axons.length);
+
+        this.axons = all;
     }
 }
