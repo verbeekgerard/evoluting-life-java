@@ -11,7 +11,7 @@ public class BrainInput {
         return 8;
     }
 
-    private List<Double> values;
+    private double[] values;
     private final double viewDistance;
     private final double fieldOfView;
     private final double distance;
@@ -26,7 +26,7 @@ public class BrainInput {
         this.angleVelocity = angleVelocity;
     }
 
-    public List<Double> getValues() {
+    public double[] getValues() {
         if (values == null) {
             values = createValues();
         }
@@ -34,17 +34,17 @@ public class BrainInput {
         return values;
     }
 
-    private List<Double> createValues() {
-        values =  new ArrayList<>();
+    private double[] createValues() {
+        values =  new double[8];
 
-        values.add(distance == viewDistance ? 0 : (fieldOfView / 2 + angle) / fieldOfView); // left
-        values.add(distance == viewDistance ? 0 : (fieldOfView / 2 - angle) / fieldOfView); // right
-        values.add((fieldOfView / 2 + angle) / fieldOfView); // left
-        values.add((fieldOfView / 2 - angle) / fieldOfView); // right
-        values.add(angleVelocity < 0 ? -1 * angleVelocity : 0); // left
-        values.add(angleVelocity > 0 ? angleVelocity : 0); // right
-        values.add((viewDistance - distance) / viewDistance);
-        values.add(new Range(0, 1).random());
+        values[0] = (distance == viewDistance ? 0 : (fieldOfView / 2 + angle) / fieldOfView); // left
+        values[1] = (distance == viewDistance ? 0 : (fieldOfView / 2 - angle) / fieldOfView); // right
+        values[2] = ((fieldOfView / 2 + angle) / fieldOfView); // left
+        values[3] = ((fieldOfView / 2 - angle) / fieldOfView); // right
+        values[4] = (angleVelocity < 0 ? -1 * angleVelocity : 0); // left
+        values[5] = (angleVelocity > 0 ? angleVelocity : 0); // right
+        values[6] = ((viewDistance - distance) / viewDistance);
+        values[7] = (new Range(0, 1).random());
 
         normalizeValues();
 
@@ -54,9 +54,9 @@ public class BrainInput {
     private void normalizeValues() {
         double normalizationFactor = (Options.maxThreshold.get() + Options.minThreshold.get()) / 2;
 
-        for (int i = 0; i < values.size(); i++) {
-            double normalizedValue = values.get(i) * normalizationFactor;
-            values.set(i, normalizedValue);
+        for (int i = 0; i < values.length; i++) {
+            double normalizedValue = values[i] * normalizationFactor;
+            values[i] = normalizedValue;
         }
     }
 }
