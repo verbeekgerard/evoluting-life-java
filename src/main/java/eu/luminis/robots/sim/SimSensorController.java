@@ -101,41 +101,41 @@ class SimSensorController implements ISensorController {
         double angleRadius = Math.PI / 10;
 
         if (isLeftWallVisible(robotPosition, viewingAngle, angleRadius)) {
-            return robotPosition.getX() - collisionRecorder.getWorld().getMinX();
+            return distanceToLeftWall(robotPosition);
         }
 
         if (isRightWallVisible(robotPosition, viewingAngle, angleRadius)) {
-            return collisionRecorder.getWorld().getMaxX() - robotPosition.getX();
+            return distanceToRightWall(robotPosition);
         }
 
         if (isTopWallVisible(robotPosition, viewingAngle, angleRadius)) {
-            return robotPosition.getY() - collisionRecorder.getWorld().getMinY();
+            return distanceToTopWall(robotPosition);
         }
 
         if (isBottomWallVisible(robotPosition, viewingAngle, angleRadius)) {
-            return collisionRecorder.getWorld().getMaxY() - robotPosition.getY();
+            return distanceToBottomWall(robotPosition);
         }
 
         return viewDistance;
     }
 
     private boolean isBottomWallVisible(Vector robotPosition, double viewingAngle, double angleRadius) {
-        return collisionRecorder.getWorld().getMaxY() - robotPosition.getY() < viewDistance &&
+        return distanceToBottomWall(robotPosition) < viewDistance &&
                 isLookingAt(0.5 * Math.PI, angleRadius, viewingAngle);
     }
 
     private boolean isTopWallVisible(Vector robotPosition, double viewingAngle, double angleRadius) {
-        return robotPosition.getY() - collisionRecorder.getWorld().getMinY() < viewDistance &&
+        return distanceToTopWall(robotPosition) < viewDistance &&
                 isLookingAt(1.5 * Math.PI, angleRadius, viewingAngle);
     }
 
     private boolean isRightWallVisible(Vector robotPosition, double viewingAngle, double angleRadius) {
-        return collisionRecorder.getWorld().getMaxX() - robotPosition.getX() < viewDistance &&
+        return distanceToRightWall(robotPosition) < viewDistance &&
                 isLookingAt(0, angleRadius, viewingAngle);
     }
 
     private boolean isLeftWallVisible(Vector robotPosition, double viewingAngle, double angleRadius) {
-        return robotPosition.getX() - collisionRecorder.getWorld().getMinX() < viewDistance &&
+        return distanceToLeftWall(robotPosition) < viewDistance &&
                 isLookingAt(Math.PI, angleRadius, viewingAngle);
     }
 
@@ -144,21 +144,21 @@ class SimSensorController implements ISensorController {
     }
 
     private boolean collidesWithAny(List<SimObstacle> simObstacles) {
-        boolean isColliding = false;
-
         for (SimObstacle simObstacle : simObstacles) {
-            isColliding = isColliding || collidesWith(simObstacle);
+            if (collidesWith(simObstacle)) {
+                return true;
+            }
         }
 
-        return isColliding;
+        return false;
     }
 
     private boolean collidesWith(SimObstacle simObstacle) {
         boolean colliding = collisionDetector.colliding(
-                movementRecorder.getPosition(),
-                simObstacle.getPosition(),
-                collisionRecorder.getSize(),
-                simObstacle.getSize());
+                    movementRecorder.getPosition(),
+                    simObstacle.getPosition(),
+                    collisionRecorder.getSize(),
+                    simObstacle.getSize());
 
         if (!colliding) return false;
 
@@ -170,18 +170,33 @@ class SimSensorController implements ISensorController {
     private boolean collidesWithWall() {
         Vector robotPosition = movementRecorder.getPosition();
         double robotRadius = collisionRecorder.getSize() / 2;
-        SimWorld world = collisionRecorder.getWorld();
 
         boolean colliding =
-                robotPosition.getX() - world.getMinX() <= robotRadius ||
-                world.getMaxX() - robotPosition.getX() <= robotRadius ||
-                robotPosition.getY() - world.getMinY() <= robotRadius ||
-                world.getMaxY() - robotPosition.getY() <= robotRadius;
+                    distanceToBottomWall(robotPosition) <= robotRadius ||
+                    distanceToTopWall(robotPosition) <= robotRadius ||
+                    distanceToRightWall(robotPosition) <= robotRadius ||
+                    distanceToLeftWall(robotPosition) <= robotRadius;
 
         if (!colliding) return false;
 
         collisionRecorder.recordCollision();
 
         return true;
+    }
+
+    private double distanceToBottomWall(Vector robotPosition) {
+        return collisionRecorder.getWorld().getMaxY() - robotPosition.getY();
+    }
+
+    private double distanceToTopWall(Vector robotPosition) {
+        return robotPosition.getY() - collisionRecorder.getWorld().getMinY();
+    }
+
+    private double distanceToRightWall(Vector robotPosition) {
+        return collisionRecorder.getWorld().getMaxX() - robotPosition.getX();
+    }
+
+    private double distanceToLeftWall(Vector robotPosition) {
+        return robotPosition.getX() - collisionRecorder.getWorld().getMinX();
     }
 }

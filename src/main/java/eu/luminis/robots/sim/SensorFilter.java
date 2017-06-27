@@ -20,9 +20,10 @@ class SensorFilter {
         List<SimObstacle> filtered = new ArrayList<>();
 
         for (SimObstacle simObstacle : obstacles) {
-            if (simObstacle.getPosition() == robotPosition) continue;
+            Vector obstaclePosition = simObstacle.getPosition();
+            if (obstaclePosition == robotPosition) continue;
 
-            double d2 = robotPosition.squaredDistance(simObstacle.getPosition());
+            double d2 = robotPosition.squaredDistance(obstaclePosition);
             if (d2 > viewDistanceSquared) continue;
 
             filtered.add(simObstacle);

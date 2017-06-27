@@ -57,7 +57,7 @@ public class SimRobotPopulation {
     }
 
     public void run() {
-        simRobots.forEach(SimObstacle::runCycle);
+        simRobots.parallelStream().forEach(SimObstacle::runCycle);
 
         List<SimRobot> robots = simRobots.stream()
                 .filter(SimObstacle::survives)
