@@ -23,6 +23,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     private double cycleCost = 0;
 
     private boolean isColliding = false;
+    private double travelledDistance = 0;
 
     public SimRobot(Genome genome, SimWorld world, Robot robot, SimLife simLife,
                     SimMovementRecorder simMovementRecorder,
@@ -76,7 +77,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     }
 
     public double getTravelledDistance() {
-        return simMovementRecorder.getTotalDistance();
+        return travelledDistance;
     }
 
     public Vector getTargetObstaclePosition() {
@@ -92,6 +93,7 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
         sensorController.prepareForNearbyObstacles();
         robot.run();
         isColliding = sensorController.isColliding();
+        travelledDistance = simMovementRecorder.getTotalDistance();
 
         cycleCost += costCalculator.cycle();
 
@@ -107,6 +109,6 @@ public class SimRobot extends SimObstacle implements Comparable<SimRobot> {
     }
 
     private double getDistanceReward() {
-        return costCalculator.distanceReward(getTravelledDistance());
+        return costCalculator.distanceReward(travelledDistance);
     }
 }
