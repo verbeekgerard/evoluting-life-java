@@ -21,7 +21,7 @@ class SimSensorController implements ISensorController {
     private final SimCollisionRecorder collisionRecorder;
     private final SimMovementRecorder movementRecorder;
 
-    private List<SimObstacle> nearbySimObstacles;
+    private List<SimObstacle> nearbySimObstacles = new ArrayList<>();
 
     public SimSensorController(SimCollisionRecorder collisionRecorder, SimMovementRecorder movementRecorder, double viewAngle, IAngleRetriever angleRetriever) {
         this.collisionRecorder = collisionRecorder;

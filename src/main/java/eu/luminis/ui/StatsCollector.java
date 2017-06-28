@@ -61,15 +61,17 @@ public class StatsCollector implements Observer {
         double totalAge = 0;
         double totalDistance = 0;
 
-        for (SimRobot robot : population.getAllRobots()) {
+        List<SimRobot> allRobots = population.getAllRobots();
+        for (SimRobot robot : allRobots) {
             totalHealth += robot.health();
             totalAge += robot.getAgeInformation().getAge();
             totalDistance += robot.getTravelledDistance();
         }
 
-        double avgHealth = totalHealth / population.getAllRobots().size();
-        double avgAge = totalAge / population.getAllRobots().size();
-        double avgDistance = totalDistance / population.getAllRobots().size();
+        int populationSize = allRobots.size();
+        double avgHealth = totalHealth / populationSize;
+        double avgAge = totalAge / populationSize;
+        double avgDistance = totalDistance / populationSize;
         double bestFitness = population.getWinningEntity().fitness();
 
         PeriodicStats periodicStats = new PeriodicStats(avgHealth, avgAge, avgDistance, bestFitness);
