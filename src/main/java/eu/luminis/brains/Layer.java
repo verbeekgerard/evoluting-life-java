@@ -17,7 +17,7 @@ class Layer {
         ITransmitter[][] transmitters = new ITransmitter[neurons.length][];
 
         for (int i=0; i<neurons.length; i++) {
-            TransmitResult neuronOutput = neurons[i].transmit();
+            TransmitResult<Axon> neuronOutput = neurons[i].transmit();
             values[i] = neuronOutput.getValue();
             transmitters[i] = neuronOutput.getTransmitters();
         }

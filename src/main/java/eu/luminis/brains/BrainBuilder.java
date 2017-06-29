@@ -4,7 +4,6 @@ import eu.luminis.Options;
 import eu.luminis.genetics.BrainGene;
 import eu.luminis.genetics.NeuronGene;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BrainBuilder {

@@ -2,7 +2,6 @@ package eu.luminis.brains;
 
 import eu.luminis.genetics.NeuronGene;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
