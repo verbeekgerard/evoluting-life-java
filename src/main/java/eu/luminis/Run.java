@@ -4,10 +4,7 @@ import eu.luminis.events.EventBroadcaster;
 import eu.luminis.evolution.CycleCostFactorModifier;
 import eu.luminis.export.StatisticsExporter;
 import eu.luminis.evolution.MutationFractionModifier;
-import eu.luminis.ui.Canvas;
-import eu.luminis.ui.StatsCollector;
-import eu.luminis.ui.MainPanel;
-import eu.luminis.ui.StatsPrinter;
+import eu.luminis.ui.*;
 
 import java.util.Arrays;
 
@@ -36,8 +33,7 @@ public class Run {
 
         initializeMutationFractionModifier(eventBroadcaster);
         initializeCycleCostFactorModifier(simulation, eventBroadcaster);
-        initializeStatsPrinter(simulation, eventBroadcaster);
-        initializeExportInfo(simulation, eventBroadcaster);
+        initializeStatsPrinter(eventBroadcaster);
 
 		simulation.startMainLoop();
 	}
@@ -52,18 +48,15 @@ public class Run {
         eventBroadcaster.addObserver(observer);
     }
 
-    private static void initializeExportInfo(Simulation simulation, EventBroadcaster eventBroadcaster) {
-        StatsCollector statsCollector = createStatsCollectorInstance(simulation, eventBroadcaster);
-        StatisticsExporter.create(statsCollector);
-    }
-
-    private static void initializeStatsPrinter(Simulation simulation, EventBroadcaster eventBroadcaster) {
-        StatsCollector statsCollector = createStatsCollectorInstance(simulation, eventBroadcaster);
+    private static void initializeStatsPrinter(EventBroadcaster eventBroadcaster) {
+        StatsCollector statsCollector = StatsCollectorBuilder.statsCollector()
+                .build();
         eventBroadcaster.addObserver(new StatsPrinter(statsCollector));
     }
 
     private static void initializeMainPanel(Simulation simulation, EventBroadcaster eventBroadcaster) {
-        StatsCollector statsCollector = createStatsCollectorInstance(simulation, eventBroadcaster);
+        StatsCollector statsCollector = StatsCollectorBuilder.statsCollector()
+                .build();
         MainPanel mainPanel = new MainPanel(statsCollector, simulation);
         eventBroadcaster.addObserver(mainPanel);
     }
@@ -72,13 +65,6 @@ public class Run {
         Canvas canvas = new Canvas(simulation.getWorld());
         eventBroadcaster.addObserver(canvas);
     }
-
-	private static StatsCollector createStatsCollectorInstance(Simulation simulation, EventBroadcaster eventBroadcaster) { // TODO: move this to a factory
-		StatsCollector statsCollector = new StatsCollector(simulation.getWorld().getRobotPopulation());
-        eventBroadcaster.addObserver(statsCollector);
-
-		return statsCollector;
-	}
 
     private static boolean getVisible(String[] args){
         return Arrays.asList(args).indexOf("headless") == -1;

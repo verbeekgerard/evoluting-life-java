@@ -69,7 +69,8 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
     public void update(Observable o, Object arg) {
         Event event = (Event) arg;
         if (event.type.equals(EventType.CYCLE_END) && this.isShowing()) {
-            if ((int)event.value % 500 == 0) {
+            int iterationCount = (int)event.value;
+            if (iterationCount > 500 && iterationCount % 500 == 0) {
                 updateStatsLabels();
             }
         }

@@ -33,7 +33,7 @@ public class Simulation {
 		start();
 	}
 
-    SimWorld getWorld() {
+    public SimWorld getWorld() {
         return world;
     }
 

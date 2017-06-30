@@ -2,24 +2,22 @@ package eu.luminis.export;
 
 import eu.luminis.ui.Stats;
 import eu.luminis.ui.StatsCollector;
+import eu.luminis.ui.StatsCollectorBuilder;
 
 public class StatisticsExporter implements IStatisticsExporter {
     private static StatisticsExporter instance;
     private final StatsCollector statsCollector;
 
-    private StatisticsExporter(StatsCollector statsCollector) {
-        this.statsCollector = statsCollector;
-    }
-
-    public static StatisticsExporter create(StatsCollector statsCollector) {
-        if(instance == null) {
-            instance = new StatisticsExporter(statsCollector);
-        }
-
-        return instance;
+    private StatisticsExporter() {
+        this.statsCollector = StatsCollectorBuilder.statsCollector()
+                .build();
     }
 
     public static IStatisticsExporter getInstance(){
+        if(instance == null) {
+            instance = new StatisticsExporter();
+        }
+
         return instance;
     }
 

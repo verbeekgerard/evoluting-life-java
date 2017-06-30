@@ -9,6 +9,7 @@ import java.util.*;
 
 public class StatsCollector implements Observer {
 
+    private boolean deactivated = false;
     private int totalStarved;
     private int totalCollisions;
     private int totalWandered;
@@ -23,6 +24,10 @@ public class StatsCollector implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        if (deactivated) {
+            return;
+        }
+
         Event event = (Event) arg;
 
         if (event.type.equals(EventType.COLLIDE)) {
@@ -53,6 +58,8 @@ public class StatsCollector implements Observer {
         this.totalWandered = 0;
         this.totalDiedOfAge = 0;
 
+        this.deactivated = false;
+
         return stats;
     }
 
@@ -77,5 +84,9 @@ public class StatsCollector implements Observer {
         PeriodicStats periodicStats = new PeriodicStats(avgHealth, avgAge, avgDistance, bestFitness);
 
         periodicStatsList.add(periodicStats);
+
+        if (periodicStatsList.size() > 5000) {
+            deactivated = true;
+        }
     }
 }
