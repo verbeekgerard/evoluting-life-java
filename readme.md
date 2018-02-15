@@ -6,7 +6,7 @@ and few collisions. The application van run as a simulation as well as on a rasp
 To build this application using a Terminal, navigate to the root of this project. Make sure you have 
 installed Maven and type:
 ```bash
-mvn clear package
+mvn clean package
 ```
 ## Running the simulation
 To run this application as a simulation using a Terminal, navigate to the target
