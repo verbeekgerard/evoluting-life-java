@@ -1,33 +1,18 @@
 package eu.luminis.brains;
 
+import org.apache.commons.math3.analysis.function.*;
+import org.apache.commons.math3.linear.*;
+
 class Layer {
+    private final RealMatrix weights;
+    private final RealVector biases;
 
-    private final Neuron[] neurons;
-
-    public Layer(Neuron[] neurons) {
-        this.neurons = neurons;
+    public Layer(RealMatrix weights, RealVector biases) {
+        this.weights = weights;
+        this.biases = biases;
     }
 
-    public Neuron[] getNeurons() {
-        return neurons;
-    }
-
-    public double[] transmit() {
-        double[] values = new double[neurons.length];
-        ITransmitter[][] transmitters = new ITransmitter[neurons.length][];
-
-        for (int i=0; i<neurons.length; i++) {
-            TransmitResult<Axon> neuronOutput = neurons[i].transmit();
-            values[i] = neuronOutput.getValue();
-            transmitters[i] = neuronOutput.getTransmitters();
-        }
-
-        for (int i=0; i<transmitters.length; i++) {
-            for (int j=0; j<transmitters[i].length; j++) {
-                transmitters[i][j].transmit();
-            }
-        }
-
-        return values;
+    public RealVector transmit(RealVector input) {
+        return weights.operate(input).add(biases).map(new Tanh());
     }
 }

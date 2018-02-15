@@ -6,10 +6,8 @@ class Neuron {
     private final double relaxation;
     private double excitation = 0;
 
-    Neuron(double threshold, double relaxation, Axon[] axons) {
-        this.threshold = threshold;
+    Neuron(double relaxation) {
         this.relaxation = relaxation;
-        this.axons = axons;
     }
 
     public TransmitResult<Axon> transmit() {

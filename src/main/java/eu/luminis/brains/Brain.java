@@ -1,5 +1,7 @@
 package eu.luminis.brains;
 
+import org.apache.commons.math3.linear.*;
+
 class Brain implements IBrain {
     private final Layer outputLayer;
     private final Layer[] hiddenLayers;
