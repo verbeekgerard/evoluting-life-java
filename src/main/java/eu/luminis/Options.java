@@ -15,10 +15,10 @@ public final class Options {
     // Evolution
     private final static double defaultMutationFraction = 0.03;
     public final static Option mutationFraction = new Option(defaultMutationFraction);
-    public final static Option minMutationFraction = new Option(0.001);
+    public final static Option minMutationFraction = new Option(0.0001);
     public final static Option maxMutationFraction = new Option(defaultMutationFraction);
-    public final static Option mutationFractionModificationPeriod = new Option(100);
-    public final static Option mutationFractionExponent = new Option(-1.0 / 1000000.0);
+    public final static Option mutationFractionModificationPeriod = new Option(10);
+    public final static Option mutationFractionExponent = new Option(-1.0 / 10000.0);
 
     // Fitness
     public final static Option cycleCostFactor = new Option(25.0);
@@ -87,8 +87,8 @@ public final class Options {
     // BrainGene
     public static boolean brainIsRecurrent = false;
 
-    public final static Option minHiddenLayers = new Option(1);
-    public final static Option maxHiddenLayers = new Option(3);
+    public final static Option minHiddenLayers = new Option(7);
+    public final static Option maxHiddenLayers = new Option(11);
 
     public final static Option neuronMutationRate = new Option(0.5);
     public final static Option neuronReplacementRate = new Option(0.005);
@@ -96,6 +96,7 @@ public final class Options {
     // NeuronGene
     public final static Option minThreshold = new Option(0.1);
     public final static Option maxThreshold = new Option(1.0);
+    public final static Option minRelaxation = new Option(0.5);
     public final static Option maxRelaxation = new Option(0.99);
 
     private final static double neuronMutationRates = defaultMutationRate * 1.0;

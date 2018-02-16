@@ -14,5 +14,5 @@ class NeuronGeneEvolver extends Evolver {
             Options.relaxationMutationRate,
             Options.relaxationReplacementRate,
             Options.mutationFraction,
-            new Range(0, Options.maxRelaxation.get()));
+            new Range(Options.minRelaxation.get(), Options.maxRelaxation.get()));
 }
