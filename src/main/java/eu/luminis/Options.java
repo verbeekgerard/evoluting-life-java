@@ -121,4 +121,14 @@ public final class Options {
     public final static Option strengtheningReplacementRate = new Option(axonReplacementRates);
     public final static Option weakeningMutationRate = new Option(axonMutationRates);
     public final static Option weakeningReplacementRate = new Option(axonReplacementRates);
+
+    // LayerGene
+    public final static Option maxWeight = new Option(1.8);
+    public final static Option maxBias = new Option(18);
+
+    private final static double layerMutationRates = defaultMutationRate * 0.5;
+    public final static Option weightMutationRate = new Option(layerMutationRates);
+    public final static Option weightReplacementRate = new Option(layerMutationRates);
+    public final static Option biasMutationRate = new Option(layerMutationRates);
+    public final static Option biasReplacementRate = new Option(layerMutationRates);
 }

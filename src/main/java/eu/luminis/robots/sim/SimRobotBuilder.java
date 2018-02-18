@@ -1,8 +1,7 @@
 package eu.luminis.robots.sim;
 
 import eu.luminis.Options;
-import eu.luminis.brains.BrainBuilder;
-import eu.luminis.brains.IBrain;
+import eu.luminis.brains.*;
 import eu.luminis.events.EventBroadcaster;
 import eu.luminis.events.EventType;
 import eu.luminis.genetics.Genome;
@@ -87,10 +86,9 @@ public class SimRobotBuilder {
     }
 
     private IBrain initializeBrain(Genome genome) {
-        return BrainBuilder
-                .brain()
-                .withBrainChromosome(genome.getBrain())
-                .build();
+        return NeuralNetworkBuilder.create()
+            .withNeuralNetworkGene(genome.getBrain())
+            .build();
     }
 
     private SimLife initializeSimLife(Genome genome) {

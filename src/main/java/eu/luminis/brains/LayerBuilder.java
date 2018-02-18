@@ -1,72 +1,41 @@
 package eu.luminis.brains;
 
-import eu.luminis.genetics.NeuronGene;
+import eu.luminis.genetics.*;
 
-import java.util.List;
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.function.*;
+import org.apache.commons.math3.linear.*;
 
 /**
  * Builds up a layer of the neural network
  */
 class LayerBuilder {
-    private Layer targetLayer;
-    private List<NeuronGene> layerGenes;
-    private boolean isRecurrent = false;
+    private LayerGene layerGene;
 
     private LayerBuilder() {
     }
 
-    public static LayerBuilder layer() {
+    public static LayerBuilder create() {
         return new LayerBuilder();
     }
 
-    public LayerBuilder withNeuronGenes(List<NeuronGene> layerGenes) {
-        this.layerGenes = layerGenes;
-        return this;
-    }
-
-    public LayerBuilder withTargetLayer(Layer targetLayer) {
-        this.targetLayer = targetLayer;
-        return this;
-    }
-
-    public LayerBuilder withRecurrence(boolean recurrence) {
-        isRecurrent = recurrence;
+    public LayerBuilder withLayerGene(LayerGene layerGene) {
+        this.layerGene = layerGene;
         return this;
     }
 
     public Layer build() {
-        Neuron[] neurons = buildNeuronList();
-        return new Layer(neurons);
+        return buildWithFunction(new Tanh());
     }
 
-    public InputLayer buildAsInput() {
-        Neuron[] neurons = buildNeuronList();
-        return new InputLayer(neurons);
+    public Layer buildAsOutput() {
+        return buildWithFunction(new Sigmoid());
     }
 
-    private Neuron[] buildNeuronList() {
-        Neuron[] neurons = new Neuron[layerGenes.size()];
+    private Layer buildWithFunction(UnivariateFunction function) {
+        RealMatrix weights = new Array2DRowRealMatrix(layerGene.getWeights());
+        RealVector biases = new ArrayRealVector(layerGene.getBiases());
 
-        Neuron[] targetNeurons = targetLayer == null ?
-                null :
-                targetLayer.getNeurons();
-
-        for (int i=0; i<layerGenes.size(); i++) {
-            NeuronBuilder builder = new NeuronBuilder(layerGenes.get(i));
-            Neuron neuron = builder.build(targetNeurons);
-            neurons[i] = neuron;
-        }
-
-        if (!isRecurrent) return neurons;
-
-        int i = 0;
-        for (NeuronGene neuronGene : layerGenes) {
-            NeuronBuilder builder = new NeuronBuilder(neuronGene);
-
-            Neuron neuron = neurons[i++];
-            builder.complement(neuron, neurons);
-        }
-
-        return neurons;
+        return new Layer(weights, biases, function);
     }
 }
