@@ -46,13 +46,13 @@ public class BrainInput {
             new Range(0, 1).random()
         };
 
-        normalizeValues();
+        //normalizeValues();
 
         return values;
     }
 
     private void normalizeValues() {
-        double normalizationFactor = (Options.maxThreshold.get() + Options.minThreshold.get()) / 2;
+        double normalizationFactor = Options.maxBias.get();
 
         for (int i = 0; i < values.length; i++) {
             values[i] *= normalizationFactor;
