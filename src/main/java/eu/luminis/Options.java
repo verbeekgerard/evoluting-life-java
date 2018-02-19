@@ -90,6 +90,9 @@ public final class Options {
     public final static Option minHiddenLayers = new Option(2);
     public final static Option maxHiddenLayers = new Option(5);
 
+    private final static double neuralNetworkMutationRates = defaultMutationRate * 0.5;
+    public final static Option neuralNetworkMutationRate = new Option(neuralNetworkMutationRates);
+
     // LayerGene
     public final static Option maxWeight = new Option(1.8);
     public final static Option maxBias = new Option(4);

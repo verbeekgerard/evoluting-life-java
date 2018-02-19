@@ -1,5 +1,6 @@
 package eu.luminis.genetics;
 
+import eu.luminis.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,14 @@ public class NeuralNetworkGene {
     public void mutate() {
         for (LayerGene layer : layers) {
             layer.mutate();
+        }
+
+        if (Math.random() < Options.neuralNetworkMutationRate.get()) {
+            int outputSize = layers.get(layers.size()-1).getBiases().length;
+            LayerGene newLAyer = LayerGeneBuilder.create()
+                .withSize(outputSize)
+                .build();
+            layers.add(newLAyer);
         }
     }
 
