@@ -23,11 +23,12 @@ public class NeuralNetworkGene {
         }
 
         if (Math.random() < Options.neuralNetworkMutationRate.get()) {
-            int outputSize = layers.get(layers.size()-1).getBiases().length;
+            int newIndex = (int)Math.floor(layers.size() * Math.random());
+            int size = layers.get(newIndex).getColumns();
             LayerGene newLAyer = LayerGeneBuilder.create()
-                .withSize(outputSize)
+                .withSize(size)
                 .build();
-            layers.add(newLAyer);
+            layers.add(newIndex, newLAyer);
         }
     }
 
