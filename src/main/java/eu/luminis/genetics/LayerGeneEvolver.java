@@ -14,5 +14,5 @@ class LayerGeneEvolver extends Evolver {
             Options.biasMutationRate,
             Options.biasReplacementRate,
             Options.mutationFraction,
-            new Range(Options.maxBias.get(), Options.maxBias.get()));
+            new Range(-1 * Options.maxBias.get(), Options.maxBias.get()));
 }

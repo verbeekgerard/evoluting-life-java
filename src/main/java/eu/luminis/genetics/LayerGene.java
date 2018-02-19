@@ -57,8 +57,8 @@ public class LayerGene extends Gene {
     }
 
     public LayerGene[] mate(LayerGene partner) {
-        rowDelta = partner.getRows() > this.getRows() ? partner.getRows() - this.getRows() : 0;
-        columnDelta = partner.getColumns() > this.getColumns() ? partner.getColumns() - this.getColumns() : 0;
+        this.setSizeDeltas(partner.getRows(), partner.getColumns());
+        partner.setSizeDeltas(this.getRows(), this.getColumns());
 
         return evolver.mate(this, partner);
     }
@@ -127,5 +127,10 @@ public class LayerGene extends Gene {
     @Override
     public LayerGene[] newArray(int size) {
         return new LayerGene[size];
+    }
+
+    private void setSizeDeltas(int partnerRows, int partnerColumns) {
+        rowDelta = partnerRows > this.getRows() ? partnerRows - this.getRows() : 0;
+        columnDelta = partnerColumns > this.getColumns() ? partnerColumns - this.getColumns() : 0;
     }
 }

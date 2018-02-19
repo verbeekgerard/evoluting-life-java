@@ -39,29 +39,31 @@ class NeuralNetworkGeneBuilder {
     }
 
     private int[] generateLayerSizes() {
-        int[] layerSizes = new int[generateDepth()];
+        int depth = generateDepth();
+        int[] layerSizes = new int[depth];
         int minSize = Math.min(this.inputSize, this.outputSize);
         int maxSize = Math.max(this.inputSize, this.outputSize) + 2;
 
-        for (int i=0; i<layerSizes.length; i++) {
+        for (int i=0; i<depth; i++) {
             layerSizes[i] = (int) Math.floor(new Range(minSize, maxSize).random());
         }
+
         return layerSizes;
     }
 
     private LayerGene createInputLayer(int[] layerSizes) {
-        return new LayerGene(layerSizes[1], layerSizes[0]);
+        return new LayerGene(layerSizes[0], this.inputSize);
     }
 
     private LayerGene createOutputLayer(int[] layerSizes) {
-        return new LayerGene(layerSizes[layerSizes.length-1], layerSizes[layerSizes.length-2]);
+        return new LayerGene(this.outputSize, layerSizes[layerSizes.length-1]);
     }
 
     private List<LayerGene> createHiddenLayers(int[] layerSizes) {
         List<LayerGene> layers = new ArrayList<>();
 
-        for (int i = 0; i < layerSizes.length-2; i++) {
-            LayerGene layer = new LayerGene(layerSizes[i+2], layerSizes[i+1]);
+        for (int i = 0; i < layerSizes.length-1; i++) {
+            LayerGene layer = new LayerGene(layerSizes[i+1], layerSizes[i]);
             layers.add(layer);
         }
 
@@ -69,6 +71,6 @@ class NeuralNetworkGeneBuilder {
     }
 
     private int generateDepth() {
-        return 1 + (int)Math.floor(new Range(Options.minHiddenLayers.get(), Options.maxHiddenLayers.get()).random());
+        return (int)Math.floor(new Range(Options.minHiddenLayers.get(), Options.maxHiddenLayers.get()).random());
     }
 }
