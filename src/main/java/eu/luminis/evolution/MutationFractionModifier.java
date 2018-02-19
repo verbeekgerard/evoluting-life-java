@@ -5,8 +5,7 @@ import eu.luminis.events.Event;
 import eu.luminis.events.EventType;
 import eu.luminis.util.Range;
 
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 public class MutationFractionModifier implements Observer {
     private static final Range mutationRange = new Range(Options.minMutationFraction.get(), Options.maxMutationFraction.get());

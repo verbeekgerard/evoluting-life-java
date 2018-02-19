@@ -2,7 +2,6 @@ package eu.luminis;
 
 import eu.luminis.events.EventBroadcaster;
 import eu.luminis.evolution.CycleCostFactorModifier;
-import eu.luminis.export.StatisticsExporter;
 import eu.luminis.evolution.MutationFractionModifier;
 import eu.luminis.ui.*;
 

@@ -7,8 +7,7 @@ import eu.luminis.robots.sim.IAgeRetriever;
 import eu.luminis.robots.sim.SimRobotPopulation;
 import eu.luminis.util.Option;
 
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 public class CycleCostFactorModifier implements Observer {
     private static final Option cycleCostFactor = Options.cycleCostFactor;

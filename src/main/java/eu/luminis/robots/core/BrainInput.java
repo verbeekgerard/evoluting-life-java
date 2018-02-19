@@ -3,9 +3,6 @@ package eu.luminis.robots.core;
 import eu.luminis.Options;
 import eu.luminis.util.Range;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class BrainInput {
     public static int getNodesCount() {
         return 8;
