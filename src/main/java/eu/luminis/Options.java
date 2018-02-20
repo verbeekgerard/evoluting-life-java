@@ -96,6 +96,7 @@ public final class Options {
     // LayerGene
     public final static Option maxWeight = new Option(1.8);
     public final static Option maxBias = new Option(4);
+    public final static Option maxStateWeight = new Option(0.1);
 
     private final static double layerMutationRates = defaultMutationRate * 0.5;
     private final static double layerReplacementRates = defaultReplacementRate * 0.5;

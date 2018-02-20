@@ -20,5 +20,5 @@ class LayerGeneEvolver extends Evolver {
             Options.stateWeightMutationRate,
             Options.stateWeightReplacementRate,
             Options.mutationFraction,
-            new Range(-1 * Options.maxWeight.get(), Options.maxWeight.get()));
+            new Range(-1 * Options.maxStateWeight.get(), Options.maxStateWeight.get()));
     }
