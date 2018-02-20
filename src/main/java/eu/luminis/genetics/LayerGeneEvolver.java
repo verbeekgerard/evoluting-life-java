@@ -15,4 +15,10 @@ class LayerGeneEvolver extends Evolver {
             Options.biasReplacementRate,
             Options.mutationFraction,
             new Range(-1 * Options.maxBias.get(), Options.maxBias.get()));
-}
+
+        public final EvolvingValue StateWeight = new EvolvingValue(
+            Options.stateWeightMutationRate,
+            Options.stateWeightReplacementRate,
+            Options.mutationFraction,
+            new Range(-1 * Options.maxWeight.get(), Options.maxWeight.get()));
+    }

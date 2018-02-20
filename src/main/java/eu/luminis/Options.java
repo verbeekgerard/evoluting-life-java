@@ -103,4 +103,6 @@ public final class Options {
     public final static Option weightReplacementRate = new Option(layerReplacementRates);
     public final static Option biasMutationRate = new Option(layerMutationRates);
     public final static Option biasReplacementRate = new Option(layerReplacementRates);
+    public final static Option stateWeightMutationRate = new Option(layerMutationRates);
+    public final static Option stateWeightReplacementRate = new Option(layerReplacementRates);
 }
