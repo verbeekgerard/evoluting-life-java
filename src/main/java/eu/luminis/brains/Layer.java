@@ -27,8 +27,8 @@ class Layer {
 
     public RealVector transmit(RealVector input) {
         RealVector recurrentState = stateWeights.operate(state);
-        state = weights.operate(input).add(biases).add(recurrentState);
+        state = weights.operate(input).add(biases).add(recurrentState).map(activation);
         
-        return state.map(activation);
+        return state;
     }
 }
