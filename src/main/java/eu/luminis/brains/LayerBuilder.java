@@ -35,7 +35,7 @@ class LayerBuilder {
     private Layer buildWithFunction(UnivariateFunction function) {
         RealMatrix weights = new Array2DRowRealMatrix(layerGene.getWeights());
         RealVector biases = new ArrayRealVector(layerGene.getBiases());
-        RealVector stateWeights = new ArrayRealVector(layerGene.getStateWeights());
+        RealMatrix stateWeights = new Array2DRowRealMatrix(layerGene.getStateWeights());
 
         return new Layer(weights, biases, stateWeights, function);
     }
