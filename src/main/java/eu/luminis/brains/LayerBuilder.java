@@ -36,7 +36,8 @@ class LayerBuilder {
         RealMatrix weights = new Array2DRowRealMatrix(layerGene.getWeights());
         RealVector biases = new ArrayRealVector(layerGene.getBiases());
         RealMatrix stateWeights = new Array2DRowRealMatrix(layerGene.getStateWeights());
+        RealVector gains = new ArrayRealVector(layerGene.getGains());
 
-        return new Layer(weights, biases, stateWeights, function);
+        return new Layer(weights, biases, stateWeights, gains, function);
     }
 }

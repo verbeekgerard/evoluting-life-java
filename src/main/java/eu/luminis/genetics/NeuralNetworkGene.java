@@ -14,7 +14,8 @@ public class NeuralNetworkGene {
                 new LayerGene(
                     stateLayer.getWeights().clone(),
                     stateLayer.getBiases().clone(),
-                    stateLayer.getStateWeights().clone()));
+                    stateLayer.getStateWeights().clone(),
+                    stateLayer.getGains().clone()));
         }
     }
 
@@ -54,7 +55,8 @@ public class NeuralNetworkGene {
                 new LayerGene(
                     layer.getWeights().clone(), 
                     layer.getBiases().clone(),
-                    layer.getStateWeights().clone()));
+                    layer.getStateWeights().clone(),
+                    layer.getGains().clone()));
         }
 
         return children;

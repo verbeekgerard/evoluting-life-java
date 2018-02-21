@@ -6,6 +6,7 @@ public class LayerGene extends Gene {
     private double[][] weights;
     private double[] biases;
     private double[][] stateWeights;
+    private double[] gains;
 
     private int rowDelta;
     private int columnDelta;
@@ -14,9 +15,11 @@ public class LayerGene extends Gene {
         weights = new double[rows][columns];
         biases = new double[rows];
         stateWeights = new double[rows][rows];
+        gains = new double[rows];
         
         for (int i = 0; i < rows; i++) {
             biases[i] = evolver.Bias.getNewValue();
+            gains[i] = evolver.Gain.getNewValue();
 
             for (int j = 0; j < columns; j++) {
                 weights[i][j] = evolver.Weight.getNewValue();
@@ -27,10 +30,11 @@ public class LayerGene extends Gene {
         }
     }
 
-    public LayerGene(double[][] weights, double[] biases, double[][] stateWeights) {
+    public LayerGene(double[][] weights, double[] biases, double[][] stateWeights, double[] gains) {
         this.weights = weights;
         this.biases = biases;
         this.stateWeights = stateWeights;
+        this.gains = gains;
     }
 
     public double[][] getWeights() {
@@ -42,11 +46,19 @@ public class LayerGene extends Gene {
     }
 
     public double[][] getStateWeights() {
-        if (this.stateWeights == null) {
+        if (stateWeights == null) {
             stateWeights = new double[biases.length][biases.length];
         }
         
         return stateWeights;
+    }
+
+    public double[] getGains() {
+        if (gains == null) {
+            gains = new double[biases.length];
+        }
+        
+        return this.gains;
     }
 
     public int getRows() {
@@ -60,6 +72,7 @@ public class LayerGene extends Gene {
     public void mutate() {
         for (int i = 0; i < this.getRows(); i++) {
             biases[i] = evolver.Bias.mutateValue(biases[i]);
+            gains[i] = evolver.Gain.mutateValue(gains[i]);
 
             for (int j = 0; j < this.getColumns(); j++) {
                 weights[i][j] = evolver.Weight.mutateValue(weights[i][j]);
@@ -82,7 +95,7 @@ public class LayerGene extends Gene {
         int initiateRows = this.getRows() + rowDelta;
         int initiateColumns = this.getColumns() + columnDelta;
         
-        double[] initiateProperties = new double[initiateRows * (initiateColumns + 1 + initiateRows)];
+        double[] initiateProperties = new double[initiateRows * (initiateColumns + 1 + initiateRows + 1)];
 
         int k=0;
         for (int i = 0; i < this.getRows(); i++) {
@@ -104,6 +117,12 @@ public class LayerGene extends Gene {
             }
             k += rowDelta; // Fill up
         }
+        k += rowDelta * (this.getRows() + rowDelta); // Fill up
+
+        for (int i = 0; i < this.getRows(); i++) {
+            initiateProperties[k++] = gains[i];
+        }
+        k += rowDelta; // Fill up
 
         return initiateProperties;
     }
@@ -134,8 +153,15 @@ public class LayerGene extends Gene {
             }
             k += rowDelta; // Skip filler
         }
+        k += rowDelta * (this.getRows() + rowDelta); // Skip filler
 
-        return new LayerGene(initiateWeights, initiateBiases, initiateStateWeights);
+        double[] initiateGains = new double[this.getRows()];
+        for (int i = 0; i < this.getRows(); i++) {
+            initiateGains[i] = properties[k++];
+        }
+        k += rowDelta; // Skip filler
+
+        return new LayerGene(initiateWeights, initiateBiases, initiateStateWeights, initiateGains);
     }
 
     @Override

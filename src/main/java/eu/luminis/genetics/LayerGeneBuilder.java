@@ -29,7 +29,8 @@ class LayerGeneBuilder {
         RealMatrix matrix = MatrixUtils.createRealIdentityMatrix(size).scalarMultiply(multiplier);
         RealVector biases = new ArrayRealVector(size);
         RealMatrix stateWeights = MatrixUtils.createRealMatrix(size, size);
+        RealVector gains = new ArrayRealVector(size);
         
-        return new LayerGene(matrix.getData(), biases.toArray(), stateWeights.getData());
+        return new LayerGene(matrix.getData(), biases.toArray(), stateWeights.getData(), gains.toArray());
     }
 }
