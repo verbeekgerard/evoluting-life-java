@@ -46,19 +46,11 @@ public class LayerGene extends Gene {
     }
 
     public double[][] getStateWeights() {
-        if (stateWeights == null) {
-            stateWeights = new double[biases.length][biases.length];
-        }
-        
         return stateWeights;
     }
 
     public double[] getGains() {
-        if (gains == null) {
-            gains = new double[biases.length];
-        }
-        
-        return this.gains;
+        return gains;
     }
 
     public int getRows() {
