@@ -32,9 +32,7 @@ class Layer {
         RealVector recurrentState = stateWeights.operate(state);
         RealVector summedInput = weights.operate(input).add(recurrentState);
 
-        state = normalize(summedInput).map(activation);
-        
-        return state;
+        return state = normalize(summedInput).map(activation);
     }
 
     private RealVector normalize(RealVector samples) {
@@ -46,13 +44,11 @@ class Layer {
         return gains.mapDivide(s).ebeMultiply(samplesCentered).add(biases);
     }
 
-    private double sigma(RealVector samples, double mean)
-    {
+    private double sigma(RealVector samples, double mean) {
         return Math.sqrt(StatUtils.populationVariance(samples.toArray(), mean));
     }
 
-    private double mean(RealVector samples)
-    {
+    private double mean(RealVector samples) {
         return StatUtils.mean(samples.toArray());
     }
 }

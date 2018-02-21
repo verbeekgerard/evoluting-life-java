@@ -90,31 +90,10 @@ public class LayerGene extends Gene {
         double[] initiateProperties = new double[initiateRows * (initiateColumns + 1 + initiateRows + 1)];
 
         int k=0;
-        for (int i = 0; i < this.getRows(); i++) {
-            for (int j = 0; j < this.getColumns(); j++) {
-                initiateProperties[k++] = weights[i][j];
-            }
-            k += columnDelta; // Fill up
-        }
-        k += rowDelta * (this.getColumns() + columnDelta); // Fill up
-
-        for (int i = 0; i < this.getRows(); i++) {
-            initiateProperties[k++] = biases[i];
-        }
-        k += rowDelta; // Fill up
-
-        for (int i = 0; i < this.getRows(); i++) {
-            for (int j = 0; j < this.getRows(); j++) {
-                initiateProperties[k++] = stateWeights[i][j];
-            }
-            k += rowDelta; // Fill up
-        }
-        k += rowDelta * (this.getRows() + rowDelta); // Fill up
-
-        for (int i = 0; i < this.getRows(); i++) {
-            initiateProperties[k++] = gains[i];
-        }
-        k += rowDelta; // Fill up
+        k = initiateProperties(k, initiateProperties, weights, rowDelta, columnDelta);
+        k = initiateProperties(k, initiateProperties, biases, rowDelta);
+        k = initiateProperties(k, initiateProperties, stateWeights, rowDelta, rowDelta);
+        k = initiateProperties(k, initiateProperties, gains, rowDelta);
 
         return initiateProperties;
     }
@@ -124,34 +103,16 @@ public class LayerGene extends Gene {
         int k=0;
 
         double[][] initiateWeights = new double[this.getRows()][this.getColumns()];
-        for (int i = 0; i < this.getRows(); i++) {
-            for (int j = 0; j < this.getColumns(); j++) {
-                initiateWeights[i][j] = properties[k++];
-            }
-            k += columnDelta; // Skip filler
-        }
-        k += rowDelta * (this.getColumns() + columnDelta); // Skip filler
+        k = initiate(k, properties, initiateWeights, rowDelta, columnDelta);
 
         double[] initiateBiases = new double[this.getRows()];
-        for (int i = 0; i < this.getRows(); i++) {
-            initiateBiases[i] = properties[k++];
-        }
-        k += rowDelta; // Skip filler
+        k = initiate(k, properties, initiateBiases, rowDelta);
 
         double[][] initiateStateWeights = new double[this.getRows()][this.getRows()];
-        for (int i = 0; i < this.getRows(); i++) {
-            for (int j = 0; j < this.getRows(); j++) {
-                initiateStateWeights[i][j] = properties[k++];
-            }
-            k += rowDelta; // Skip filler
-        }
-        k += rowDelta * (this.getRows() + rowDelta); // Skip filler
+        k = initiate(k, properties, initiateStateWeights, rowDelta, rowDelta);
 
         double[] initiateGains = new double[this.getRows()];
-        for (int i = 0; i < this.getRows(); i++) {
-            initiateGains[i] = properties[k++];
-        }
-        k += rowDelta; // Skip filler
+        k = initiate(k, properties, initiateGains, rowDelta);
 
         return new LayerGene(initiateWeights, initiateBiases, initiateStateWeights, initiateGains);
     }
@@ -165,4 +126,52 @@ public class LayerGene extends Gene {
         rowDelta = partnerRows > this.getRows() ? partnerRows - this.getRows() : 0;
         columnDelta = partnerColumns > this.getColumns() ? partnerColumns - this.getColumns() : 0;
     }
-}
+
+    private static int initiateProperties(int k, double[] initiateProperties, double[] vector, int rowsDelta) {
+            for (int i = 0; i < vector.length; i++) {
+                initiateProperties[k++] = vector[i];
+            }
+            k += rowsDelta; // Fill up
+
+            return k;
+    }
+
+    private static int initiateProperties(
+        int k, double[] initiateProperties, double[][] matrix,
+        int rowsDelta, int columnsDelta) {
+            int columns = matrix[0].length;
+            for (int i = 0; i < matrix.length; i++) {
+                for (int j = 0; j < columns; j++) {
+                    initiateProperties[k++] = matrix[i][j];
+                }
+                k += columnsDelta; // Fill up
+            }
+            k += rowsDelta * (columns + columnsDelta); // Fill up
+
+            return k;
+        }
+
+        private static int initiate(int k, double[] properties, double[] vector, int rowsDelta) {
+                for (int i = 0; i < vector.length; i++) {
+                    vector[i] = properties[k++];
+                }
+                k += rowsDelta; // Skip filler
+
+                return k;
+        }
+    
+        private static int initiate(
+            int k, double[] properties, double[][] matrix,
+            int rowsDelta, int columnsDelta) {
+                int columns = matrix[0].length;
+                for (int i = 0; i < matrix.length; i++) {
+                    for (int j = 0; j < columns; j++) {
+                        matrix[i][j] = properties[k++];
+                    }
+                    k += columnsDelta; // Skip filler
+                }
+                k += rowsDelta * (columns + columnsDelta); // Skip filler
+                    
+                return k;
+            }
+        }
