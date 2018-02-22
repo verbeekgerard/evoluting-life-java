@@ -94,9 +94,9 @@ public final class Options {
     public final static Option neuralNetworkMutationRate = new Option(neuralNetworkMutationRates);
 
     // LayerGene
-    public final static Option maxWeight = new Option(0.1);
-    public final static Option maxBias = new Option(0.1);
-    public final static Option maxGain = new Option(0.1);
+    public final static Option maxWeight = new Option(0.5);
+    public final static Option maxBias = new Option(0.5);
+    public final static Option maxGain = new Option(1.0);
     public final static Option maxStateWeight = new Option(0.1);
 
     private final static double layerMutationRates = defaultMutationRate;
@@ -108,6 +108,6 @@ public final class Options {
     public final static Option biasReplacementRate = new Option(layerReplacementRates);
     public final static Option stateWeightMutationRate = new Option(layerMutationRates);
     public final static Option stateWeightReplacementRate = new Option(layerReplacementRates);
-    public final static Option gainMutationRate = new Option(layerMutationRates);
-    public final static Option gainReplacementRate = new Option(layerReplacementRates);
+    public final static Option gainMutationRate = new Option(layerMutationRates * 0.1);
+    public final static Option gainReplacementRate = new Option(layerReplacementRates * 0.1);
 }

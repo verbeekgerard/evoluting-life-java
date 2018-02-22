@@ -30,8 +30,10 @@ class Layer {
 
     public RealVector transmit(RealVector input) {
         RealVector recurrentState = stateWeights.operate(state);
+        //RealVector summedInput = weights.operate(input).add(biases).add(recurrentState);
         RealVector summedInput = weights.operate(input).add(recurrentState);
 
+        //return state = summedInput.map(activation);
         return state = normalize(summedInput).map(activation);
     }
 
