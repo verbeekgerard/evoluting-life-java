@@ -1,8 +1,7 @@
 package eu.luminis;
 
 import eu.luminis.events.EventBroadcaster;
-import eu.luminis.evolution.CycleCostFactorModifier;
-import eu.luminis.evolution.MutationFractionModifier;
+import eu.luminis.evolution.*;
 import eu.luminis.ui.*;
 
 import java.util.Arrays;
@@ -32,6 +31,7 @@ public class Run {
 
         initializeMutationFractionModifier(eventBroadcaster);
         initializeCycleCostFactorModifier(simulation, eventBroadcaster);
+        initializeCollideCostFactorModifier(simulation, eventBroadcaster);
         initializeStatsPrinter(eventBroadcaster);
 
 		simulation.startMainLoop();
@@ -44,6 +44,11 @@ public class Run {
 
     private static void initializeCycleCostFactorModifier(Simulation simulation, EventBroadcaster eventBroadcaster) {
         CycleCostFactorModifier observer = new CycleCostFactorModifier(simulation.getWorld().getRobotPopulation());
+        eventBroadcaster.addObserver(observer);
+    }
+
+    private static void initializeCollideCostFactorModifier(Simulation simulation, EventBroadcaster eventBroadcaster) {
+        CollideCostFactorModifier observer = new CollideCostFactorModifier(simulation.getWorld().getRobotPopulation());
         eventBroadcaster.addObserver(observer);
     }
 

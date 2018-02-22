@@ -31,6 +31,7 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
     private JLabel avgAgeLbl;
     private JLabel avgDistanceLbl;
     private JLabel cycleCostLbl;
+    private JLabel collideCostLbl;
     private JLabel cycleTimeLbl;
 
     private long startTime = System.nanoTime();
@@ -47,23 +48,27 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
 	    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 	    frame.add(this);
-	    frame.setSize(300, 380);
+	    frame.setSize(310, 370);
 	    frame.setVisible(true);
 	    frame.setResizable(false);
 
         JPanel delayPanel = setupDelaySlider();
         JPanel statsPanel = setupStatisticsPanel();
         JPanel actionsPanel = setupActionsPanel();
+        JPanel optionsPanel = setupOptionsPanel();
 
-        actionsPanel.setBounds(0, 0, 300, 100);
+        actionsPanel.setBounds(5, 0, 300, 90);
         add(actionsPanel);
 
-        statsPanel.setBounds(0, 100, 300, 140);
+        statsPanel.setBounds(5, 90, 300, 110);
         add(statsPanel);
 
-        delayPanel.setBounds(0, 240, 300, 100);
+        delayPanel.setBounds(5, 200, 300, 80);
         add(delayPanel);
-	}
+
+        optionsPanel.setBounds(5, 280, 300, 60);
+        add(optionsPanel);
+    }
 
     @Override
     public void update(Observable o, Object arg) {
@@ -72,6 +77,7 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
             int iterationCount = (int)event.value;
             if (iterationCount > 500 && iterationCount % 500 == 0) {
                 updateStatsLabels();
+                updateOptionsLabels();
             }
         }
     }
@@ -118,9 +124,6 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
         avgDistanceLbl = new JLabel("", JLabel.LEFT);
         statsPanel.add(avgDistanceLbl);
 
-        cycleCostLbl = new JLabel("", JLabel.LEFT);
-        statsPanel.add(cycleCostLbl);
-
         cycleTimeLbl = new JLabel("", JLabel.LEFT);
         statsPanel.add(cycleTimeLbl);
 
@@ -147,6 +150,20 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
         return delayPanel;
     }
 
+    private JPanel setupOptionsPanel() {
+        JPanel statsPanel = new JPanel();
+        statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.PAGE_AXIS));
+        statsPanel.setBorder(BorderFactory.createTitledBorder("Options"));
+
+        cycleCostLbl = new JLabel("", JLabel.LEFT);
+        statsPanel.add(cycleCostLbl);
+
+        collideCostLbl = new JLabel("", JLabel.LEFT);
+        statsPanel.add(collideCostLbl);
+
+        return statsPanel;
+    }
+
     private void updateStatsLabels() {
         Stats stats = this.statsCollector.getStats();
         if(stats == null) {
@@ -158,8 +175,14 @@ public class MainPanel extends JPanel implements ChangeListener, Observer {
         avgAgeLbl.setText("Avg age: " + decimalFormat.format(stats.getAverageAge()));
         avgDistanceLbl.setText("Avg distance: " + decimalFormat.format(stats.getAverageDistance()));
         cycleCostLbl.setText("Cycle cost: " + decimalFormat.format(Options.cycleCostFactor.get()));
+        collideCostLbl.setText("Collide cost: " + numberFormat.format(Options.collideCostFactor.get()));
         cycleTimeLbl.setText("Cycle time: " + numberFormat.format(System.nanoTime() - startTime));
 
         startTime = System.nanoTime();
+    }
+
+    private void updateOptionsLabels() {
+        cycleCostLbl.setText("Cycle cost: " + decimalFormat.format(Options.cycleCostFactor.get()));
+        collideCostLbl.setText("Collide cost: " + numberFormat.format(Options.collideCostFactor.get()));
     }
 }
