@@ -6,7 +6,7 @@
 
     <groupId>eu.luminis</groupId>
     <artifactId>evoluting-life-java</artifactId>
-    <version>3.2.0</version>
+    <version>4.3.3</version>
     <packaging>jar</packaging>
 
     <name>EvolutingLife</name>
@@ -42,6 +42,12 @@
             <groupId>com.pi4j</groupId>
             <artifactId>pi4j-core</artifactId>
             <version>1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>3.0</version>
         </dependency>
 
     </dependencies>

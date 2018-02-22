@@ -1,33 +1,56 @@
 package eu.luminis.brains;
 
+import org.apache.commons.math3.analysis.*;
+import org.apache.commons.math3.analysis.function.*;
+import org.apache.commons.math3.linear.*;
+import org.apache.commons.math3.stat.*;
+
 class Layer {
+    private final RealMatrix weights;
+    private final RealVector biases;
+    private final RealMatrix stateWeights;
+    private final RealVector gains;
+    private final UnivariateFunction activation;
 
-    private final Neuron[] neurons;
+    private RealVector state;
 
-    public Layer(Neuron[] neurons) {
-        this.neurons = neurons;
+    public Layer(RealMatrix weights, RealVector biases, RealMatrix stateWeights, RealVector gains) {
+        this(weights, biases, stateWeights, gains, new Tanh());
     }
 
-    public Neuron[] getNeurons() {
-        return neurons;
+    public Layer(RealMatrix weights, RealVector biases, RealMatrix stateWeights, RealVector gains, UnivariateFunction activation) {
+        this.weights = weights;
+        this.biases = biases;
+        this.stateWeights = stateWeights;
+        this.gains = gains;
+        this.activation = activation;
+
+        this.state = new ArrayRealVector(biases.getDimension());
     }
 
-    public double[] transmit() {
-        double[] values = new double[neurons.length];
-        ITransmitter[][] transmitters = new ITransmitter[neurons.length][];
+    public RealVector transmit(RealVector input) {
+        RealVector recurrentState = stateWeights.operate(state);
+        //RealVector summedInput = weights.operate(input).add(biases).add(recurrentState);
+        RealVector summedInput = weights.operate(input).add(recurrentState);
 
-        for (int i=0; i<neurons.length; i++) {
-            TransmitResult<Axon> neuronOutput = neurons[i].transmit();
-            values[i] = neuronOutput.getValue();
-            transmitters[i] = neuronOutput.getTransmitters();
-        }
+        //return state = summedInput.map(activation);
+        return state = normalize(summedInput).map(activation);
+    }
 
-        for (int i=0; i<transmitters.length; i++) {
-            for (int j=0; j<transmitters[i].length; j++) {
-                transmitters[i][j].transmit();
-            }
-        }
+    private RealVector normalize(RealVector samples) {
+        double mu = mean(samples);
+        double s = sigma(samples, mu);
 
-        return values;
+        RealVector samplesCentered = samples.mapSubtract(mu);
+
+        return gains.mapDivide(s).ebeMultiply(samplesCentered).add(biases);
+    }
+
+    private double sigma(RealVector samples, double mean) {
+        return Math.sqrt(StatUtils.populationVariance(samples.toArray(), mean));
+    }
+
+    private double mean(RealVector samples) {
+        return StatUtils.mean(samples.toArray());
     }
 }

@@ -23,7 +23,7 @@ public final class Options {
     // Fitness
     public final static Option cycleCostFactor = new Option(25.0);
     public final static Option distanceRewardFactor = new Option(50.0);
-    public final static Option collideCostFactor = new Option(200000.0);
+    public final static Option collideCostFactor = new Option(20000.0);
     public final static Option linearAccelerationCostFactor = new Option(0.1);
     public final static Option angularAccelerationCostFactor = new Option(1.0);
 
@@ -87,38 +87,27 @@ public final class Options {
     // BrainGene
     public static boolean brainIsRecurrent = false;
 
-    public final static Option minHiddenLayers = new Option(7);
-    public final static Option maxHiddenLayers = new Option(11);
+    public final static Option minHiddenLayers = new Option(2);
+    public final static Option maxHiddenLayers = new Option(5);
 
-    public final static Option neuronMutationRate = new Option(0.5);
-    public final static Option neuronReplacementRate = new Option(0.005);
+    private final static double neuralNetworkMutationRates = defaultMutationRate * 0.1;
+    public final static Option neuralNetworkMutationRate = new Option(neuralNetworkMutationRates);
 
-    // NeuronGene
-    public final static Option minThreshold = new Option(0.1);
-    public final static Option maxThreshold = new Option(1.0);
-    public final static Option minRelaxation = new Option(0.5);
-    public final static Option maxRelaxation = new Option(0.99);
+    // LayerGene
+    public final static Option maxWeight = new Option(0.5);
+    public final static Option maxBias = new Option(0.5);
+    public final static Option maxGain = new Option(1.0);
+    public final static Option maxStateWeight = new Option(0.1);
 
-    private final static double neuronMutationRates = defaultMutationRate * 1.0;
-    private final static double neuronReplacementRates = defaultReplacementRate * 1.0;
-    public final static Option thresholdMutationRate = new Option(neuronMutationRates);
-    public final static Option thresholdReplacementRate = new Option(neuronReplacementRates);
-    public final static Option relaxationMutationRate = new Option(neuronMutationRates);
-    public final static Option relaxationReplacementRate = new Option(neuronReplacementRates);
+    private final static double layerMutationRates = defaultMutationRate;
+    private final static double layerReplacementRates = defaultReplacementRate;
 
-    // AxonGene
-    public final static Option maxStrength = new Option(0.8);
-    public final static Option minStrengthening = new Option(0.000001);
-    public final static Option maxStrengthening = new Option(0.00002);
-    public final static Option minWeakening = new Option(0.000001);
-    public final static Option maxWeakening = new Option(0.000005);
-
-    private final static double axonMutationRates = defaultMutationRate * 0.5;
-    private final static double axonReplacementRates = defaultReplacementRate * 0.5;
-    public final static Option strengthMutationRate = new Option(axonMutationRates);
-    public final static Option strengthReplacementRate = new Option(axonReplacementRates);
-    public final static Option strengtheningMutationRate = new Option(axonMutationRates);
-    public final static Option strengtheningReplacementRate = new Option(axonReplacementRates);
-    public final static Option weakeningMutationRate = new Option(axonMutationRates);
-    public final static Option weakeningReplacementRate = new Option(axonReplacementRates);
+    public final static Option weightMutationRate = new Option(layerMutationRates);
+    public final static Option weightReplacementRate = new Option(layerReplacementRates);
+    public final static Option biasMutationRate = new Option(layerMutationRates);
+    public final static Option biasReplacementRate = new Option(layerReplacementRates);
+    public final static Option stateWeightMutationRate = new Option(layerMutationRates);
+    public final static Option stateWeightReplacementRate = new Option(layerReplacementRates);
+    public final static Option gainMutationRate = new Option(layerMutationRates * 0.1);
+    public final static Option gainReplacementRate = new Option(layerReplacementRates * 0.1);
 }

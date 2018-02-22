@@ -5,20 +5,23 @@ import java.util.List;
 
 public class Genome {
 
-	private final BrainGene brain;
+	private final NeuralNetworkGene brain;
 	private final LifeGene life;
 	private final SensorGene sensor;
 	private final MovementGene movement;
 	
 	public Genome(int inputCount, int outputCount){
-		this.brain = new BrainGeneBuilder(inputCount, outputCount).build();
+		this.brain = NeuralNetworkGeneBuilder.create()
+			.withInputSize(inputCount)
+			.withOuputSize(outputCount)
+			.build();
 		this.life = new LifeGene();
 		this.sensor = new SensorGene();
 		this.movement = new MovementGene();
 	}
 	
-	public Genome(BrainGene brain, LifeGene life, SensorGene sensor, MovementGene movement){
-        this.brain = new BrainGene(brain.getLayers());
+	public Genome(NeuralNetworkGene brain, LifeGene life, SensorGene sensor, MovementGene movement){
+        this.brain = new NeuralNetworkGene(brain.getLayers());
         this.life = new LifeGene(life.getOldAge());
         this.sensor = new SensorGene(sensor.getViewDistance(), sensor.getFieldOfView());
         this.movement = new MovementGene(movement.getAngularForce(), movement.getLinearForce());
@@ -39,7 +42,7 @@ public class Genome {
 
     	List<Genome> children = new ArrayList<>();
 
-    	List<BrainGene> brainChildren = this.brain.mate(partner.brain);
+    	List<NeuralNetworkGene> brainChildren = this.brain.mate(partner.brain);
     	LifeGene[] lifeChildren = this.life.mate(partner.life);
     	SensorGene[] sensorChildren = this.sensor.mate(partner.sensor);
         MovementGene[] movementChildren = this.movement.mate(partner.movement);
@@ -56,7 +59,7 @@ public class Genome {
     	return children;
     }
 
-	public BrainGene getBrain() {
+	public NeuralNetworkGene getBrain() {
 		return brain;
 	}
 

@@ -5,8 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.pi4j.io.gpio.GpioController;
-import eu.luminis.brains.BrainBuilder;
-import eu.luminis.brains.IBrain;
+import eu.luminis.brains.*;
 import eu.luminis.genetics.Genome;
 import eu.luminis.robots.core.IMotorsController;
 import eu.luminis.robots.core.ISensorController;
@@ -84,10 +83,9 @@ public class RunRobot {
     }
 
     private static IBrain initializeBrain(Genome genome) {
-        return BrainBuilder
-                .brain()
-                .withBrainChromosome(genome.getBrain())
-                .build();
+        return NeuralNetworkBuilder.create()
+            .withNeuralNetworkGene(genome.getBrain())
+            .build();
     }
 
     private static IPiController initializeMotorsController(Genome genome) {
