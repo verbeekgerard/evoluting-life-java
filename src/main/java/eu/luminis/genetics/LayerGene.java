@@ -128,12 +128,12 @@ public class LayerGene extends Gene {
     }
 
     private static int initiateProperties(int k, double[] initiateProperties, double[] vector, int rowsDelta) {
-            for (int i = 0; i < vector.length; i++) {
-                initiateProperties[k++] = vector[i];
-            }
-            k += rowsDelta; // Fill up
+        for (int i = 0; i < vector.length; i++) {
+            initiateProperties[k++] = vector[i];
+        }
+        k += rowsDelta; // Fill up
 
-            return k;
+        return k;
     }
 
     private static int initiateProperties(
@@ -149,29 +149,29 @@ public class LayerGene extends Gene {
             k += rowsDelta * (columns + columnsDelta); // Fill up
 
             return k;
-        }
+    }
 
-        private static int initiate(int k, double[] properties, double[] vector, int rowsDelta) {
-                for (int i = 0; i < vector.length; i++) {
-                    vector[i] = properties[k++];
-                }
-                k += rowsDelta; // Skip filler
-
-                return k;
+    private static int initiate(int k, double[] properties, double[] vector, int rowsDelta) {
+        for (int i = 0; i < vector.length; i++) {
+            vector[i] = properties[k++];
         }
+        k += rowsDelta; // Skip filler
+
+        return k;
+    }
     
-        private static int initiate(
-            int k, double[] properties, double[][] matrix,
-            int rowsDelta, int columnsDelta) {
-                int columns = matrix[0].length;
-                for (int i = 0; i < matrix.length; i++) {
-                    for (int j = 0; j < columns; j++) {
-                        matrix[i][j] = properties[k++];
-                    }
-                    k += columnsDelta; // Skip filler
+    private static int initiate(
+        int k, double[] properties, double[][] matrix,
+        int rowsDelta, int columnsDelta) {
+            int columns = matrix[0].length;
+            for (int i = 0; i < matrix.length; i++) {
+                for (int j = 0; j < columns; j++) {
+                    matrix[i][j] = properties[k++];
                 }
-                k += rowsDelta * (columns + columnsDelta); // Skip filler
-                    
-                return k;
+                k += columnsDelta; // Skip filler
             }
-        }
+            k += rowsDelta * (columns + columnsDelta); // Skip filler
+                
+            return k;
+    }
+}
