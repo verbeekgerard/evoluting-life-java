@@ -23,7 +23,7 @@ public final class Options {
     // Fitness
     public final static Option cycleCostFactor = new Option(25.0);
     public final static Option distanceRewardFactor = new Option(50.0);
-    public final static Option collideCostFactor = new Option(200000.0);
+    public final static Option collideCostFactor = new Option(20000.0);
     public final static Option linearAccelerationCostFactor = new Option(0.1);
     public final static Option angularAccelerationCostFactor = new Option(1.0);
 
@@ -90,7 +90,7 @@ public final class Options {
     public final static Option minHiddenLayers = new Option(2);
     public final static Option maxHiddenLayers = new Option(5);
 
-    private final static double neuralNetworkMutationRates = defaultMutationRate * 0.01;
+    private final static double neuralNetworkMutationRates = defaultMutationRate * 0.1;
     public final static Option neuralNetworkMutationRate = new Option(neuralNetworkMutationRates);
 
     // LayerGene
