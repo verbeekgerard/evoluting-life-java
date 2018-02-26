@@ -23,7 +23,7 @@ public final class Options {
     // Fitness
     public final static Option cycleCostFactor = new Option(25.0);
     public final static Option distanceRewardFactor = new Option(50.0);
-    public final static Option collideCostFactor = new Option(20000.0);
+    public final static Option collideCostFactor = new Option(100000.0);
     public final static Option linearAccelerationCostFactor = new Option(0.1);
     public final static Option angularAccelerationCostFactor = new Option(1.0);
 
@@ -61,8 +61,8 @@ public final class Options {
     public final static Option fieldOfViewReplacementRate = new Option(sensorReplacementRates);
 
     // MovementGene
-    public final static Option linearFriction = new Option(0.4); // 0.7, 0.06
-    public final static Option angularFriction = new Option(0.8); // 0.5
+    public final static Option linearFriction = new Option(0.06); // 0.7, 0.06
+    public final static Option angularFriction = new Option(0.09); // 0.5
 
     private static double calculateForce(double maxVelocity, double friction) {
         return maxVelocity * friction;
