@@ -33,7 +33,7 @@ public final class Options {
     // LifeGene
     public final static Option minOldAge = new Option(6000);
     public final static Option maxOldAge = new Option(7000);
-    public final static Option oldAgeMutationRate = new Option(0.05);
+    public final static Option oldAgeMutationRate = new Option(defaultMutationRate);
 
     // RoundSimObstacle
     public final static Option minRoundObstacleSize = new Option(2);
@@ -61,8 +61,8 @@ public final class Options {
     public final static Option fieldOfViewReplacementRate = new Option(sensorReplacementRates);
 
     // MovementGene
-    public final static Option linearFriction = new Option(0.06); // 0.7, 0.06
-    public final static Option angularFriction = new Option(0.09); // 0.5
+    public final static Option linearFriction = new Option(0.4); // 0.7, 0.06
+    public final static Option angularFriction = new Option(0.5); // 0.5
 
     private static double calculateForce(double maxVelocity, double friction) {
         return maxVelocity * friction;
@@ -108,6 +108,6 @@ public final class Options {
     public final static Option biasReplacementRate = new Option(layerReplacementRates);
     public final static Option stateWeightMutationRate = new Option(layerMutationRates);
     public final static Option stateWeightReplacementRate = new Option(layerReplacementRates);
-    public final static Option gainMutationRate = new Option(layerMutationRates * 0.1);
-    public final static Option gainReplacementRate = new Option(layerReplacementRates * 0.1);
+    public final static Option gainMutationRate = new Option(layerMutationRates);
+    public final static Option gainReplacementRate = new Option(layerReplacementRates);
 }
