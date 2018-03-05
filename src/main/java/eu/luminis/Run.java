@@ -31,7 +31,7 @@ public class Run {
 
         initializeMutationFractionModifier(eventBroadcaster);
         initializeCycleCostFactorModifier(simulation, eventBroadcaster);
-        initializeCollideCostFactorModifier(simulation, eventBroadcaster);
+        //initializeCollideCostFactorModifier(simulation, eventBroadcaster);
         initializeStatsPrinter(eventBroadcaster);
 
 		simulation.startMainLoop();
