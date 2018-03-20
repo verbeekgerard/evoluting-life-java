@@ -14,8 +14,8 @@ public class PiPwmMotorsController implements IMotorsController, IPiController {
     private final PiPwmMotor leftMotor;
     private final PiPwmMotor rightMotor;
 
-    private double velocityLeft = 0;
-    private double velocityRight = 0;
+    private double velocityLeft = 0.0;
+    private double velocityRight = 0.0;
 
     public PiPwmMotorsController(double linearForce) {
         /*
@@ -37,7 +37,7 @@ public class PiPwmMotorsController implements IMotorsController, IPiController {
         velocityRight = calculateVelocity(velocityRight, rightChange);
 
         double velocityScale = calculateVelocityScale();
-
+        
         move(velocityLeft * velocityScale, leftMotor);
         move(velocityRight * velocityScale, rightMotor);
     }
@@ -49,13 +49,13 @@ public class PiPwmMotorsController implements IMotorsController, IPiController {
     }
 
     private double calculateVelocity(double initialVelocity, double change) {
-        return initialVelocity * (1 - initialVelocity * linearFriction) + change * linearForce;
+        return initialVelocity * (1 - linearFriction) + change * linearForce;
     }
 
     private void move(double velocity, PiPwmMotor motor) {
-        if (velocity > 0) {
+        if (velocity > 0.0) {
             motor.forward(velocity / maxVelocity);
-        } else if (velocity < 0) {
+        } else if (velocity < 0.0) {
             motor.reverse(-1 * velocity / maxVelocity);
         } else {
             motor.stop();
@@ -64,8 +64,10 @@ public class PiPwmMotorsController implements IMotorsController, IPiController {
 
     private double calculateVelocityScale()
     {
-        return Math.abs(velocityLeft) >= Math.abs(velocityRight) ?
-                maxVelocity / Math.abs(velocityLeft) :
-                maxVelocity / Math.abs(velocityRight);
+        double max = Math.max(Math.abs(velocityLeft), Math.abs(velocityRight));
+
+        return max == 0.0 ?
+                0.0 :
+                this.maxVelocity / max;
     }
 }

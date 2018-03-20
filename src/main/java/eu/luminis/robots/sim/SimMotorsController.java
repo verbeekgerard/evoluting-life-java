@@ -37,6 +37,6 @@ class SimMotorsController implements IMotorsController {
 
     private double calculateVelocity(double initialVelocity, double linearChange) {
         // F=m*a => a=F/m, dv=a*dt => dv=dt*F/m, dt=one cycle, m=1
-        return initialVelocity * (1 - initialVelocity * linearFriction) + linearChange * linearForce;
+        return initialVelocity * (1 - linearFriction) + linearChange * linearForce;
     }
 }
