@@ -25,7 +25,7 @@ class LayerBuilder {
     }
 
     public Layer build() {
-        return buildWithFunction(new Tanh());
+        return buildWithFunction(new Layer.HardTanh());
     }
 
     public Layer buildAsOutput() {

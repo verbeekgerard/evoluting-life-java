@@ -1,7 +1,6 @@
 package eu.luminis.brains;
 
 import org.apache.commons.math3.analysis.*;
-import org.apache.commons.math3.analysis.function.*;
 import org.apache.commons.math3.linear.*;
 import org.apache.commons.math3.stat.*;
 
@@ -15,7 +14,7 @@ class Layer {
     private RealVector state;
 
     public Layer(RealMatrix weights, RealVector biases, RealMatrix stateWeights, RealVector gains) {
-        this(weights, biases, stateWeights, gains, new Tanh());
+        this(weights, biases, stateWeights, gains, new HardTanh());
     }
 
     public Layer(RealMatrix weights, RealVector biases, RealMatrix stateWeights, RealVector gains, UnivariateFunction activation) {
@@ -52,5 +51,11 @@ class Layer {
 
     private double mean(RealVector samples) {
         return StatUtils.mean(samples.toArray());
+    }
+
+    public static class HardTanh implements UnivariateFunction {
+        public double value(double x) {
+            return x < -1.0 ? -1.0 : x > 1.0 ? 1.0 : x;
+        }
     }
 }
