@@ -61,7 +61,7 @@ public final class Options {
     public final static Option fieldOfViewReplacementRate = new Option(sensorReplacementRates);
 
     // MovementGene
-    public final static Option linearFriction = new Option(0.4); // 0.7, 0.06
+    public final static Option linearFriction = new Option(0.4); // 0.4
     public final static Option angularFriction = new Option(0.5); // 0.5
 
     private static double calculateForce(double maxVelocity, double friction) {
