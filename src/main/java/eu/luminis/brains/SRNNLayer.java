@@ -4,7 +4,10 @@ import org.apache.commons.math3.analysis.*;
 import org.apache.commons.math3.linear.*;
 import org.apache.commons.math3.stat.*;
 
-class Layer {
+/**
+ * A layer of the simple recurrent neural network
+ */
+class SRNNLayer implements ILayer {
     private final RealMatrix weights;
     private final RealVector biases;
     private final RealMatrix stateWeights;
@@ -13,11 +16,11 @@ class Layer {
 
     private RealVector state;
 
-    public Layer(RealMatrix weights, RealVector biases, RealMatrix stateWeights, RealVector gains) {
+    public SRNNLayer(RealMatrix weights, RealVector biases, RealMatrix stateWeights, RealVector gains) {
         this(weights, biases, stateWeights, gains, new HardTanh());
     }
 
-    public Layer(RealMatrix weights, RealVector biases, RealMatrix stateWeights, RealVector gains, UnivariateFunction activation) {
+    public SRNNLayer(RealMatrix weights, RealVector biases, RealMatrix stateWeights, RealVector gains, UnivariateFunction activation) {
         this.weights = weights;
         this.biases = biases;
         this.stateWeights = stateWeights;
@@ -29,10 +32,8 @@ class Layer {
 
     public RealVector transmit(RealVector input) {
         RealVector recurrentState = stateWeights.operate(state);
-        //RealVector summedInput = weights.operate(input).add(biases).add(recurrentState);
         RealVector summedInput = weights.operate(input).add(recurrentState);
 
-        //return state = summedInput.map(activation);
         return state = normalize(summedInput).map(activation);
     }
 
@@ -51,11 +52,5 @@ class Layer {
 
     private double mean(RealVector samples) {
         return StatUtils.mean(samples.toArray());
-    }
-
-    public static class HardTanh implements UnivariateFunction {
-        public double value(double x) {
-            return x < -1.0 ? -1.0 : x > 1.0 ? 1.0 : x;
-        }
     }
 }

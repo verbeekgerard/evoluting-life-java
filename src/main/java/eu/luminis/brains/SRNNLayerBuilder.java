@@ -7,37 +7,37 @@ import org.apache.commons.math3.analysis.function.*;
 import org.apache.commons.math3.linear.*;
 
 /**
- * Builds up a layer of the neural network
+ * Builds up a layer of the simple recurrent neural network
  */
-class LayerBuilder {
-    private LayerGene layerGene;
+class SRNNLayerBuilder {
+    private SRNNLayerGene layerGene;
 
-    private LayerBuilder() {
+    private SRNNLayerBuilder() {
     }
 
-    public static LayerBuilder create() {
-        return new LayerBuilder();
+    public static SRNNLayerBuilder create() {
+        return new SRNNLayerBuilder();
     }
 
-    public LayerBuilder withLayerGene(LayerGene layerGene) {
+    public SRNNLayerBuilder withLayerGene(SRNNLayerGene layerGene) {
         this.layerGene = layerGene;
         return this;
     }
 
-    public Layer build() {
-        return buildWithFunction(new Layer.HardTanh());
+    public SRNNLayer build() {
+        return buildWithFunction(new HardTanh());
     }
 
-    public Layer buildAsOutput() {
+    public SRNNLayer buildAsOutput() {
         return buildWithFunction(new Sigmoid());
     }
 
-    private Layer buildWithFunction(UnivariateFunction function) {
+    private SRNNLayer buildWithFunction(UnivariateFunction function) {
         RealMatrix weights = new Array2DRowRealMatrix(layerGene.getWeights());
         RealVector biases = new ArrayRealVector(layerGene.getBiases());
         RealMatrix stateWeights = new Array2DRowRealMatrix(layerGene.getStateWeights());
         RealVector gains = new ArrayRealVector(layerGene.getGains());
 
-        return new Layer(weights, biases, stateWeights, gains, function);
+        return new SRNNLayer(weights, biases, stateWeights, gains, function);
     }
 }

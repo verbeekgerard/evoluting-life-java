@@ -20,18 +20,18 @@ public class NeuralNetworkBuilder {
     }
 
     public IBrain build() {
-        List<LayerGene> layerGenes = this.neuralNetworkGene.getLayers();
-        Layer[] layers = new Layer[layerGenes.size()];
+        List<SRNNLayerGene> layerGenes = this.neuralNetworkGene.getLayers();
+        SRNNLayer[] layers = new SRNNLayer[layerGenes.size()];
 
         for (int i=0; i<layers.length-1; i++) {
-            LayerGene layerGene = layerGenes.get(i);
-            Layer layer = LayerBuilder.create()
+            SRNNLayerGene layerGene = layerGenes.get(i);
+            SRNNLayer layer = SRNNLayerBuilder.create()
                 .withLayerGene(layerGene)
                 .build();
             layers[i] = layer;
         }
 
-        Layer outputLayer = LayerBuilder.create()
+        SRNNLayer outputLayer = SRNNLayerBuilder.create()
             .withLayerGene(layerGenes.get(layers.length-1))
             .buildAsOutput();
         layers[layers.length-1] = outputLayer;

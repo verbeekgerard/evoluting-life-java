@@ -40,7 +40,7 @@ public class BrainInput {
             angleVelocity < 0 ? -1 * angleVelocity : 0, // left
             angleVelocity > 0 ? angleVelocity : 0, // right
             (viewDistance - distance) / viewDistance,
-            0.1 * new Range(0, 1).random()
+            1.0 * new Range(0, 1).random()
         };
 
         //normalizeValues();

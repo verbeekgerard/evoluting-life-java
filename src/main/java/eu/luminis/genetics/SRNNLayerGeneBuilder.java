@@ -4,33 +4,33 @@ import eu.luminis.Options;
 import eu.luminis.util.Range;
 import org.apache.commons.math3.linear.*;
 
-class LayerGeneBuilder {
+class SRNNLayerGeneBuilder {
     private int size;
     private double multiplier = new Range(-1 * Options.maxWeight.get(), Options.maxWeight.get()).random();
 
-    private LayerGeneBuilder() {
+    private SRNNLayerGeneBuilder() {
     }
 
-    public static LayerGeneBuilder create() {
-        return new LayerGeneBuilder();
+    public static SRNNLayerGeneBuilder create() {
+        return new SRNNLayerGeneBuilder();
     }
 
-    public LayerGeneBuilder withSize(int size) {
+    public SRNNLayerGeneBuilder withSize(int size) {
         this.size = size;
         return this;
     }
 
-    public LayerGeneBuilder withMultiplier(double multiplier) {
+    public SRNNLayerGeneBuilder withMultiplier(double multiplier) {
         this.multiplier = multiplier;
         return this;
     }
 
-    public LayerGene build() {
+    public SRNNLayerGene build() {
         RealMatrix matrix = MatrixUtils.createRealIdentityMatrix(size).scalarMultiply(multiplier);
         RealVector biases = new ArrayRealVector(size);
         RealMatrix stateWeights = MatrixUtils.createRealMatrix(size, size);
         RealVector gains = new ArrayRealVector(size);
         
-        return new LayerGene(matrix.getData(), biases.toArray(), stateWeights.getData(), gains.toArray());
+        return new SRNNLayerGene(matrix.getData(), biases.toArray(), stateWeights.getData(), gains.toArray());
     }
 }

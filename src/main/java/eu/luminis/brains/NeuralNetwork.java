@@ -3,9 +3,9 @@ package eu.luminis.brains;
 import org.apache.commons.math3.linear.*;
 
 class NeuralNetwork implements IBrain {
-    private final Layer[] layers;
+    private final ILayer[] layers;
 
-    NeuralNetwork(Layer[] layers) {
+    NeuralNetwork(ILayer[] layers) {
         this.layers = layers;
     }
 
@@ -14,7 +14,7 @@ class NeuralNetwork implements IBrain {
         RealVector activationVector = new ArrayRealVector(input);
 
         for (int i = 0; i<layers.length; i++) {
-            Layer layer = layers[i];
+            ILayer layer = layers[i];
             activationVector = layer.transmit(activationVector);
         }
 

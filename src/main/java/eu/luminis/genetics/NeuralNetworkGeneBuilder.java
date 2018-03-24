@@ -28,7 +28,7 @@ class NeuralNetworkGeneBuilder {
     }
 
     public NeuralNetworkGene build() {
-        List<LayerGene> layers = new ArrayList<>();
+        List<SRNNLayerGene> layers = new ArrayList<>();
         int[] layerSizes = generateLayerSizes();
 
         layers.add(createInputLayer(layerSizes));
@@ -51,19 +51,19 @@ class NeuralNetworkGeneBuilder {
         return layerSizes;
     }
 
-    private LayerGene createInputLayer(int[] layerSizes) {
-        return new LayerGene(layerSizes[0], this.inputSize);
+    private SRNNLayerGene createInputLayer(int[] layerSizes) {
+        return new SRNNLayerGene(layerSizes[0], this.inputSize);
     }
 
-    private LayerGene createOutputLayer(int[] layerSizes) {
-        return new LayerGene(this.outputSize, layerSizes[layerSizes.length-1]);
+    private SRNNLayerGene createOutputLayer(int[] layerSizes) {
+        return new SRNNLayerGene(this.outputSize, layerSizes[layerSizes.length-1]);
     }
 
-    private List<LayerGene> createHiddenLayers(int[] layerSizes) {
-        List<LayerGene> layers = new ArrayList<>();
+    private List<SRNNLayerGene> createHiddenLayers(int[] layerSizes) {
+        List<SRNNLayerGene> layers = new ArrayList<>();
 
         for (int i = 0; i < layerSizes.length-1; i++) {
-            LayerGene layer = new LayerGene(layerSizes[i+1], layerSizes[i]);
+            SRNNLayerGene layer = new SRNNLayerGene(layerSizes[i+1], layerSizes[i]);
             layers.add(layer);
         }
 

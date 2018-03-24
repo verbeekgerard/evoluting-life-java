@@ -1,25 +1,22 @@
 package eu.luminis.genetics;
 
-public class LayerGene extends Gene {
+public class GateLayerGene extends Gene {
     private static final LayerGeneEvolver evolver = new LayerGeneEvolver();
 
     private double[][] weights;
-    private double[] biases;
     private double[][] stateWeights;
-    private double[] gains;
+    private double[] biases;
 
     private int rowDelta;
     private int columnDelta;
 
-    public LayerGene(int rows, int columns) {
+    public GateLayerGene(int rows, int columns) {
         weights = new double[rows][columns];
-        biases = new double[rows];
         stateWeights = new double[rows][rows];
-        gains = new double[rows];
+        biases = new double[rows];
         
         for (int i = 0; i < rows; i++) {
             biases[i] = evolver.Bias.getNewValue();
-            gains[i] = evolver.Gain.getNewValue();
 
             for (int j = 0; j < columns; j++) {
                 weights[i][j] = evolver.Weight.getNewValue();
@@ -30,27 +27,22 @@ public class LayerGene extends Gene {
         }
     }
 
-    public LayerGene(double[][] weights, double[] biases, double[][] stateWeights, double[] gains) {
+    public GateLayerGene(double[][] weights, double[][] stateWeights, double[] biases) {
         this.weights = weights;
-        this.biases = biases;
         this.stateWeights = stateWeights;
-        this.gains = gains;
+        this.biases = biases;
     }
 
     public double[][] getWeights() {
         return weights;
     }
 
-    public double[] getBiases() {
-        return biases;
-    }
-
     public double[][] getStateWeights() {
         return stateWeights;
     }
 
-    public double[] getGains() {
-        return gains;
+    public double[] getBiases() {
+        return biases;
     }
 
     public int getRows() {
@@ -64,7 +56,6 @@ public class LayerGene extends Gene {
     public void mutate() {
         for (int i = 0; i < this.getRows(); i++) {
             biases[i] = evolver.Bias.mutateValue(biases[i]);
-            gains[i] = evolver.Gain.mutateValue(gains[i]);
 
             for (int j = 0; j < this.getColumns(); j++) {
                 weights[i][j] = evolver.Weight.mutateValue(weights[i][j]);
@@ -75,7 +66,7 @@ public class LayerGene extends Gene {
         }
     }
 
-    public LayerGene[] mate(LayerGene partner) {
+    public GateLayerGene[] mate(GateLayerGene partner) {
         this.setSizeDeltas(partner.getRows(), partner.getColumns());
         partner.setSizeDeltas(this.getRows(), this.getColumns());
 
@@ -87,39 +78,35 @@ public class LayerGene extends Gene {
         int initiateRows = this.getRows() + rowDelta;
         int initiateColumns = this.getColumns() + columnDelta;
         
-        double[] initiateProperties = new double[initiateRows * (initiateColumns + 1 + initiateRows + 1)];
+        double[] initiateProperties = new double[initiateRows * (initiateColumns + initiateRows + 1)];
 
         int k=0;
         k = initiateProperties(k, initiateProperties, weights, rowDelta, columnDelta);
-        k = initiateProperties(k, initiateProperties, biases, rowDelta);
         k = initiateProperties(k, initiateProperties, stateWeights, rowDelta, rowDelta);
-        k = initiateProperties(k, initiateProperties, gains, rowDelta);
+        k = initiateProperties(k, initiateProperties, biases, rowDelta);
 
         return initiateProperties;
     }
 
     @Override
-    public LayerGene initiate(double[] properties) {
+    public GateLayerGene initiate(double[] properties) {
         int k=0;
 
         double[][] initiateWeights = new double[this.getRows()][this.getColumns()];
         k = initiate(k, properties, initiateWeights, rowDelta, columnDelta);
 
-        double[] initiateBiases = new double[this.getRows()];
-        k = initiate(k, properties, initiateBiases, rowDelta);
-
         double[][] initiateStateWeights = new double[this.getRows()][this.getRows()];
         k = initiate(k, properties, initiateStateWeights, rowDelta, rowDelta);
 
-        double[] initiateGains = new double[this.getRows()];
-        k = initiate(k, properties, initiateGains, rowDelta);
+        double[] initiateBiases = new double[this.getRows()];
+        k = initiate(k, properties, initiateBiases, rowDelta);
 
-        return new LayerGene(initiateWeights, initiateBiases, initiateStateWeights, initiateGains);
+        return new GateLayerGene(initiateWeights, initiateStateWeights, initiateBiases);
     }
 
     @Override
-    public LayerGene[] newArray(int size) {
-        return new LayerGene[size];
+    public GateLayerGene[] newArray(int size) {
+        return new GateLayerGene[size];
     }
 
     private void setSizeDeltas(int partnerRows, int partnerColumns) {
