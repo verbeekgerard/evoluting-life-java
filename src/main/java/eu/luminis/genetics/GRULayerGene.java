@@ -14,9 +14,18 @@ public class GRULayerGene {
     }
 
     public GRULayerGene(GateLayerGene Gz, GateLayerGene Gr, GateLayerGene Gh) {
-        this.Gz = Gz;
-        this.Gr = Gr;
-        this.Gh = Gh;
+        this.Gz = new GateLayerGene(
+            Gz.getWeights().clone(),
+            Gz.getStateWeights().clone(),
+            Gz.getBiases().clone());
+        this.Gr = new GateLayerGene(
+            Gr.getWeights().clone(),
+            Gr.getStateWeights().clone(),
+            Gr.getBiases().clone());
+        this.Gh =  new GateLayerGene(
+            Gh.getWeights().clone(),
+            Gh.getStateWeights().clone(),
+            Gh.getBiases().clone());
     }
 
     public GateLayerGene getGz() {

@@ -6,28 +6,27 @@ import java.util.List;
 
 public class NeuralNetworkGene {
 
-    private final List<SRNNLayerGene> layers = new ArrayList<>();
+    private final List<GRULayerGene> layers = new ArrayList<>();
 
-    NeuralNetworkGene(List<SRNNLayerGene> stateLayers) {
-        for (SRNNLayerGene stateLayer : stateLayers) {
+    NeuralNetworkGene(List<GRULayerGene> stateLayers) {
+        for (GRULayerGene stateLayer : stateLayers) {
             layers.add(
-                new SRNNLayerGene(
-                    stateLayer.getWeights().clone(),
-                    stateLayer.getBiases().clone(),
-                    stateLayer.getStateWeights().clone(),
-                    stateLayer.getGains().clone()));
+                new GRULayerGene(
+                    stateLayer.getGz(),
+                    stateLayer.getGr(),
+                    stateLayer.getGh()));
         }
     }
 
     public void mutate() {
-        for (SRNNLayerGene layer : layers) {
+        for (GRULayerGene layer : layers) {
             layer.mutate();
         }
 
         if (Math.random() < Options.neuralNetworkMutationRate.get()) {
             int newIndex = (int)Math.floor(layers.size() * Math.random());
-            int size = layers.get(newIndex).getColumns();
-            SRNNLayerGene newLAyer = SRNNLayerGeneBuilder.create()
+            int size = layers.get(newIndex).getGz().getColumns();
+            GRULayerGene newLAyer = GRULayerGeneBuilder.create()
                 .withSize(size)
                 .build();
             layers.add(newIndex, newLAyer);
@@ -35,34 +34,33 @@ public class NeuralNetworkGene {
     }
 
     public List<NeuralNetworkGene> mate(NeuralNetworkGene partner) {
-        List<SRNNLayerGene> smallest = this.layers.size() < partner.layers.size() ? this.layers : partner.layers;
-        List<SRNNLayerGene> largest = this.layers.size() < partner.layers.size() ? partner.layers : this.layers;
+        List<GRULayerGene> smallest = this.layers.size() < partner.layers.size() ? this.layers : partner.layers;
+        List<GRULayerGene> largest = this.layers.size() < partner.layers.size() ? partner.layers : this.layers;
 
         List<NeuralNetworkGene> children = new ArrayList<>();
         children.add(new NeuralNetworkGene(new ArrayList<>()));
         children.add(new NeuralNetworkGene(new ArrayList<>()));
 
         for(int i=0; i<smallest.size(); i++) {
-            SRNNLayerGene[] childLayers = largest.get(i).mate(smallest.get(i));
+            List<GRULayerGene> childLayers = largest.get(i).mate(smallest.get(i));
             for (int k = 0; k < 2; k++) {
-                children.get(k).layers.add(childLayers[k]);
+                children.get(k).layers.add(childLayers.get(k));
             }
         }
 
         for(int i=smallest.size(); i<largest.size(); i++) {
-            SRNNLayerGene layer = largest.get(i);
+            GRULayerGene layer = largest.get(i);
             children.get(0).layers.add(
-                new SRNNLayerGene(
-                    layer.getWeights().clone(), 
-                    layer.getBiases().clone(),
-                    layer.getStateWeights().clone(),
-                    layer.getGains().clone()));
+                new GRULayerGene(
+                    layer.getGz(), 
+                    layer.getGr(),
+                    layer.getGh()));
         }
 
         return children;
     }
 
-    public List<SRNNLayerGene> getLayers() {
+    public List<GRULayerGene> getLayers() {
         return layers;
     }
 }
