@@ -20,16 +20,16 @@ class GateLayer {
 
     public GateLayer(RealMatrix weights, RealMatrix stateWeights, RealVector biases, UnivariateFunction activation) {
         this.weights = weights;
-        this.biases = biases;
         this.stateWeights = stateWeights;
+        this.biases = biases;
         this.activation = activation;
     }
 
     public RealVector calculate(RealVector input, RealVector state) {
-        RealVector wSate = stateWeights.operate(state);
+        RealVector wState = stateWeights.operate(state);
         RealVector wInput = weights.operate(input);
 
-        return wInput.add(wSate).add(biases).map(activation);
+        return wInput.add(wState).add(biases).map(activation);
     }
 
     public RealVector calculateNormalized(RealVector input, RealVector state, RealVector gains) {
