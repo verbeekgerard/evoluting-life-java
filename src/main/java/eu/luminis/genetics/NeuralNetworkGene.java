@@ -12,9 +12,9 @@ public class NeuralNetworkGene {
         for (GRULayerGene stateLayer : stateLayers) {
             layers.add(
                 new GRULayerGene(
-                    stateLayer.getGz(),
-                    stateLayer.getGr(),
-                    stateLayer.getGh()));
+                    stateLayer.getUpdateLayerGene(),
+                    stateLayer.getResetLayerGene(),
+                    stateLayer.getOutputLayerGene()));
         }
     }
 
@@ -25,7 +25,7 @@ public class NeuralNetworkGene {
 
         if (Math.random() < Options.neuralNetworkMutationRate.get()) {
             int newIndex = (int)Math.floor(layers.size() * Math.random());
-            int size = layers.get(newIndex).getGz().getColumns();
+            int size = layers.get(newIndex).getUpdateLayerGene().getColumns();
             GRULayerGene newLAyer = GRULayerGeneBuilder.create()
                 .withSize(size)
                 .build();
@@ -52,9 +52,9 @@ public class NeuralNetworkGene {
             GRULayerGene layer = largest.get(i);
             children.get(0).layers.add(
                 new GRULayerGene(
-                    layer.getGz(), 
-                    layer.getGr(),
-                    layer.getGh()));
+                    layer.getUpdateLayerGene(), 
+                    layer.getResetLayerGene(),
+                    layer.getOutputLayerGene()));
         }
 
         return children;

@@ -1,9 +1,8 @@
 package eu.luminis.brains;
 
 import org.apache.commons.math3.analysis.*;
-import org.apache.commons.math3.analysis.function.Sigmoid;
 import org.apache.commons.math3.linear.*;
-import org.apache.commons.math3.stat.StatUtils;
+import org.apache.commons.math3.stat.*;
 
 /**
  * A simple gate for a layer of the neural network
@@ -16,7 +15,7 @@ class GateLayer {
     private final UnivariateFunction activation;
 
     public GateLayer(RealMatrix weights, RealMatrix stateWeights, RealVector gains, RealVector biases) {
-        this(weights, stateWeights, gains, biases, new Sigmoid());
+        this(weights, stateWeights, gains, biases, new HardSigmoid());
     }
 
     public GateLayer(RealMatrix weights, RealMatrix stateWeights, RealVector gains, RealVector biases, UnivariateFunction activation) {
@@ -34,6 +33,10 @@ class GateLayer {
         RealVector sum = wInput.add(wSate);
 
         return normalize(sum).map(activation);
+    }
+
+    public int getWidth() {
+        return this.biases.getDimension();
     }
 
     private RealVector normalize(RealVector samples) {

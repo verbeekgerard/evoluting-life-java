@@ -2,8 +2,7 @@ package eu.luminis.brains;
 
 import eu.luminis.genetics.*;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.function.*;
+import org.apache.commons.math3.analysis.*;
 import org.apache.commons.math3.linear.*;
 
 /**
@@ -29,28 +28,28 @@ class GRULayerBuilder {
     }
 
     public GRULayer buildAsOutput() {
-        return buildWithFunction(new Sigmoid());
+        return buildWithFunction(new HardSigmoid());
     }
 
     private GRULayer buildWithFunction(UnivariateFunction function) {
-        RealMatrix Wz = new Array2DRowRealMatrix(layerGene.getGz().getWeights());
-        RealMatrix Uz = new Array2DRowRealMatrix(layerGene.getGz().getStateWeights());
-        RealVector gz = new ArrayRealVector(layerGene.getGz().getGains());
-        RealVector bz = new ArrayRealVector(layerGene.getGz().getBiases());
+        GateLayer updateLayer = new GateLayer(
+            new Array2DRowRealMatrix(layerGene.getUpdateLayerGene().getWeights()),
+            new Array2DRowRealMatrix(layerGene.getUpdateLayerGene().getStateWeights()),
+            new ArrayRealVector(layerGene.getUpdateLayerGene().getGains()),
+            new ArrayRealVector(layerGene.getUpdateLayerGene().getBiases()));
 
-        RealMatrix Wr = new Array2DRowRealMatrix(layerGene.getGr().getWeights());
-        RealMatrix Ur = new Array2DRowRealMatrix(layerGene.getGr().getStateWeights());
-        RealVector gr = new ArrayRealVector(layerGene.getGr().getGains());
-        RealVector br = new ArrayRealVector(layerGene.getGr().getBiases());
+        GateLayer resetLayer = new GateLayer(
+            new Array2DRowRealMatrix(layerGene.getResetLayerGene().getWeights()),
+            new Array2DRowRealMatrix(layerGene.getResetLayerGene().getStateWeights()),
+            new ArrayRealVector(layerGene.getResetLayerGene().getGains()),
+            new ArrayRealVector(layerGene.getResetLayerGene().getBiases()));
 
-        RealMatrix Wh = new Array2DRowRealMatrix(layerGene.getGh().getWeights());
-        RealMatrix Uh = new Array2DRowRealMatrix(layerGene.getGh().getStateWeights());
-        RealVector gh = new ArrayRealVector(layerGene.getGh().getGains());
-        RealVector bh = new ArrayRealVector(layerGene.getGh().getBiases());
+        GateLayer outputLayer = new GateLayer(
+            new Array2DRowRealMatrix(layerGene.getOutputLayerGene().getWeights()),
+            new Array2DRowRealMatrix(layerGene.getOutputLayerGene().getStateWeights()),
+            new ArrayRealVector(layerGene.getOutputLayerGene().getGains()),
+            new ArrayRealVector(layerGene.getOutputLayerGene().getBiases()));
 
-        return new GRULayer(Wz, Uz, gz, bz,
-                            Wr, Ur, gr, br,
-                            Wh, Uh, gh, bh,
-                            function);
+        return new GRULayer(updateLayer, resetLayer, outputLayer, function);
     }
 }

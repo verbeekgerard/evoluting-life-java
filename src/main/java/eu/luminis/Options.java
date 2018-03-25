@@ -90,14 +90,14 @@ public final class Options {
     public final static Option minHiddenLayers = new Option(2);
     public final static Option maxHiddenLayers = new Option(6);
 
-    private final static double neuralNetworkMutationRates = defaultMutationRate * 0.01;
+    private final static double neuralNetworkMutationRates = defaultMutationRate * 0.001;
     public final static Option neuralNetworkMutationRate = new Option(neuralNetworkMutationRates);
 
     // LayerGene
     public final static Option maxWeight = new Option(0.5);
     public final static Option maxBias = new Option(0.5);
     public final static Option maxGain = new Option(1.0);
-    public final static Option maxStateWeight = new Option(0.1);
+    public final static Option maxStateWeight = new Option(0.5);
 
     private final static double layerMutationRates = defaultMutationRate;
     private final static double layerReplacementRates = defaultReplacementRate;

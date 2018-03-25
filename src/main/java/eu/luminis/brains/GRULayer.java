@@ -32,30 +32,27 @@ import org.apache.commons.math3.linear.*;
  * A layer of the gated recurrent unit neural network
  */
 class GRULayer implements ILayer {
-    private final GateLayer Gz;
-    private final GateLayer Gr;
-    private final GateLayer Gh;
+    private final GateLayer updateLayer;
+    private final GateLayer resetLayer;
+    private final GateLayer outputLayer;
 
     private RealVector state;
 
-    public GRULayer(RealMatrix Wz, RealMatrix Uz, RealVector gz, RealVector bz,
-                    RealMatrix Wr, RealMatrix Ur, RealVector gr, RealVector br,
-                    RealMatrix Wh, RealMatrix Uh, RealVector gh, RealVector bh) {
-        this(Wz, Uz, gz, bz,
-             Wr, Ur, gr, br,
-             Wh, Uh, gh, bh,
-            new HardTanh());
+    public GRULayer(GateLayer updateLayer,
+                    GateLayer resetLayer,
+                    GateLayer outputLayer) {
+        this(updateLayer, resetLayer, outputLayer, new HardTanh());
     }
 
-    public GRULayer(RealMatrix Wz, RealMatrix Uz, RealVector gz, RealVector bz,
-                    RealMatrix Wr, RealMatrix Ur, RealVector gr, RealVector br,
-                    RealMatrix Wh, RealMatrix Uh, RealVector gh, RealVector bh, 
+    public GRULayer(GateLayer updateLayer,
+                    GateLayer resetLayer,
+                    GateLayer outputLayer, 
                     UnivariateFunction activation) {
-        this.Gz = new GateLayer(Wz, Uz, gz, bz);
-        this.Gr = new GateLayer(Wr, Ur, gr, br);
-        this.Gh = new GateLayer(Wh, Uh, gh, bh, activation);
+        this.updateLayer = updateLayer;
+        this.resetLayer = resetLayer;
+        this.outputLayer = outputLayer;
 
-        this.state = new ArrayRealVector(bz.getDimension());
+        this.state = new ArrayRealVector(updateLayer.getWidth());
     }
 
     public RealVector transmit(RealVector input) {
@@ -64,9 +61,9 @@ class GRULayer implements ILayer {
          * r_t = sigmoid(W_r . x_t + U_r . h_t-1 + b_r)
          * h_t = (1 - z_t) * h_t-1 + z_t * tanh(W_r . x_t + U_h . (r_t * h_t-1) + b_h)
         */
-        RealVector zt = Gz.calculate(input, state);
-        RealVector rt = Gr.calculate(input, state);
-        RealVector ht = Gh.calculate(input, rt.ebeMultiply(state));
+        RealVector zt = updateLayer.calculate(input, state);
+        RealVector rt = resetLayer.calculate(input, state);
+        RealVector ht = outputLayer.calculate(input, rt.ebeMultiply(state));
 
         ArrayRealVector one = new ArrayRealVector(state.getDimension(), 1.0);
 
