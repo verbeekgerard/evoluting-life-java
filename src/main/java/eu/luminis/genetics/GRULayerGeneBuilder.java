@@ -32,8 +32,9 @@ class GRULayerGeneBuilder {
     public GateLayerGene buildGateLayerGene() {
         RealMatrix matrix = MatrixUtils.createRealIdentityMatrix(size).scalarMultiply(multiplier);
         RealMatrix stateWeights = MatrixUtils.createRealMatrix(size, size);
+        RealVector gains = new ArrayRealVector(size);
         RealVector biases = new ArrayRealVector(size);
         
-        return new GateLayerGene(matrix.getData(), stateWeights.getData(), biases.toArray());
+        return new GateLayerGene(matrix.getData(), stateWeights.getData(), gains.toArray(), biases.toArray());
     }
 }

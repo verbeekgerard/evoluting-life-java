@@ -35,19 +35,22 @@ class GRULayerBuilder {
     private GRULayer buildWithFunction(UnivariateFunction function) {
         RealMatrix Wz = new Array2DRowRealMatrix(layerGene.getGz().getWeights());
         RealMatrix Uz = new Array2DRowRealMatrix(layerGene.getGz().getStateWeights());
+        RealVector gz = new ArrayRealVector(layerGene.getGz().getGains());
         RealVector bz = new ArrayRealVector(layerGene.getGz().getBiases());
 
         RealMatrix Wr = new Array2DRowRealMatrix(layerGene.getGr().getWeights());
         RealMatrix Ur = new Array2DRowRealMatrix(layerGene.getGr().getStateWeights());
+        RealVector gr = new ArrayRealVector(layerGene.getGr().getGains());
         RealVector br = new ArrayRealVector(layerGene.getGr().getBiases());
 
         RealMatrix Wh = new Array2DRowRealMatrix(layerGene.getGh().getWeights());
         RealMatrix Uh = new Array2DRowRealMatrix(layerGene.getGh().getStateWeights());
+        RealVector gh = new ArrayRealVector(layerGene.getGh().getGains());
         RealVector bh = new ArrayRealVector(layerGene.getGh().getBiases());
 
-        return new GRULayer(Wz, Uz, bz,
-                            Wr, Ur, br,
-                            Wh, Uh, bh,
+        return new GRULayer(Wz, Uz, gz, bz,
+                            Wr, Ur, gr, br,
+                            Wh, Uh, gh, bh,
                             function);
     }
 }

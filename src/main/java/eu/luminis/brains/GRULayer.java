@@ -1,7 +1,6 @@
 package eu.luminis.brains;
 
 import org.apache.commons.math3.analysis.*;
-import org.apache.commons.math3.analysis.function.Tanh;
 import org.apache.commons.math3.linear.*;
 
 /**
@@ -39,22 +38,22 @@ class GRULayer implements ILayer {
 
     private RealVector state;
 
-    public GRULayer(RealMatrix Wz, RealMatrix Uz, RealVector bz,
-                    RealMatrix Wr, RealMatrix Ur, RealVector br,
-                    RealMatrix Wh, RealMatrix Uh, RealVector bh) {
-        this(Wz, Uz, bz,
-            Wr, Ur, br,
-            Wh, Uh, bh,
+    public GRULayer(RealMatrix Wz, RealMatrix Uz, RealVector gz, RealVector bz,
+                    RealMatrix Wr, RealMatrix Ur, RealVector gr, RealVector br,
+                    RealMatrix Wh, RealMatrix Uh, RealVector gh, RealVector bh) {
+        this(Wz, Uz, gz, bz,
+             Wr, Ur, gr, br,
+             Wh, Uh, gh, bh,
             new HardTanh());
     }
 
-    public GRULayer(RealMatrix Wz, RealMatrix Uz, RealVector bz,
-                    RealMatrix Wr, RealMatrix Ur, RealVector br,
-                    RealMatrix Wh, RealMatrix Uh, RealVector bh, 
+    public GRULayer(RealMatrix Wz, RealMatrix Uz, RealVector gz, RealVector bz,
+                    RealMatrix Wr, RealMatrix Ur, RealVector gr, RealVector br,
+                    RealMatrix Wh, RealMatrix Uh, RealVector gh, RealVector bh, 
                     UnivariateFunction activation) {
-        this.Gz = new GateLayer(Wz, Uz, bz);
-        this.Gr = new GateLayer(Wr, Ur, br);
-        this.Gh = new GateLayer(Wh, Uh, bh, activation);
+        this.Gz = new GateLayer(Wz, Uz, gz, bz);
+        this.Gr = new GateLayer(Wr, Ur, gr, br);
+        this.Gh = new GateLayer(Wh, Uh, gh, bh, activation);
 
         this.state = new ArrayRealVector(bz.getDimension());
     }

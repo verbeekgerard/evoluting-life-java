@@ -17,14 +17,17 @@ public class GRULayerGene {
         this.Gz = new GateLayerGene(
             Gz.getWeights().clone(),
             Gz.getStateWeights().clone(),
+            Gz.getGains().clone(),
             Gz.getBiases().clone());
         this.Gr = new GateLayerGene(
             Gr.getWeights().clone(),
             Gr.getStateWeights().clone(),
+            Gr.getGains().clone(),
             Gr.getBiases().clone());
         this.Gh =  new GateLayerGene(
             Gh.getWeights().clone(),
             Gh.getStateWeights().clone(),
+            Gh.getGains().clone(),
             Gh.getBiases().clone());
     }
 

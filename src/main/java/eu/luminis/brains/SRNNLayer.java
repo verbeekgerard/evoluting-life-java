@@ -8,8 +8,6 @@ import org.apache.commons.math3.linear.*;
  */
 class SRNNLayer implements ILayer {
     private final GateLayer gateLayer;
-    private final RealVector gains;
-
     private RealVector state;
 
     public SRNNLayer(RealMatrix weights, RealVector biases, RealMatrix stateWeights, RealVector gains) {
@@ -17,13 +15,11 @@ class SRNNLayer implements ILayer {
     }
 
     public SRNNLayer(RealMatrix weights, RealVector biases, RealMatrix stateWeights, RealVector gains, UnivariateFunction activation) {
-        this.gateLayer = new GateLayer(weights, stateWeights, biases, activation);
-        this.gains = gains;
-
+        this.gateLayer = new GateLayer(weights, stateWeights, gains, biases, activation);
         this.state = new ArrayRealVector(biases.getDimension());
     }
 
     public RealVector transmit(RealVector input) {
-        return state = gateLayer.calculateNormalized(input, state, gains);
+        return state = gateLayer.calculate(input, state);
     }
 }

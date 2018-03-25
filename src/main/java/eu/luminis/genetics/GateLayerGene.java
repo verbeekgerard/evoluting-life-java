@@ -5,6 +5,7 @@ public class GateLayerGene extends Gene {
 
     private double[][] weights;
     private double[][] stateWeights;
+    private double[] gains;
     private double[] biases;
 
     private int rowDelta;
@@ -13,9 +14,11 @@ public class GateLayerGene extends Gene {
     public GateLayerGene(int rows, int columns) {
         weights = new double[rows][columns];
         stateWeights = new double[rows][rows];
+        gains = new double[rows];
         biases = new double[rows];
         
         for (int i = 0; i < rows; i++) {
+            gains[i] = evolver.Gain.getNewValue();
             biases[i] = evolver.Bias.getNewValue();
 
             for (int j = 0; j < columns; j++) {
@@ -27,9 +30,10 @@ public class GateLayerGene extends Gene {
         }
     }
 
-    public GateLayerGene(double[][] weights, double[][] stateWeights, double[] biases) {
+    public GateLayerGene(double[][] weights, double[][] stateWeights, double[] gains, double[] biases) {
         this.weights = weights;
         this.stateWeights = stateWeights;
+        this.gains = gains;
         this.biases = biases;
     }
 
@@ -39,6 +43,10 @@ public class GateLayerGene extends Gene {
 
     public double[][] getStateWeights() {
         return stateWeights;
+    }
+
+    public double[] getGains() {
+        return gains;
     }
 
     public double[] getBiases() {
@@ -55,6 +63,7 @@ public class GateLayerGene extends Gene {
 
     public void mutate() {
         for (int i = 0; i < this.getRows(); i++) {
+            gains[i] = evolver.Gain.mutateValue(gains[i]);
             biases[i] = evolver.Bias.mutateValue(biases[i]);
 
             for (int j = 0; j < this.getColumns(); j++) {
@@ -78,11 +87,12 @@ public class GateLayerGene extends Gene {
         int initiateRows = this.getRows() + rowDelta;
         int initiateColumns = this.getColumns() + columnDelta;
         
-        double[] initiateProperties = new double[initiateRows * (initiateColumns + initiateRows + 1)];
+        double[] initiateProperties = new double[initiateRows * (initiateColumns + initiateRows + 2)];
 
         int k=0;
         k = initiateProperties(k, initiateProperties, weights, rowDelta, columnDelta);
         k = initiateProperties(k, initiateProperties, stateWeights, rowDelta, rowDelta);
+        k = initiateProperties(k, initiateProperties, gains, rowDelta);
         k = initiateProperties(k, initiateProperties, biases, rowDelta);
 
         return initiateProperties;
@@ -98,10 +108,13 @@ public class GateLayerGene extends Gene {
         double[][] initiateStateWeights = new double[this.getRows()][this.getRows()];
         k = initiate(k, properties, initiateStateWeights, rowDelta, rowDelta);
 
+        double[] initiateGains = new double[this.getRows()];
+        k = initiate(k, properties, initiateGains, rowDelta);
+
         double[] initiateBiases = new double[this.getRows()];
         k = initiate(k, properties, initiateBiases, rowDelta);
 
-        return new GateLayerGene(initiateWeights, initiateStateWeights, initiateBiases);
+        return new GateLayerGene(initiateWeights, initiateStateWeights, initiateGains, initiateBiases);
     }
 
     @Override
