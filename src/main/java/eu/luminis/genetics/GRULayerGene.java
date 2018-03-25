@@ -59,8 +59,8 @@ public class GRULayerGene {
         for (int k = 0; k < 2; k++) {
             children.add(new GRULayerGene(
                 updateLayerGeneChildren[k],
-                resetLayerGeneChildren[0],
-                outputLayerGeneChildren[0]));
+                resetLayerGeneChildren[k],
+                outputLayerGeneChildren[k]));
         }
 
         return children;
