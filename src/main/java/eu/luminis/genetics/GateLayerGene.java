@@ -3,10 +3,10 @@ package eu.luminis.genetics;
 public class GateLayerGene extends Gene {
     private static final LayerGeneEvolver evolver = new LayerGeneEvolver();
 
-    private double[][] weights;
-    private double[][] stateWeights;
-    private double[] gains;
-    private double[] biases;
+    private final double[][] weights;
+    private final double[][] stateWeights;
+    private final double[] gains;
+    private final double[] biases;
 
     private int rowDelta;
     private int columnDelta;
@@ -35,6 +35,14 @@ public class GateLayerGene extends Gene {
         this.stateWeights = stateWeights;
         this.gains = gains;
         this.biases = biases;
+    }
+
+    public GateLayerGene Clone() {
+        return new GateLayerGene(
+            this.weights.clone(),
+            this.stateWeights.clone(),
+            this.gains.clone(),
+            this.biases.clone());
     }
 
     public double[][] getWeights() {
@@ -87,15 +95,15 @@ public class GateLayerGene extends Gene {
         int initiateRows = this.getRows() + rowDelta;
         int initiateColumns = this.getColumns() + columnDelta;
         
-        double[] initiateProperties = new double[initiateRows * (initiateColumns + initiateRows + 2)];
+        double[] properties = new double[initiateRows * (initiateColumns + initiateRows + 2)];
 
         int k=0;
-        k = initiateProperties(k, initiateProperties, weights, rowDelta, columnDelta);
-        k = initiateProperties(k, initiateProperties, stateWeights, rowDelta, rowDelta);
-        k = initiateProperties(k, initiateProperties, gains, rowDelta);
-        k = initiateProperties(k, initiateProperties, biases, rowDelta);
+        k = copyMatrixToProperties(k, properties, weights, rowDelta, columnDelta);
+        k = copyMatrixToProperties(k, properties, stateWeights, rowDelta, rowDelta);
+        k = copyVectorToProperties(k, properties, gains, rowDelta);
+        k = copyVectorToProperties(k, properties, biases, rowDelta);
 
-        return initiateProperties;
+        return properties;
     }
 
     @Override
@@ -103,16 +111,16 @@ public class GateLayerGene extends Gene {
         int k=0;
 
         double[][] initiateWeights = new double[this.getRows()][this.getColumns()];
-        k = initiate(k, properties, initiateWeights, rowDelta, columnDelta);
+        k = copyPropertiesToMatrix(k, properties, initiateWeights, rowDelta, columnDelta);
 
         double[][] initiateStateWeights = new double[this.getRows()][this.getRows()];
-        k = initiate(k, properties, initiateStateWeights, rowDelta, rowDelta);
+        k = copyPropertiesToMatrix(k, properties, initiateStateWeights, rowDelta, rowDelta);
 
         double[] initiateGains = new double[this.getRows()];
-        k = initiate(k, properties, initiateGains, rowDelta);
+        k = copyPropertiesToVector(k, properties, initiateGains, rowDelta);
 
         double[] initiateBiases = new double[this.getRows()];
-        k = initiate(k, properties, initiateBiases, rowDelta);
+        k = copyPropertiesToVector(k, properties, initiateBiases, rowDelta);
 
         return new GateLayerGene(initiateWeights, initiateStateWeights, initiateGains, initiateBiases);
     }
@@ -127,22 +135,22 @@ public class GateLayerGene extends Gene {
         columnDelta = partnerColumns > this.getColumns() ? partnerColumns - this.getColumns() : 0;
     }
 
-    private static int initiateProperties(int k, double[] initiateProperties, double[] vector, int rowsDelta) {
+    private static int copyVectorToProperties(int k, double[] properties, double[] vector, int rowsDelta) {
         for (int i = 0; i < vector.length; i++) {
-            initiateProperties[k++] = vector[i];
+            properties[k++] = vector[i];
         }
         k += rowsDelta; // Fill up
 
         return k;
     }
 
-    private static int initiateProperties(
-        int k, double[] initiateProperties, double[][] matrix,
+    private static int copyMatrixToProperties(
+        int k, double[] properties, double[][] matrix,
         int rowsDelta, int columnsDelta) {
             int columns = matrix[0].length;
             for (int i = 0; i < matrix.length; i++) {
                 for (int j = 0; j < columns; j++) {
-                    initiateProperties[k++] = matrix[i][j];
+                    properties[k++] = matrix[i][j];
                 }
                 k += columnsDelta; // Fill up
             }
@@ -151,7 +159,7 @@ public class GateLayerGene extends Gene {
             return k;
     }
 
-    private static int initiate(int k, double[] properties, double[] vector, int rowsDelta) {
+    private static int copyPropertiesToVector(int k, double[] properties, double[] vector, int rowsDelta) {
         for (int i = 0; i < vector.length; i++) {
             vector[i] = properties[k++];
         }
@@ -160,7 +168,7 @@ public class GateLayerGene extends Gene {
         return k;
     }
     
-    private static int initiate(
+    private static int copyPropertiesToMatrix(
         int k, double[] properties, double[][] matrix,
         int rowsDelta, int columnsDelta) {
             int columns = matrix[0].length;

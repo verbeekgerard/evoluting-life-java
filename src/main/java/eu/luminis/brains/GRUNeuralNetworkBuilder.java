@@ -3,17 +3,17 @@ package eu.luminis.brains;
 import eu.luminis.genetics.*;
 import java.util.List;
 
-public class NeuralNetworkBuilder {
-    private NeuralNetworkGene neuralNetworkGene;
+public class GRUNeuralNetworkBuilder {
+    private GRUNeuralNetworkGene neuralNetworkGene;
 
-    private NeuralNetworkBuilder() {
+    private GRUNeuralNetworkBuilder() {
     }
 
-    public static NeuralNetworkBuilder create() {
-        return new NeuralNetworkBuilder();
+    public static GRUNeuralNetworkBuilder create() {
+        return new GRUNeuralNetworkBuilder();
     }
 
-    public NeuralNetworkBuilder withNeuralNetworkGene(NeuralNetworkGene neuralNetworkGene) {
+    public GRUNeuralNetworkBuilder withNeuralNetworkGene(GRUNeuralNetworkGene neuralNetworkGene) {
         this.neuralNetworkGene = neuralNetworkGene;
 
         return this;

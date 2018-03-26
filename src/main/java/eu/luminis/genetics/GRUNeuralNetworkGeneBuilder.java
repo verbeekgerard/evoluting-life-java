@@ -6,28 +6,28 @@ import eu.luminis.util.Range;
 import java.util.ArrayList;
 import java.util.List;
 
-class NeuralNetworkGeneBuilder {
+class GRUNeuralNetworkGeneBuilder {
     private int inputSize;
     private int outputSize;
 
-    private NeuralNetworkGeneBuilder() {
+    private GRUNeuralNetworkGeneBuilder() {
     }
 
-    public static NeuralNetworkGeneBuilder create() {
-        return new NeuralNetworkGeneBuilder();
+    public static GRUNeuralNetworkGeneBuilder create() {
+        return new GRUNeuralNetworkGeneBuilder();
     }
 
-    public NeuralNetworkGeneBuilder withInputSize(int inputSize) {
+    public GRUNeuralNetworkGeneBuilder withInputSize(int inputSize) {
         this.inputSize = inputSize;
         return this;
     }
 
-    public NeuralNetworkGeneBuilder withOuputSize(int outputSize) {
+    public GRUNeuralNetworkGeneBuilder withOuputSize(int outputSize) {
         this.outputSize = outputSize;
         return this;
     }
 
-    public NeuralNetworkGene build() {
+    public GRUNeuralNetworkGene build() {
         List<GRULayerGene> layers = new ArrayList<>();
         int[] layerSizes = generateLayerSizes();
 
@@ -35,7 +35,7 @@ class NeuralNetworkGeneBuilder {
         layers.addAll(createHiddenLayers(layerSizes));
         layers.add(createOutputLayer(layerSizes));
 
-        return new NeuralNetworkGene(layers);
+        return new GRUNeuralNetworkGene(layers);
     }
 
     private int[] generateLayerSizes() {

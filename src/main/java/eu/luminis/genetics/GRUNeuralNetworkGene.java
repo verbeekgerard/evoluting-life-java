@@ -4,11 +4,11 @@ import eu.luminis.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NeuralNetworkGene {
+public class GRUNeuralNetworkGene {
 
     private final List<GRULayerGene> layers = new ArrayList<>();
 
-    NeuralNetworkGene(List<GRULayerGene> stateLayers) {
+    GRUNeuralNetworkGene(List<GRULayerGene> stateLayers) {
         for (GRULayerGene stateLayer : stateLayers) {
             layers.add(
                 new GRULayerGene(
@@ -33,13 +33,13 @@ public class NeuralNetworkGene {
         }
     }
 
-    public List<NeuralNetworkGene> mate(NeuralNetworkGene partner) {
+    public List<GRUNeuralNetworkGene> mate(GRUNeuralNetworkGene partner) {
         List<GRULayerGene> smallest = this.layers.size() < partner.layers.size() ? this.layers : partner.layers;
         List<GRULayerGene> largest = this.layers.size() < partner.layers.size() ? partner.layers : this.layers;
 
-        List<NeuralNetworkGene> children = new ArrayList<>();
-        children.add(new NeuralNetworkGene(new ArrayList<>()));
-        children.add(new NeuralNetworkGene(new ArrayList<>()));
+        List<GRUNeuralNetworkGene> children = new ArrayList<>();
+        children.add(new GRUNeuralNetworkGene(new ArrayList<>()));
+        children.add(new GRUNeuralNetworkGene(new ArrayList<>()));
 
         for(int i=0; i<smallest.size(); i++) {
             List<GRULayerGene> childLayers = largest.get(i).mate(smallest.get(i));
@@ -50,11 +50,7 @@ public class NeuralNetworkGene {
 
         for(int i=smallest.size(); i<largest.size(); i++) {
             GRULayerGene layer = largest.get(i);
-            children.get(0).layers.add(
-                new GRULayerGene(
-                    layer.getUpdateLayerGene(), 
-                    layer.getResetLayerGene(),
-                    layer.getOutputLayerGene()));
+            children.get(0).layers.add(layer.Clone());
         }
 
         return children;

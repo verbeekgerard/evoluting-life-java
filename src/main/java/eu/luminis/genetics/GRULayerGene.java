@@ -14,21 +14,17 @@ public class GRULayerGene {
     }
 
     public GRULayerGene(GateLayerGene updateLayerGene, GateLayerGene resetLayerGene, GateLayerGene outputLayerGene) {
-        this.updateLayerGene = new GateLayerGene(
-            updateLayerGene.getWeights().clone(),
-            updateLayerGene.getStateWeights().clone(),
-            updateLayerGene.getGains().clone(),
-            updateLayerGene.getBiases().clone());
-        this.resetLayerGene = new GateLayerGene(
-            resetLayerGene.getWeights().clone(),
-            resetLayerGene.getStateWeights().clone(),
-            resetLayerGene.getGains().clone(),
-            resetLayerGene.getBiases().clone());
-        this.outputLayerGene =  new GateLayerGene(
-            outputLayerGene.getWeights().clone(),
-            outputLayerGene.getStateWeights().clone(),
-            outputLayerGene.getGains().clone(),
-            outputLayerGene.getBiases().clone());
+        this.updateLayerGene = updateLayerGene;
+        this.resetLayerGene = resetLayerGene;
+        this.outputLayerGene = outputLayerGene;
+    }
+
+    public GRULayerGene Clone() {
+        return new GRULayerGene(
+            this.updateLayerGene.Clone(),
+            this.resetLayerGene.Clone(),
+            this.outputLayerGene.Clone()
+        );
     }
 
     public GateLayerGene getUpdateLayerGene() {

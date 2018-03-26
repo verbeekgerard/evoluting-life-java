@@ -86,7 +86,7 @@ public class SimRobotBuilder {
     }
 
     private IBrain initializeBrain(Genome genome) {
-        return NeuralNetworkBuilder.create()
+        return GRUNeuralNetworkBuilder.create()
             .withNeuralNetworkGene(genome.getBrain())
             .build();
     }
