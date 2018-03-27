@@ -8,6 +8,8 @@ public class GateLayerGene extends Gene {
     private final double[] gains;
     private final double[] biases;
 
+    private final double biasOffset;
+
     private int rowDelta;
     private int columnDelta;
 
@@ -15,30 +17,34 @@ public class GateLayerGene extends Gene {
         this(rows, columns, 0.0);
     }
 
-    public GateLayerGene(int rows, int columns, double offset) {
-        weights = new double[rows][columns];
-        stateWeights = new double[rows][rows];
-        gains = new double[rows];
-        biases = new double[rows];
+    public GateLayerGene(int rows, int columns, double biasOffset) {
+        this.biasOffset = biasOffset;
+
+        this.weights = new double[rows][columns];
+        this.stateWeights = new double[rows][rows];
+        this.gains = new double[rows];
+        this.biases = new double[rows];
         
         for (int i = 0; i < rows; i++) {
-            gains[i] = evolver.Gain.getNewValue();
-            biases[i] = evolver.Bias.getNewValue(offset);
+            this.gains[i] = evolver.Gain.getNewValue();
+            this.biases[i] = evolver.Bias.getNewValue(this.biasOffset);
 
             for (int j = 0; j < columns; j++) {
-                weights[i][j] = evolver.Weight.getNewValue();
+                this.weights[i][j] = evolver.Weight.getNewValue();
             }
             for (int j = 0; j < rows; j++) {
-                stateWeights[i][j] = evolver.StateWeight.getNewValue();
+                this.stateWeights[i][j] = evolver.StateWeight.getNewValue();
             }
         }
     }
 
-    public GateLayerGene(double[][] weights, double[][] stateWeights, double[] gains, double[] biases) {
+    public GateLayerGene(double[][] weights, double[][] stateWeights, double[] gains, double[] biases, double biasOffset) {
         this.weights = weights;
         this.stateWeights = stateWeights;
         this.gains = gains;
         this.biases = biases;
+
+        this.biasOffset = biasOffset;
     }
 
     public GateLayerGene Clone() {
@@ -46,7 +52,8 @@ public class GateLayerGene extends Gene {
             this.weights.clone(),
             this.stateWeights.clone(),
             this.gains.clone(),
-            this.biases.clone());
+            this.biases.clone(),
+            this.biasOffset);
     }
 
     public double[][] getWeights() {
@@ -76,7 +83,7 @@ public class GateLayerGene extends Gene {
     public void mutate() {
         for (int i = 0; i < this.getRows(); i++) {
             gains[i] = evolver.Gain.mutateValue(gains[i]);
-            biases[i] = evolver.Bias.mutateValue(biases[i]);
+            biases[i] = evolver.Bias.mutateValue(biases[i], this.biasOffset);
 
             for (int j = 0; j < this.getColumns(); j++) {
                 weights[i][j] = evolver.Weight.mutateValue(weights[i][j]);
@@ -105,7 +112,7 @@ public class GateLayerGene extends Gene {
         k = copyMatrixToProperties(k, properties, weights, rowDelta, columnDelta);
         k = copyMatrixToProperties(k, properties, stateWeights, rowDelta, rowDelta);
         k = copyVectorToProperties(k, properties, gains, rowDelta);
-        k = copyVectorToProperties(k, properties, biases, rowDelta);
+        k = copyVectorToProperties(k, properties, biases, rowDelta, this.biasOffset);
 
         return properties;
     }
@@ -126,7 +133,7 @@ public class GateLayerGene extends Gene {
         double[] initiateBiases = new double[this.getRows()];
         k = copyPropertiesToVector(k, properties, initiateBiases, rowDelta);
 
-        return new GateLayerGene(initiateWeights, initiateStateWeights, initiateGains, initiateBiases);
+        return new GateLayerGene(initiateWeights, initiateStateWeights, initiateGains, initiateBiases, this.biasOffset);
     }
 
     @Override
@@ -140,10 +147,21 @@ public class GateLayerGene extends Gene {
     }
 
     private static int copyVectorToProperties(int k, double[] properties, double[] vector, int rowsDelta) {
+        return copyVectorToProperties(k, properties, vector, rowsDelta, 0.0);
+    }
+
+    private static int copyVectorToProperties(int k, double[] properties, double[] vector, int rowsDelta, double initValue) {
         for (int i = 0; i < vector.length; i++) {
             properties[k++] = vector[i];
         }
-        k += rowsDelta; // Fill up
+
+        if (initValue == 0.0) {
+            return k + rowsDelta;
+        }
+
+        for (int i = vector.length; i < vector.length + rowsDelta; i++) {
+            properties[k++] = initValue;
+        }
 
         return k;
     }

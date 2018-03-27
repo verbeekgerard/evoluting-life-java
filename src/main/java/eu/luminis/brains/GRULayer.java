@@ -36,6 +36,7 @@ class GRULayer implements ILayer {
     private final GateLayer resetLayer;
     private final GateLayer outputLayer;
 
+    private final ArrayRealVector one;
     private RealVector state;
 
     public GRULayer(GateLayer updateLayer,
@@ -53,6 +54,7 @@ class GRULayer implements ILayer {
         this.outputLayer = outputLayer;
 
         this.state = new ArrayRealVector(updateLayer.getWidth());
+        this.one = new ArrayRealVector(updateLayer.getWidth(), 1.0);
     }
 
     public RealVector transmit(RealVector input) {
@@ -69,9 +71,7 @@ class GRULayer implements ILayer {
         RealVector rt = resetLayer.calculate(input, state);
         RealVector ht = outputLayer.calculate(input, rt.ebeMultiply(state));
 
-        ArrayRealVector one = new ArrayRealVector(state.getDimension(), 1.0);
-
-        // when z=1 and r=1, then we have the SRNN
+        // when z=1 and r=1, then we have the same behaviour as a SRNN
         return state = one.subtract(zt).ebeMultiply(state).add(zt.ebeMultiply(ht));
     }
 }

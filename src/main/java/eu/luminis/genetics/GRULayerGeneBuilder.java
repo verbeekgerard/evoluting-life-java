@@ -26,15 +26,19 @@ class GRULayerGeneBuilder {
     }
 
     public GRULayerGene build() {
-        return new GRULayerGene(buildGateLayerGene(), buildGateLayerGene(), buildGateLayerGene());
+        return new GRULayerGene(buildGateLayerGene(1.5), buildGateLayerGene(1.5), buildGateLayerGene());
     }
 
-    public GateLayerGene buildGateLayerGene() {
+    private GateLayerGene buildGateLayerGene() {
+        return buildGateLayerGene(0.0);
+    }
+
+    private GateLayerGene buildGateLayerGene(double biasOffset) {
         RealMatrix matrix = MatrixUtils.createRealIdentityMatrix(size).scalarMultiply(multiplier);
         RealMatrix stateWeights = MatrixUtils.createRealMatrix(size, size);
         RealVector gains = new ArrayRealVector(size);
-        RealVector biases = new ArrayRealVector(size);
+        RealVector biases = new ArrayRealVector(size, biasOffset);
         
-        return new GateLayerGene(matrix.getData(), stateWeights.getData(), gains.toArray(), biases.toArray());
+        return new GateLayerGene(matrix.getData(), stateWeights.getData(), gains.toArray(), biases.toArray(), biasOffset);
     }
 }
