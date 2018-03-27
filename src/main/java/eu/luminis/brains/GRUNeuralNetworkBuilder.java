@@ -26,14 +26,15 @@ public class GRUNeuralNetworkBuilder {
         for (int i=0; i<layers.length-1; i++) {
             GRULayerGene layerGene = layerGenes.get(i);
             GRULayer layer = GRULayerBuilder.create()
-                .withLayerGene(layerGene)
+                .withGene(layerGene)
                 .build();
             layers[i] = layer;
         }
 
         GRULayer outputLayer = GRULayerBuilder.create()
-            .withLayerGene(layerGenes.get(layers.length-1))
-            .buildAsOutput();
+            .withGene(layerGenes.get(layers.length-1))
+            .withOutputActivation(new HardSigmoid())
+            .build();
         layers[layers.length-1] = outputLayer;
 
         return new NeuralNetwork(layers);

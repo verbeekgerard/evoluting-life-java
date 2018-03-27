@@ -3,13 +3,15 @@ package eu.luminis.brains;
 import eu.luminis.genetics.*;
 
 import org.apache.commons.math3.analysis.*;
-import org.apache.commons.math3.linear.*;
 
 /**
  * Builds up a layer of the gated recurrent unit neural network
  */
 class GRULayerBuilder {
-    private GRULayerGene layerGene;
+    private GRULayerGene gene;
+    private UnivariateFunction resetActivation = new HardSigmoid();
+    private UnivariateFunction updateActivation = new HardSigmoid();
+    private UnivariateFunction outputActivation = new HardTanh();
 
     private GRULayerBuilder() {
     }
@@ -18,38 +20,42 @@ class GRULayerBuilder {
         return new GRULayerBuilder();
     }
 
-    public GRULayerBuilder withLayerGene(GRULayerGene layerGene) {
-        this.layerGene = layerGene;
+    public GRULayerBuilder withGene(GRULayerGene gene) {
+        this.gene = gene;
+        return this;
+    }
+
+    public GRULayerBuilder withResetActivation(UnivariateFunction activation) {
+        this.resetActivation = activation;
+        return this;
+    }
+
+    public GRULayerBuilder withUpdateActivation(UnivariateFunction activation) {
+        this.updateActivation = activation;
+        return this;
+    }
+
+    public GRULayerBuilder withOutputActivation(UnivariateFunction activation) {
+        this.outputActivation = activation;
         return this;
     }
 
     public GRULayer build() {
-        return buildWithFunction(new HardTanh());
-    }
+        GateLayer updateLayer = GateLayerBuilder.create()
+            .withGene(gene.getUpdateLayerGene())
+            .withActivation(updateActivation)
+            .build();
 
-    public GRULayer buildAsOutput() {
-        return buildWithFunction(new HardSigmoid());
-    }
+        GateLayer resetLayer = GateLayerBuilder.create()
+            .withGene(gene.getResetLayerGene())
+            .withActivation(resetActivation)
+            .build();
 
-    private GRULayer buildWithFunction(UnivariateFunction function) {
-        GateLayer updateLayer = new GateLayer(
-            new Array2DRowRealMatrix(layerGene.getUpdateLayerGene().getWeights()),
-            new Array2DRowRealMatrix(layerGene.getUpdateLayerGene().getStateWeights()),
-            new ArrayRealVector(layerGene.getUpdateLayerGene().getGains()),
-            new ArrayRealVector(layerGene.getUpdateLayerGene().getBiases()));
+        GateLayer outputLayer = GateLayerBuilder.create()
+            .withGene(gene.getOutputLayerGene())
+            .withActivation(outputActivation)
+            .build();
 
-        GateLayer resetLayer = new GateLayer(
-            new Array2DRowRealMatrix(layerGene.getResetLayerGene().getWeights()),
-            new Array2DRowRealMatrix(layerGene.getResetLayerGene().getStateWeights()),
-            new ArrayRealVector(layerGene.getResetLayerGene().getGains()),
-            new ArrayRealVector(layerGene.getResetLayerGene().getBiases()));
-
-        GateLayer outputLayer = new GateLayer(
-            new Array2DRowRealMatrix(layerGene.getOutputLayerGene().getWeights()),
-            new Array2DRowRealMatrix(layerGene.getOutputLayerGene().getStateWeights()),
-            new ArrayRealVector(layerGene.getOutputLayerGene().getGains()),
-            new ArrayRealVector(layerGene.getOutputLayerGene().getBiases()));
-
-        return new GRULayer(updateLayer, resetLayer, outputLayer, function);
+        return new GRULayer(updateLayer, resetLayer, outputLayer);
     }
 }

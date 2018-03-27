@@ -28,13 +28,6 @@ class GRULayer implements ILayer {
     public GRULayer(GateLayer updateLayer,
                     GateLayer resetLayer,
                     GateLayer outputLayer) {
-        this(updateLayer, resetLayer, outputLayer, new HardTanh());
-    }
-
-    public GRULayer(GateLayer updateLayer,
-                    GateLayer resetLayer,
-                    GateLayer outputLayer, 
-                    UnivariateFunction activation) {
         this.updateLayer = updateLayer;
         this.resetLayer = resetLayer;
         this.outputLayer = outputLayer;

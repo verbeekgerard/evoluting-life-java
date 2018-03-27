@@ -112,7 +112,7 @@ public class GateLayerGene extends Gene {
         k = copyMatrixToProperties(k, properties, weights, rowDelta, columnDelta);
         k = copyMatrixToProperties(k, properties, stateWeights, rowDelta, rowDelta);
         k = copyVectorToProperties(k, properties, gains, rowDelta);
-        k = copyVectorToProperties(k, properties, biases, rowDelta);//, biasOffset);
+        k = copyVectorToProperties(k, properties, biases, rowDelta, biasOffset);
 
         return properties;
     }
