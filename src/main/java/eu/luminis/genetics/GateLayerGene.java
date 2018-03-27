@@ -12,6 +12,10 @@ public class GateLayerGene extends Gene {
     private int columnDelta;
 
     public GateLayerGene(int rows, int columns) {
+        this(rows, columns, 0.0);
+    }
+
+    public GateLayerGene(int rows, int columns, double offset) {
         weights = new double[rows][columns];
         stateWeights = new double[rows][rows];
         gains = new double[rows];
@@ -19,7 +23,7 @@ public class GateLayerGene extends Gene {
         
         for (int i = 0; i < rows; i++) {
             gains[i] = evolver.Gain.getNewValue();
-            biases[i] = evolver.Bias.getNewValue();
+            biases[i] = evolver.Bias.getNewValue(offset);
 
             for (int j = 0; j < columns; j++) {
                 weights[i][j] = evolver.Weight.getNewValue();

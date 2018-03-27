@@ -6,7 +6,7 @@
 
     <groupId>eu.luminis</groupId>
     <artifactId>evoluting-life-java</artifactId>
-    <version>4.7.4</version>
+    <version>4.7.6</version>
     <packaging>jar</packaging>
 
     <name>EvolutingLife</name>

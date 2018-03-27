@@ -20,6 +20,10 @@ class EvolvingValue {
         return range.random();
     }
 
+    double getNewValue(double offset) {
+        return range.random() + offset;
+    }
+
     double mutateValue(double value) {
         if (Math.random() <= replacementRate.get()) {
             return range.random();

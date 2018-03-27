@@ -59,7 +59,11 @@ class GRULayer implements ILayer {
         /**
          * z_t = sigmoid(W_z . x_t + U_z . h_t-1 + b_z)
          * r_t = sigmoid(W_r . x_t + U_r . h_t-1 + b_r)
-         * h_t = (1 - z_t) * h_t-1 + z_t * tanh(W_r . x_t + U_h . (r_t * h_t-1) + b_h)
+         * h'_t = tanh(W_r . x_t + U_h . (r_t * h_t-1) + b_h)
+         * 
+         * One of both:
+         * h_t = (1 - z_t) * h_t-1 + z_t * h'_t
+         * h_t = z_t * h_t-1 + (1 - z_t) * h'_t
         */
         RealVector zt = updateLayer.calculate(input, state);
         RealVector rt = resetLayer.calculate(input, state);
@@ -67,6 +71,7 @@ class GRULayer implements ILayer {
 
         ArrayRealVector one = new ArrayRealVector(state.getDimension(), 1.0);
 
+        // when z=1 and r=1, then we have the SRNN
         return state = one.subtract(zt).ebeMultiply(state).add(zt.ebeMultiply(ht));
     }
 }
