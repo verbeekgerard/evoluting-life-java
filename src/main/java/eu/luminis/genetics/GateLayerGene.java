@@ -8,7 +8,7 @@ public class GateLayerGene extends Gene {
     private final double[] gains;
     private final double[] biases;
 
-    private final double biasOffset;
+    private final double biasOffset; // TODO: Use average next to offset
 
     private int rowDelta;
     private int columnDelta;

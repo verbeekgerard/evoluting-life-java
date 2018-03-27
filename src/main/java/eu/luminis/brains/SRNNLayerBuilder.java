@@ -3,14 +3,14 @@ package eu.luminis.brains;
 import eu.luminis.genetics.*;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.function.*;
 import org.apache.commons.math3.linear.*;
 
 /**
  * Builds up a layer of the simple recurrent neural network
  */
 class SRNNLayerBuilder {
-    private SRNNLayerGene layerGene;
+    private SRNNLayerGene gene;
+    private UnivariateFunction activation = new HardTanh();
 
     private SRNNLayerBuilder() {
     }
@@ -19,25 +19,22 @@ class SRNNLayerBuilder {
         return new SRNNLayerBuilder();
     }
 
-    public SRNNLayerBuilder withLayerGene(SRNNLayerGene layerGene) {
-        this.layerGene = layerGene;
+    public SRNNLayerBuilder withGene(SRNNLayerGene gene) {
+        this.gene = gene;
+        return this;
+    }
+
+    public SRNNLayerBuilder withActivation(UnivariateFunction activation) {
+        this.activation = activation;
         return this;
     }
 
     public SRNNLayer build() {
-        return buildWithFunction(new HardTanh());
-    }
+        RealMatrix weights = new Array2DRowRealMatrix(gene.getWeights());
+        RealVector biases = new ArrayRealVector(gene.getBiases());
+        RealMatrix stateWeights = new Array2DRowRealMatrix(gene.getStateWeights());
+        RealVector gains = new ArrayRealVector(gene.getGains());
 
-    public SRNNLayer buildAsOutput() {
-        return buildWithFunction(new Sigmoid());
-    }
-
-    private SRNNLayer buildWithFunction(UnivariateFunction function) {
-        RealMatrix weights = new Array2DRowRealMatrix(layerGene.getWeights());
-        RealVector biases = new ArrayRealVector(layerGene.getBiases());
-        RealMatrix stateWeights = new Array2DRowRealMatrix(layerGene.getStateWeights());
-        RealVector gains = new ArrayRealVector(layerGene.getGains());
-
-        return new SRNNLayer(weights, biases, stateWeights, gains, function);
+        return new SRNNLayer(weights, biases, stateWeights, gains, activation);
     }
 }

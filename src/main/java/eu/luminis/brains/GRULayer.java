@@ -1,18 +1,6 @@
 package eu.luminis.brains;
 
-import org.apache.commons.math3.analysis.*;
 import org.apache.commons.math3.linear.*;
-
-/**
- * Definitions
- * -----------
- * x_t: input vector
- * h_t: output vector
- * z_t: update gate vector
- * r_t: reset gate vector
- * W, U and b parameter matrices and vector
- * 
- */
 
 /**
  * A layer of the gated recurrent unit neural network
@@ -46,9 +34,9 @@ class GRULayer implements ILayer {
          * h_t = (1 - z_t) * h_t-1 + z_t * h'_t
          * h_t = z_t * h_t-1 + (1 - z_t) * h'_t
         */
-        RealVector zt = updateLayer.calculate(input, state);
-        RealVector rt = resetLayer.calculate(input, state);
-        RealVector ht = outputLayer.calculate(input, rt.ebeMultiply(state));
+        RealVector zt = updateLayer.calculate(input, state); // update vector
+        RealVector rt = resetLayer.calculate(input, state); // reset vector
+        RealVector ht = outputLayer.calculate(input, rt.ebeMultiply(state)); // output candidate vector
 
         // when z=1 and r=1, then we have the same behaviour as a SRNN
         return state = one.subtract(zt).ebeMultiply(state).add(zt.ebeMultiply(ht));
