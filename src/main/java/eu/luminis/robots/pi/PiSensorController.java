@@ -5,9 +5,6 @@ import com.pi4j.io.gpio.RaspiPin;
 import eu.luminis.robots.core.ISensorController;
 import eu.luminis.robots.pi.util.Led;
 
-import java.util.Collections;
-import java.util.function.Consumer;
-
 public class PiSensorController implements ISensorController, IPiController {
     private final static GpioController gpio = Pi4JControllerFactory.GetController();
 

@@ -21,9 +21,9 @@ public class GRULayerGene {
 
     public GRULayerGene Clone() {
         return new GRULayerGene(
-            this.updateLayerGene.Clone(),
-            this.resetLayerGene.Clone(),
-            this.outputLayerGene.Clone()
+            updateLayerGene.Clone(),
+            resetLayerGene.Clone(),
+            outputLayerGene.Clone()
         );
     }
 
@@ -48,9 +48,9 @@ public class GRULayerGene {
     public List<GRULayerGene> mate(GRULayerGene partner) {
         List<GRULayerGene> children = new ArrayList<>();
 
-        GateLayerGene[] updateLayerGeneChildren = this.updateLayerGene.mate(partner.updateLayerGene);
-        GateLayerGene[] resetLayerGeneChildren = this.resetLayerGene.mate(partner.resetLayerGene);
-        GateLayerGene[] outputLayerGeneChildren = this.outputLayerGene.mate(partner.outputLayerGene);
+        GateLayerGene[] updateLayerGeneChildren = updateLayerGene.mate(partner.updateLayerGene);
+        GateLayerGene[] resetLayerGeneChildren = resetLayerGene.mate(partner.resetLayerGene);
+        GateLayerGene[] outputLayerGeneChildren = outputLayerGene.mate(partner.outputLayerGene);
 
         for (int k = 0; k < 2; k++) {
             children.add(new GRULayerGene(

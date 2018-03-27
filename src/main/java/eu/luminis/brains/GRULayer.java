@@ -12,20 +12,6 @@ import org.apache.commons.math3.linear.*;
  * r_t: reset gate vector
  * W, U and b parameter matrices and vector
  * 
- * '*': element wise product
- * '.': dot product
- * 
- * Functions
- * ---------
- * z_t = sigmoid(W_z . x_t + U_z . h_t-1 + b_z)
- * r_t = sigmoid(W_r . x_t + U_r . h_t-1 + b_r)
- * h_t = (1 - z_t) * h_t-1 + z_t * tanh(W_r . x_t + U_h . (r_t * h_t-1) + b_h)
- * 
- * Parameters
- * ----------
- * W_z, U_z, b_z
- * W_r, U_r, b_r
- * W_h, U_h, b_h
  */
 
 /**

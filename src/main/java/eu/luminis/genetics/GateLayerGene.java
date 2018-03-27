@@ -49,11 +49,11 @@ public class GateLayerGene extends Gene {
 
     public GateLayerGene Clone() {
         return new GateLayerGene(
-            this.weights.clone(),
-            this.stateWeights.clone(),
-            this.gains.clone(),
-            this.biases.clone(),
-            this.biasOffset);
+            weights.clone(),
+            stateWeights.clone(),
+            gains.clone(),
+            biases.clone(),
+            biasOffset);
     }
 
     public double[][] getWeights() {
@@ -81,30 +81,30 @@ public class GateLayerGene extends Gene {
     }
 
     public void mutate() {
-        for (int i = 0; i < this.getRows(); i++) {
+        for (int i = 0; i < getRows(); i++) {
             gains[i] = evolver.Gain.mutateValue(gains[i]);
-            biases[i] = evolver.Bias.mutateValue(biases[i], this.biasOffset);
+            biases[i] = evolver.Bias.mutateValue(biases[i], biasOffset);
 
-            for (int j = 0; j < this.getColumns(); j++) {
+            for (int j = 0; j < getColumns(); j++) {
                 weights[i][j] = evolver.Weight.mutateValue(weights[i][j]);
             }
-            for (int j = 0; j < this.getRows(); j++) {
+            for (int j = 0; j < getRows(); j++) {
                 stateWeights[i][j] = evolver.StateWeight.mutateValue(stateWeights[i][j]);
             }
         }
     }
 
     public GateLayerGene[] mate(GateLayerGene partner) {
-        this.setSizeDeltas(partner.getRows(), partner.getColumns());
-        partner.setSizeDeltas(this.getRows(), this.getColumns());
+        setSizeDeltas(partner.getRows(), partner.getColumns());
+        partner.setSizeDeltas(getRows(), getColumns());
 
         return evolver.mate(this, partner);
     }
 
     @Override
     public double[] getInitiateProperties() {
-        int initiateRows = this.getRows() + rowDelta;
-        int initiateColumns = this.getColumns() + columnDelta;
+        int initiateRows = getRows() + rowDelta;
+        int initiateColumns = getColumns() + columnDelta;
         
         double[] properties = new double[initiateRows * (initiateColumns + initiateRows + 2)];
 
@@ -112,7 +112,7 @@ public class GateLayerGene extends Gene {
         k = copyMatrixToProperties(k, properties, weights, rowDelta, columnDelta);
         k = copyMatrixToProperties(k, properties, stateWeights, rowDelta, rowDelta);
         k = copyVectorToProperties(k, properties, gains, rowDelta);
-        k = copyVectorToProperties(k, properties, biases, rowDelta, this.biasOffset);
+        k = copyVectorToProperties(k, properties, biases, rowDelta);//, biasOffset);
 
         return properties;
     }
@@ -121,19 +121,19 @@ public class GateLayerGene extends Gene {
     public GateLayerGene initiate(double[] properties) {
         int k=0;
 
-        double[][] initiateWeights = new double[this.getRows()][this.getColumns()];
+        double[][] initiateWeights = new double[getRows()][getColumns()];
         k = copyPropertiesToMatrix(k, properties, initiateWeights, rowDelta, columnDelta);
 
-        double[][] initiateStateWeights = new double[this.getRows()][this.getRows()];
+        double[][] initiateStateWeights = new double[getRows()][getRows()];
         k = copyPropertiesToMatrix(k, properties, initiateStateWeights, rowDelta, rowDelta);
 
-        double[] initiateGains = new double[this.getRows()];
+        double[] initiateGains = new double[getRows()];
         k = copyPropertiesToVector(k, properties, initiateGains, rowDelta);
 
-        double[] initiateBiases = new double[this.getRows()];
+        double[] initiateBiases = new double[getRows()];
         k = copyPropertiesToVector(k, properties, initiateBiases, rowDelta);
 
-        return new GateLayerGene(initiateWeights, initiateStateWeights, initiateGains, initiateBiases, this.biasOffset);
+        return new GateLayerGene(initiateWeights, initiateStateWeights, initiateGains, initiateBiases, biasOffset);
     }
 
     @Override
@@ -142,8 +142,8 @@ public class GateLayerGene extends Gene {
     }
 
     private void setSizeDeltas(int partnerRows, int partnerColumns) {
-        rowDelta = partnerRows > this.getRows() ? partnerRows - this.getRows() : 0;
-        columnDelta = partnerColumns > this.getColumns() ? partnerColumns - this.getColumns() : 0;
+        rowDelta = partnerRows > getRows() ? partnerRows - getRows() : 0;
+        columnDelta = partnerColumns > getColumns() ? partnerColumns - getColumns() : 0;
     }
 
     private static int copyVectorToProperties(int k, double[] properties, double[] vector, int rowsDelta) {
