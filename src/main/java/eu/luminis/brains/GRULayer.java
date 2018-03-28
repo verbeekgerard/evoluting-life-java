@@ -39,6 +39,9 @@ class GRULayer implements ILayer {
         RealVector ht = outputLayer.calculate(input, rt.ebeMultiply(state)); // output candidate vector
 
         // when z=1 and r=1, then we have the same behaviour as a SRNN
-        return state = one.subtract(zt).ebeMultiply(state).add(zt.ebeMultiply(ht));
+        RealVector stateContribution = one.subtract(zt).ebeMultiply(state);
+        RealVector outputContribution = zt.ebeMultiply(ht);
+
+        return state = stateContribution.add(outputContribution);
     }
 }
