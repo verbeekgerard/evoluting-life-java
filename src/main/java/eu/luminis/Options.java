@@ -97,7 +97,7 @@ public final class Options {
     public final static Option maxWeight = new Option(0.5);
     public final static Option maxBias = new Option(0.5);
     public final static Option maxGain = new Option(1.0);
-    public final static Option maxStateWeight = new Option(0.1);
+    public final static Option maxStateWeight = new Option(0.5);
 
     private final static double layerMutationRates = defaultMutationRate;
     private final static double layerReplacementRates = defaultReplacementRate;

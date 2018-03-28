@@ -26,7 +26,7 @@ class GRULayerGeneBuilder {
     }
 
     public GRULayerGene build() {
-        return new GRULayerGene(buildGateLayerGene(1.5), buildGateLayerGene(1.5), buildGateLayerGene());
+        return new GRULayerGene(buildGateLayerGene(1.0), buildGateLayerGene(1.0), buildGateLayerGene());
     }
 
     private GateLayerGene buildGateLayerGene() {
