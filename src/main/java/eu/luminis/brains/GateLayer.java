@@ -27,12 +27,14 @@ class GateLayer {
     }
 
     public RealVector calculate(RealVector input, RealVector state) {
-        RealVector wSate = stateWeights.operate(state);
         RealVector wInput = weights.operate(input);
+        RealVector wSate = stateWeights.operate(state);
 
         RealVector sum = wInput.add(wSate);
 
-        return normalize(sum).map(activation);
+        RealVector z_norm = normalize(sum).add(biases);
+
+        return z_norm.map(activation);
     }
 
     public int getWidth() {
@@ -45,7 +47,7 @@ class GateLayer {
 
         RealVector samplesCentered = samples.mapSubtract(mu);
 
-        return gains.mapDivide(s).ebeMultiply(samplesCentered).add(biases);
+        return gains.mapDivide(s).ebeMultiply(samplesCentered);
     }
 
     private double sigma(RealVector samples, double mean) {
