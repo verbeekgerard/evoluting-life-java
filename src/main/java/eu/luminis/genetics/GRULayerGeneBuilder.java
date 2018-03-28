@@ -8,8 +8,8 @@ class GRULayerGeneBuilder {
     private int rows;
     private int columns;
     private double multiplier = new Range(-1 * Options.maxWeight.get(), Options.maxWeight.get()).random();
-    private double resetBiasOffset = 1.0;
-    private double updateBiasOffset = 1.5;
+    private double resetBiasOffset = 1.2;
+    private double updateBiasOffset = 1.2;
 
     private GRULayerGeneBuilder() {
     }
