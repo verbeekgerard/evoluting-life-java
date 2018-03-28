@@ -42,14 +42,14 @@ public class Genome {
 
     	List<Genome> children = new ArrayList<>();
 
-    	List<GRUNeuralNetworkGene> brainChildren = this.brain.mate(partner.brain);
+    	GRUNeuralNetworkGene[] brainChildren = this.brain.mate(partner.brain);
     	LifeGene[] lifeChildren = this.life.mate(partner.life);
     	SensorGene[] sensorChildren = this.sensor.mate(partner.sensor);
         MovementGene[] movementChildren = this.movement.mate(partner.movement);
    
-        for (int i = 0; i < brainChildren.size(); i++) { 
+        for (int i = 0; i < brainChildren.length; i++) { 
             children.add(new Genome(
-        		brainChildren.get(i),
+        		brainChildren[i],
         		lifeChildren[i],
         		sensorChildren[i],
                 movementChildren[i]

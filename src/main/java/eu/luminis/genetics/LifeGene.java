@@ -1,6 +1,6 @@
 package eu.luminis.genetics;
 
-public class LifeGene extends Gene {
+public class LifeGene extends Evolvable {
     private static final LifeGeneEvolver evolver = new LifeGeneEvolver();
 
     private double oldAge;

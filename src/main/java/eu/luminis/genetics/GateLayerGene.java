@@ -1,6 +1,6 @@
 package eu.luminis.genetics;
 
-public class GateLayerGene extends Gene {
+public class GateLayerGene extends Evolvable {
     private static final LayerGeneEvolver evolver = new LayerGeneEvolver();
 
     private final double[][] weights;

@@ -1,6 +1,6 @@
 package eu.luminis.genetics;
 
-public class SRNNLayerGene extends Gene {
+public class SRNNLayerGene extends Evolvable {
     private static final LayerGeneEvolver evolver = new LayerGeneEvolver();
 
     private double[][] weights;

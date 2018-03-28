@@ -39,18 +39,18 @@ public class GRULayerGene {
         outputLayerGene.mutate();
     }
 
-    public List<GRULayerGene> mate(GRULayerGene partner) {
-        List<GRULayerGene> children = new ArrayList<>();
+    public GRULayerGene[] mate(GRULayerGene partner) {
+        GRULayerGene[] children = new GRULayerGene[2];
 
         GateLayerGene[] updateLayerGeneChildren = updateLayerGene.mate(partner.updateLayerGene);
         GateLayerGene[] resetLayerGeneChildren = resetLayerGene.mate(partner.resetLayerGene);
         GateLayerGene[] outputLayerGeneChildren = outputLayerGene.mate(partner.outputLayerGene);
 
         for (int k = 0; k < 2; k++) {
-            children.add(new GRULayerGene(
+            children[k] = new GRULayerGene(
                 updateLayerGeneChildren[k],
                 resetLayerGeneChildren[k],
-                outputLayerGeneChildren[k]));
+                outputLayerGeneChildren[k]);
         }
 
         return children;

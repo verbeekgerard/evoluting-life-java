@@ -33,24 +33,24 @@ public class GRUNeuralNetworkGene {
         }
     }
 
-    public List<GRUNeuralNetworkGene> mate(GRUNeuralNetworkGene partner) {
+    public GRUNeuralNetworkGene[] mate(GRUNeuralNetworkGene partner) {
         List<GRULayerGene> smallest = this.layers.size() < partner.layers.size() ? this.layers : partner.layers;
         List<GRULayerGene> largest = this.layers.size() < partner.layers.size() ? partner.layers : this.layers;
 
-        List<GRUNeuralNetworkGene> children = new ArrayList<>();
-        children.add(new GRUNeuralNetworkGene(new ArrayList<>()));
-        children.add(new GRUNeuralNetworkGene(new ArrayList<>()));
+        GRUNeuralNetworkGene[] children = new GRUNeuralNetworkGene[2];
+        children[0] = new GRUNeuralNetworkGene(new ArrayList<>());
+        children[1] = new GRUNeuralNetworkGene(new ArrayList<>());
 
         for(int i=0; i<smallest.size(); i++) {
-            List<GRULayerGene> childLayers = largest.get(i).mate(smallest.get(i));
+            GRULayerGene[] childLayers = largest.get(i).mate(smallest.get(i));
             for (int k = 0; k < 2; k++) {
-                children.get(k).layers.add(childLayers.get(k));
+                children[k].layers.add(childLayers[k]);
             }
         }
 
         for(int i=smallest.size(); i<largest.size(); i++) {
             GRULayerGene layer = largest.get(i);
-            children.get(0).layers.add(layer.Clone());
+            children[0].layers.add(layer.Clone());
         }
 
         return children;
