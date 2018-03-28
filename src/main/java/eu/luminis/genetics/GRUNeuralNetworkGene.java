@@ -28,7 +28,7 @@ public class GRUNeuralNetworkGene {
             int size = layers.get(newIndex).getUpdateLayerGene().getColumns();
             GRULayerGene newLAyer = GRULayerGeneBuilder.create()
                 .withSize(size)
-                .build();
+                .builIdentity();
             layers.add(newIndex, newLAyer);
         }
     }

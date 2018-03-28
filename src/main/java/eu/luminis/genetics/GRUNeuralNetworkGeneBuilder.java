@@ -52,18 +52,24 @@ class GRUNeuralNetworkGeneBuilder {
     }
 
     private GRULayerGene createInputLayer(int[] layerSizes) {
-        return new GRULayerGene(layerSizes[0], this.inputSize);
+        return GRULayerGeneBuilder.create()
+            .withSize(layerSizes[0], this.inputSize)
+            .build();
     }
 
     private GRULayerGene createOutputLayer(int[] layerSizes) {
-        return new GRULayerGene(this.outputSize, layerSizes[layerSizes.length-1]);
+        return GRULayerGeneBuilder.create()
+            .withSize(this.outputSize, layerSizes[layerSizes.length-1])
+            .build();
     }
 
     private List<GRULayerGene> createHiddenLayers(int[] layerSizes) {
         List<GRULayerGene> layers = new ArrayList<>();
 
         for (int i = 0; i < layerSizes.length-1; i++) {
-            GRULayerGene layer = new GRULayerGene(layerSizes[i+1], layerSizes[i]);
+            GRULayerGene layer = GRULayerGeneBuilder.create()
+                                    .withSize(layerSizes[i+1], layerSizes[i])
+                                    .build();
             layers.add(layer);
         }
 

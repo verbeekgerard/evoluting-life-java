@@ -5,8 +5,11 @@ import eu.luminis.util.Range;
 import org.apache.commons.math3.linear.*;
 
 class GRULayerGeneBuilder {
-    private int size;
+    private int rows;
+    private int columns;
     private double multiplier = new Range(-1 * Options.maxWeight.get(), Options.maxWeight.get()).random();
+    private double resetBiasOffset = 1.0;
+    private double updateBiasOffset = 1.5;
 
     private GRULayerGeneBuilder() {
     }
@@ -16,7 +19,14 @@ class GRULayerGeneBuilder {
     }
 
     public GRULayerGeneBuilder withSize(int size) {
-        this.size = size;
+        this.rows = size;
+        this.columns = size;
+        return this;
+    }
+
+    public GRULayerGeneBuilder withSize(int rows, int columns) {
+        this.rows = rows;
+        this.columns = columns;
         return this;
     }
 
@@ -25,19 +35,39 @@ class GRULayerGeneBuilder {
         return this;
     }
 
+    public GRULayerGeneBuilder withResetBiasOffset(double offset) {
+        this.resetBiasOffset = offset;
+        return this;
+    }
+
+    public GRULayerGeneBuilder withUpdateBiasOffset(double offset) {
+        this.updateBiasOffset = offset;
+        return this;
+    }
+
     public GRULayerGene build() {
-        return new GRULayerGene(buildGateLayerGene(1.0), buildGateLayerGene(1.0), buildGateLayerGene());
+        return new GRULayerGene(
+            new GateLayerGene(rows, columns, updateBiasOffset),
+            new GateLayerGene(rows, columns, resetBiasOffset),
+            new GateLayerGene(rows, columns));
     }
 
-    private GateLayerGene buildGateLayerGene() {
-        return buildGateLayerGene(0.0);
+    public GRULayerGene builIdentity() {
+        return new GRULayerGene(
+            buildIdentityGateLayerGene(updateBiasOffset),
+            buildIdentityGateLayerGene(resetBiasOffset),
+            buildIdentityGateLayerGene());
     }
 
-    private GateLayerGene buildGateLayerGene(double biasOffset) {
-        RealMatrix matrix = MatrixUtils.createRealIdentityMatrix(size).scalarMultiply(multiplier);
-        RealMatrix stateWeights = MatrixUtils.createRealMatrix(size, size);
-        RealVector gains = new ArrayRealVector(size);
-        RealVector biases = new ArrayRealVector(size, biasOffset);
+    private GateLayerGene buildIdentityGateLayerGene() {
+        return buildIdentityGateLayerGene(0.0);
+    }
+
+    private GateLayerGene buildIdentityGateLayerGene(double biasOffset) {
+        RealMatrix matrix = MatrixUtils.createRealIdentityMatrix(rows).scalarMultiply(multiplier);
+        RealMatrix stateWeights = MatrixUtils.createRealMatrix(rows, columns);
+        RealVector gains = new ArrayRealVector(rows);
+        RealVector biases = new ArrayRealVector(rows, biasOffset);
         
         return new GateLayerGene(matrix.getData(), stateWeights.getData(), gains.toArray(), biases.toArray(), biasOffset);
     }

@@ -7,12 +7,6 @@ public class GRULayerGene {
     private GateLayerGene resetLayerGene;
     private GateLayerGene outputLayerGene;
 
-    public GRULayerGene(int rows, int columns) {
-        updateLayerGene = new GateLayerGene(rows, columns, 1.5);
-        resetLayerGene = new GateLayerGene(rows, columns, 1.5);
-        outputLayerGene = new GateLayerGene(rows, columns);
-    }
-
     public GRULayerGene(GateLayerGene updateLayerGene, GateLayerGene resetLayerGene, GateLayerGene outputLayerGene) {
         this.updateLayerGene = updateLayerGene;
         this.resetLayerGene = resetLayerGene;
