@@ -69,6 +69,6 @@ class GRULayerGeneBuilder {
         RealVector gains = new ArrayRealVector(rows);
         RealVector biases = new ArrayRealVector(rows, biasOffset);
         
-        return new GateLayerGene(matrix.getData(), stateWeights.getData(), gains.toArray(), biases.toArray(), biasOffset);
+        return new GateLayerGene(matrix.getData(), stateWeights.getData(), gains.toArray(), biases.toArray());
     }
 }

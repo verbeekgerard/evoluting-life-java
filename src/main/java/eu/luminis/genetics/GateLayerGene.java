@@ -8,7 +8,7 @@ public class GateLayerGene extends Evolvable {
     private final double[] gains;
     private final double[] biases;
 
-    private final double biasOffset; // TODO: Use average next to offset
+    private final double biasOffset;
 
     private int rowDelta;
     private int columnDelta;
@@ -17,8 +17,8 @@ public class GateLayerGene extends Evolvable {
         this(rows, columns, 0.0);
     }
 
-    public GateLayerGene(int rows, int columns, double biasOffset) {
-        this.biasOffset = biasOffset;
+    public GateLayerGene(int rows, int columns, double initialBiasOffset) {
+        this.biasOffset = initialBiasOffset;
 
         this.weights = new double[rows][columns];
         this.stateWeights = new double[rows][rows];
@@ -38,13 +38,13 @@ public class GateLayerGene extends Evolvable {
         }
     }
 
-    public GateLayerGene(double[][] weights, double[][] stateWeights, double[] gains, double[] biases, double biasOffset) {
+    public GateLayerGene(double[][] weights, double[][] stateWeights, double[] gains, double[] biases) {
         this.weights = weights;
         this.stateWeights = stateWeights;
         this.gains = gains;
         this.biases = biases;
 
-        this.biasOffset = biasOffset;
+        this.biasOffset = calculateAverage(biases);
     }
 
     public GateLayerGene Clone() {
@@ -52,8 +52,7 @@ public class GateLayerGene extends Evolvable {
             weights.clone(),
             stateWeights.clone(),
             gains.clone(),
-            biases.clone(),
-            biasOffset);
+            biases.clone());
     }
 
     public double[][] getWeights() {
@@ -133,12 +132,20 @@ public class GateLayerGene extends Evolvable {
         double[] initiateBiases = new double[getRows()];
         k = copyPropertiesToVector(k, properties, initiateBiases, rowDelta);
 
-        return new GateLayerGene(initiateWeights, initiateStateWeights, initiateGains, initiateBiases, biasOffset);
+        return new GateLayerGene(initiateWeights, initiateStateWeights, initiateGains, initiateBiases);
     }
 
     @Override
     public GateLayerGene[] newArray(int size) {
         return new GateLayerGene[size];
+    }
+
+    private double calculateAverage(double[] values) {
+        double sum = 0.0;
+        for(int i=0; i < values.length ; i++) {
+            sum += values[i];
+        }
+        return sum / values.length;        
     }
 
     private void setSizeDeltas(int partnerRows, int partnerColumns) {
