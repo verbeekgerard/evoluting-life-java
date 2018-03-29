@@ -1,7 +1,5 @@
 package eu.luminis.genetics;
 
-import java.util.*;
-
 public class GRULayerGene {
     private GateLayerGene updateLayerGene;
     private GateLayerGene resetLayerGene;
