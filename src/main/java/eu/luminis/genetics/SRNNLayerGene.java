@@ -3,46 +3,63 @@ package eu.luminis.genetics;
 public class SRNNLayerGene extends Evolvable {
     private static final LayerGeneEvolver evolver = new LayerGeneEvolver();
 
-    private double[][] weights;
-    private double[] biases;
-    private double[][] stateWeights;
-    private double[] gains;
+    private final double[][] weights;
+    private final double[][] stateWeights;
+    private final double[] gains;
+    private final double[] biases;
+
+    private final double gainOffset;
+    private final double biasOffset;
 
     private int rowDelta;
     private int columnDelta;
 
     public SRNNLayerGene(int rows, int columns) {
-        weights = new double[rows][columns];
-        biases = new double[rows];
-        stateWeights = new double[rows][rows];
-        gains = new double[rows];
+        this(rows, columns, 0.0);
+    }
+
+    public SRNNLayerGene(int rows, int columns, double initialBiasOffset) {
+        this.biasOffset = initialBiasOffset;
+        this.gainOffset = 0.0;
+
+        this.weights = new double[rows][columns];
+        this.stateWeights = new double[rows][rows];
+        this.gains = new double[rows];
+        this.biases = new double[rows];
         
         for (int i = 0; i < rows; i++) {
-            biases[i] = evolver.Bias.getNewValue();
-            gains[i] = evolver.Gain.getNewValue();
+            this.gains[i] = evolver.Gain.getNewValue();
+            this.biases[i] = evolver.Bias.getNewValue(this.biasOffset);
 
             for (int j = 0; j < columns; j++) {
-                weights[i][j] = evolver.Weight.getNewValue();
+                this.weights[i][j] = evolver.Weight.getNewValue();
             }
             for (int j = 0; j < rows; j++) {
-                stateWeights[i][j] = evolver.StateWeight.getNewValue();
+                this.stateWeights[i][j] = evolver.StateWeight.getNewValue();
             }
         }
     }
 
-    public SRNNLayerGene(double[][] weights, double[] biases, double[][] stateWeights, double[] gains) {
+    public SRNNLayerGene(double[][] weights, double[][] stateWeights, double[] gains, double[] biases) {
         this.weights = weights;
-        this.biases = biases;
         this.stateWeights = stateWeights;
         this.gains = gains;
+        this.biases = biases;
+
+        this.gainOffset = calculateAverage(gains);
+        this.biasOffset = calculateAverage(biases);
+    }
+
+    public SRNNLayerGene Clone() {
+        return new SRNNLayerGene(
+            weights.clone(),
+            stateWeights.clone(),
+            gains.clone(),
+            biases.clone());
     }
 
     public double[][] getWeights() {
         return weights;
-    }
-
-    public double[] getBiases() {
-        return biases;
     }
 
     public double[][] getStateWeights() {
@@ -51,6 +68,10 @@ public class SRNNLayerGene extends Evolvable {
 
     public double[] getGains() {
         return gains;
+    }
+
+    public double[] getBiases() {
+        return biases;
     }
 
     public int getRows() {
@@ -62,59 +83,59 @@ public class SRNNLayerGene extends Evolvable {
     }
 
     public void mutate() {
-        for (int i = 0; i < this.getRows(); i++) {
-            biases[i] = evolver.Bias.mutateValue(biases[i]);
-            gains[i] = evolver.Gain.mutateValue(gains[i]);
+        for (int i = 0; i < getRows(); i++) {
+            gains[i] = evolver.Gain.mutateValue(gains[i], gainOffset);
+            biases[i] = evolver.Bias.mutateValue(biases[i], biasOffset);
 
-            for (int j = 0; j < this.getColumns(); j++) {
+            for (int j = 0; j < getColumns(); j++) {
                 weights[i][j] = evolver.Weight.mutateValue(weights[i][j]);
             }
-            for (int j = 0; j < this.getRows(); j++) {
+            for (int j = 0; j < getRows(); j++) {
                 stateWeights[i][j] = evolver.StateWeight.mutateValue(stateWeights[i][j]);
             }
         }
     }
 
     public SRNNLayerGene[] mate(SRNNLayerGene partner) {
-        this.setSizeDeltas(partner.getRows(), partner.getColumns());
-        partner.setSizeDeltas(this.getRows(), this.getColumns());
+        setSizeDeltas(partner.getRows(), partner.getColumns());
+        partner.setSizeDeltas(getRows(), getColumns());
 
         return evolver.mate(this, partner);
     }
 
     @Override
     public double[] getInitiateProperties() {
-        int initiateRows = this.getRows() + rowDelta;
-        int initiateColumns = this.getColumns() + columnDelta;
+        int initiateRows = getRows() + rowDelta;
+        int initiateColumns = getColumns() + columnDelta;
         
-        double[] initiateProperties = new double[initiateRows * (initiateColumns + 1 + initiateRows + 1)];
+        double[] properties = new double[initiateRows * (initiateColumns + initiateRows + 2)];
 
         int k=0;
-        k = initiateProperties(k, initiateProperties, weights, rowDelta, columnDelta);
-        k = initiateProperties(k, initiateProperties, biases, rowDelta);
-        k = initiateProperties(k, initiateProperties, stateWeights, rowDelta, rowDelta);
-        k = initiateProperties(k, initiateProperties, gains, rowDelta);
+        k = copyMatrixToProperties(k, properties, weights, rowDelta, columnDelta);
+        k = copyMatrixToProperties(k, properties, stateWeights, rowDelta, rowDelta);
+        k = copyVectorToProperties(k, properties, gains, rowDelta, gainOffset);
+        k = copyVectorToProperties(k, properties, biases, rowDelta, biasOffset);
 
-        return initiateProperties;
+        return properties;
     }
 
     @Override
     public SRNNLayerGene initiate(double[] properties) {
         int k=0;
 
-        double[][] initiateWeights = new double[this.getRows()][this.getColumns()];
-        k = initiate(k, properties, initiateWeights, rowDelta, columnDelta);
+        double[][] initiateWeights = new double[getRows()][getColumns()];
+        k = copyPropertiesToMatrix(k, properties, initiateWeights, rowDelta, columnDelta);
 
-        double[] initiateBiases = new double[this.getRows()];
-        k = initiate(k, properties, initiateBiases, rowDelta);
+        double[][] initiateStateWeights = new double[getRows()][getRows()];
+        k = copyPropertiesToMatrix(k, properties, initiateStateWeights, rowDelta, rowDelta);
 
-        double[][] initiateStateWeights = new double[this.getRows()][this.getRows()];
-        k = initiate(k, properties, initiateStateWeights, rowDelta, rowDelta);
+        double[] initiateGains = new double[getRows()];
+        k = copyPropertiesToVector(k, properties, initiateGains, rowDelta);
 
-        double[] initiateGains = new double[this.getRows()];
-        k = initiate(k, properties, initiateGains, rowDelta);
+        double[] initiateBiases = new double[getRows()];
+        k = copyPropertiesToVector(k, properties, initiateBiases, rowDelta);
 
-        return new SRNNLayerGene(initiateWeights, initiateBiases, initiateStateWeights, initiateGains);
+        return new SRNNLayerGene(initiateWeights, initiateStateWeights, initiateGains, initiateBiases);
     }
 
     @Override
@@ -122,27 +143,46 @@ public class SRNNLayerGene extends Evolvable {
         return new SRNNLayerGene[size];
     }
 
-    private void setSizeDeltas(int partnerRows, int partnerColumns) {
-        rowDelta = partnerRows > this.getRows() ? partnerRows - this.getRows() : 0;
-        columnDelta = partnerColumns > this.getColumns() ? partnerColumns - this.getColumns() : 0;
+    private double calculateAverage(double[] values) {
+        double sum = 0.0;
+        for(int i=0; i < values.length ; i++) {
+            sum += values[i];
+        }
+        return sum / values.length;        
     }
 
-    private static int initiateProperties(int k, double[] initiateProperties, double[] vector, int rowsDelta) {
+    private void setSizeDeltas(int partnerRows, int partnerColumns) {
+        rowDelta = partnerRows > getRows() ? partnerRows - getRows() : 0;
+        columnDelta = partnerColumns > getColumns() ? partnerColumns - getColumns() : 0;
+    }
+
+    private static int copyVectorToProperties(int k, double[] properties, double[] vector, int rowsDelta) {
+        return copyVectorToProperties(k, properties, vector, rowsDelta, 0.0);
+    }
+
+    private static int copyVectorToProperties(int k, double[] properties, double[] vector, int rowsDelta, double initValue) {
         for (int i = 0; i < vector.length; i++) {
-            initiateProperties[k++] = vector[i];
+            properties[k++] = vector[i];
         }
-        k += rowsDelta; // Fill up
+
+        if (initValue == 0.0) {
+            return k + rowsDelta;
+        }
+
+        for (int i = vector.length; i < vector.length + rowsDelta; i++) {
+            properties[k++] = initValue;
+        }
 
         return k;
     }
 
-    private static int initiateProperties(
-        int k, double[] initiateProperties, double[][] matrix,
+    private static int copyMatrixToProperties(
+        int k, double[] properties, double[][] matrix,
         int rowsDelta, int columnsDelta) {
             int columns = matrix[0].length;
             for (int i = 0; i < matrix.length; i++) {
                 for (int j = 0; j < columns; j++) {
-                    initiateProperties[k++] = matrix[i][j];
+                    properties[k++] = matrix[i][j];
                 }
                 k += columnsDelta; // Fill up
             }
@@ -151,7 +191,7 @@ public class SRNNLayerGene extends Evolvable {
             return k;
     }
 
-    private static int initiate(int k, double[] properties, double[] vector, int rowsDelta) {
+    private static int copyPropertiesToVector(int k, double[] properties, double[] vector, int rowsDelta) {
         for (int i = 0; i < vector.length; i++) {
             vector[i] = properties[k++];
         }
@@ -160,7 +200,7 @@ public class SRNNLayerGene extends Evolvable {
         return k;
     }
     
-    private static int initiate(
+    private static int copyPropertiesToMatrix(
         int k, double[] properties, double[][] matrix,
         int rowsDelta, int columnsDelta) {
             int columns = matrix[0].length;

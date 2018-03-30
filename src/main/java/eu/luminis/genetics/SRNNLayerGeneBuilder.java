@@ -5,8 +5,11 @@ import eu.luminis.util.Range;
 import org.apache.commons.math3.linear.*;
 
 class SRNNLayerGeneBuilder {
-    private int size;
+    private int rows;
+    private int columns;
     private double multiplier = new Range(-1 * Options.maxWeight.get(), Options.maxWeight.get()).random();
+
+    private double biasOffset = 0.0;
 
     private SRNNLayerGeneBuilder() {
     }
@@ -16,7 +19,14 @@ class SRNNLayerGeneBuilder {
     }
 
     public SRNNLayerGeneBuilder withSize(int size) {
-        this.size = size;
+        this.rows = size;
+        this.columns = size;
+        return this;
+    }
+
+    public SRNNLayerGeneBuilder withSize(int rows, int columns) {
+        this.rows = rows;
+        this.columns = columns;
         return this;
     }
 
@@ -25,12 +35,21 @@ class SRNNLayerGeneBuilder {
         return this;
     }
 
+    public SRNNLayerGeneBuilder withBiasOffset(double offset) {
+        this.biasOffset = offset;
+        return this;
+    }
+
     public SRNNLayerGene build() {
-        RealMatrix matrix = MatrixUtils.createRealIdentityMatrix(size).scalarMultiply(multiplier);
-        RealVector biases = new ArrayRealVector(size);
-        RealMatrix stateWeights = MatrixUtils.createRealMatrix(size, size);
-        RealVector gains = new ArrayRealVector(size);
+        return new SRNNLayerGene(rows, columns, biasOffset);
+    }
+
+    public SRNNLayerGene builIdentity() {
+        RealMatrix matrix = MatrixUtils.createRealIdentityMatrix(rows).scalarMultiply(multiplier);
+        RealMatrix stateWeights = MatrixUtils.createRealMatrix(rows, columns);
+        RealVector gains = new ArrayRealVector(rows);
+        RealVector biases = new ArrayRealVector(rows);
         
-        return new SRNNLayerGene(matrix.getData(), biases.toArray(), stateWeights.getData(), gains.toArray());
+        return new SRNNLayerGene(matrix.getData(), stateWeights.getData(), gains.toArray(), biases.toArray());
     }
 }

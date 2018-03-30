@@ -9,7 +9,7 @@ import org.apache.commons.math3.linear.*;
  * Builds up a layer of the gated recurrent unit neural network
  */
 class GateLayerBuilder {
-    private GateLayerGene gene;
+    private SRNNLayerGene gene;
     private UnivariateFunction activation = new HardSigmoid();
 
     private GateLayerBuilder() {
@@ -19,7 +19,7 @@ class GateLayerBuilder {
         return new GateLayerBuilder();
     }
 
-    public GateLayerBuilder withGene(GateLayerGene gene) {
+    public GateLayerBuilder withGene(SRNNLayerGene gene) {
         this.gene = gene;
         return this;
     }

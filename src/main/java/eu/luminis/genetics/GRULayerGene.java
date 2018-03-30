@@ -1,11 +1,11 @@
 package eu.luminis.genetics;
 
 public class GRULayerGene {
-    private GateLayerGene updateLayerGene;
-    private GateLayerGene resetLayerGene;
-    private GateLayerGene outputLayerGene;
+    private SRNNLayerGene updateLayerGene;
+    private SRNNLayerGene resetLayerGene;
+    private SRNNLayerGene outputLayerGene;
 
-    public GRULayerGene(GateLayerGene updateLayerGene, GateLayerGene resetLayerGene, GateLayerGene outputLayerGene) {
+    public GRULayerGene(SRNNLayerGene updateLayerGene, SRNNLayerGene resetLayerGene, SRNNLayerGene outputLayerGene) {
         this.updateLayerGene = updateLayerGene;
         this.resetLayerGene = resetLayerGene;
         this.outputLayerGene = outputLayerGene;
@@ -19,15 +19,15 @@ public class GRULayerGene {
         );
     }
 
-    public GateLayerGene getUpdateLayerGene() {
+    public SRNNLayerGene getUpdateLayerGene() {
         return updateLayerGene;
     }
 
-    public GateLayerGene getResetLayerGene() {
+    public SRNNLayerGene getResetLayerGene() {
         return resetLayerGene;
     }
 
-    public GateLayerGene getOutputLayerGene() {
+    public SRNNLayerGene getOutputLayerGene() {
         return outputLayerGene;
     }
 
@@ -40,9 +40,9 @@ public class GRULayerGene {
     public GRULayerGene[] mate(GRULayerGene partner) {
         GRULayerGene[] children = new GRULayerGene[2];
 
-        GateLayerGene[] updateLayerGeneChildren = updateLayerGene.mate(partner.updateLayerGene);
-        GateLayerGene[] resetLayerGeneChildren = resetLayerGene.mate(partner.resetLayerGene);
-        GateLayerGene[] outputLayerGeneChildren = outputLayerGene.mate(partner.outputLayerGene);
+        SRNNLayerGene[] updateLayerGeneChildren = updateLayerGene.mate(partner.updateLayerGene);
+        SRNNLayerGene[] resetLayerGeneChildren = resetLayerGene.mate(partner.resetLayerGene);
+        SRNNLayerGene[] outputLayerGeneChildren = outputLayerGene.mate(partner.outputLayerGene);
 
         for (int k = 0; k < 2; k++) {
             children[k] = new GRULayerGene(
