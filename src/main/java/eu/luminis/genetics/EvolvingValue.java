@@ -21,7 +21,7 @@ class EvolvingValue {
     }
 
     double getNewValue(double offset) {
-        return range.random() + offset;
+        return range.gaussian() + offset;
     }
 
     double mutateValue(double value) {
@@ -34,7 +34,7 @@ class EvolvingValue {
         }
 
         if (Math.random() <= mutationRate.get()) {
-            value += range.mutation(mutationFraction.get());
+            value += range.gaussianMutation(mutationFraction.get());
         }
 
         return value;

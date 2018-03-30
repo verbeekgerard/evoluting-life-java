@@ -23,11 +23,24 @@ public class Range {
         return upper;
     }
 
+	public double gaussian() {
+		double width = upper - lower;
+		double mean = (upper + lower) / 2;
+		double sigma = width / 2;
+
+		return ThreadLocalRandom.current().nextGaussian() * sigma + mean;
+    }
+
 	public double random() {
 		return ThreadLocalRandom.current().nextDouble(lower, upper);
     }
 
-    public double mutation(double mutationFraction){
+    public double gaussianMutation(double mutationFraction) {
+        double randomFraction = new Range(-1 * mutationFraction, mutationFraction).gaussian();
+        return (upper - lower) * randomFraction;
+    }
+
+    public double mutation(double mutationFraction) {
         double randomFraction = new Range(-1 * mutationFraction, mutationFraction).random();
         return (upper - lower) * randomFraction;
     }
