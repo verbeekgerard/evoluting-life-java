@@ -8,6 +8,7 @@ public class GateLayerGene extends Evolvable {
     private final double[] gains;
     private final double[] biases;
 
+    private final double gainOffset;
     private final double biasOffset;
 
     private int rowDelta;
@@ -19,6 +20,7 @@ public class GateLayerGene extends Evolvable {
 
     public GateLayerGene(int rows, int columns, double initialBiasOffset) {
         this.biasOffset = initialBiasOffset;
+        this.gainOffset = 0.0;
 
         this.weights = new double[rows][columns];
         this.stateWeights = new double[rows][rows];
@@ -44,6 +46,7 @@ public class GateLayerGene extends Evolvable {
         this.gains = gains;
         this.biases = biases;
 
+        this.gainOffset = calculateAverage(gains);
         this.biasOffset = calculateAverage(biases);
     }
 
@@ -81,7 +84,7 @@ public class GateLayerGene extends Evolvable {
 
     public void mutate() {
         for (int i = 0; i < getRows(); i++) {
-            gains[i] = evolver.Gain.mutateValue(gains[i]);
+            gains[i] = evolver.Gain.mutateValue(gains[i], gainOffset);
             biases[i] = evolver.Bias.mutateValue(biases[i], biasOffset);
 
             for (int j = 0; j < getColumns(); j++) {
@@ -110,7 +113,7 @@ public class GateLayerGene extends Evolvable {
         int k=0;
         k = copyMatrixToProperties(k, properties, weights, rowDelta, columnDelta);
         k = copyMatrixToProperties(k, properties, stateWeights, rowDelta, rowDelta);
-        k = copyVectorToProperties(k, properties, gains, rowDelta);
+        k = copyVectorToProperties(k, properties, gains, rowDelta, gainOffset);
         k = copyVectorToProperties(k, properties, biases, rowDelta, biasOffset);
 
         return properties;
