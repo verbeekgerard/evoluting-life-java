@@ -42,7 +42,7 @@ class GRUNeuralNetworkGeneBuilder {
         int depth = generateDepth();
         int[] layerSizes = new int[depth];
         int minSize = Math.min(this.inputSize, this.outputSize);
-        int maxSize = Math.max(this.inputSize, this.outputSize) + 2;
+        int maxSize = Math.max(this.inputSize, this.outputSize);
 
         for (int i=0; i<depth; i++) {
             layerSizes[i] = (int) Math.floor(new Range(minSize, maxSize).random());
