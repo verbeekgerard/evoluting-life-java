@@ -40,14 +40,16 @@ public class SRNNLayerGene extends Evolvable {
         }
     }
 
-    public SRNNLayerGene(double[][] weights, double[][] stateWeights, double[] gains, double[] biases) {
+    public SRNNLayerGene(double[][] weights, double[][] stateWeights, double[] gains, double[] biases, double initialBiasOffset) {
         this.weights = weights;
         this.stateWeights = stateWeights;
         this.gains = gains;
         this.biases = biases;
 
-        this.gainOffset = calculateAverage(gains);
-        this.biasOffset = calculateAverage(biases);
+        this.gainOffset = calculateAverage(gains) / 10.0; // Somewhat closer to zero
+        
+        double biasAverage = calculateAverage(biases);
+        this.biasOffset = initialBiasOffset + (biasAverage - initialBiasOffset) / 100.0; // Move slow towards the average
     }
 
     public SRNNLayerGene Clone() {
@@ -55,7 +57,8 @@ public class SRNNLayerGene extends Evolvable {
             weights.clone(),
             stateWeights.clone(),
             gains.clone(),
-            biases.clone());
+            biases.clone(),
+            biasOffset);
     }
 
     public double[][] getWeights() {
@@ -135,7 +138,7 @@ public class SRNNLayerGene extends Evolvable {
         double[] initiateBiases = new double[getRows()];
         k = copyPropertiesToVector(k, properties, initiateBiases, rowDelta);
 
-        return new SRNNLayerGene(initiateWeights, initiateStateWeights, initiateGains, initiateBiases);
+        return new SRNNLayerGene(initiateWeights, initiateStateWeights, initiateGains, initiateBiases, biasOffset);
     }
 
     @Override

@@ -50,6 +50,6 @@ class SRNNLayerGeneBuilder {
         RealVector gains = new ArrayRealVector(rows);
         RealVector biases = new ArrayRealVector(rows);
         
-        return new SRNNLayerGene(matrix.getData(), stateWeights.getData(), gains.toArray(), biases.toArray());
+        return new SRNNLayerGene(matrix.getData(), stateWeights.getData(), gains.toArray(), biases.toArray(), biasOffset);
     }
 }

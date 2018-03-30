@@ -26,7 +26,7 @@ public class Range {
 	public double gaussian() {
 		double width = upper - lower;
 		double mean = (upper + lower) / 2;
-		double sigma = width / 2;
+		double sigma = width / 4;
 
 		return ThreadLocalRandom.current().nextGaussian() * sigma + mean;
     }
