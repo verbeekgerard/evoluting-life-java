@@ -49,7 +49,7 @@ public class SRNNLayerGene extends Evolvable {
         this.gainOffset = calculateAverage(gains) / 10.0; // Somewhat closer to zero
         
         double biasDifference = calculateAverage(biases) - initialBiasOffset;
-        double differenceDivider = biasDifference > 0 ? 100000.0 : 1000.0;
+        double differenceDivider = biasDifference > 0 ? 10000000.0 : 1000000.0;
         this.biasOffset = initialBiasOffset + biasDifference / differenceDivider; // Move slow towards the average
     }
 
