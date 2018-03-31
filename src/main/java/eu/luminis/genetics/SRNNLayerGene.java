@@ -151,7 +151,7 @@ public class SRNNLayerGene extends Evolvable {
         double biasDifference = averageBias - initialBiasOffset;
 
         // Multiply with initialBiasOffset to move stronger toward zero
-        double differenceDivider = 100.0 * (initialBiasOffset * biasDifference > 0 ? 2.0 : 1.0);
+        double differenceDivider = 1000.0 * (initialBiasOffset * biasDifference < 0 ? 1.0 : 2.0);
 
         // Move towards the average
         return initialBiasOffset + biasDifference / differenceDivider;
