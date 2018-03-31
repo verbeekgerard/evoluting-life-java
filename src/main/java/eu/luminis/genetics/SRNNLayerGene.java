@@ -1,5 +1,7 @@
 package eu.luminis.genetics;
 
+import org.apache.commons.math3.stat.*;
+
 public class SRNNLayerGene extends Evolvable {
     private static final LayerGeneEvolver evolver = new LayerGeneEvolver();
 
@@ -149,18 +151,14 @@ public class SRNNLayerGene extends Evolvable {
         double biasDifference = averageBias - initialBiasOffset;
 
         // Multiply with initialBiasOffset to move stronger toward zero
-        double differenceDivider = 1000000.0 * (initialBiasOffset * biasDifference > 0 ? 2.0 : 1.0);
+        double differenceDivider = 100.0 * (initialBiasOffset * biasDifference > 0 ? 2.0 : 1.0);
 
         // Move towards the average
         return initialBiasOffset + biasDifference / differenceDivider;
     }
 
     private double calculateAverage(double[] values) {
-        double sum = 0.0;
-        for(int i=0; i < values.length ; i++) {
-            sum += values[i];
-        }
-        return sum / values.length;        
+        return StatUtils.mean(values);
     }
 
     private void setSizeDeltas(int partnerRows, int partnerColumns) {
