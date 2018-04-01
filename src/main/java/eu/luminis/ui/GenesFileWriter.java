@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.*;
 import java.util.List;
 
 class GenesFileWriter extends GenesFileActionListener {

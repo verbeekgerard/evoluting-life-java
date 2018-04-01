@@ -17,24 +17,36 @@ class EvolvingValue {
     }
 
     double getNewValue() {
-        return range.random();
+        return getNewValue(0.0);
+    }
+
+    double getNewValue(double offset) {
+        return range.gaussian() + offset;
     }
 
     double mutateValue(double value) {
+        return mutateValue(value, 0.0);
+    }
+
+    double mutateValue(double value, double offset) {
         if (Math.random() <= replacementRate.get()) {
-            return range.random();
+            return getNewValue(offset);
         }
 
         if (Math.random() <= mutationRate.get()) {
-            value += range.mutation(mutationFraction.get());
+            value += range.gaussianMutation(mutationFraction.get());
         }
 
         return value;
     }
 
     double mutateValueWithBounds(double value) {
+        return mutateValueWithBounds(value, 0.0);
+    }
+
+    double mutateValueWithBounds(double value, double offset) {
         double mutatedValue = mutateValue(value);
-        return range.assureBounds(mutatedValue);
+        return range.assureBounds(mutatedValue) + offset;
     }
 
     double mutateValueWithBounds(double value, double lower, double upper) {

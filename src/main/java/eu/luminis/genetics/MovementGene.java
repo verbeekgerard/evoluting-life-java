@@ -1,6 +1,6 @@
 package eu.luminis.genetics;
 
-public class MovementGene extends Gene {
+public class MovementGene extends Evolvable {
     private static final MovementGeneEvolver evolver = new MovementGeneEvolver();
 
 	private double angularForce;

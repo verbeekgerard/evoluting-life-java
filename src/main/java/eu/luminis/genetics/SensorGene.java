@@ -1,6 +1,6 @@
 package eu.luminis.genetics;
 
-public class SensorGene extends Gene {
+public class SensorGene extends Evolvable {
     private static final SensorGeneEvolver evolver = new SensorGeneEvolver();
 
     private double viewDistance;

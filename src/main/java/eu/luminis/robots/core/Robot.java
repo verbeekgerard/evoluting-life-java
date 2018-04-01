@@ -2,8 +2,6 @@ package eu.luminis.robots.core;
 
 import eu.luminis.brains.IBrain;
 
-import java.util.List;
-
 public class Robot {
     private final IBrain brain;
     private final IMotorsController motorsController;

@@ -9,11 +9,11 @@ import eu.luminis.util.Option;
 
 import java.util.*;
 
-public class CycleCostFactorModifier implements Observer {
-    private static final Option cycleCostFactor = Options.cycleCostFactor;
+public class CollideCostFactorModifier implements Observer {
+    private static final Option costFactor = Options.collideCostFactor;
     private SimRobotPopulation population;
 
-    public CycleCostFactorModifier(SimRobotPopulation population) {
+    public CollideCostFactorModifier(SimRobotPopulation population) {
         this.population = population;
     }
 
@@ -32,7 +32,7 @@ public class CycleCostFactorModifier implements Observer {
             return;
         }
 
-        double currentFactor = cycleCostFactor.get();
-        cycleCostFactor.set(currentFactor + 0.001);
+        double currentFactor = costFactor.get();
+        costFactor.set(currentFactor + 10.0);
     }
 }

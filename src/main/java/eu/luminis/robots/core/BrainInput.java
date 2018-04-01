@@ -1,14 +1,10 @@
 package eu.luminis.robots.core;
 
-import eu.luminis.Options;
 import eu.luminis.util.Range;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class BrainInput {
     public static int getNodesCount() {
-        return 8;
+        return 7;
     }
 
     private double[] values;
@@ -42,20 +38,9 @@ public class BrainInput {
             (fieldOfView / 2 - angle) / fieldOfView, // right
             angleVelocity < 0 ? -1 * angleVelocity : 0, // left
             angleVelocity > 0 ? angleVelocity : 0, // right
-            (viewDistance - distance) / viewDistance,
-            new Range(0, 1).random()
+            (viewDistance - distance) / viewDistance
         };
 
-        normalizeValues();
-
         return values;
-    }
-
-    private void normalizeValues() {
-        double normalizationFactor = (Options.maxThreshold.get() + Options.minThreshold.get()) / 2;
-
-        for (int i = 0; i < values.length; i++) {
-            values[i] *= normalizationFactor;
-        }
     }
 }

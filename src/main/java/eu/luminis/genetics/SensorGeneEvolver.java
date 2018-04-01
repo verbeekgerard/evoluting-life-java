@@ -1,7 +1,6 @@
 package eu.luminis.genetics;
 
 import eu.luminis.Options;
-import eu.luminis.util.Option;
 import eu.luminis.util.Range;
 
 class SensorGeneEvolver extends Evolver {

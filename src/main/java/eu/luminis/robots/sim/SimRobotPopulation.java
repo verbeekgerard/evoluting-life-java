@@ -1,8 +1,6 @@
 package eu.luminis.robots.sim;
 
 import eu.luminis.Options;
-import eu.luminis.events.EventBroadcaster;
-import eu.luminis.events.EventType;
 import eu.luminis.evolution.TournamentSelection;
 import eu.luminis.genetics.Genome;
 import eu.luminis.robots.core.BrainInput;

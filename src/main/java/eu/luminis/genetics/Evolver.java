@@ -5,7 +5,7 @@ import eu.luminis.util.Range;
 class Evolver {
 
     // Creates two children by crossing over the genomes of a and b.
-    public <TGene extends Gene> TGene[] mate(TGene a, TGene b) {
+    public <TEvolvable extends Evolvable> TEvolvable[] mate(TEvolvable a, TEvolvable b) {
         double[] propertiesA = a.getInitiateProperties();
         double[] propertiesB = b.getInitiateProperties();
 
@@ -20,9 +20,9 @@ class Evolver {
             }
         }
 
-        TGene[] genes = a.newArray(2);
+        TEvolvable[] genes = a.newArray(2);
         for (int i=0; i<2; i++) {
-            TGene gene = a.initiate(childrenProperties[i]);
+            TEvolvable gene = a.initiate(childrenProperties[i]);
             genes[i] = gene;
         }
 
